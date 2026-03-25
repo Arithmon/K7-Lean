@@ -1,5 +1,6 @@
 import GIFT.Core
 import GIFT.Spectral
+import GIFT.Spectral.AnalyticalMassGap
 import GIFT.Foundations.SpectralScaling
 import GIFT.Foundations.PoincareDuality
 
@@ -7,12 +8,16 @@ import GIFT.Foundations.PoincareDuality
 # GIFT Certificate: Spectral Theory
 
 The complete spectral gap programme:
-- Mass gap ratio lambda_1 = dim(G₂)/H* = 14/99
+- Algebraic ratio dim(G₂)/H* = 14/99 (topological invariant, NOT the spectral gap)
+- Analytical mass gap: λ₁ = 6π²/475, factorizing topology × geometry (v3.4.1)
 - TCS manifold structure and spectral bounds
-- Selection principle: kappa = pi^2/14
 - Cheeger inequality, Yang-Mills prediction
 - Refined bounds, literature axioms
 - Spectral scaling on the TCS neck
+
+NOTE (v3.4.1): The ratio 14/99 is an algebraic invariant. The analytical mass gap
+λ₁ = π²/(L²·g_ss) = 6π²/475 ≈ 0.12467 is irrational and verified to 0.05%.
+See `AnalyticalMassGap.lean` for the formal treatment.
 -/
 
 namespace GIFT.Certificate.Spectral
@@ -20,7 +25,7 @@ namespace GIFT.Certificate.Spectral
 open GIFT.Core
 
 -- ═══════════════════════════════════════════════════════════════════════════════
--- MASS GAP RATIO: lambda_1 = dim(G₂)/H* = 14/99
+-- ALGEBRAIC RATIO: dim(G₂)/H* = 14/99 (topological, NOT the spectral gap)
 -- ═══════════════════════════════════════════════════════════════════════════════
 
 /-- Mass gap ratio definition -/
@@ -382,21 +387,45 @@ abbrev si_states_cubed := GIFT.Spectral.SpectralInvariants.n_states_eq_K7_cubed
 abbrev si_certificate := GIFT.Spectral.SpectralInvariants.spectral_invariants_certificate
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- ANALYTICAL MASS GAP (v3.4.1)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+open GIFT.Spectral.AnalyticalMassGap
+
+/-- g_ss = 19/6 (topological, from gauge structure) -/
+abbrev amg_g_ss := GIFT.Spectral.AnalyticalMassGap.g_ss_value
+
+/-- λ₁ rational coefficient = 6/475 (irreducible) -/
+abbrev amg_coeff := GIFT.Spectral.AnalyticalMassGap.lambda1_coeff_value
+
+/-- Factorization: 6/475 = (1/25) × (6/19) = geometry × topology -/
+abbrev amg_factorization := GIFT.Spectral.AnalyticalMassGap.factorization
+
+/-- λ₁ × H* rational part = 594/475 -/
+abbrev amg_product_H_star := GIFT.Spectral.AnalyticalMassGap.product_H_star
+
+/-- Analytical mass gap master certificate -/
+abbrev amg_certificate := GIFT.Spectral.AnalyticalMassGap.analytical_mass_gap_certificate
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- SPECTRAL MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
 /-- GIFT Spectral Certificate: the proposition combining the spectral gap programme.
 
-- Mass gap ratio = dim(G₂)/H* = 14/99 (proven, irreducible)
+- Algebraic ratio dim(G₂)/H* = 14/99 (topological invariant, irreducible)
+- Analytical mass gap: λ₁ = 6π²/475 with g_ss=19/6, L²=25 (v3.4.1)
 - TCS spectral bounds: c_1/L^2 <= lambda_1 <= c_2/L^2
-- Selection principle: L^2 = (pi^2/14) x 99
-- Spectral-Holonomy Principle: lambda_1 x H* = dim(G₂)
 - Pell equation: 99^2 - 50 x 14^2 = 1
 - Computed spectrum: Q22 signature, SD/ASD gap, B-test, lambda_1 (v3.3.29/31)
 - Spectral democracy: SD spread < 2%, coupling ratio < 1.02 (v3.3.30)
 - Yukawa mass ratios: tau/mu < 2%, mu/e < 1% (v3.3.31)
 - 7D Weyl law: exponent 3.46 within 2% of 3.5, >22000 KK states (v3.3.35)
 - Spectral invariants: heat kernel a₀>0, |ζ'(0)|>100, Cheeger<1, b₁=0, 343=7³ (v3.3.39)
+
+NOTE (v3.4.1): The statement below proves algebraic identities about 14/99 etc.
+These are TRUE mathematical facts. They do NOT assert λ₁ = 14/99. The analytical
+mass gap λ₁ = 6π²/475 is formalized in AnalyticalMassGap.lean.
 -/
 def statement : Prop :=
     -- Mass gap ratio = dim(G₂)/H*
