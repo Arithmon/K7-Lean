@@ -27,7 +27,7 @@ GIFT/                           # Lean 4 formalization (root library)
 │   ├── HodgeStarR7.lean        # ⋆, ψ=⋆φ PROVEN, TorsionFree
 │   └── HodgeStarCompute.lean   # Explicit Hodge star (Levi-Civita)
 ├── Spectral/                   # Spectral gap theory (17 files)
-│   ├── PhysicalSpectralGap.lean # ev₁ = 13/99 (zero axioms)
+│   ├── PhysicalSpectralGap.lean # dim(G₂)−h = 13 algebraic (zero axioms)
 │   ├── ComputedSpectrum.lean   # Q22 sig, SD/ASD gap, B-test
 │   └── CheegerInequality.lean  # Cheeger-Buser bounds
 ├── Relations/                  # Physical predictions (22 files)
@@ -76,4 +76,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.4.0*
+*GIFT Core v3.4.1*

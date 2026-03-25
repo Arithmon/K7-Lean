@@ -5,6 +5,34 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.1] - 2026-03-25
+
+### Summary
+
+**SPECTRAL REFRAMING.** The algebraic ratios 14/99 and 13/99 are reframed as topological invariants (dim(G₂)/H* and (dim(G₂)−h)/H*), NOT as the spectral gap λ₁. The analytical mass gap λ₁ = π²/(L²·g_ss) = 6π²/475 ≈ 0.12467 is irrational, verified to 0.05% against NK Richardson. No theorems changed — only docstrings/interpretation.
+
+### Changed
+
+- **`Spectral/MassGapRatio.lean`** (v1.1.0) — Reframed: "fundamental theorem: λ₁ = 14/99" → "algebraic ratio dim(G₂)/H* = 14/99". All 14 theorems unchanged. `GIFT_mass_gap_MeV` noted as superseded by analytical formula.
+- **`Spectral/PhysicalSpectralGap.lean`** (v1.1.0) — Reframed: "derives λ₁ = 13/99" → "algebraic properties of dim(G₂)−h = 13". The 13/99 ≈ 13 near-match explained as π² coincidence (π² ≈ 325/33 to 0.21%). All 18 theorems unchanged.
+- **`Spectral/UniversalLaw.lean`** — Universality conjecture λ₁×H* = dim(G₂) marked OPEN (CV=70.5% on 21 TCS scan). Docstring updated with analytical formula reference.
+
+### Context
+
+Discoveries from sessions 2026-03-24/25:
+1. λ₁ = π²/(L²·g_ss) — first closed-form KK mass gap on compact G₂ (verified 0.05%)
+2. Metric is 99.9998% (L² energy) a flat product tube K3×T²×I
+3. G₂ corrections (0.0002%) provide structure (Hol=G₂, b₁=0) but zero numerical content
+4. g_ss = (max(b₂_M1,b₂_M2)+rank_E8)/(3·rank_G₂) = 19/6 (topological, metric-symmetric)
+5. 13/99 "spectral-holonomy identity" was a π² coincidence, not physics
+6. All 92 observables depend on topological integers, not G₂ geometry
+
+### Build
+
+- 2376 jobs, 0 errors, 0 sorry, 11 axioms (unchanged)
+
+---
+
 ## [3.4.0] - 2026-03-22
 
 ### Summary
