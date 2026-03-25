@@ -22,7 +22,7 @@ The key insight: the mass gap is determined by TOPOLOGY, not dynamics.
 ### Universal Spectral Law
 - `UniversalLaw`: ev₁ × H* = dim(G₂) − h, the universal identity
 - `MassGapRatio`: The 14/99 bare ratio (algebraic)
-- `PhysicalSpectralGap`: The 13/99 physical ratio (zero axioms)
+- `PhysicalSpectralGap`: dim(G₂)−h=13 algebraic identities (zero axioms)
 
 ### TCS Spectral Bounds (v3.3.12)
 - `NeckGeometry`: TCS manifold structure and hypotheses (H1)-(H6)
@@ -526,12 +526,12 @@ export YangMills (
 | Quantity | Value | GIFT Origin |
 |----------|-------|-------------|
 | Bare ratio | 14/99 | dim(G₂) / H* |
-| Physical ratio | 13/99 | (dim(G₂) − h) / H* |
+| Physical ratio (algebraic) | 13/99 | (dim(G₂) − h) / H* |
 | Spinor correction | 1/99 | h / H* (Berger) |
 | Denominator | 99 | H* = b₂ + b₃ + 1 |
 | Cheeger bound | 49/9801 | (14/99)²/4 |
 | Graph Laplacian (N=50K) | 0.1313 | Numerical confirmation |
-| Physical mass gap | 26.26 MeV | (13/99) x 200 MeV |
+| Algebraic scale (13/99)×200 | 26.26 MeV | Superseded by analytical: √(6π²/475)×200 ≈ 70.7 MeV |
 
 ## Module Hierarchy
 
@@ -541,7 +541,7 @@ Spectral/
 ├── G2Manifold.lean              # G₂ holonomy, K7, parallel spinors
 ├── UniversalLaw.lean            # ev₁ x H* = dim(G₂) - h
 ├── MassGapRatio.lean            # 14/99 bare algebraic
-├── PhysicalSpectralGap.lean     # 13/99 physical (zero axioms)
+├── PhysicalSpectralGap.lean     # dim(G₂)−h=13 algebraic (zero axioms)
 ├── ComputedSpectrum.lean        # Q22 sig, SD/ASD gap, B-test, couplings [v3.3.29]
 ├── SpectralDemocracy.lean      # Generation universality, SD spread [v3.3.30]
 ├── ComputedYukawa.lean         # Wilson line mass ratios [v3.3.31]

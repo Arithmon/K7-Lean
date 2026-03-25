@@ -221,8 +221,9 @@ via finite-difference discretization (N=800, domain [-2,3]).
 
 This supersedes the earlier PINN graph-Laplacian estimate (0.1406).
 Compared with GIFT predictions:
-  - Bare ratio: 14/99 = 0.14141 (lambda_1 is 12% below)
-  - Physical ratio: 13/99 = 0.13131 (lambda_1 is 5.3% below)
+  - Bare algebraic ratio: 14/99 = 0.14141 (lambda_1 is 12% below)
+  - Spinor-corrected ratio: 13/99 = 0.13131 (lambda_1 is 5.3% below)
+  - Analytical formula (v3.4.1): 6π²/475 = 0.12467 (lambda_1 matches to 0.05%)
 
 Source: `K7_spectrum_neumann_results.json`
 -/
@@ -246,7 +247,7 @@ theorem lambda1_above_cheeger :
 theorem lambda1_below_bare :
     lambda1_neumann_num * 99 < 14 * lambda1_neumann_den := by native_decide
 
-/-- lambda_1 close to physical ratio 13/99: deviation < 6%.
+/-- lambda_1 compared to algebraic ratio 13/99: deviation < 6%.
     |13/99 - 1244/10000| / (13/99) = (130000 - 123156) / 130000 = 6844/130000 = 5.26% -/
 theorem lambda1_near_physical :
     (13 * lambda1_neumann_den - lambda1_neumann_num * 99) * 100 <

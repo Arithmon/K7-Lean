@@ -132,7 +132,7 @@ theorem neck_ratio_value : neck_ratio = 99 / 14 := rfl
 /-- Neck ratio from GIFT constants -/
 theorem neck_ratio_from_constants : (H_star : ℚ) / dim_G2 = 99 / 14 := by native_decide
 
-/-- Inverse: dim(G2)/H* = 14/99 (the mass gap ratio) -/
+/-- Inverse: dim(G2)/H* = 14/99 (algebraic ratio, not the spectral gap — see MassGapRatio.lean) -/
 theorem neck_ratio_inverse : (dim_G2 : ℚ) / H_star = 14 / 99 := by native_decide
 
 /-- Reciprocity: (H*/dim_G2) * (dim_G2/H*) = 1 -/
@@ -220,7 +220,7 @@ theorem euclidean_quotient : H_star / dim_G2 = dim_K7 := by native_decide
 theorem euclidean_remainder : H_star % dim_G2 = 1 := by native_decide
 
 /-- The remainder connects to the bare-to-physical spectral correction:
-    ev_phys = (dim_G2 - 1)/H* = 13/99.
+    (dim_G2 - 1)/H* = 13/99 (algebraic identity; analytical λ₁ = 6π²/475).
     The subtracted 1 arises from the same division remainder. -/
 theorem remainder_is_spinor_correction :
     H_star % dim_G2 = 1 ∧
