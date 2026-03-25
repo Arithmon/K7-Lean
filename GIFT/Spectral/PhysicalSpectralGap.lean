@@ -1,54 +1,35 @@
 /-
-GIFT Spectral: Physical Spectral Gap (Axiom-Free)
-==================================================
+GIFT Spectral: Spectral-Holonomy Product (Axiom-Free Algebraic Identities)
+==========================================================================
 
-Derives the corrected spectral gap λ₁ = 13/99 from topology and
-the parallel spinor count, with zero axioms.
+Algebraic properties of the integer dim(G₂) − h = 14 − 1 = 13 and the
+ratio 13/99 = (dim(G₂) − parallel_spinors) / H*.
 
-## Background
+IMPORTANT (v4.0.11): The spectral-holonomy identity λ₁ × H* = dim(G₂) − h
+is a CONJECTURE, not a theorem. The actual analytical mass gap is:
 
-The universal spectral-holonomy identity for compact manifolds reads:
+    λ₁ = π²/(L²·g_ss) = 6π²/475 ≈ 0.12467
 
-  λ₁ × H* = dim(Hol) − h
+giving λ₁ × H* ≈ 12.34, NOT 13. The near-match 13 ≈ 33π²/25 = 13.028
+is a π² COINCIDENCE (π² ≈ 325/33, accurate to 0.21%).
 
-where:
-- λ₁ = first nonzero eigenvalue of Laplace-Beltrami
-- H* = total cohomological degrees of freedom (b₀ + b₂ + b₃)
-- dim(Hol) = dimension of the holonomy group
-- h = number of parallel spinors (Berger classification)
+All theorems in this file prove TRUE algebraic identities about the
+INTEGER 13 = dim(G₂) − 1. They do NOT assert that λ₁ = 13/99.
 
-For K₇ with G₂ holonomy:
-- dim(G₂) = 14 (proven in Algebraic.G2)
-- H* = 99 (proven in Algebraic.BettiNumbers)
-- h = 1 (standard: G₂ admits exactly 1 parallel spinor)
+## Comparison (updated v4.0.11)
 
-This gives: λ₁ = (14 − 1) / 99 = 13/99
-
-## Axiom Status
-
-**Zero axioms.** All results follow from:
-1. dim(G₂) = 14 — derived from octonion automorphisms
-2. H* = 99 — derived from Mayer-Vietoris on TCS
-3. parallel_spinors(G₂) = 1 — Berger classification (definition)
-4. Arithmetic — native_decide
-
-## Comparison
-
-| Prediction | Value | λ₁ × H* | Source |
-|-----------|-------|----------|--------|
-| Bare algebraic | 14/99 = 0.1414 | 14 | Pell equation |
-| Physical (this file) | 13/99 = 0.1313 | 13 | Spectral-holonomy |
-| Numerical (N=50000) | ≈ 0.1313 | 13.0 | Graph Laplacian |
-| PINN (N=1000) | 0.1406 | 13.92 | Neural network |
-
-The physical prediction 13/99 matches the large-N numerical limit.
+| Quantity | Value | λ₁ × H* | Status |
+|----------|-------|----------|--------|
+| Analytical (S-L) | 6π²/475 = 0.12467 | 12.34 | **VERIFIED 0.05%** |
+| NK Richardson | 0.12461 | 12.34 | Numerical reference |
+| Bare algebraic | 14/99 = 0.1414 | 14 | Topological ratio |
+| Spinor-corrected | 13/99 = 0.1313 | 13 | π² coincidence |
 
 References:
-- Joyce, D.D. (2000). Compact Manifolds with Special Holonomy, Table 10.1
+- Langlais, T. (2025). Commun. Math. Phys. 406, 7. (spectral theory of TCS)
 - Berger, M. (1955). Sur les groupes d'holonomie, Bull. Soc. Math. France
-- Crowley-Goette-Nordstrom (2024). Inventiones Mathematicae
 
-Version: 1.0.0
+Version: 1.1.0 (v4.0.11: reframed as algebraic identities, not spectral gap)
 -/
 
 import GIFT.Core
@@ -62,10 +43,14 @@ open GIFT.Spectral.G2Manifold
 open GIFT.Spectral.MassGapRatio
 
 /-!
-## The Physical Mass Gap Ratio: 13/99
+## The Integer dim(G₂) − h = 13 and the Ratio 13/99
 
-This is the corrected spectral gap after accounting for the
-parallel spinor reduction h = 1 in G₂ holonomy.
+The integer 13 = dim(G₂) − parallel_spinors_G₂ is an algebraic fact.
+The ratio 13/99 = (dim(G₂)−h)/H* is a topological invariant.
+
+NOTE: This is NOT the spectral gap (see header). The name `physical_gap_ratio`
+is retained for backward compatibility. The actual spectral gap is irrational
+(6π²/475 ≈ 0.12467), not 13/99 ≈ 0.1313.
 -/
 
 -- ============================================================================

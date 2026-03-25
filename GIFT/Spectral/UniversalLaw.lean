@@ -36,30 +36,24 @@ open GIFT.Spectral.G2Manifold
 open GIFT.Spectral.MassGapRatio
 
 /-!
-## The Universal Spectral Law
+## Algebraic Properties of dim(G₂)/H* = 14/99
 
-For G2-holonomy manifolds, the first nonzero eigenvalue of the Laplacian
-is constrained by topology. The GIFT prediction is:
+This file collects proven algebraic theorems about the topological ratio 14/99.
 
-  lambda_1 * H* = dim(Hol) - h
+IMPORTANT (v4.0.11 — OPEN QUESTION):
+The conjecture λ₁ × H* = dim(G₂) (universality) is NOT confirmed.
+A numerical scan of 21 TCS examples gives CV = 70.5% for this product.
+The analytical mass gap is λ₁ = π²/(L²·g_ss), giving λ₁×H* ≈ 12.34 ≠ 14.
+See `verify_universality_nk.py` for the full scan.
 
-where:
-- lambda_1 = first nonzero eigenvalue of the Laplace-Beltrami operator
-- H* = b0 + b2 + b3 = 1 + 21 + 77 = 99 (total topological degrees of freedom)
-- dim(Hol) = dim(G2) = 14 (dimension of the holonomy group)
-- h = obstruction parameter (= 0 for torsion-free G2)
+The ratio 14/99 = dim(G₂)/H* remains a true algebraic identity with
+rich arithmetic structure (Pell equation, continued fraction [0;7,14]).
+All theorems in this file are PROVEN and correct — they characterize
+the ratio, not the spectral gap.
 
-For K7 (torsion-free G2 manifold):
-  lambda_1 * 99 = 14 - 0 = 14
-  lambda_1 = 14/99
-
-### Physical Interpretation
-
-This law states that the spectral gap (determining the mass gap in Yang-Mills)
-is fixed by TOPOLOGY alone, not by the details of the metric.
-
-The 14 comes from G2 acting on the tangent bundle (14 = dim(G2)).
-The 99 comes from cohomology: H* counts independent topological modes.
+The ad-hoc axioms claiming MassGap(K7) = 14/99 or 13/99 were REMOVED
+in v3.3.19. The spectral gap value is treated as derived from the
+analytical formula λ₁ = 6π²/475 (see yang_mills_bridge paper v0.4.0).
 -/
 
 -- ============================================================================

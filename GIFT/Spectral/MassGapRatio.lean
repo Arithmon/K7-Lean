@@ -1,16 +1,24 @@
 /-
-GIFT Spectral: Mass Gap Ratio
-==============================
+GIFT Spectral: Holonomy-Cohomology Ratio
+=========================================
 
-The fundamental theorem: lambda_1(K7) = dim(G2)/H* = 14/99
+The algebraic ratio dim(G₂)/H* = 14/99 and its properties.
 
-This is the key GIFT prediction for the Yang-Mills mass gap.
-The ratio 14/99 emerges from pure topology:
-  - 14 = dim(G2) = dimension of holonomy group
-  - 99 = H* = b2 + b3 + 1 = total cohomological degrees of freedom
+IMPORTANT (v4.0.11): This ratio is a topological invariant, NOT the spectral gap.
+The analytical mass gap is λ₁ = π²/(L²·g_ss) = 6π²/475 ≈ 0.12467 (irrational),
+verified to 0.05% against NK Richardson. The ratio 14/99 ≈ 0.1414 is 13.4% above λ₁.
 
-Version: 1.0.0
-Status: NEW (Yang-Mills extension)
+The ratio 14/99 remains mathematically significant:
+  - 14 = dim(G₂) = dimension of holonomy group
+  - 99 = H* = b₂ + b₃ + 1 = total cohomological degrees of freedom
+  - Irreducible: gcd(14, 99) = 1
+  - Pell equation: 99² − 50×14² = 1
+
+All theorems in this file prove TRUE algebraic identities about 14/99.
+They do not assert that λ₁ = 14/99.
+
+Version: 1.1.0 (v4.0.11: reframed as algebraic ratio, not mass gap)
+Status: Proven (all theorems axiom-free)
 -/
 
 import GIFT.Core
@@ -20,13 +28,16 @@ namespace GIFT.Spectral.MassGapRatio
 open GIFT.Core
 
 /-!
-## The Mass Gap Ratio
+## The Holonomy-Cohomology Ratio
 
-The central quantity: dim(G2)/H* = 14/99 = 0.1414...
+The algebraic ratio dim(G₂)/H* = 14/99 = 0.1414...
 
-This is NOT an arbitrary constant - it emerges from:
-1. G2 holonomy on K7 (giving dim = 14)
-2. TCS construction (giving b2=21, b3=77, hence H*=99)
+This is a topological invariant (not the mass gap — see header note).
+It emerges from:
+1. G₂ holonomy on K₇ (giving dim = 14)
+2. Betti numbers b₂=21, b₃=77 (giving H*=99)
+
+The name `mass_gap_ratio` is retained for backward compatibility.
 -/
 
 -- ============================================================================
@@ -182,16 +193,18 @@ theorem deviation_percentage :
 /-- QCD scale in MeV (conventional value) -/
 def Lambda_QCD_MeV : Nat := 200
 
-/-- GIFT prediction for mass gap: Delta = (14/99) * Lambda_QCD -/
+/-- Bare topological scale: (14/99) * Lambda_QCD.
+    NOTE (v4.0.11): This uses the algebraic ratio, not the analytical mass gap.
+    The analytical formula gives √(6π²/475) × Λ_QCD ≈ 70.7 MeV (see yang_mills_bridge.md). -/
 def GIFT_mass_gap_MeV : Rat := (14 / 99) * 200
 
-/-- Mass gap prediction: Delta in (28, 29) MeV -/
+/-- Bare scale in (28, 29) MeV (NOTE: superseded by analytical formula, see header) -/
 theorem mass_gap_prediction :
     GIFT_mass_gap_MeV > 28 ∧ GIFT_mass_gap_MeV < 29 := by
   unfold GIFT_mass_gap_MeV
   constructor <;> native_decide
 
-/-- Exact value: Delta = 2800/99 MeV -/
+/-- Exact value: 2800/99 MeV (bare topological, not the analytical mass gap) -/
 theorem mass_gap_exact :
     GIFT_mass_gap_MeV = 2800 / 99 := by
   unfold GIFT_mass_gap_MeV
