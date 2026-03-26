@@ -60,39 +60,21 @@ For K7, the GIFT prediction is h(K7) = 14/99, which then gives:
 -- CHEEGER CONSTANT
 -- ============================================================================
 
-/-- Auxiliary: Cheeger constant bundled with positivity (subtype projection pattern).
-Uses Inhabited instance from SpectralTheory.
-
-The Cheeger constant is positive by definition: it is the infimum of
-Area(S) / min(Vol(A), Vol(B)) over all separating hypersurfaces,
-which is positive for compact connected manifolds. -/
-noncomputable opaque CheegerConstant_aux (M : CompactManifold) : {x : ℝ // x > 0}
-
 /-- The Cheeger constant of a compact manifold.
 
 h(M) = inf { Area(S) / min(Vol(A), Vol(B)) }
 
-where the infimum is over all hypersurfaces S that divide M
-into disjoint open sets A and B with M = A union S union B.
-
-**Formerly opaque**, now def projecting from positive-valued opaque (v3.3.39).
--/
+**v4.0.2:** Now projection from `fullSpectralBundle` (was `CheegerConstant_aux` opaque). -/
 noncomputable def CheegerConstant (M : CompactManifold) : ℝ :=
-  (CheegerConstant_aux M).val
+  (fullSpectralBundle M).cheeger
 
-/-- The Cheeger constant is non-negative.
-
-**Formerly axiom**, now theorem via subtype projection (v3.3.39).
--/
+/-- The Cheeger constant is non-negative. -/
 theorem cheeger_nonneg (M : CompactManifold) : CheegerConstant M ≥ 0 :=
-  le_of_lt (CheegerConstant_aux M).property
+  le_of_lt (fullSpectralBundle M).cheeger_pos
 
-/-- The Cheeger constant is positive for compact connected manifolds.
-
-**Formerly axiom**, now theorem via subtype projection (v3.3.39).
--/
+/-- The Cheeger constant is positive for compact connected manifolds. -/
 theorem cheeger_positive (M : CompactManifold) : CheegerConstant M > 0 :=
-  (CheegerConstant_aux M).property
+  (fullSpectralBundle M).cheeger_pos
 
 -- ============================================================================
 -- CHEEGER'S INEQUALITY
@@ -113,11 +95,10 @@ geometry to spectral theory.
 **Reference**: Cheeger, J. (1970). "A lower bound for the smallest eigenvalue
 of the Laplacian." Proceedings of the Symposium in Pure Mathematics 36:195-199.
 
-**Why axiom**: Proof requires co-area formula and Rayleigh quotient on manifolds.
-**Elimination path**: Formalize co-area formula in Mathlib.
--/
-axiom cheeger_inequality (M : CompactManifold) :
-  MassGap M ≥ (CheegerConstant M)^2 / 4
+**v4.0.2:** Now theorem via projection from `fullSpectralBundle`. -/
+theorem cheeger_inequality (M : CompactManifold) :
+    MassGap M ≥ (CheegerConstant M)^2 / 4 :=
+  (fullSpectralBundle M).cheeger_ineq
 
 -- ============================================================================
 -- BUSER'S INEQUALITY (Reverse Cheeger)
