@@ -31,7 +31,7 @@ open GIFT.Core
 /-- Mass gap ratio definition -/
 abbrev mass_gap_ratio := GIFT.Spectral.MassGapRatio.mass_gap_ratio
 
-/-- Mass gap ratio value: 14/99 -/
+/-- Algebraic ratio value: 14/99 (not the spectral gap; see AnalyticalMassGap.lean) -/
 abbrev mass_gap_value := GIFT.Spectral.MassGapRatio.mass_gap_ratio_value
 
 /-- Mass gap irreducibility: gcd(14, 99) = 1 -/
@@ -157,10 +157,10 @@ noncomputable abbrev sel_L_squared := GIFT.Spectral.SelectionPrinciple.L_squared
 /-- Canonical neck length -/
 noncomputable abbrev sel_L_canonical := GIFT.Spectral.SelectionPrinciple.L_canonical
 
-/-- GIFT spectral prediction lambda_1 = 14/99 -/
+/-- GIFT algebraic ratio lambda_1_bare = 14/99 (superseded by analytical formula) -/
 noncomputable abbrev sel_lambda1 := GIFT.Spectral.SelectionPrinciple.lambda1_gift
 
-/-- lambda_1 = 14/99 -/
+/-- Algebraic ratio = 14/99 (not the analytical mass gap) -/
 abbrev sel_lambda1_eq := GIFT.Spectral.SelectionPrinciple.lambda1_gift_eq
 
 /-- Spectral gap from selection -/

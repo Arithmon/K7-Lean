@@ -234,7 +234,7 @@ theorem lambda_QCD_value : Lambda_QCD_MeV = 200 := rfl
 -- GIFT PREDICTION FOR MASS GAP
 -- ============================================================================
 
-/-- The GIFT mass gap prediction: Delta = (14/99) * 200 MeV -/
+/-- Bare topological scale: (14/99) * 200 MeV. Superseded by analytical formula √(6π²/475)×Λ_QCD ≈ 70.7 MeV. -/
 theorem GIFT_prediction :
     GIFT_mass_gap_MeV = (14 : ℚ) / 99 * 200 := by
   unfold GIFT_mass_gap_MeV

@@ -348,18 +348,14 @@ theorem spectral_geometric_identity :
   field_simp [h1, h2]
 
 -- ============================================================================
--- UNIVERSALITY CONJECTURE
+-- UNIVERSALITY CONJECTURE — REMOVED v4.0.11
 -- ============================================================================
 
-/-- Universality conjecture: For any TCS G2 manifold with topology (b2, b3),
-    the spectral gap is lambda1 = dim(G2) / (1 + b2 + b3).
-
-This generalizes from K7 (b2=21, b3=77) to arbitrary TCS constructions.
-
-**Axiom Category: E (GIFT Claim)** — Conjectural generalization to all TCS manifolds. -/
-axiom universality_conjecture (b2_val b3_val : Nat) (K : TCSManifold)
-    (hK : True) :  -- placeholder for "K is TCS with Betti numbers (b2_val, b3_val)"
-    pi_squared / K.neckLength ^ 2 * (1 + b2_val + b3_val) = dim_G2
+-- **REMOVED v4.0.11**: The universality conjecture `λ₁·H* = dim(G₂)` for all TCS
+-- was disproved by numerical test on 21 TCS examples (CV=71.8%).
+-- The correct universal invariant under L=5 is `λ₁·g_ss = 6π²/25`,
+-- which is already a zero-axiom theorem in `AnalyticalMassGap.lean`.
+-- See: `canonical/results/tcs_universality_test.json`
 
 -- ============================================================================
 -- CERTIFICATE

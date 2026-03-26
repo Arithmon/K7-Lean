@@ -12,7 +12,7 @@ Harmonic forms are isomorphic to de Rham cohomology.
 | `K7_hodge_data` | — | **FUSED v3.3.42** into `K7_analysis_data` |
 | `K7_harmonic_basis` | — | **FUSED v3.3.42** into `K7_analysis_data` |
 | `K7_analysis_data` | C: Geometric structure | **NEW** bundled K7 Hodge + harmonic data |
-| `hodge_isomorphism` | B: Standard result | Hodge (1941) |
+| `hodge_isomorphism` | [REMOVED v4.0.12] Dead axiom | Was: Hodge (1941) |
 
 Version: 3.3.42 (axiom consolidation: K7_hodge_data + K7_harmonic_basis → K7_analysis_data)
 -/
@@ -227,14 +227,10 @@ theorem K7_H_star : b 0 + b 2 + b 3 = 99 := rfl
 **Former axiom, now opaque** (opaque refactoring 2026-02-09). -/
 opaque deRham (M : Type*) (k : ℕ) : Type*
 
-/-- Hodge isomorphism: ℋᵏ(M) ≅ Hᵏ_dR(M).
-
-**Axiom Category: B (Standard Result)** — Hodge (1941)
-
-**Why axiom**: Requires elliptic regularity + Fredholm theory.
-**Elimination path**: Formalize de Rham cohomology in Mathlib. -/
-axiom hodge_isomorphism (k : ℕ) :
-  HarmonicSpace K7_hodge_data K7_laplacian k ≃ deRham K7 k
+-- **REMOVED v4.0.12**: hodge_isomorphism was never used in any proof.
+-- Hodge (1941): ℋᵏ(M) ≅ Hᵏ_dR(M). Requires elliptic regularity + Fredholm theory.
+-- Mathlib is years away from this (no elliptic regularity in any prover, horizon 2029+).
+-- Can be re-added when needed and when Mathlib supports de Rham cohomology.
 
 /-!
 ## Certified Relations

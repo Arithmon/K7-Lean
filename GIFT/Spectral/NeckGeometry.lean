@@ -23,7 +23,7 @@ These hypotheses are sufficient for the spectral bounds:
 | `ProductNeckMetric` | C: Geometric structure | Metric hypothesis |
 | `NeckMinimality` | C: Geometric structure | Isoperimetric hypothesis |
 | `L₀_ge_one` | — | **ELIMINATED v3.3.39** (structure field) |
-| `K7_is_TCS` | C: Geometric structure | Existence (Kovalev 2003) |
+| `K7_is_TCS` | [REMOVED v4.0.12] Dead axiom, never used | Was: Existence (Kovalev 2003) |
 
 References:
 - Kovalev, A. (2003). Twisted connected sums and special Riemannian holonomy.
@@ -271,16 +271,12 @@ theorem symmetric_block_constant :
 -- CONNECTION TO K7
 -- ============================================================================
 
-/-- K7 can be constructed as a TCS manifold.
-
-The Joyce-Kovalev construction produces compact G₂ manifolds
-via twisted connected sums of asymptotically cylindrical Calabi-Yau 3-folds
-crossed with S¹.
-
-Axiomatized: full construction requires Calabi-Yau formalization.
-
-**Axiom Category: C (Geometric structure)** — Kovalev (2003) -/
-axiom K7_is_TCS : ∃ (K : TCSManifold), K.toCompactManifold.dim = 7
+-- **REMOVED v4.0.12**: `K7_is_TCS` was a dead axiom (never used in any proof).
+-- It asserted `∃ (K : TCSManifold), K.toCompactManifold.dim = 7` without
+-- connecting to K7. The TCS structure is already used via universally-quantified
+-- axioms (spectral_upper_bound, neck_dominates, literature_package).
+-- If a K7-specific TCS instance is needed later, it should be properly typed
+-- as `K7_TCS : TCSManifold` with `K7_TCS.toCompactManifold = K7.g2base.base`.
 
 -- ============================================================================
 -- CERTIFICATE

@@ -365,7 +365,7 @@ theorem gift_connection_algebraic :
 
 /-- L* = pi*sqrt(99/14) approximately 8.354 -/
 theorem gift_neck_length_algebraic :
-    -- L*^2 = 99*pi^2/14 means lambda1 = 14/99
+    -- L*^2 = 99*pi^2/14 gives the algebraic ratio 14/99 (before g_ss correction)
     ((99 : Rat) / 14) * (14 / 99) = 1 ∧
     -- Verification
     (7 : Rat) / 99 * 99 = 7 := by

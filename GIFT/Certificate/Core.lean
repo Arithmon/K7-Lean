@@ -13,7 +13,7 @@ Structure:
   K₇ topology, Hodge theory, Joyce existence, conformal rigidity
 - **Predictions**: 33+ published dimensionless derivations, V5.0 observables,
   Fano selection, sector classification, hierarchy
-- **Spectral**: Mass gap 14/99, TCS bounds, selection principle,
+- **Spectral**: Algebraic ratio 14/99, analytical mass gap 6π²/475, TCS bounds, selection principle,
   Cheeger inequality, Yang-Mills, spectral scaling
 
 Replaces the legacy monolithic Certificate.lean.

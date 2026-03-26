@@ -200,8 +200,6 @@ structure ManifoldSpectralData (M : CompactManifold) where
   eigseq_zero : eigseq 0 = 0
   /-- Eigenvalues are non-decreasing -/
   eigseq_nondecreasing : ∀ n, eigseq n ≤ eigseq (n + 1)
-  /-- Eigenvalues are non-negative (positive semi-definiteness of Δ) -/
-  eigseq_nonneg : ∀ n, eigseq n ≥ 0
   /-- Eigenvalues are unbounded (compactness → discrete spectrum) -/
   eigseq_unbounded : ∀ C : ℝ, ∃ N, ∀ n ≥ N, eigseq n > C
   /-- Mass gap is the infimum of positive eigenvalues in the sequence -/
@@ -214,6 +212,17 @@ structure ManifoldSpectralData (M : CompactManifold) where
 **Axiom consolidation (v3.3.42):** Replaces `spectral_theorem_discrete` +
 `mass_gap_is_infimum` (2 axioms → 1). -/
 axiom manifold_spectral_data (M : CompactManifold) : ManifoldSpectralData M
+
+/-- Eigenvalues are non-negative (derived from eigseq_zero + eigseq_nondecreasing).
+
+**Formerly structure field**, now theorem (v4.0.11): follows by induction from
+λ₀ = 0 and λₙ ≤ λₙ₊₁, so λₙ ≥ λ₀ = 0 for all n. -/
+theorem ManifoldSpectralData.eigseq_nonneg {M : CompactManifold}
+    (sd : ManifoldSpectralData M) : ∀ n, sd.eigseq n ≥ 0 := by
+  intro n
+  induction n with
+  | zero => simp [sd.eigseq_zero]
+  | succ n ih => exact le_trans ih (sd.eigseq_nondecreasing n)
 
 -- ============================================================================
 -- EIGENVALUE PREDICATE (v3.3.47: axiom → def via spectral sequence)

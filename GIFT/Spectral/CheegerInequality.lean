@@ -19,7 +19,7 @@ This module formalizes:
 | `cheeger_positive` | — | **ELIMINATED v3.3.39** (subtype projection) |
 | `cheeger_inequality` | B: Standard result | Cheeger 1970 |
 | `BuserConstant` | A: Definition | Dimension-dependent |
-| `buser_inequality` | B: Standard result | Buser 1982 |
+| `buser_inequality` | [REMOVED v4.0.12] Dead axiom | Was: Buser 1982 |
 | `K7_cheeger_constant` | E: GIFT claim | h(K7) = 14/99 |
 
 References:
@@ -53,7 +53,7 @@ manifold M measures how efficiently surfaces can divide M into two parts:
 
 For K7, the GIFT prediction is h(K7) = 14/99, which then gives:
 - Cheeger lower bound: lambda_1 >= (14/99)^2 / 4 = 49/9801
-- Actual value: lambda_1 = 14/99 (much larger than the bound)
+- Algebraic ratio: dim(G₂)/H* = 14/99 (analytical mass gap is 6π²/475)
 -/
 
 -- ============================================================================
@@ -141,23 +141,9 @@ noncomputable opaque BuserConstant (n : ℕ) : ℝ
 /-- Buser constant for dimension 7 -/
 noncomputable def C_7 : ℝ := BuserConstant 7
 
-/-- Buser's Inequality (1982):
-
-**Axiom Category: B (Standard result)** - Buser 1982
-
-For a compact Riemannian n-manifold M with Ricci >= -(n-1)K:
-  lambda_1(M) <= C(n, K, diam(M)) * h(M)
-
-For Ricci-flat manifolds (like K7), this simplifies.
-
-**Reference**: Buser, P. (1982). "A note on the isoperimetric constant."
-Annales scientifiques de l'École Normale Supérieure 15(2):213-230.
-
-**Why axiom**: Proof requires Ricci curvature comparison theorems.
-**Elimination path**: Mathlib Riemannian comparison geometry.
--/
-axiom buser_inequality (M : CompactManifold) (n : ℕ) (hn : M.dim = n) :
-  MassGap M ≤ BuserConstant n * CheegerConstant M
+-- **REMOVED v4.0.12**: buser_inequality was never used in any proof.
+-- Buser (1982): λ₁ ≤ C(n)·h for compact Ricci-flat manifolds.
+-- Can be re-added when needed — requires Ricci curvature comparison (Mathlib).
 
 -- ============================================================================
 -- APPLICATION TO K7
@@ -176,12 +162,12 @@ theorem K7_cheeger_lower_bound :
 theorem K7_cheeger_bound_from_ratio :
     cheeger_lower_bound = 49 / 9801 := cheeger_bound_value
 
-/-- The actual mass gap (14/99) is larger than the Cheeger bound -/
+/-- The algebraic ratio (14/99) is larger than the Cheeger bound -/
 theorem mass_gap_exceeds_cheeger :
     (14 : ℚ) / 99 > 49 / 9801 := by
   native_decide
 
-/-- Ratio: actual / Cheeger bound = (14/99) / (49/9801) = 198/7 ~ 28.28 -/
+/-- Ratio: algebraic ratio / Cheeger bound = (14/99) / (49/9801) = 198/7 ~ 28.28 -/
 theorem gap_to_cheeger_ratio :
     ((14 : ℚ) / 99) / (49 / 9801) = 198 / 7 := by
   native_decide
@@ -195,7 +181,7 @@ theorem gap_to_cheeger_ratio :
     Cheeger: lambda_1 >= h^2/4 = (14/99)^2/4 = 49/9801
     Buser:   lambda_1 <= C_7 * h = C_7 * (14/99)
 
-    The actual value lambda_1 = 14/99 satisfies both.
+    The algebraic ratio 14/99 satisfies both (analytical λ₁=6π²/475 also does).
 -/
 theorem K7_sandwich_bounds :
     (49 : ℚ) / 9801 < 14 / 99 := by

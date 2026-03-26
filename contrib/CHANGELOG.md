@@ -5,6 +5,51 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.2] - 2026-03-26
+
+### Summary
+
+**DEAD AXIOM AUDIT: 11 → 7 axioms.** Systematic audit of the full derivation chain reveals all 62/64 observables are purely algebraic (zero axiom dependency). Four dead axioms removed; one structure field (`eigseq_nonneg`) derived as theorem. All 7 remaining axioms are alive (used in proofs) and serve the spectral program.
+
+### Removed (4 axioms eliminated)
+
+- **`universality_conjecture`** (SelectionPrinciple.lean) — Disproved by numerical test on 21 TCS examples (CV=71.8%). The correct universal invariant is `λ₁·g_ss = 6π²/25`, already a zero-axiom theorem in `AnalyticalMassGap.lean`.
+- **`K7_is_TCS`** (NeckGeometry.lean) — Dead axiom, never used in any proof. Poorly typed: asserted `∃ TCSManifold` of dim 7 without connecting to K7.
+- **`buser_inequality`** (CheegerInequality.lean) — Dead axiom, never used in any proof. Buser (1982) upper bound on spectral gap. Can be re-added when needed.
+- **`hodge_isomorphism`** (HarmonicForms.lean) — Dead axiom, never used in any proof. Requires elliptic regularity (no prover has this, horizon 2029+). Can be re-added when Mathlib supports de Rham cohomology.
+
+### Changed
+
+- **`ManifoldSpectralData.eigseq_nonneg`** — Refactored from structure field to derived theorem (proof by induction from `eigseq_zero` + `eigseq_nondecreasing`). Axiom surface reduced: 5 fields → 4 fields.
+- **Spectral.lean** — Exports and axiom table updated for all removals.
+- **NeckGeometry.lean, CheegerInequality.lean, HarmonicForms.lean** — Axiom tables updated.
+
+### Key Finding
+
+The 62/64 observable derivation chain is:
+```
+N=3, r8=8, r2=2 → Algebraic/ → Core.lean → Observables/ + Relations/
+```
+Zero spectral axioms in the chain. Certificate proofs use `native_decide` only.
+
+### Remaining 7 Axioms (all alive)
+
+| # | Axiom | File | Role |
+|---|-------|------|------|
+| 1 | `manifold_spectral_data` | SpectralTheory.lean | Discrete spectrum (Chavel 1984) |
+| 2 | `cheeger_inequality` | CheegerInequality.lean | λ₁ ≥ h²/4 (Cheeger 1970) |
+| 3 | `literature_package` | LiteratureAxioms.lean | CGN+Joyce bundle (3 papers → 1) |
+| 4 | `spectral_upper_bound` | TCSBounds.lean | Rayleigh quotient bound |
+| 5 | `neck_dominates` | TCSBounds.lean | Neck controls Cheeger constant |
+| 6 | `K7_exists` | G2Manifold.lean | TCS construction existence |
+| 7 | `K7_analysis_data` | HarmonicForms.lean | Hodge data + harmonic bases |
+
+### Build
+
+- 2639 jobs, 0 errors, 0 sorry, **7 axioms** (was 11)
+
+---
+
 ## [3.4.1] - 2026-03-25
 
 ### Summary
