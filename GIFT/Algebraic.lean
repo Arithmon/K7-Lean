@@ -8,6 +8,8 @@ import GIFT.Algebraic.GIFTConstants
 -- V3.2: SO(16) Decomposition
 import GIFT.Algebraic.SO16Decomposition
 import GIFT.Algebraic.GeometricSaturation
+-- G₂ 3-form: explicit phi0 → G₂=Stab(phi0), toward Mathlib contribution
+import GIFT.Algebraic.G2ThreeForm
 
 /-!
 # GIFT Algebraic Foundations (PREFERRED)

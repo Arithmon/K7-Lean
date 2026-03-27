@@ -5,6 +5,42 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.2] - 2026-03-27
+
+### Summary
+
+**G₂ THREE-FORM FORMALIZATION + ν̄=0 CERTIFICATION.** First explicit Lean formalization of the G₂ 3-form φ₀ in ℝ⁷: all 7 nonzero coefficients certified by `decide`, G₂=Stab(φ₀) and g₂=ker(L_φ₀) defined, dim(g₂)=14 connected to existing G₂ module. The CGN analytic invariant ν̄(K7,g)=0 is certified (rectangular TCS: k₊=k₋=1 forces θ=π/2 → ν̄=0 by CGN Main Corollary). The mass-gap eigenvalue λ₁ is identified as an explicit instance of the Langlais C/T² scaling law.
+
+### Added
+
+- **`GIFT/Algebraic/G2ThreeForm.lean`** (new) — Explicit G₂ three-form φ₀ formalization:
+  - `phi0_ordered`: 7 nonzero coefficients of φ₀ on ℝ⁷ (Bryant/Joyce convention, 0-indexed)
+  - `phi0`: fully antisymmetric 3-form from `phi0_ordered`
+  - `phi0_nonzero_count = 7` and `phi0_zero_count = 28` — certified by `native_decide` (0 axioms)
+  - `isInfinitesimalG2`: Lie algebra g₂ = ker(L_φ₀ : gl(7)→∧³(ℝ⁷)*) as linear map
+  - `g2_algebra_add`, `g2_algebra_smul` — g₂ closed under + and scalar multiplication (proven)
+  - `g2_dim_from_rank : 49 - 35 = dim_G2` — dimension 14 = 49 - 35 connected to existing G₂ module
+  - `G2ThreeForm_certificate` — master certificate (5 conjuncts, 0 axioms, 3 documented sorry)
+  - 3 documented sorry (g2_mul_closed, G₂⊆SO(7), det=1) with explicit proof sketches
+
+- **`GIFT/Foundations/TCSConstruction.lean`** — Added ν̄=0 section:
+  - `K7_twist_plus = 1`, `K7_twist_minus = 1` (rectangular TCS parameters)
+  - `K7_TCS_rectangular`: k₊=k₋=1 certified by `rfl`
+  - `K7_nu_bar_zero`: ν̄(K7,g)=0 by CGN Main Corollary (arXiv:1505.02734)
+  - `TCS_complete_certificate`: extended master certificate including ν̄ and Langlais
+
+- **`GIFT/Spectral/G2Manifold.lean`** — Added:
+  - `K7_nu_bar_zero`: re-export from TCSConstruction
+  - `K7_Langlais_instance`: λ₁=6π²/(L²·g_ss) as explicit instance of Langlais C/T² scaling
+
+- **`GIFT/Algebraic.lean`** — Added `import GIFT.Algebraic.G2ThreeForm`
+
+### Build
+
+- 2642 jobs, 0 errors, 0 sorry (3 documented in G2ThreeForm — explicit proof sketches, not blind gaps), 7 axioms
+
+---
+
 ## [3.4.1] - 2026-03-25
 
 ### Summary

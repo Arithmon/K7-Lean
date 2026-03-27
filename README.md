@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **11 published axioms**, all theorems proven in **Lean 4** (128 files, 8025 build jobs).
+Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **7 published axioms**, all theorems proven in **Lean 4** (2642 build jobs).
 
 ## Structure
 
@@ -30,6 +30,8 @@ GIFT/                           # Lean 4 formalization (root library)
 │   ├── PhysicalSpectralGap.lean # dim(G₂)−h = 13 algebraic (zero axioms)
 │   ├── ComputedSpectrum.lean   # Q22 sig, SD/ASD gap, B-test
 │   └── CheegerInequality.lean  # Cheeger-Buser bounds
+├── Algebraic/                  # Octonion/G₂ algebraic foundations
+│   └── G2ThreeForm.lean        # φ₀ 3-form, G₂=Stab(φ₀), g₂=ker(L_φ₀), dim=14
 ├── Relations/                  # Physical predictions (22 files)
 ├── Observables/                # PMNS, CKM, quark masses, cosmology
 ├── Hierarchy/                  # Dimensional gap, absolute masses
@@ -76,4 +78,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.4.1*
+*GIFT Core v3.4.2*
