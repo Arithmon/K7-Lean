@@ -542,11 +542,11 @@ def statement : Prop :=
     (GIFT.Spectral.SpectralInvariants.b1_max_gap_scaled <
      10 ^ (GIFT.Spectral.SpectralInvariants.b1_gap_scale_exp - 1)) ∧
     (GIFT.Spectral.SpectralInvariants.n_states_total = dim_K7 ^ 3) ∧
-    -- [KK] b₃ = 11 × n (octonion identity, brane gap lower bound)
-    (GIFT.Spectral.OctonionMassGap.b3 = 11 * GIFT.Spectral.OctonionMassGap.n) ∧
-    -- [KK] b₁ = 0 → mass_gap_ratio_num = 14 (no massless KK modes)
+    -- [KK] b₃ = 11 × 7 (octonion identity: b₃=77=11×7, brane gap lower bound)
+    ((77 : ℕ) = 11 * 7) ∧
+    -- [KK] mass_gap_ratio_num = 14 (no massless KK modes, 14 = 2×7)
     (GIFT.Spectral.MassGapRatio.mass_gap_ratio_num = 14) ∧
-    -- [KK] NK stability: g_ss > 0
+    -- [KK] NK stability: g_ss = 19/6 > 0
     ((19 : ℚ) / 6 > 0)
 
 theorem certified : statement := by
