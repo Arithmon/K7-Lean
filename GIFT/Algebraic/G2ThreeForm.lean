@@ -237,14 +237,110 @@ def isG2Matrix (A : Matrix (Fin 7) (Fin 7) ℝ) : Prop :=
 
 /-- G₂ matrices are closed under composition.
 
-**Proof sketch**: φ₀(A(Bv₁), A(Bv₂), A(Bv₃)) = φ₀(Bv₁, Bv₂, Bv₃) = φ₀(v₁,v₂,v₃).
-Full proof: reindexing Finset.sum via matrix multiplication.
-
-**Axiom Category: A (Definition-level)** — follows from isG2Matrix definition by
-Finset.sum reindexing; formalizable once Mathlib has adequate Fin 7 sum lemmas. -/
-axiom g2_mul_closed {A B : Matrix (Fin 7) (Fin 7) ℝ}
+**Proof**: φ₀(ABv₁, ABv₂, ABv₃) = φ₀(Bv₁, Bv₂, Bv₃) = φ₀(v₁,v₂,v₃).
+Formally: expand (A*B) entries, rearrange triple sums, apply hA then hB. -/
+theorem g2_mul_closed {A B : Matrix (Fin 7) (Fin 7) ℝ}
     (hA : isG2Matrix A) (hB : isG2Matrix B) :
-    isG2Matrix (A * B)
+    isG2Matrix (A * B) := by
+  intro i j k
+  simp only [isG2Matrix, Matrix.mul_apply] at *
+  -- Step 1: expand each (A*B) entry.
+  -- Right-assoc first, then sum_mul pulls x out, then simp_rw handles y,z.
+  have expand : ∀ a b c : Fin 7,
+      (∑ x : Fin 7, A a x * B x i) * (∑ y : Fin 7, A b y * B y j) *
+      (∑ z : Fin 7, A c z * B z k) * phi0 a b c =
+      ∑ x : Fin 7, ∑ y : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) := fun a b c => by
+    rw [show (∑ x : Fin 7, A a x * B x i) * (∑ y : Fin 7, A b y * B y j) *
+            (∑ z : Fin 7, A c z * B z k) * phi0 a b c =
+        (∑ x : Fin 7, A a x * B x i) * ((∑ y : Fin 7, A b y * B y j) *
+        ((∑ z : Fin 7, A c z * B z k) * phi0 a b c)) from by ring]
+    rw [Finset.sum_mul]
+    simp_rw [Finset.sum_mul, Finset.mul_sum]
+    congr 1; ext x; congr 1; ext y; congr 1; ext z; ring
+  simp_rw [expand]
+  -- Step 2: rearrange ∑a∑b∑c∑x∑y∑z → ∑x∑y∑z∑a∑b∑c via 9 adjacent sum_comm swaps.
+  -- After expand: ∑a ∑b ∑c ∑x ∑y ∑z body
+  -- Move x: pos 4→3→2→1
+  simp_rw [show ∀ a b : Fin 7,
+      ∑ c : Fin 7, ∑ x : Fin 7, ∑ y : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+      ∑ x : Fin 7, ∑ c : Fin 7, ∑ y : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k)
+      from fun a b => by rw [Finset.sum_comm]]
+  -- ∑a ∑b ∑x ∑c ∑y ∑z body
+  simp_rw [show ∀ a : Fin 7,
+      ∑ b : Fin 7, ∑ x : Fin 7, ∑ c : Fin 7, ∑ y : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+      ∑ x : Fin 7, ∑ b : Fin 7, ∑ c : Fin 7, ∑ y : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k)
+      from fun a => by rw [Finset.sum_comm]]
+  -- ∑a ∑x ∑b ∑c ∑y ∑z body
+  rw [Finset.sum_comm]
+  -- ∑x ∑a ∑b ∑c ∑y ∑z body
+  -- Move y: pos 5→4→3→2
+  simp_rw [show ∀ x a b : Fin 7,
+      ∑ c : Fin 7, ∑ y : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+      ∑ y : Fin 7, ∑ c : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k)
+      from fun x a b => by rw [Finset.sum_comm]]
+  -- ∑x ∑a ∑b ∑y ∑c ∑z body
+  simp_rw [show ∀ x a : Fin 7,
+      ∑ b : Fin 7, ∑ y : Fin 7, ∑ c : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+      ∑ y : Fin 7, ∑ b : Fin 7, ∑ c : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k)
+      from fun x a => by rw [Finset.sum_comm]]
+  -- ∑x ∑a ∑y ∑b ∑c ∑z body
+  simp_rw [show ∀ x : Fin 7,
+      ∑ a : Fin 7, ∑ y : Fin 7, ∑ b : Fin 7, ∑ c : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+      ∑ y : Fin 7, ∑ a : Fin 7, ∑ b : Fin 7, ∑ c : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k)
+      from fun x => by rw [Finset.sum_comm]]
+  -- ∑x ∑y ∑a ∑b ∑c ∑z body
+  -- Move z: pos 6→5→4→3
+  simp_rw [show ∀ x y a b : Fin 7,
+      ∑ c : Fin 7, ∑ z : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+      ∑ z : Fin 7, ∑ c : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k)
+      from fun x y a b => by rw [Finset.sum_comm]]
+  -- ∑x ∑y ∑a ∑b ∑z ∑c body
+  simp_rw [show ∀ x y a : Fin 7,
+      ∑ b : Fin 7, ∑ z : Fin 7, ∑ c : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+      ∑ z : Fin 7, ∑ b : Fin 7, ∑ c : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k)
+      from fun x y a => by rw [Finset.sum_comm]]
+  -- ∑x ∑y ∑a ∑z ∑b ∑c body
+  simp_rw [show ∀ x y : Fin 7,
+      ∑ a : Fin 7, ∑ z : Fin 7, ∑ b : Fin 7, ∑ c : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+      ∑ z : Fin 7, ∑ a : Fin 7, ∑ b : Fin 7, ∑ c : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k)
+      from fun x y => by rw [Finset.sum_comm]]
+  -- ∑x ∑y ∑z ∑a ∑b ∑c body ✓
+  -- Step 3: factor B out (under binders), apply hA, then hB
+  -- goal: ∑x∑y∑z∑a∑b∑c, A a x * A b y * A c z * φabc * (Bxi*Byj*Bzk) = φijk
+  simp_rw [show ∀ x y z : Fin 7,
+      ∑ a : Fin 7, ∑ b : Fin 7, ∑ c : Fin 7,
+        A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+      B x i * B y j * B z k *
+        (∑ a : Fin 7, ∑ b : Fin 7, ∑ c : Fin 7,
+          A a x * A b y * A c z * phi0 a b c) from
+    fun x y z => by
+      -- commute B-factor to front, then pull out via ← mul_sum (×3)
+      simp_rw [show ∀ a b c : Fin 7,
+          A a x * A b y * A c z * phi0 a b c * (B x i * B y j * B z k) =
+          B x i * B y j * B z k * (A a x * A b y * A c z * phi0 a b c) from
+        fun _ _ _ => by ring]
+      simp_rw [← Finset.mul_sum]]
+  -- goal: ∑x∑y∑z, Bxi*Byj*Bzk * (∑a∑b∑c, Aax*Aby*Acz*φabc) = φijk
+  simp_rw [hA]
+  -- goal: ∑x∑y∑z, Bxi*Byj*Bzk * φxyz = φijk
+  exact hB i j k
 
 /-- G₂ ⊆ SO(7): matrices preserving φ₀ preserve the standard inner product.
 
