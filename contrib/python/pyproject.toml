@@ -6,7 +6,6 @@ build-backend = "setuptools.build_meta"
 name = "giftpy"
 dynamic = ["version"]
 description = "GIFT mathematical core - Formally verified constants (Lean 4)"
-readme = "../../README.md"
 license = {text = "MIT"}
 authors = [
     {name = "Brieuc de La Fourniere", email = "brieuc@bdelaf.com"}
