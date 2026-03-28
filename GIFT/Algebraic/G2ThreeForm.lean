@@ -342,13 +342,73 @@ theorem g2_mul_closed {A B : Matrix (Fin 7) (Fin 7) ℝ}
   -- goal: ∑x∑y∑z, Bxi*Byj*Bzk * φxyz = φijk
   exact hB i j k
 
+/-!
+## Metric Recovery: φ₀ Determines the Standard Inner Product
+
+The key identity `∑_{a,b} φ₀(i,a,b)·φ₀(j,a,b) = 6·δᵢⱼ` shows that the
+standard metric on ℝ⁷ is algebraically determined by φ₀ alone.
+
+This is the bridge between G₂ = Stab(φ₀) and SO(7): any A preserving φ₀
+must also preserve this contraction, hence the metric. The remaining gap
+(showing the contraction with standard basis vectors equals the metric)
+requires the 7d cross-product Lagrange identity.
+-/
+
+/-- Integer-valued fully antisymmetric φ₀, mirroring the ℝ-valued `phi0`. -/
+def phi0Z (i j k : Fin 7) : ℤ :=
+  if      i < j ∧ j < k then  phi0_ordered i j k
+  else if i < k ∧ k < j then -(phi0_ordered i k j)
+  else if j < i ∧ i < k then -(phi0_ordered j i k)
+  else if j < k ∧ k < i then  phi0_ordered j k i
+  else if k < i ∧ i < j then  phi0_ordered k i j
+  else if k < j ∧ j < i then -(phi0_ordered k j i)
+  else 0
+
+/-- The ℤ-version phi0Z casts to the ℝ-version phi0 pointwise.
+
+Both are defined by the same case split on sorted order; only the codomain differs. -/
+lemma phi0Z_cast (i j k : Fin 7) : (phi0Z i j k : ℝ) = phi0 i j k := by
+  unfold phi0Z phi0; split_ifs <;> push_cast <;> rfl
+
+/-- Metric recovery (integer form), universally quantified for `native_decide`. -/
+private lemma phi0_metric_Z_univ : ∀ i j : Fin 7,
+    ∑ a : Fin 7, ∑ b : Fin 7, phi0Z i a b * phi0Z j a b =
+    6 * if i = j then (1 : ℤ) else 0 := by native_decide
+
+/-- **Metric Recovery Theorem**: The standard inner product δᵢⱼ is encoded in φ₀.
+
+  `∑_{a,b} φ₀(i,a,b) · φ₀(j,a,b) = 6 · δᵢⱼ`
+
+**Proof**: Define `phi0Z` (ℤ-mirror of `phi0`), verify the identity by `native_decide`
+(49 cases, 49 terms each = closed ℤ computation), cast to ℝ via `phi0Z_cast`.
+
+**Geometric meaning**: This is Bryant's formula `g_φ(eᵢ,eⱼ) = (1/6)∑_{a,b}φ(i,a,b)φ(j,a,b)`.
+The metric δᵢⱼ is algebraically determined by φ₀ alone — no background metric needed.
+This is the key step toward G₂ ⊆ SO(7); the remaining gap is `g_φ(Aeᵢ,Aeⱼ) = g_φ(eᵢ,eⱼ)`,
+which requires the 7d cross-product Lagrange identity or Hitchin stable-form naturality. -/
+theorem phi0_metric (i j : Fin 7) :
+    ∑ a : Fin 7, ∑ b : Fin 7, phi0 i a b * phi0 j a b =
+    6 * if i = j then 1 else 0 := by
+  -- Step 1: rewrite as cast of integer sum
+  have cast_sum : ∑ a : Fin 7, ∑ b : Fin 7, phi0 i a b * phi0 j a b =
+      ((∑ a : Fin 7, ∑ b : Fin 7, phi0Z i a b * phi0Z j a b : ℤ) : ℝ) := by
+    simp_rw [← phi0Z_cast]; push_cast; rfl
+  -- Step 2: apply the integer identity, cast RHS
+  rw [cast_sum, phi0_metric_Z_univ i j]
+  split_ifs <;> push_cast <;> norm_num
+
 /-- G₂ ⊆ SO(7): matrices preserving φ₀ preserve the standard inner product.
 
-**Proof sketch**: φ₀ determines a cross product × on ℝ⁷ via ⟨u×v,w⟩ = φ₀(u,v,w).
-The cross product determines the metric, so A preserves φ₀ → A preserves the metric.
+**Key lemma** (proved above): `phi0_metric` establishes `∑_{a,b} φ₀(i,a,b)φ₀(j,a,b) = 6δᵢⱼ`.
+
+**Remaining gap**: To close the proof, one needs either:
+- 7d cross-product Lagrange identity: `|u×v|² = |u|²|v|² − ⟨u,v⟩²` (PhysLean path)
+- Hitchin stable-form naturality: `g_{A*φ} = A* g_φ` (longer term)
+
+Both imply: A preserves φ₀ → A preserves the metric → A^T A = I.
 
 **Axiom Category: B (Standard result)** — Bryant (1987), Joyce (2000).
-**Elimination path**: Formalize G₂-cross product → metric connection in Mathlib. -/
+**Elimination path**: Add PhysLean as dep for `G2_cross_norm`, or formalize Hitchin. -/
 axiom g2_subset_SO7 {A : Matrix (Fin 7) (Fin 7) ℝ} (hA : isG2Matrix A) :
     A.transpose * A = 1
 
