@@ -5,6 +5,32 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.3] - 2026-03-28
+
+### Summary
+
+**G₂ MATHLIB STEPS 1–3 PROVEN.** Three new theorems in `G2ThreeForm.lean` eliminate the last documented sorry-equivalents in the G₂ 3-form module: closure under matrix composition, Bryant's metric identity, and full row rank of the linearization map (rank = 35 ↔ dim(g₂) = 14).
+
+### Added / Changed
+
+- **`GIFT/Algebraic/G2ThreeForm.lean`** (v1.3.0) — Three new proven theorems:
+  - `g2_mul_closed`: G₂ closed under matrix composition. Proof via explicit Finset sum reindexing (9 `sum_comm` swaps + algebraic factorization). Was documented axiom.
+  - `phi0_metric`: Bryant's identity `∑_ab φ₀(i,a,b) · φ₀(j,a,b) = 6·δᵢⱼ`. Proof: bridge through `phi0Z : Fin 7³ → ℤ`, certified by `native_decide` on closed ℤ proposition.
+  - `L_phi0_fullrank`: rank(L_φ₀ : gl(7) → ∧³(ℝ⁷)*) = 35. Proof: 35×35 rational right-inverse `L_sub_inv` (140 non-zero entries, denominators ≤ 6), certified by `native_decide` (12s build). By rank-nullity: dim(ker L) = 49 − 35 = 14 = dim(g₂).
+  - Module header updated: certified/deferred lists corrected (v1.0.0 → v1.3.0).
+  - `L_sub` rewritten as sparse match function (77 non-zero entries) to avoid `!![...]` elaboration blowup.
+
+### Remaining deferred in G2ThreeForm
+
+- `g2_subset_SO7` — needs 7D cross-product Lagrange identity (PhysLean or Hitchin stable forms)
+- `g2_det_one` — needs Lie group connectivity argument
+
+### Build
+
+- 2642 jobs, 0 errors, 0 incomplete proofs, 8 axioms (unchanged)
+
+---
+
 ## [3.4.2] - 2026-03-27
 
 ### Summary

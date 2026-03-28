@@ -22,12 +22,13 @@ What is CERTIFIED in this file (0 incomplete proofs):
   - phi0_total = C(7,3) = 35 (native_decide)
   - g2_equations_count = 35 (native_decide)
   - g2_dim_from_rank: 49 − 35 = dim_G2 (rfl)
+  - g2_mul_closed: G₂ closed under matrix composition (Finset sum reindexing)
+  - phi0_metric: Bryant's identity ∑ φ₀(i,a,b)φ₀(j,a,b) = 6δᵢⱼ (native_decide via ℤ)
+  - L_phi0_fullrank: rank(L_φ₀) = 35 → dim(g₂) = 14 (rational right-inverse, native_decide)
 
 What is DEFERRED (documented axioms with proof sketch):
-  - g2_mul_closed: algebraic (needs Finset sum reindexing)
-  - g2_subset_SO7: needs metric-from-crossproduct formalization
-  - g2_det_one: needs Lie group connectivity
-  - phi0_antisymm: needs careful split_ifs + omega
+  - g2_subset_SO7: needs 7D cross-product Lagrange identity (PhysLean/Hitchin)
+  - g2_det_one: needs Lie group connectivity argument
 
 This is the foundation for a Mathlib upstream contribution.
 
@@ -35,7 +36,7 @@ References:
 - Bryant, R.L. (1987). Metrics with exceptional holonomy. Ann. Math. 126:525-576.
 - Joyce, D.D. (2000). Compact Manifolds with Special Holonomy. OUP.
 
-Version: 1.0.0 (2026-03-27)
+Version: 1.3.0 (2026-03-28)
 -/
 
 import Mathlib.Data.Fin.Basic
