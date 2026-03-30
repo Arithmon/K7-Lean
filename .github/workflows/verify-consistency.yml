@@ -1,0 +1,71 @@
+name: Consistency Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  consistency:
+    runs-on: ubuntu-latest
+    name: Version & Axiom Consistency
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check version consistency
+        run: |
+          VERSION=$(python3 -c "exec(open('contrib/python/gift_core/_version.py').read()); print(__version__)")
+          echo "Python version: $VERSION"
+
+          ERRORS=0
+
+          # Check README
+          if ! grep -q "GIFT Core v${VERSION}" README.md; then
+            echo "::error::README.md version mismatch (expected v${VERSION})"
+            ERRORS=$((ERRORS+1))
+          fi
+
+          # Check contrib docs
+          for f in contrib/docs/index.md; do
+            if ! grep -q "v${VERSION}" "$f" 2>/dev/null; then
+              echo "::error::${f} version mismatch (expected v${VERSION})"
+              ERRORS=$((ERRORS+1))
+            fi
+          done
+
+          if [ $ERRORS -gt 0 ]; then
+            echo "::error::Found $ERRORS version mismatches. Run: ./scripts/release.sh $VERSION"
+            exit 1
+          fi
+          echo "✓ All versions consistent: v${VERSION}"
+
+      - name: Check axiom count
+        run: |
+          ACTUAL=$(grep -rc "^axiom " GIFT/ --include="*.lean" | awk -F: '{s+=$2}END{print s}')
+          README_COUNT=$(grep -oP '\d+ axioms' README.md | grep -oP '\d+')
+          echo "Actual axioms: $ACTUAL, README claims: $README_COUNT"
+          if [ "$ACTUAL" != "$README_COUNT" ]; then
+            echo "::warning::Axiom count mismatch: actual=$ACTUAL, README=$README_COUNT"
+          fi
+
+      - name: Check for dead blueprint references
+        run: |
+          ERRORS=0
+          # Known removed namespaces
+          for ns in GIFT.Moonshine GIFT.MollifiedSum GIFT.YangMillsBridge; do
+            if grep -q "\\\\lean{${ns}" blueprint/src/content.tex 2>/dev/null; then
+              echo "::error::Dead Lean reference in blueprint: ${ns}"
+              ERRORS=$((ERRORS+1))
+            fi
+          done
+          if [ $ERRORS -gt 0 ]; then exit 1; fi
+          echo "✓ No dead namespace references in blueprint"
+
+      - name: Check no sorry in Lean files
+        run: |
+          if grep -rn "sorry" GIFT/ GIFTTest/ --include="*.lean" | grep -v "^.*:.*--.*sorry" | grep -v "REMOVED\|eliminated\|no.*sorry\|zero.*sorry\|all goals closed"; then
+            echo "::error::Found 'sorry' in Lean files"
+            exit 1
+          fi
+          echo "✓ Zero sorry"
