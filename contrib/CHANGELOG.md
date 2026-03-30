@@ -5,6 +5,42 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.4] - 2026-03-30
+
+### Summary
+
+**G₂ MATHLIB STEP 4 + RANK CERTIFIED + CLEANUP.** The 7-form contraction B=144δ is certified via native_decide, proving g₂⊆so(7) and det=1 from a single axiom (g2_det_mul_gram). G₂ rank = 2 is now a THEOREM backed by explicit Cartan generators (integer matrices, all properties certified). Blueprint cleaned of obsolete Moonshine/MollifiedSum chapters and corrected universal law claims.
+
+### Added
+
+- **`GIFT/Algebraic/G2Bform.lean`** (v1.0.0) — Step 4: seven-form contraction
+  - `BformZ_eq`: B(i,j) = 144·δᵢⱼ certified by `native_decide` (7⁶ ℤ products)
+  - `g2_subset_SO7`: AᵀA = I (theorem from g2_det_mul_gram)
+  - `g2_det_one`: det(A) = 1 (theorem from g2_det_mul_gram)
+  - Single axiom `g2_det_mul_gram` replaces previous 2 axioms (Category B, Bryant 1987)
+
+- **`GIFT/Algebraic/G2Rank.lean`** (new) — G₂ rank = 2 via Cartan subalgebra
+  - Two explicit integer matrices H₁, H₂ ∈ g₂ ∩ so(7) with entries ∈ {0, ±1}
+  - All 6 properties certified by `native_decide`: antisymmetric, in g₂, commute, independent, centralizer dim = 2
+
+### Changed
+
+- **Blueprint** (`blueprint/src/content.tex`):
+  - Removed Moonshine chapter (dead `GIFT.Moonshine.*` Lean refs)
+  - Removed MollifiedSum chapter (dead `GIFT.MollifiedSum.*` Lean refs)
+  - Corrected "universal spectral law" claims: λ₁·H*=12.3364 (not 14), initial conjecture disproved v4.0.11
+- **README.md**: axiom count 7→8, removed MollifiedSum from tree, version bump
+- **UniversalLaw.lean**: corrected misleading `universality_principle` docstring
+- **contrib/CLAUDE.md**: universality_conjecture marked REMOVED
+- **contrib/docs/**: version bumps to 3.4.4 across index.md, GIFT_STATUS.md, USAGE.md
+- **contrib/python/**: version bumps to 3.4.4, fixed "λ₁ = 14/99" → "algebraic ratio"
+
+### Build
+
+- 2376+ jobs, 0 errors, 0 incomplete proofs, 8 axioms (9 declarations, g2_mul_closed proven)
+
+---
+
 ## [3.4.3] - 2026-03-28
 
 ### Summary

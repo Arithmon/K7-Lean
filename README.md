@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **7 published axioms**, all theorems proven in **Lean 4** (2642 build jobs).
+Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **8 axioms**, all theorems proven in **Lean 4** (2642 build jobs).
 
 ## Structure
 
@@ -35,7 +35,6 @@ GIFT/                           # Lean 4 formalization (root library)
 ├── Relations/                  # Physical predictions (22 files)
 ├── Observables/                # PMNS, CKM, quark masses, cosmology
 ├── Hierarchy/                  # Dimensional gap, absolute masses
-└── MollifiedSum/               # Mollified Dirichlet polynomial
 
 GIFTTest/                       # Lean test files
 
@@ -78,4 +77,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.4.3*
+*GIFT Core v3.4.4*

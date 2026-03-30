@@ -776,65 +776,6 @@ The 9 Heegner numbers are the only $d$ such that $\Q(\sqrt{-d})$ has class numbe
 \end{theorem}
 
 % =============================================================================
-\chapter{Monstrous Moonshine}\label{chap:moonshine}
-% =============================================================================
-
-Monstrous moonshine connects the Monster group to modular functions via its dimension and the $j$-invariant.
-
-\section{Monster Dimension}
-
-\begin{definition}[Monster Dimension]\label{def:monster_dim}
-    \lean{GIFT.Moonshine.MonsterDimension.monster_dim}
-    \leanok
-    \uses{def:b3}
-    The smallest faithful representation: $196883$
-\end{definition}
-
-\begin{theorem}[Monster Factorization]\label{thm:monster_factor}
-    \lean{GIFT.Moonshine.MonsterDimension.monster_factorization}
-    \leanok
-    \uses{def:monster_dim}
-    $196883 = 47 \times 59 \times 71$
-\end{theorem}
-
-\begin{theorem}[Monster GIFT Expression]\label{thm:monster_gift}
-    \lean{GIFT.Moonshine.MonsterDimension.monster_dim_gift}
-    \leanok
-    \uses{def:monster_dim, def:b3, def:lucas}
-    $196883 = L_8 \times (\bthree - L_6) \times (\bthree - 6)$
-\end{theorem}
-
-\begin{theorem}[Arithmetic Progression]\label{thm:monster_ap}
-    \lean{GIFT.Moonshine.MonsterDimension.monster_arithmetic_progression}
-    \leanok
-    \uses{def:monster_dim, def:dim_G2}
-    $47, 59, 71$ form an AP with common difference $12 = \opdim(\Gtwo) - p_2$
-\end{theorem}
-
-\section{j-Invariant}
-
-\begin{definition}[j Constant Term]\label{def:j_constant}
-    \lean{GIFT.Moonshine.JInvariant.j_constant}
-    \leanok
-    \uses{def:monster_dim}
-    $j(\tau) = q^{-1} + 744 + 196884q + \ldots$
-\end{definition}
-
-\begin{theorem}[j = 3 x E8]\label{thm:j_E8}
-    \lean{GIFT.Moonshine.JInvariant.j_constant_gift}
-    \leanok
-    \uses{def:j_constant}
-    $744 = N_{\mathrm{gen}} \times \opdim(\Eeight) = 3 \times 248$
-\end{theorem}
-
-\begin{theorem}[j = E8 + E8xE8]\label{thm:j_triality}
-    \lean{GIFT.Moonshine.JInvariant.j_constant_E8}
-    \leanok
-    \uses{def:j_constant}
-    $744 = \opdim(\Eeight) + \opdim(\Eeight \times \Eeight) = 248 + 496$
-\end{theorem}
-
-% =============================================================================
 \chapter{McKay Correspondence}\label{chap:mckay}
 % =============================================================================
 
@@ -1381,7 +1322,7 @@ holonomy metric on a compact TCS 7-manifold. Published as DOI:10.5281/zenodo.188
 
 Twisted Connected Sum (TCS) manifolds provide a concrete construction for $\Gtwo$-holonomy
 manifolds. This chapter formalizes the spectral theory connecting neck geometry to
-the mass gap $\lambda_1 = 14/99$.
+the algebraic mass gap ratio $\opdim(\Gtwo)/\Hstar = 14/99$.
 
 \section{TCS Manifold Structure}
 
@@ -1679,9 +1620,9 @@ side to the mollified sum $S_w(T)$.
 
 \begin{theorem}[Geometric Side Matches Mollified Sum]\label{thm:geometric_matches}
     \lean{GIFT.Spectral.SelbergBridge.geometric_side_matches_mollified}
-    \uses{thm:trace_formula, thm:geodesic_prime, def:S_mollified}
+    \uses{thm:trace_formula, thm:geodesic_prime}
     Under the geodesic-prime correspondence, the geometric side of the trace
-    formula is proportional to $S_w(T)$ from the MollifiedSum module.
+    formula is proportional to the mollified Dirichlet polynomial $S_w(T)$.
     \emph{Status:} Conjectural (Category~E).
 \end{theorem}
 
@@ -1704,7 +1645,7 @@ side to the mollified sum $S_w(T)$.
 \begin{theorem}[Spectral Gap in Kernel Support]\label{thm:gap_in_support}
     \lean{GIFT.Spectral.SelbergBridge.spectral_gap_in_kernel_support}
     \leanok
-    \uses{def:cosineKernel, def:physical_gap_ratio}
+    \uses{def:physical_gap_ratio}
     $w(0) = 1$ and $0 < 13/99 < 1$: the spectral gap falls within the
     compact support of the cosine-squared kernel.
 \end{theorem}
@@ -1721,7 +1662,7 @@ side to the mollified sum $S_w(T)$.
     \lean{GIFT.Spectral.SelbergBridge.selberg_bridge_certificate}
     \leanok
     \uses{thm:kmax_N_gen, thm:spectral_alpha, thm:gap_in_support, thm:pell_bridge}
-    Master certificate combining MollifiedSum properties, Spectral properties,
+    Master certificate combining mollified sum properties, Spectral properties,
     and cross-module identities.
 \end{theorem}
 
@@ -1733,174 +1674,6 @@ side to the mollified sum $S_w(T)$.
         \item \textbf{Trace Formula}: spectral side = geometric side $\propto S_w(T)$
     \end{itemize}
 \end{remark}
-
-% =============================================================================
-\chapter{Mollified Dirichlet Polynomial}\label{chap:mollified_sum}
-% =============================================================================
-
-The mollified Dirichlet polynomial $S_w(T)$ provides a computable approximation
-to $S(T) = \pi^{-1}\arg\zeta(\frac{1}{2} + iT)$ using a finite sum over primes.
-This chapter formalizes the constructive core (Layer~B): the mollifier kernel,
-the finite sum, and the adaptive cutoff. All results in this section are
-\emph{fully proven} in Lean~4 with zero axioms.
-
-\section{Cosine-Squared Mollifier Kernel}
-
-\begin{definition}[Cosine Kernel]\label{def:cosineKernel}
-    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel}
-    \leanok
-    The cosine-squared mollifier kernel:
-    \[
-        w(x) = \begin{cases}
-            \cos^2\!\left(\frac{\pi x}{2}\right) & \text{if } x < 1 \\
-            0 & \text{if } x \geq 1
-        \end{cases}
-    \]
-\end{definition}
-
-\begin{theorem}[Kernel Non-negativity]\label{thm:kernel_nonneg}
-    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel_nonneg}
-    \leanok
-    \uses{def:cosineKernel}
-    $w(x) \geq 0$ for all $x \in \R$.
-\end{theorem}
-
-\begin{theorem}[Kernel Bounded]\label{thm:kernel_bounded}
-    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel_le_one}
-    \leanok
-    \uses{def:cosineKernel}
-    $w(x) \leq 1$ for all $x \in \R$.
-\end{theorem}
-
-\begin{theorem}[Kernel at Zero]\label{thm:kernel_zero}
-    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel_at_zero}
-    \leanok
-    \uses{def:cosineKernel}
-    $w(0) = 1$.
-\end{theorem}
-
-\begin{theorem}[Compact Support]\label{thm:kernel_support}
-    \lean{GIFT.MollifiedSum.Mollifier.cosineKernel_support}
-    \leanok
-    \uses{def:cosineKernel}
-    $w(x) = 0$ for all $x \geq 1$.
-\end{theorem}
-
-\section{Mollified Dirichlet Polynomial}
-
-\begin{definition}[Prime Power Term]\label{def:primePowerTerm}
-    \lean{GIFT.MollifiedSum.Sum.primePowerTerm}
-    \leanok
-    \uses{def:cosineKernel}
-    For prime $p$ and power $m$:
-    \[
-        a_{p,m}(T; \theta) = w\!\left(\frac{m\log p}{\theta\log T}\right)
-        \cdot \frac{\sin(T \cdot m\log p)}{m \cdot p^{m/2}}
-    \]
-\end{definition}
-
-\begin{definition}[Mollified Sum]\label{def:S_mollified}
-    \lean{GIFT.MollifiedSum.Sum.S_mollified}
-    \leanok
-    \uses{def:primePowerTerm}
-    \[
-        S_w(T; \theta) = -\frac{1}{\pi} \sum_{\substack{p \leq N \\ p\text{ prime}}}
-        \sum_{m=1}^{K} a_{p,m}(T; \theta)
-    \]
-\end{definition}
-
-\begin{theorem}[Well-Definedness]\label{thm:S_welldefined}
-    \lean{GIFT.MollifiedSum.Sum.S_mollified_welldefined}
-    \leanok
-    \uses{def:S_mollified}
-    $S_w(T; \theta)$ is a finite sum and therefore always a well-defined real number.
-    Unlike the formal Dirichlet series $-\zeta'/\zeta(s)$ which diverges on
-    $\mathrm{Re}(s) = \frac{1}{2}$, no convergence issues arise.
-\end{theorem}
-
-\begin{remark}[Prime Power Hierarchy]
-    \uses{def:S_mollified}
-    The $R^2$ contribution by prime power order $m$ is:
-    \begin{center}
-    \begin{tabular}{|c|c|c|}
-    \hline
-    $m$ & $\Delta R^2$ & Fraction \\
-    \hline
-    1 (primes) & 0.872 & 92.8\% \\
-    2 (squares) & 0.057 & 6.1\% \\
-    3 (cubes) & 0.011 & 1.1\% \\
-    \hline
-    \end{tabular}
-    \end{center}
-    This justifies the standard choice $K = 3$.
-\end{remark}
-
-\section{Adaptive Cutoff}
-
-\begin{definition}[Adaptive Theta]\label{def:adaptiveTheta}
-    \lean{GIFT.MollifiedSum.Adaptive.adaptiveTheta}
-    \leanok
-    The adaptive cutoff exponent:
-    \[
-        \theta(T) = \theta_0 + \frac{\theta_1}{\log T}
-        = 1.4091 + \frac{-3.9537}{\log T}
-    \]
-    determined by the normalization constraint $\alpha = 1$ uniformly
-    across height windows.
-\end{definition}
-
-\begin{definition}[Adaptive Sum]\label{def:S_adaptive}
-    \lean{GIFT.MollifiedSum.Adaptive.S_adaptive}
-    \leanok
-    \uses{def:S_mollified, def:adaptiveTheta}
-    $S_w(T) = S_w(T; \theta(T))$ using the adaptive cutoff.
-\end{definition}
-
-\begin{remark}[Three Cutoff Parameterizations]
-    \uses{def:adaptiveTheta}
-    Three related cutoff models appear across the paper:
-    \begin{center}
-    \begin{tabular}{|l|c|c|}
-    \hline
-    \textbf{Model} & \textbf{Value} & \textbf{Context} \\
-    \hline
-    Constant $\theta^*$ (mpmath) & 0.9941 & \S3.5 (100K zeros) \\
-    Constant $\theta^*$ (Odlyzko) & 0.9640 & \S9 (2M zeros) \\
-    Adaptive $(\theta_0, \theta_1)$ & $(1.409, -3.954)$ & \S4 (recommended) \\
-    \hline
-    \end{tabular}
-    \end{center}
-\end{remark}
-
-\section{Main Results (Numerical Certificates)}
-
-\begin{theorem}[Counting Accuracy]\label{thm:counting_100}
-    \uses{def:S_mollified}
-    Over the first 100{,}000 zeros:
-    $\max_n |N_{\text{approx}}(T_n) - n| = 0.111 < 0.5$ (safety factor $4.52\times$).
-\end{theorem}
-
-\begin{theorem}[Localization Rate]\label{thm:localization_98}
-    \uses{def:S_mollified}
-    98.0\% of zeros are localized to their correct inter-Gram interval.
-    The 2.0\% failure rate is predicted (within 8\%) by a simplified GUE model.
-\end{theorem}
-
-\begin{theorem}[Variance Explained]\label{thm:R2_939}
-    \uses{def:S_adaptive}
-    The adaptive formula explains 93.9\% of the variance in zero corrections
-    $\delta_n$ ($R^2 = 0.939$, out-of-sample $R^2 = 0.919$).
-\end{theorem}
-
-\begin{theorem}[Master Certificate]\label{thm:mollified_sum_cert}
-    \lean{GIFT.MollifiedSum.mollified_sum_certified}
-    \leanok
-    \uses{thm:kernel_nonneg, thm:kernel_bounded, thm:kernel_zero, thm:kernel_support,
-          thm:S_welldefined, def:S_adaptive,
-          thm:counting_100, thm:localization_98, thm:R2_939}
-    Complete verification of the constructive core:
-    kernel properties + sum well-definedness + standard $K = 3$.
-\end{theorem}
 
 % =============================================================================
 \chapter{GIFT-Zeta Correspondences}\label{chap:zeta}
@@ -2089,7 +1862,7 @@ suggest a connection to the Laplacian on $\Kseven$.
     \[
         \frac{\opdim(\Gtwo)}{\Hstar} = \frac{14}{99}
     \]
-    This ratio appears in both the GIFT mass gap ($\lambda_1 = 14/99$) and the
+    This ratio appears in both the GIFT spectral gap candidate ($\opdim(\Gtwo)/\Hstar = 14/99$) and the
     first zeta zero ($\gamma_1 \approx 14$).
 \end{theorem}
 
@@ -3285,8 +3058,8 @@ Mean deviation: $0.24\%$.
 \chapter{Mass Gap Ratio and Universal Law}\label{chap:mass_gap}
 % =============================================================================
 
-The bare spectral gap $\lambda_1 = \opdim(\Gtwo) / \Hstar = 14/99$
-and the universal spectral law $\lambda_1 \times \Hstar = \opdim(\Gtwo)$.
+The algebraic ratio $\opdim(\Gtwo) / \Hstar = 14/99$ defines the spectral gap candidate.
+The product $\lambda_1 \cdot \Hstar = 12.3364$ (not 14 as initially conjectured).
 
 \section{Spectral Theory Foundations}
 
@@ -3368,7 +3141,7 @@ and the universal spectral law $\lambda_1 \times \Hstar = \opdim(\Gtwo)$.
     \lean{GIFT.Spectral.UniversalLaw.product_formula}
     \leanok
     \uses{def:mgr}
-    $\lambda_1 \times \Hstar = \opdim(\Gtwo) = 14$: the universal spectral identity.
+    $\lambda_1 \times \Hstar = 12.3364$: the spectral product (initial conjecture $\lambda_1 \cdot \Hstar = 14$ was disproved, v4.0.11).
 \end{theorem}
 
 \begin{theorem}[Ratio Irreducible]\label{thm:ratio_irreducible}
@@ -3438,7 +3211,8 @@ with $\kappa = \pi^2/14$, Cheeger inequality, and connection to Clay Millennium 
     \lean{GIFT.Spectral.SelectionPrinciple.spectral_gap_from_selection}
     \leanok
     \uses{def:L_canonical, def:kappa}
-    $\lambda_1 = \pi^2 / (L^*)^2 = \opdim(\Gtwo) / \Hstar = 14/99$.
+    $\lambda_1 = \pi^2 / (L^*)^2$; the algebraic ratio $\opdim(\Gtwo) / \Hstar = 14/99$
+    gives the spectral gap candidate (the exact product $\lambda_1 \cdot \Hstar = 12.3364 \neq 14$).
 \end{theorem}
 
 \begin{theorem}[Spectral--Holonomy Principle]\label{thm:spectral_holonomy}
@@ -3631,7 +3405,6 @@ Selection Principle \& Yang--Mills & 30 & \checkmark (v3.3.14) \\
           thm:n_s_indices, thm:Omega_DE_fraction,
           thm:fib_master, thm:b3_lucas,
           thm:direct_all_prime, thm:heegner_all,
-          thm:monster_gift, thm:monster_ap, thm:j_E8, thm:j_triality,
           thm:E8_kissing, thm:coxeter_gift, thm:euler_p2,
           thm:sin2_theta_W_14, thm:42_universality, thm:8_11_universality,
           thm:mass_formulas, thm:hierarchy_very_small, thm:E8_E6_branching,
@@ -3648,13 +3421,14 @@ Selection Principle \& Yang--Mills & 30 & \checkmark (v3.3.14) \\
     \lean{GIFT.Certificate.Spectral.certified}
     \leanok
     \uses{thm:tcs_certificate, thm:physical_gap_cert,
-          thm:selberg_bridge_cert, thm:mollified_sum_cert,
+          thm:selberg_bridge_cert,
           thm:zeta_cert, thm:unified_ratio,
           thm:density_factor, thm:163_mod7, thm:248_mod7,
           thm:mgr_cert, thm:universal_law_cert,
           thm:selection_cert, thm:cheeger_cert,
           thm:ym_cert, thm:connes_cert}
-    Spectral gap programme: mass gap ratio 14/99, universal spectral law,
+    Spectral gap programme: algebraic mass gap ratio $\opdim(\Gtwo)/\Hstar = 14/99$,
+    spectral product $\lambda_1 \cdot \Hstar = 12.3364$ (conjecture $\lambda_1 \cdot \Hstar = 14$ disproved, v4.0.11),
     TCS spectral bounds, selection principle, Cheeger inequality,
     Yang--Mills connection, Connes bridge, Selberg bridge, Pell equation.
 \end{theorem}

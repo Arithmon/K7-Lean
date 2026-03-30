@@ -1732,7 +1732,7 @@ This module is FULLY CONSTRUCTIVE: zero axioms, all goals closed.
 - ✓ `L_canonical_rough_bounds` - PROVEN (was axiom)
 - ✓ `selection_principle_holds` - converted to theorem (placeholder)
 - `L₀_ge_one` - L₀ ≥ 1 for physical TCS manifolds
-- `universality_conjecture` - Generalization to all TCS (Category E)
+- ~~`universality_conjecture`~~ - REMOVED v4.0.11 (disproved, CV=71.8%)
 
 **Refined Spectral Bounds:**
 - `rayleigh_upper_bound_refined` - Upper bound axiom
@@ -1801,7 +1801,7 @@ All 38 published axioms across the codebase are tagged with one of 6 categories:
 | B | ~8 | Standard results (cite paper) | `cheeger_inequality`, `spectral_theorem_discrete` |
 | C | ~15 | Geometric structure (K₇) | `K7_exists`, `spectral_upper_bound` |
 | D | ~3 | Literature axioms (cite paper) | `cgn_no_small_eigenvalues` |
-| E | ~1 | GIFT claims | `universality_conjecture` |
+| E | 0 | GIFT claims | ~~`universality_conjecture`~~ (REMOVED v4.0.11) |
 | F | ~6 | Numerically verified | `pi_gt_three`, `gift_alpha_closer_to_one` |
 
 Pattern in docstrings:

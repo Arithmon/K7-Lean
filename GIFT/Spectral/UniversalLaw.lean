@@ -163,15 +163,9 @@ theorem physical_mass_gap_exact :
 -- UNIVERSALITY
 -- ============================================================================
 
-/-- The universal law predicts that ALL torsion-free G2 manifolds
-    with the same H* have the same mass gap ratio.
-
-    This is because:
-    - dim(G2) = 14 is universal (depends only on the group)
-    - H* depends only on topology (not metric details)
-
-    Different K7's may have different H*, but the formula
-    lambda_1 = dim(G2) / H* always holds.
+/-- The algebraic identity dim(G2) = 14 and H* = 99 yield the ratio 14/99.
+    Note: the universal conjecture λ₁·H* = dim(G₂) was disproved in v4.0.11;
+    the ratio 14/99 is a derived algebraic quantity, not a spectral eigenvalue formula.
 -/
 theorem universality_principle :
     ∀ (h_star : ℕ), h_star > 0 →
