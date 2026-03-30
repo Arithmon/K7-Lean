@@ -119,7 +119,6 @@ GIFT.Spectral.TCSBounds.spectral_gap_scales_as_inverse_L_squared
 GIFT.Spectral.TCSBounds.typical_tcs_bounds_algebraic
 GIFT.Spectral.LiteratureAxioms.CrossSection
 GIFT.Spectral.LiteratureAxioms.K3_S1
-GIFT.Spectral.LiteratureAxioms.langlais_spectral_density
 GIFT.Spectral.LiteratureAxioms.K3_S1_density_coeff_2
 GIFT.Spectral.LiteratureAxioms.cgn_no_small_eigenvalues
 GIFT.Spectral.LiteratureAxioms.gift_prediction_structure

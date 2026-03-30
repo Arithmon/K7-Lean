@@ -49,18 +49,8 @@ jobs:
             echo "::warning::Axiom count mismatch: actual=$ACTUAL, README=$README_COUNT"
           fi
 
-      - name: Check for dead blueprint references
-        run: |
-          ERRORS=0
-          # Known removed namespaces
-          for ns in GIFT.Moonshine GIFT.MollifiedSum GIFT.YangMillsBridge; do
-            if grep -q "\\\\lean{${ns}" blueprint/src/content.tex 2>/dev/null; then
-              echo "::error::Dead Lean reference in blueprint: ${ns}"
-              ERRORS=$((ERRORS+1))
-            fi
-          done
-          if [ $ERRORS -gt 0 ]; then exit 1; fi
-          echo "✓ No dead namespace references in blueprint"
+      - name: Check blueprint sync
+        run: ./scripts/check_blueprint_sync.sh
 
       - name: Check no sorry in Lean files
         run: |

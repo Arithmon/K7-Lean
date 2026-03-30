@@ -1156,7 +1156,7 @@ holonomy metric on a compact TCS 7-manifold. Published as DOI:10.5281/zenodo.188
 
 Twisted Connected Sum (TCS) manifolds provide a concrete construction for $\Gtwo$-holonomy
 manifolds. This chapter formalizes the spectral theory connecting neck geometry to
-the algebraic mass gap ratio $\opdim(\Gtwo)/\Hstar = 14/99$.
+the bare algebraic ratio $\opdim(\Gtwo)/\Hstar = 14/99$ (topological invariant).
 
 \section{TCS Manifold Structure}
 
@@ -1259,7 +1259,6 @@ the algebraic mass gap ratio $\opdim(\Gtwo)/\Hstar = 14/99$.
 \end{definition}
 
 \begin{theorem}[Langlais Spectral Density]\label{thm:langlais}
-    \lean{GIFT.Spectral.LiteratureAxioms.langlais_spectral_density}
     \uses{def:TCSManifold, def:CrossSection}
     For TCS family $(M_T, g_T)$ with cross-section $X$:
     \[
@@ -1291,7 +1290,7 @@ the algebraic mass gap ratio $\opdim(\Gtwo)/\Hstar = 14/99$.
     \lean{GIFT.Spectral.LiteratureAxioms.gift_prediction_structure}
     \leanok
     \uses{thm:tcs_spectral_bounds, def:dim_G2, def:H_star}
-    The GIFT prediction $\lambda_1 = 14/99 = \dim(\Gtwo)/\Hstar$ is consistent
+    The bare ratio $14/99 = \dim(\Gtwo)/\Hstar$ is consistent
     with TCS bounds: $1/100 < 14/99 < 1/4$.
 \end{theorem}
 
@@ -2526,8 +2525,10 @@ Mean deviation: $0.24\%$.
 \chapter{Mass Gap Ratio and Universal Law}\label{chap:mass_gap}
 % =============================================================================
 
-The algebraic ratio $\opdim(\Gtwo) / \Hstar = 14/99$ defines the spectral gap candidate.
-The product $\lambda_1 \cdot \Hstar = 12.3364$ (not 14 as initially conjectured).
+The algebraic ratio $\opdim(\Gtwo) / \Hstar = 14/99$ is a topological invariant
+(holonomy dimension divided by cohomological complexity).
+The analytical mass gap is $\lambda_1 = 6\pi^2/475 \approx 0.12467$,
+giving $\lambda_1 \cdot \Hstar \approx 12.34$ (not $14$ or $13$).
 
 \section{Spectral Theory Foundations}
 
@@ -2559,7 +2560,7 @@ The product $\lambda_1 \cdot \Hstar = 12.3364$ (not 14 as initially conjectured)
     $\Delta_{\mathrm{gap}} > 0$ for compact manifolds.
 \end{theorem}
 
-\section{Bare Mass Gap Ratio: 14/99}
+\section{Bare Algebraic Ratio: 14/99}
 
 \begin{definition}[Mass Gap Numerator]\label{def:mgr_num}
     \lean{GIFT.Spectral.MassGapRatio.mass_gap_ratio_num}
@@ -2578,7 +2579,9 @@ The product $\lambda_1 \cdot \Hstar = 12.3364$ (not 14 as initially conjectured)
     \lean{GIFT.Spectral.MassGapRatio.mass_gap_ratio}
     \leanok
     \uses{def:mgr_num, def:mgr_den}
-    $\lambda_1 := \opdim(\Gtwo) / \Hstar = 14/99$.
+    Bare algebraic ratio: $\opdim(\Gtwo) / \Hstar = 14/99$.
+    This is a topological invariant, not the spectral eigenvalue
+    (the analytical mass gap is $\lambda_1 = 6\pi^2/475 \approx 0.12467$).
 \end{definition}
 
 \begin{theorem}[Mass Gap Irreducible]\label{thm:mgr_irred}
@@ -2609,7 +2612,8 @@ The product $\lambda_1 \cdot \Hstar = 12.3364$ (not 14 as initially conjectured)
     \lean{GIFT.Spectral.UniversalLaw.product_formula}
     \leanok
     \uses{def:mgr}
-    $\lambda_1 \times \Hstar = 12.3364$: the spectral product (initial conjecture $\lambda_1 \cdot \Hstar = 14$ was disproved, v4.0.11).
+    $14 = \opdim(\Gtwo)$ and $99 = \Hstar$: the bare ratio components are topological.
+    The analytical spectral product $\lambda_1 \cdot \Hstar \approx 12.34$ (from $\lambda_1 = 6\pi^2/475$).
 \end{theorem}
 
 \begin{theorem}[Ratio Irreducible]\label{thm:ratio_irreducible}
@@ -2622,7 +2626,9 @@ The product $\lambda_1 \cdot \Hstar = 12.3364$ (not 14 as initially conjectured)
 \begin{theorem}[Physical Mass Gap]\label{thm:physical_mass_gap}
     \lean{GIFT.Spectral.UniversalLaw.physical_mass_gap_MeV}
     \leanok
-    $\Delta_{\mathrm{phys}} = (14/99) \times 200\; \mathrm{MeV} \approx 28.3\; \mathrm{MeV}$.
+    Using the bare ratio: $\Delta = (14/99) \times \Lambda_{\mathrm{QCD}}$
+    with $\Lambda_{\mathrm{QCD}} = 200\;\mathrm{MeV}$ gives $\approx 28.3\;\mathrm{MeV}$.
+    The analytical mass gap $\lambda_1 = 6\pi^2/475$ gives $\approx 24.9\;\mathrm{MeV}$.
 \end{theorem}
 
 \begin{theorem}[Universal Law Certificate]\label{thm:universal_law_cert}
@@ -2638,7 +2644,7 @@ The product $\lambda_1 \cdot \Hstar = 12.3364$ (not 14 as initially conjectured)
 % =============================================================================
 
 Selection of the canonical neck length $L^* = \sqrt{\kappa \Hstar}$
-with $\kappa = \pi^2/14$, Cheeger inequality, and connection to Clay Millennium Prize.
+with $\kappa = \pi^2/14$, Cheeger inequality, and Kaluza--Klein spectral bridge.
 
 \section{Selection Constant}
 
@@ -2679,8 +2685,9 @@ with $\kappa = \pi^2/14$, Cheeger inequality, and connection to Clay Millennium 
     \lean{GIFT.Spectral.SelectionPrinciple.spectral_gap_from_selection}
     \leanok
     \uses{def:L_canonical, def:kappa}
-    $\lambda_1 = \pi^2 / (L^*)^2$; the algebraic ratio $\opdim(\Gtwo) / \Hstar = 14/99$
-    gives the spectral gap candidate (the exact product $\lambda_1 \cdot \Hstar = 12.3364 \neq 14$).
+    $\lambda_1 = \pi^2 / (L^*)^2$; conditional on the selection principle,
+    this equals $\opdim(\Gtwo) / \Hstar = 14/99$ (bare topological ratio).
+    The analytical formula gives $\lambda_1 = 6\pi^2/475 \approx 0.12467$.
 \end{theorem}
 
 \begin{theorem}[Spectral--Holonomy Principle]\label{thm:spectral_holonomy}
@@ -2711,14 +2718,15 @@ with $\kappa = \pi^2/14$, Cheeger inequality, and connection to Clay Millennium 
     \lean{GIFT.Spectral.CheegerInequality.K7_cheeger_lower_bound}
     \leanok
     \uses{def:cheeger, def:mgr}
-    $h(\Kseven) \geq 14/99$.
+    Cheeger bound: if the bare ratio $14/99$ is used as lower bound,
+    then $\lambda_1 \geq h^2/4 = (14/99)^2/4 = 49/9801$.
 \end{theorem}
 
 \begin{theorem}[Mass Gap Exceeds Cheeger]\label{thm:gap_exceeds_cheeger}
     \lean{GIFT.Spectral.CheegerInequality.mass_gap_exceeds_cheeger}
     \leanok
     \uses{thm:K7_cheeger}
-    $\lambda_1 \geq h(\Kseven)^2/4 = (14/99)^2/4 = 49/9801$.
+    The bare ratio satisfies $14/99 > (14/99)^2/4 = 49/9801$ (Cheeger-consistent).
 \end{theorem}
 
 \begin{theorem}[Cheeger Certificate]\label{thm:cheeger_cert}
@@ -2728,13 +2736,14 @@ with $\kappa = \pi^2/14$, Cheeger inequality, and connection to Clay Millennium 
     Cheeger--Buser bounds satisfied.
 \end{theorem}
 
-\section{Yang--Mills Mass Gap}
+\section{KK Spectral Bridge and Yang--Mills}
 
 \begin{theorem}[GIFT Yang--Mills Prediction]\label{thm:ym_prediction}
     \lean{GIFT.Spectral.YangMills.GIFT_prediction}
     \leanok
     \uses{def:mgr}
-    GIFT predicts a mass gap $\Delta = (14/99) \times \Lambda_{\mathrm{QCD}}$.
+    Via the KK spectral bridge (Axiom KK\_EFT), the bare algebraic ratio gives
+    $\Delta_{\mathrm{KK}} = (14/99) \times \Lambda_{\mathrm{QCD}}$.
 \end{theorem}
 
 \begin{theorem}[Mass Gap in MeV]\label{thm:ym_MeV}
@@ -2748,22 +2757,22 @@ with $\kappa = \pi^2/14$, Cheeger inequality, and connection to Clay Millennium 
     \lean{GIFT.Spectral.YangMills.GIFT_provides_candidate}
     \leanok
     \uses{thm:ym_prediction}
-    GIFT provides a candidate solution for the Clay Millennium Prize
-    Yang--Mills existence and mass gap problem.
+    The KK spectral bridge provides a candidate connection to the Clay Millennium Prize
+    Yang--Mills mass gap problem, via $\lambda_1 > 0$ on $\Kseven$ (one axiom: KK\_EFT).
 \end{theorem}
 
 \begin{theorem}[Topological Origin]\label{thm:topological_origin}
     \lean{GIFT.Spectral.YangMills.topological_origin}
     \leanok
     \uses{thm:ym_prediction}
-    The mass gap has purely topological origin: $\opdim(\Gtwo) / \Hstar$.
+    The algebraic ratio $\opdim(\Gtwo) / \Hstar$ has purely topological origin.
 \end{theorem}
 
 \begin{theorem}[Yang--Mills Certificate]\label{thm:ym_cert}
     \lean{GIFT.Spectral.YangMills.yang_mills_certificate}
     \leanok
     \uses{thm:ym_prediction, thm:ym_MeV, thm:clay, thm:topological_origin}
-    Complete Yang--Mills connection certificate.
+    Complete KK spectral bridge certificate.
 \end{theorem}
 
 % =============================================================================
@@ -2846,9 +2855,11 @@ Selection Principle \& Yang--Mills & 30 & \checkmark \\
           thm:mgr_cert, thm:universal_law_cert,
           thm:selection_cert, thm:cheeger_cert,
           thm:ym_cert}
-    Spectral gap programme: algebraic mass gap ratio $\opdim(\Gtwo)/\Hstar = 14/99$,
+    Spectral gap programme: bare algebraic ratio $\opdim(\Gtwo)/\Hstar = 14/99$,
+    physical ratio $({\opdim(\Gtwo) - h})/\Hstar = 13/99$,
+    analytical mass gap $\lambda_1 = 6\pi^2/475$,
     TCS spectral bounds, selection principle, Cheeger inequality,
-    Yang--Mills connection.
+    KK spectral bridge.
 \end{theorem}
 
 \begin{theorem}[GIFT Grand Certificate]\label{thm:grand_certificate}
@@ -2858,7 +2869,7 @@ Selection Principle \& Yang--Mills & 30 & \checkmark \\
     Complete GIFT framework: 460+ certified relations spanning
     E$_8$ lattice, $\Gtwo$ holonomy, $\Gtwo$ differential geometry (axiom-free),
     dimensional hierarchy, 50+ physical observables, spectral theory,
-    mass gap ratio $14/99$, selection principle, Yang--Mills connection,
+    bare ratio $14/99$, physical ratio $13/99$, selection principle, KK spectral bridge,
     Cheeger inequality, $\Gtwo$ metric properties,
     TCS piecewise metric, conformal rigidity, and Poincar\'e duality.
 
