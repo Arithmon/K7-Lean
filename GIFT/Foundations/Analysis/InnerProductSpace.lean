@@ -79,16 +79,13 @@ noncomputable def stdBasis {n : ℕ} (i : Fin n) : EuclideanSpace ℝ (Fin n) :=
 theorem stdBasis_orthonormal {n : ℕ} (i j : Fin n) :
     innerRn (stdBasis i) (stdBasis j) = if i = j then 1 else 0 := by
   unfold innerRn stdBasis
-  rw [EuclideanSpace.inner_single_left, EuclideanSpace.single_apply]
-  split_ifs with h
-  · simp only [starRingEnd_apply, star_one, mul_one]
-  · simp only [mul_zero]
+  simp [PiLp.single_apply, inner, mul_comm, @eq_comm _ i j]
 
 /-- Basis vectors have norm 1 -/
 theorem stdBasis_norm {n : ℕ} (i : Fin n) :
     ‖stdBasis (n := n) i‖ = 1 := by
   unfold stdBasis
-  rw [EuclideanSpace.norm_single, norm_one]
+  rw [PiLp.norm_single, norm_one]
 
 /-!
 ## Integer and Half-Integer Predicates (for E8)
@@ -226,9 +223,8 @@ theorem inner_eq_sum {n : ℕ} (v w : EuclideanSpace ℝ (Fin n)) :
     innerRn v w = ∑ i, (v i) * (w i) := by
   unfold innerRn
   rw [PiLp.inner_apply]
-  simp only [RCLike.inner_apply, conj_trivial]
   congr 1
   funext i
-  ring
+  simp [inner, mul_comm]
 
 end GIFT.Foundations.Analysis.InnerProductSpace

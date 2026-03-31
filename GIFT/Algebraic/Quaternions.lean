@@ -34,7 +34,7 @@ theorem K4_card_vertices : Fintype.card (Fin 4) = 4 := by decide
 
 /-- K₄ adjacency is decidable -/
 instance K4_DecidableRel : DecidableRel K4.Adj := fun v w =>
-  if h : v = w then isFalse (K4.loopless v ∘ (h ▸ ·))
+  if h : v = w then isFalse (K4.loopless.irrefl v ∘ (h ▸ ·))
   else isTrue h
 
 /-- K₄ has 6 edges = C(4,2) -/

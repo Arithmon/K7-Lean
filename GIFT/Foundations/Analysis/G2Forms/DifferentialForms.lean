@@ -75,7 +75,7 @@ This provides a trivial but valid instance of DiffFormAlgebra.
 
 /-- Constant forms on ℝⁿ: forms with constant coefficients.
     For constant forms, d = 0 (no spatial variation to differentiate). -/
-def ConstantForms (n : ℕ) : DiffFormAlgebra where
+noncomputable def ConstantForms (n : ℕ) : DiffFormAlgebra where
   Form := Exterior n
   zero := 0
   add := (· + ·)

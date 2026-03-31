@@ -49,7 +49,7 @@ theorem K4_is_complete : ∀ v w : Fin 4, v ≠ w → K4.Adj v w := by
 
 /-- K₄ adjacency is decidable -/
 instance K4_DecidableRel : DecidableRel K4.Adj := fun v w =>
-  if h : v = w then isFalse (K4.loopless v ∘ (h ▸ ·))
+  if h : v = w then isFalse (K4.loopless.irrefl v ∘ (h ▸ ·))
   else isTrue h
 
 /-- K₄ edge count: C(4,2) = 6 -/
@@ -76,7 +76,7 @@ theorem K7_vertex_count : Fintype.card (Fin 7) = 7 := by decide
 
 /-- K₇ adjacency is decidable -/
 instance K7_DecidableRel : DecidableRel K7.Adj := fun v w =>
-  if h : v = w then isFalse (K7.loopless v ∘ (h ▸ ·))
+  if h : v = w then isFalse (K7.loopless.irrefl v ∘ (h ▸ ·))
   else isTrue h
 
 /-- K₇ edge count: C(7,2) = 21 = b₂ -/

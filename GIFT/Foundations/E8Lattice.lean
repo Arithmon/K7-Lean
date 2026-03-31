@@ -58,8 +58,7 @@ noncomputable def stdBasis (i : Fin 8) : R8 := EuclideanSpace.single i 1
 /-- Standard basis is orthonormal: ⟨eᵢ, eⱼ⟩ = δᵢⱼ -/
 theorem stdBasis_orthonormal (i j : Fin 8) :
     @inner ℝ R8 _ (stdBasis i) (stdBasis j) = if i = j then (1 : ℝ) else 0 := by
-  simp only [stdBasis, EuclideanSpace.inner_single_left, EuclideanSpace.single_apply]
-  split_ifs <;> simp
+  simp [stdBasis, inner, Inner.inner]
 
 /-!
 ## stdBasis_norm
@@ -69,7 +68,7 @@ theorem stdBasis_orthonormal (i j : Fin 8) :
 
 /-- Each basis vector has norm 1 -/
 theorem stdBasis_norm (i : Fin 8) : ‖stdBasis i‖ = 1 := by
-  simp only [stdBasis, EuclideanSpace.norm_single, norm_one]
+  simp only [stdBasis, PiLp.norm_single, norm_one]
 
 /-!
 ## normSq_eq_sum
@@ -100,10 +99,8 @@ RESOLVED: Now a theorem via Mathlib API.
 /-- Inner product equals sum of component products (PROVEN via Mathlib) -/
 theorem inner_eq_sum (v w : R8) : @inner ℝ R8 _ v w = ∑ i, v i * w i := by
   rw [PiLp.inner_apply]
-  simp only [RCLike.inner_apply, conj_trivial]
-  congr 1
-  funext i
-  ring
+  congr 1; funext i
+  exact mul_comm (w i) (v i)
 
 /-!
 ## E8 Lattice Definition
