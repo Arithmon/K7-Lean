@@ -5,6 +5,21 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.6] - 2026-03-31
+
+### Summary
+
+**Lean 4.29.0 + Mathlib v4.29.0 upgrade.** Toolchain bumped from v4.27.0. Adapts to Mathlib breaking changes: `SimpleGraph.loopless` → `Std.Irrefl`, `inner` takes explicit `𝕜`, `EuclideanSpace.*` → `PiLp.*` deprecations, `noncomputable` for `RCLike.toInnerProductSpaceReal`. Build: 8378 jobs, 0 errors, 0 sorry, 7 axioms.
+
+### Changed
+
+- **lean-toolchain**: v4.27.0 → v4.29.0
+- **lakefile.lean**: Mathlib + doc-gen4 pinned to v4.29.0, `require mathlib` moved last (dep resolution)
+- **Quaternions.lean**, **GraphTheory.lean**: `.loopless v` → `.loopless.irrefl v` (Std.Irrefl change)
+- **InnerProductSpace.lean**, **E8Lattice.lean**: `EuclideanSpace.*` → `PiLp.*`, `simp [inner, mul_comm]`
+- **G2CrossProduct.lean**: `inner` instance path fix via direct `inner` unfold
+- **DifferentialForms.lean**: `ConstantForms` marked `noncomputable`
+
 ## [3.4.5] - 2026-03-31
 
 ### Summary
