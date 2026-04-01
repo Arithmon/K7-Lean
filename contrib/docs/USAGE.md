@@ -32,9 +32,9 @@ u = (1, 0, 0, 0, 0, 0, 0)
 v = (0, 1, 0, 0, 0, 0, 0)
 print(cross_product(u, v))  # 7D cross product
 
-# K7 topology (v3.3 corrected!)
+# K7 topology
 from gift_core.topology import K7
-print(K7.euler_characteristic)  # 0 (NOT 42!)
+print(K7.euler_characteristic)  # 0
 print(K7.two_b2)                # 42 (structural invariant)
 
 # Verify all relations
@@ -42,9 +42,71 @@ from gift_core import verify
 print(verify())          # True
 ```
 
-## New in v3.3.29
+---
 
-### Computed Spectral Physics (L5)
+## Lean 4 Module Reference
+
+### Core Constants
+
+```lean
+import GIFT.Core
+open GIFT.Core
+
+#check b2        -- 21
+#check b3        -- 77
+#check H_star    -- 99
+#check dim_E8    -- 248
+#check dim_G2    -- 14
+#check dim_K7    -- 7
+```
+
+### Certificate Structure
+
+The certificate is organized into domain-specific sub-modules:
+
+```
+GIFT/Certificate/
+├── Core.lean         # Master: Foundations ∧ Predictions ∧ Spectral
+├── Foundations.lean  # E₈, G₂, octonions, K₇, Joyce, conformal rigidity
+├── Predictions.lean  # 33+ published relations, V5.0 observables, hierarchy
+└── Spectral.lean     # Mass gap 14/99, TCS bounds, selection principle
+```
+
+```lean
+-- Import the master certificate
+import GIFT.Certificate.Core
+
+-- Access sub-certificates
+#check GIFT.Certificate.gift_master_certificate
+-- : Foundations.statement ∧ Predictions.statement ∧ Spectral.statement
+
+-- Or import individual pillars
+import GIFT.Certificate.Predictions
+#check GIFT.Certificate.Predictions.observables_certified
+```
+
+**Adding new relations:** Add imports and abbrevs to the appropriate sub-module (`Foundations.lean`, `Predictions.lean`, or `Spectral.lean`), then add conjuncts to its `def statement : Prop`.
+
+**Backward compatibility:** `import GIFT.Certificate` still works and provides legacy aliases.
+
+### Spectral Theory
+
+```lean
+import GIFT.Spectral
+
+-- Mass gap ratio (proven, no axioms!)
+#check GIFT.Spectral.MassGapRatio.mass_gap_ratio_value       -- 14/99
+#check GIFT.Spectral.MassGapRatio.mass_gap_ratio_irreducible -- gcd(14,99) = 1
+
+-- Physical spectral gap (zero axioms)
+#check physical_gap_from_topology   -- 13/99 = (dim(G₂) - h) / H*
+#check pell_equation                -- 99² - 50 × 14² = 1
+
+-- TCS Bounds
+#check tcs_spectral_bounds          -- c₁/L² ≤ λ₁ ≤ c₂/L²
+```
+
+### Computed Spectral Physics
 
 Formalization of headline numerical results from the Spectral Physics paper:
 
@@ -69,13 +131,40 @@ import GIFT.Spectral.ComputedSpectrum
 #check GIFT.Spectral.ComputedSpectrum.alpha_s_deviation_small -- alpha_s < 0.3% (squared)
 ```
 
-Certificate/Spectral: 23 → 26 conjuncts. Zero new axioms. File count: 122 → 123.
+### Geometry (axiom-free)
 
----
+```lean
+import GIFT.Geometry
 
-## New in v3.3.28
+-- ψ = ⋆φ is a THEOREM, not an axiom!
+#check HodgeStarR7.psi_eq_star_phi
+#check HodgeStarCompute.hodgeStar_invol_3  -- ⋆⋆ = +1 PROVEN
+#check HodgeStarR7.standardG2Geom_torsionFree
+```
 
-### Torsion Reduction Chain (L4)
+### Explicit G₂ Metric
+
+Lean modules formalizing the published analytical metric:
+
+```lean
+import GIFT.Foundations.ExplicitG2Metric
+import GIFT.Foundations.NewtonKantorovich
+import GIFT.Foundations.K3HarmonicCorrection
+
+-- 169-parameter Chebyshev-Cholesky metric
+#check GIFT.Foundations.ExplicitG2Metric.n_params_total        -- 169
+#check GIFT.Foundations.ExplicitG2Metric.n_params_eq_alpha_sum_sq  -- 169 = 13²
+
+-- Newton-Kantorovich unconditional certification
+#check GIFT.Foundations.NewtonKantorovich.nk_contraction_certified  -- h < 1/2
+#check GIFT.Foundations.NewtonKantorovich.nk_safety_margin          -- margin > 7.5M
+
+-- K3 harmonic correction: ×2995 torsion reduction
+#check GIFT.Foundations.K3HarmonicCorrection.torsion_space_total   -- 1+7+14+27 = 49
+#check GIFT.Foundations.K3HarmonicCorrection.K3_torsion_small      -- K3 < 0.1%
+```
+
+### Torsion Reduction Chain
 
 Full formalization of the torsion chain connecting the explicit metric to G₂ holonomy:
 
@@ -98,53 +187,9 @@ import GIFT.Foundations.K3HarmonicCorrection
 #check GIFT.Foundations.K3HarmonicCorrection.reduction_steps_35  -- T₂/T₅ > 1000 (quadratic)
 ```
 
-Certificate/Foundations: 26 → 28 conjuncts. NK master: 7 → 11. K3 master: 10 → 16. Zero new axioms.
-
----
-
-## New in v3.3.26
-
-### Axiom Audit and Cleanup
-
-Systematic audit of all axioms against S1-S17 computed results. Published core reduced from 68 to **48 axioms**:
-
-- **Removed** `K7_spectral_bound` (FALSE: claimed MassGap ≥ 14/99, computed λ₁ = 0.1244)
-- **Removed** `langlais_spectral_density` + `eigenvalue_count` (superseded by S1-S5)
-- **Removed**: AdaptiveGIFT, SelbergBridge, ConnesBridge (Riemann/Connes research line, CLOSED)
-
----
-
-## New in v3.3.25
-
-### Explicit G₂ Metric Formalization
-
-Three new Lean modules formalizing the published analytical metric:
-
-```lean
-import GIFT.Foundations.ExplicitG2Metric
-import GIFT.Foundations.NewtonKantorovich
-import GIFT.Foundations.K3HarmonicCorrection
-
--- 169-parameter Chebyshev-Cholesky metric
-#check GIFT.Foundations.ExplicitG2Metric.n_params_total        -- 169
-#check GIFT.Foundations.ExplicitG2Metric.n_params_eq_alpha_sum_sq  -- 169 = 13²
-
--- Newton-Kantorovich unconditional certification
-#check GIFT.Foundations.NewtonKantorovich.nk_contraction_certified  -- h < 1/2
-#check GIFT.Foundations.NewtonKantorovich.nk_safety_margin          -- margin > 7.5M
-
--- K3 harmonic correction: ×2995 torsion reduction
-#check GIFT.Foundations.K3HarmonicCorrection.torsion_space_total   -- 1+7+14+27 = 49
-#check GIFT.Foundations.K3HarmonicCorrection.K3_torsion_small      -- K3 < 0.1%
-```
-
----
-
-## New in v3.3.24
-
 ### Ambrose-Singer Holonomy Diagnostics
 
-New `AmbroseSinger.lean` formalizing the gap between torsion-free G₂ structures and G₂ holonomy:
+Formalizes the gap between torsion-free G₂ structures and G₂ holonomy:
 
 ```lean
 import GIFT.Foundations.AmbroseSinger
@@ -154,7 +199,7 @@ import GIFT.Foundations.AmbroseSinger
 #check dim_g2_complement_eq_dim_K7  -- dim(g₂⊥) = 7 = dim(K₇)
 #check b2_holonomy_manifold_sum     -- b₂ = dim(g₂) + dim(K₇)
 
--- Holonomy rank gap (Phase 3 PINN: hol_rank=21, target=14)
+-- Holonomy rank gap
 #check holonomy_rank_gap            -- 21 - 14 = 7
 #check as_constraints_per_point     -- 147 = 7 × 21
 
@@ -164,100 +209,18 @@ import GIFT.Foundations.AmbroseSinger
 
 **Key insight**: Torsion-free (nabla phi = 0) is NECESSARY but NOT SUFFICIENT for G₂ holonomy. The curvature must additionally lie in g₂ subset so(7) (Ambrose-Singer theorem).
 
-### Axiom Classification (48 published)
+### Axiom Classification (38 published)
 
 All axioms carry category labels:
 
 | Category | Count | Description |
 |----------|-------|-------------|
 | A | ~5 | Definitions |
-| B | ~15 | Standard results (Cheeger, Weil) |
+| B | ~8 | Standard results (Cheeger, Weil) |
 | C | ~15 | Geometric structure |
-| D | ~5 | Literature axioms (CGN 2024) |
-| E | ~5 | GIFT claims |
-| F | ~3 | Numerically verified |
-
----
-
-## New in v3.3.23
-
-### Certificate Modularization
-
-The monolithic `Certificate.lean` (2281 lines) has been restructured into domain-organized sub-certificates:
-
-```
-GIFT/Certificate/
-├── Core.lean         # Master: Foundations ∧ Predictions ∧ Spectral
-├── Foundations.lean  # E₈, G₂, octonions, K₇, Joyce, conformal rigidity
-├── Predictions.lean  # 33+ published relations, V5.0 observables, hierarchy
-└── Spectral.lean     # Mass gap 14/99, TCS bounds, selection principle
-```
-
-**Lean 4 usage:**
-
-```lean
--- Import the master certificate
-import GIFT.Certificate.Core
-
--- Access sub-certificates
-#check GIFT.Certificate.gift_master_certificate
--- : Foundations.statement ∧ Predictions.statement ∧ Spectral.statement
-
--- Or import individual pillars
-import GIFT.Certificate.Predictions
-#check GIFT.Certificate.Predictions.observables_certified
-```
-
-**Adding new relations:** Add imports and abbrevs to the appropriate sub-module (`Foundations.lean`, `Predictions.lean`, or `Spectral.lean`), then add conjuncts to its `def statement : Prop`.
-
-**Backward compatibility:** `import GIFT.Certificate` still works and provides legacy aliases.
-
----
-
-## Lean 4 Module Reference
-
-### Core Constants
-
-```lean
-import GIFT.Core
-open GIFT.Core
-
-#check b2        -- 21
-#check b3        -- 77
-#check H_star    -- 99
-#check dim_E8    -- 248
-#check dim_G2    -- 14
-#check dim_K7    -- 7
-```
-
-### Spectral Theory (v3.3.8+)
-
-```lean
-import GIFT.Spectral
-
--- Mass gap ratio (proven, no axioms!)
-#check GIFT.Spectral.MassGapRatio.mass_gap_ratio_value       -- 14/99
-#check GIFT.Spectral.MassGapRatio.mass_gap_ratio_irreducible -- gcd(14,99) = 1
-
--- Physical spectral gap (v3.3.17, zero axioms)
-#check physical_gap_from_topology   -- 13/99 = (dim(G₂) - h) / H*
-#check pell_equation                -- 99² - 50 × 14² = 1
-
--- TCS Bounds (v3.3.12)
-#check tcs_spectral_bounds          -- c₁/L² ≤ λ₁ ≤ c₂/L²
-
-```
-
-### Geometry (v3.3.4+, axiom-free)
-
-```lean
-import GIFT.Geometry
-
--- ψ = ⋆φ is a THEOREM, not an axiom!
-#check HodgeStarR7.psi_eq_star_phi
-#check HodgeStarCompute.hodgeStar_invol_3  -- ⋆⋆ = +1 PROVEN
-#check HodgeStarR7.standardG2Geom_torsionFree
-```
+| D | ~3 | Literature axioms (CGN 2024) |
+| E | 0 | GIFT claims |
+| F | ~6 | Numerically verified |
 
 ---
 
