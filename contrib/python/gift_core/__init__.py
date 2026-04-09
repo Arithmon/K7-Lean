@@ -4,7 +4,7 @@ GIFT Core - Formally Verified Mathematical Constants.
 All values proven in Lean 4.
 460+ certified relations, 11 published axioms, modular certificate structure.
 
-v3.4.6 Features:
+v3.4.7 Features:
 - Certificate Modularization: Foundations / Predictions / Spectral pillars
 - Spectral Theory: algebraic ratio dim(G₂)/H* = 14/99, TCS bounds, Yang-Mills connection
 - Computed Spectrum: Q₂₂ signature (3,19), SD/ASD gap >2000×

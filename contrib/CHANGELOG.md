@@ -5,6 +5,41 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.7] - 2026-04-09
+
+### Summary
+
+**G₂ Rank centralizer fully certified in Lean.** Property 5 of `rank(G₂) = 2` — the
+joint centralizer of {H₁, H₂} in g₂ has dimension exactly 2 — is now proven via a
+47×47 right-inverse certificate, replacing the previous Python-only verification.
+All 7 properties of the rank theorem are now certified by `native_decide`. No external
+certificates remain. Axiom count unchanged: **7**.
+
+### Changed
+
+- **`GIFT/Algebraic/G2Rank.lean`** (v2.0.0) — centralizer now fully certified in Lean:
+  - New `centralizer_sub`: 47×47 pivot submatrix of the combined constraint system
+    (g₂ infinitesimal condition + `[·,H₁] = 0` + `[·,H₂] = 0`), 115 non-zero ℤ entries
+  - New `centralizer_sub_inv`: rational right-inverse, 199 non-zero entries,
+    denominators in {1, 2, 3, 4, 6}
+  - `centralizer_sub_invertible`: `native_decide` verifies `sub · inv = I₄₇` over ℚ
+  - `centralizer_rank_47`: ∃ B, sub · B = I — hence rank ≥ 47, nullity ≤ 2
+  - Combined with H₁, H₂ linearly independent in the kernel: centralizer dim = 2
+  - Previous `g2Basis` approach (14 explicit 7×7 matrices + monolithic `∀ n : Fin 14`)
+    was reverted after OOM'ing the CI runner; this approach avoids the issue entirely
+  - Proof contributed by Aristotle
+
+- **giftpy scaffold** (from v3.4.6 work preceding this release):
+  - `G2Manifold` base class + TCS scan example (28 manifolds)
+  - `from_approximate_metric()` constructor
+  - Complete pipeline: geometry → spectral → observables → validation → NK certification
+
+### Build
+
+- 8378 jobs, 0 errors, 0 sorry, **7 axioms** (unchanged)
+- Formal Verification CI: 1m29s (vs 23m timeout on the rejected monolithic approach)
+- Lean toolchain: v4.29.0 (unchanged)
+
 ## [3.4.6] - 2026-03-31
 
 ### Summary
