@@ -5,6 +5,34 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.8] - 2026-04-11
+
+### Summary
+
+**Cross-repo consistency pass + local CI runner.** No Lean changes since v3.4.7. Adds
+`scripts/local_ci.sh` to mirror GitHub Actions runs locally before push, and fixes stale
+axiom counts in homepage and blueprint that lagged the v3.4.4 axiom reduction (8 → 7).
+
+### Added
+
+- **`scripts/local_ci.sh`** — pre-push CI runner mirroring `.github/workflows/`. Runs both
+  `docs_linter.py` and `fix_em_dashes.py --check` recursively under `docs/`, supports
+  `--fix` mode to auto-correct em-dashes before linting.
+
+### Fixed
+
+- `contrib/homepage/index.md`: stale `8 axioms` → `7 axioms` (executive summary + tree),
+  blueprint label `v3.4.4` → `v3.4.8`. *(Touching `homepage/` triggers GitHub Pages rebuild,
+  which had been frozen at v3.4.3.)*
+- `blueprint/src/content.tex`: stale `8 axioms` → `7 axioms` in §Key Results
+- `contrib/docs/GIFT_STATUS.md`: toolchain `v4.27.0` → `v4.29.0`, axiom count `11` → `7`,
+  updated date
+
+### Build
+
+- 8378 jobs, 0 errors, 0 sorry, **7 axioms** (unchanged)
+- Lean toolchain: v4.29.0 (unchanged)
+
 ## [3.4.7] - 2026-04-09
 
 ### Summary

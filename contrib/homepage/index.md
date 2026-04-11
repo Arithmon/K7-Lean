@@ -4,11 +4,11 @@ usemathjax: true
 
 # GIFT: Geometric Information Field Theory
 
-GIFT derives Standard Model parameters from E₈ × E₈ gauge theory compactified on G₂-holonomy manifolds, achieving **0.24% mean deviation** across 50+ physical observables with **460+ machine-verified relations** (8 axioms) and **zero free parameters**.
+GIFT derives Standard Model parameters from E₈ × E₈ gauge theory compactified on G₂-holonomy manifolds, achieving **0.24% mean deviation** across 50+ physical observables with **460+ machine-verified relations** (7 axioms) and **zero free parameters**.
 
 ## Quick Links
 
-* [**GIFT Blueprint v3.4.4**]({{ site.baseurl }}/gift_blueprint.html) - Dependency graph visualization
+* [**GIFT Blueprint v3.4.8**]({{ site.baseurl }}/gift_blueprint.html) - Dependency graph visualization
 * [Blueprint (web)]({{ site.baseurl }}/blueprint/) - Lean blueprint with proofs
 * [Blueprint (pdf)]({{ site.baseurl }}/blueprint.pdf) - Downloadable PDF
 * [Dependency Graph]({{ site.baseurl }}/blueprint/dep_graph_document.html) - Proof dependencies
@@ -26,7 +26,7 @@ GIFT derives Standard Model parameters from E₈ × E₈ gauge theory compactifi
 
 ```
 gift-framework/core/
-├── GIFT/           # Lean 4 formal proofs (130 files, 460+ relations, 8 axioms)
+├── GIFT/           # Lean 4 formal proofs (130 files, 460+ relations, 7 axioms)
 ├── GIFTTest/       # Lean test files
 ├── contrib/        # Python package, blueprint, homepage
 └── lakefile.lean   # Lake build configuration
