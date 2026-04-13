@@ -242,10 +242,30 @@ structure K7SpectralData where
 
 /-- K7 spectral data exists.
 
-**Axiom Category: C (Geometric structure)** — Kovalev (2003), Joyce (2000).
+Formerly axiom (v3.4.8). The formal statement requires only that a valid
+spectral sequence exists (positive mass gap, non-decreasing, unbounded).
+The actual K7 eigenvalues are not numerically extracted anywhere in the
+formalization — the physical mass gap ratio 14/99 is proven algebraically
+in MassGapRatio.lean, independent of this construction.
 
-**Replaces:** `axiom K7_exists : K7_Manifold` (which becomes a noncomputable def). -/
-axiom K7_spectral_data : K7SpectralData
+Constructive witness: eigseq n = n (ℕ → ℝ), mass_gap = 1.
+This satisfies all structural properties of a compact manifold spectrum.
+
+**Citation:** Kovalev (2003), Joyce (2000). -/
+noncomputable def K7_spectral_data : K7SpectralData :=
+  { volume_aux := ⟨1, one_pos⟩
+    mass_gap_aux := ⟨1, one_pos⟩
+    eigseq := fun n => (n : ℝ)
+    eigseq_zero := Nat.cast_zero
+    eigseq_nondecreasing := fun n => by
+      exact_mod_cast Nat.le_succ n
+    eigseq_nonneg := fun n => Nat.cast_nonneg n
+    eigseq_unbounded := fun C => by
+      obtain ⟨N, hN⟩ := exists_nat_gt C
+      exact ⟨N, fun n hn => lt_of_lt_of_le hN (Nat.cast_le.mpr hn)⟩
+    mass_gap_is_min := fun n hn => by
+      change (1 : ℝ) ≤ (n : ℝ)
+      exact_mod_cast (Nat.cast_pos.mp hn) }
 
 -- ============================================================================
 -- EIGENVALUE PREDICATE (v3.3.47: axiom → def via spectral sequence)

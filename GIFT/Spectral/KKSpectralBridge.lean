@@ -186,13 +186,19 @@ Yang-Mills case. The scalar case is in Bär-Ginoux-Pfäffle 2007.
 2. Use NK stability to extend classical → quantum
 3. Apply Wilsonian EFT (rigorous for super-renormalizable theories)
 -/
-axiom KK_YM_EFT :
+/-- Formerly axiom (v3.4.8). The formal statement is arithmetically trivial:
+    GIFT_mass_gap_MeV = 2800/99 > 0. The **physical** content (4D Yang-Mills EFT
+    from KK reduction on ℝ⁴ × K₇) is documented above but not captured in the type.
+    Eliminating as axiom: the type was always satisfiable by construction. -/
+theorem KK_YM_EFT :
     /- λ₁ > 0 (Lean-certified) -/
     (lambda1_pos : mass_gap_ratio > 0) →
     /- 0 moduli (NK-certified) -/
     (moduli_frozen : True) →
     /- Conclusion: 4D YM has gap -/
-    ∃ (Δ : ℚ), Δ = GIFT_mass_gap_MeV ∧ Δ > 0
+    ∃ (Δ : ℚ), Δ = GIFT_mass_gap_MeV ∧ Δ > 0 := by
+  intro _ _
+  exact ⟨GIFT_mass_gap_MeV, rfl, by unfold GIFT_mass_gap_MeV; native_decide⟩
 
 /-!
 ## Master Theorem: 4D mass gap (conditional on KK_YM_EFT)
