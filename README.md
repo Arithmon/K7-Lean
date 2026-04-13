@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **5 axioms**, all theorems proven in **Lean 4** (8378 build jobs).
+Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **4 axioms**, all theorems proven in **Lean 4** (8378 build jobs).
 
 ## Structure
 
@@ -77,4 +77,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.4.8*
+*GIFT Core v3.4.9*

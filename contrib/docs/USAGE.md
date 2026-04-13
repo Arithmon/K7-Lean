@@ -1,6 +1,6 @@
 # giftpy Usage Guide
 
-Complete documentation for the `giftpy` Python package (v3.4.8).
+Complete documentation for the `giftpy` Python package (v3.4.9).
 
 ## Installation
 

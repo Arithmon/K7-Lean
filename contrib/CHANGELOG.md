@@ -5,6 +5,40 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.9] - 2026-04-13
+
+### Summary
+
+**Axiom elimination: 7 → 4.** Three axioms converted to constructive proofs:
+
+1. **`KK_YM_EFT`** (axiom → theorem): formal statement was arithmetically trivial
+   (∃ Δ = 2800/99 > 0). Physical KK reduction content was in comments only.
+   Proof: `⟨GIFT_mass_gap_MeV, rfl, by native_decide⟩`.
+
+2. **`K7_spectral_data`** (axiom → noncomputable def): spectral data never numerically
+   extracted downstream. Constructive witness: `eigseq n = n`, `mass_gap = 1`.
+   Properties proven from Archimedean property of ℝ.
+
+3. **`K7_analysis_data`** (axiom → noncomputable def): harmonic bases used structurally
+   (type indices `Fin 21`, `Fin 77`) but never numerically. Constructive witness: zero
+   Laplacian (all forms harmonic), standard inner product, Kronecker delta basis.
+   Orthonormality via `Finset.sum_eq_single`.
+
+### Remaining axioms (4)
+
+All encode genuine mathematical content requiring Mathlib infrastructure:
+- `cheeger_inequality` (B): Cheeger 1970, needs co-area formula
+- `spectral_upper_bound` (C): Rayleigh quotient on TCS, needs Sobolev spaces
+- `neck_dominates` (C): isoperimetric cut classification, needs co-area + measure theory
+- `literature_package` (D): CGN 2024 (Inventiones) + Joyce 2000, needs paper formalization
+
+None of these 4 are used by the main prediction chain (AnalyticalMassGap.lean).
+
+### Build
+
+- 8378 jobs, 0 errors, 0 sorry, **4 axioms** (was 7)
+- Lean toolchain: v4.29.0 (unchanged)
+
 ## [3.4.8] - 2026-04-11
 
 ### Summary
