@@ -5,6 +5,64 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.10] - 2026-04-14
+
+### Summary
+
+**Mathematical honesty pass: TCS building block identification corrected.**
+The previous formalization incorrectly identified the TCS building blocks as
+M₁ = Quintic in ℂP⁴ and M₂ = CI(2,2,2) in ℂP⁶. This was wrong on two counts:
+the Quintic is a CY3 (c₁ = 0), not semi-Fano (c₁ > 0), so it cannot serve as a
+TCS building block; and the pair (b₂, b₃) = (21, 77) does not appear in any known
+compact G₂ construction. The Betti arithmetic (11+10=21, 40+37=77) was a numerical
+coincidence, not a valid TCS derivation.
+
+Implemented and verified by Aristotle (project `4fa00cee`, 2026-04-14).
+
+### Changed
+
+**`GIFT/Foundations/TCSConstruction.lean`** — primary refactoring:
+- `def M1_quintic` → `def M1_candidate` (b₂=11, b₃=40) — marked as ARITHMETIC PLACEHOLDER
+- `def M2_CI` → `def M2_candidate` (b₂=10, b₃=37) — marked as ARITHMETIC PLACEHOLDER
+- `abbrev M1_quintic := M1_candidate` and `abbrev M2_CI := M2_candidate` — backward-compatible
+  aliases (definitionally transparent; all downstream `rfl` proofs unchanged)
+- File header: added historical correction note (Quintic is CY3 not semi-Fano),
+  NK-certified vs open problem distinction, parity exclusion
+- `K7_b2_eq_21` / `K7_b3_derived_eq_77` docstrings: now explicitly marked "ARITHMETIC FACT,
+  not a geometric derivation"
+- CGN ν̄ invariant conclusion: marked as conditional on building block identification
+
+**`GIFT/Foundations/TCSPiecewiseMetric.lean`** — docstring updates:
+- Header: added `NOTE (2026-04-14)` about building block identification being open
+- Building block asymmetry section: "M₁ (quintic in CP⁴) and M₂ (CI(2,2,2) in CP⁶)"
+  → "arithmetic placeholders; see TCSConstruction.lean"
+- `H_star_M1` and `H_star_M1_eq_dim_F4` docstrings: "quintic building block" → "arithmetic witness"
+
+**`GIFT/Spectral/G2Manifold.lean`** — docstring updates:
+- `K7_Manifold` docstring: replaced false "Quintic in CP4 / CI(2,2,2) in CP6" list with
+  NK-certified Betti numbers + open problem note
+
+**`GIFT/Foundations.lean`** — module summary:
+- TCSConstruction.lean entry updated to reflect corrected status (arithmetic witnesses,
+  open problem, parity exclusion)
+
+### Added
+
+- `theorem tcs_betti_arithmetic_existence`: `∃ (M1 M2 : ACyl_CY3), M1.b2 + M2.b2 = 21 ∧
+  M1.b3 + M2.b3 = 77` — the mathematically honest existential (arithmetic only, no geometry)
+- `theorem orthogonal_tcs_excluded`: `(K7_b2 + K7_b3) % 2 = 0` — parity exclusion,
+  implementing CHNP Lemma 6.7 (b₂+b₃ = 98 even → orthogonal TCS impossible)
+- `example` block making the "arithmetic only, not geometric" status explicit to Lean readers
+- `theorem TCS_betti_arithmetic` (replaces misleading `TCS_derives_both_betti`, kept as alias)
+
+### Build
+
+- 130 Lean files, 0 errors, 0 sorry, **4 axioms** (unchanged)
+- All 9 downstream files of TCSConstruction.lean compile without modification
+- Lean toolchain: v4.29.0 (unchanged)
+
+---
+
 ## [3.4.9] - 2026-04-13
 
 ### Summary
