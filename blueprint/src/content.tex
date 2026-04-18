@@ -1150,6 +1150,62 @@ holonomy metric on a compact TCS 7-manifold. Published as DOI:10.5281/zenodo.188
     Bundled certificate: 10 structural properties of the torsion reduction chain.
 \end{theorem}
 
+\section{K3 Newton-Kantorovich Certificate (CI(2,2,2))}\label{sec:k3_nk}
+
+Independent Newton--Kantorovich certificate for the K3 surface $\mathrm{CI}(2,2,2) \subset \mathbb{P}^5$
+(the K3 fiber of the TCS $\Gtwo$ construction), via the Donaldson algebraic section method
+at degree $k=4$ (126 sections, 31{,}752 parameters). Two independent $\beta$ sources both
+certify $h < 1/2$: a graph-Laplacian bound ($\beta_{\mathrm{Lap}} = 5.66$, $h = 7.83 \times 10^{-2}$,
+margin $\times 6.4$) and a Jacobian pseudoinverse bound ($\beta_{\mathrm{Jac}} = 2.25$ at $k=3$,
+$h = 0.188$, margin $\times 2.7$). The $k=2$ Jacobian variant fails ($h = 1.55 > 1/2$),
+confirming sensitivity to ansatz quality.
+
+\begin{definition}[K3 NK Certificate structure]\label{def:k3nk_cert}
+    \lean{GIFT.Foundations.K3NewtonKantorovich.K3NKCertificate}
+    \leanok
+    Structure recording a K3 NK certificate: Donaldson degree, parameter count,
+    honest $\eta_{L^2}$ (held-out test set), and two independent $h$-bounds with
+    contraction proofs.
+\end{definition}
+
+\begin{definition}[CI(2,2,2) certificate instance]\label{def:ci222_cert}
+    \lean{GIFT.Foundations.K3NewtonKantorovich.ci222_k3_nk_certificate}
+    \leanok
+    \uses{def:k3nk_cert}
+    Concrete certificate: $k=4$, $\eta_{L^2} = 1.596 \times 10^{-2}$,
+    $h_{\mathrm{Lap}} = 7.83 \times 10^{-2}$, $h_{\mathrm{Jac}} = 1.88 \times 10^{-1}$.
+\end{definition}
+
+\begin{theorem}[K3 Laplacian source passes]\label{thm:k3_lap}
+    \lean{GIFT.Foundations.K3NewtonKantorovich.ci222_k3_lap_passes}
+    \leanok
+    \uses{def:ci222_cert}
+    $h_{\mathrm{Lap}} < 1/2$: the graph-Laplacian $\beta$ source certifies NK contraction.
+\end{theorem}
+
+\begin{theorem}[K3 Jacobian source passes]\label{thm:k3_jac}
+    \lean{GIFT.Foundations.K3NewtonKantorovich.ci222_k3_jac_passes}
+    \leanok
+    \uses{def:ci222_cert}
+    $h_{\mathrm{Jac}} < 1/2$: the pseudoinverse $\beta$ source certifies NK contraction.
+\end{theorem}
+
+\begin{theorem}[K3 certificate is selective]\label{thm:k3_selective}
+    \lean{GIFT.Foundations.K3NewtonKantorovich.ci222_k3_jac_k2_fails}
+    \leanok
+    The $k=2$ Jacobian variant fails ($h = 1.55 > 1/2$), confirming the certificate
+    is sensitive to ansatz quality.
+\end{theorem}
+
+\begin{theorem}[K3 NK master certificate]\label{thm:k3_nk_master}
+    \lean{GIFT.Foundations.K3NewtonKantorovich.ci222_k3_nk_certificate_valid}
+    \leanok
+    \uses{def:ci222_cert, thm:k3_lap, thm:k3_jac, thm:k3_selective}
+    Six-conjunct master certificate: both $\beta$ sources pass, $k=2$ fails,
+    $\eta_{L^2} < 2/100$, parameter count $> 10{,}000$,
+    and $\delta_{K3}^{\mathrm{cert}} < \varepsilon_0 = 0.1$ (Joyce threshold).
+\end{theorem}
+
 % =============================================================================
 \chapter{TCS Spectral Bounds}\label{chap:tcs}
 % =============================================================================

@@ -5,6 +5,40 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.11] - 2026-04-18
+
+### Summary
+
+**K3 Newton-Kantorovich certificate formalized: CI(2,2,2) ⊂ ℙ⁵, Donaldson k=4.**
+
+First rigorous NK certification of a K3 surface via Donaldson algebraic sections
+(degree k=4, 126 sections, 31,752 parameters). Two independent β sources both
+certify the Newton–Kantorovich contraction condition h < 1/2:
+- β_Lap = 5.6595 (graph Laplacian, intrinsic geodesic weights): h_Lap ≈ 0.0783 (×6.4 margin)
+- β_Jac = 2.2502 (pseudoinverse norm of Monge–Ampère Jacobian at k=3): h_Jac ≈ 0.188 (×2.7 margin)
+
+Certificate selectivity demonstrated: the Jacobian variant FAILS at k=2 (h=1.553 > 1/2),
+confirming the criterion is sensitive to ansatz quality. η_L² = 1.596 × 10⁻² measured
+on a 1,000-point held-out test set (not the training pool, which overfit by ×3.4).
+
+### Added
+
+**`GIFT/Foundations/K3NewtonKantorovich.lean`** — new file:
+- `K3NKCertificate` structure: carries k, n_sections, n_params, η, h_Lap, h_Jac with
+  `contraction_Lap` and `contraction_Jac` proof fields (h < 1/2 via native_decide)
+- `ci222_k3_nk_certificate`: CI(2,2,2) instantiation with all v2.2 numerical values
+- β source constants: `beta_Lap_num/den`, `lambda1_disc_num/den`, `beta_Jac_k3/k2_num/den`
+- Theorems: `ci222_k3_lap_passes`, `ci222_k3_jac_passes`, `ci222_k3_jac_k2_fails`,
+  `ci222_k3_params_scale`, `ci222_k3_eta_bound`
+- Fréchet bound: `C_red_num/den` (0.881), `delta_K3_cert_num/den`, `delta_K3_cert_below_joyce`
+- Master certificate: `ci222_k3_nk_certificate_valid` (6-conjunct, all_goals native_decide)
+
+**`GIFT/Foundations.lean`** — added import of K3NewtonKantorovich.
+
+**`blueprint/lean_decls`** — 6 new entries for K3NewtonKantorovich declarations.
+
+**`blueprint/src/content.tex`** — new section §K3 NK Certificate with 6 theorem environments.
+
 ## [3.4.10] - 2026-04-14
 
 ### Summary

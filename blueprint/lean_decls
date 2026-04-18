@@ -109,6 +109,12 @@ GIFT.Foundations.K3HarmonicCorrection.K3_torsion_small
 GIFT.Foundations.K3HarmonicCorrection.phi_sq_eq_two_b2
 GIFT.Foundations.K3HarmonicCorrection.psi_sq_eq_PSL27
 GIFT.Foundations.K3HarmonicCorrection.k3_harmonic_correction_certificate
+GIFT.Foundations.K3NewtonKantorovich.K3NKCertificate
+GIFT.Foundations.K3NewtonKantorovich.ci222_k3_nk_certificate
+GIFT.Foundations.K3NewtonKantorovich.ci222_k3_lap_passes
+GIFT.Foundations.K3NewtonKantorovich.ci222_k3_jac_passes
+GIFT.Foundations.K3NewtonKantorovich.ci222_k3_jac_k2_fails
+GIFT.Foundations.K3NewtonKantorovich.ci222_k3_nk_certificate_valid
 GIFT.Spectral.NeckGeometry.TCSManifold
 GIFT.Spectral.NeckGeometry.TCSHypotheses
 GIFT.Spectral.TCSBounds.c₁

@@ -1,5 +1,5 @@
 """
-GIFT Constants Package (v3.4.10).
+GIFT Constants Package (v3.4.11).
 
 All certified constants organized by theme:
 - algebra: E8, G2, F4, E6, E7, Weyl group
