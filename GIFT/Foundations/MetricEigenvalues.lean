@@ -279,10 +279,28 @@ theorem g_K3_numerator_relation :
 theorem denominator_product :
     g_ss_den * g_T2_den * g_K3_den = 36 * b3 := by native_decide
 
-/-- The det(g) = 65/32 constraint links all eigenvalue sectors.
-    For the constant (k=0) metric: det = g_ss × g_T²² × prod(g_K3_i)
-    where the four K3 eigenvalues are approximately but not exactly equal.
-    The determinant is fixed by construction; eigenvalue formulas are its decomposition. -/
+/-- The det(g) = 65/32 constraint is imposed at the metric reconstruction step
+    (normalisation of g by (65/32 / det_raw)^(1/7)), not derived from the rational
+    triple (g_ss, g_T², g_K3).
+
+    For the constant (k=0) metric:
+      det(g) = g_ss × (det of T² block) × (det of K3 block)
+             ≈ g_ss × g_T²² × prod(λᵢ^{K3})
+    where the four K3 eigenvalues λᵢ^{K3} have an intrinsic 1.16 % spread
+    (Ricci-flat Kähler anisotropy of CI(1,2,2,2) ⊂ P⁶) and are NOT equal to g_K3.
+
+    Phase 1 PSLQ (2026-04-19, diagonal_pslq_v2.py):
+      - g_ss  = 19/6  match to 3.4 × 10⁻⁴  (Lean-proven here, Category F)
+      - g_T²  = 7/6   match to 2.0 × 10⁻³  (Category F)
+      - g_K3  = 64/77 match to 4.1 × 10⁻³  (Category F, RATIONAL APPROXIMATION)
+      - Triple product (19/6)(7/6)²(64/77)⁴ = 2.057 ≠ 65/32 = 2.031 by 1.27 %.
+      - det-consistency-forced value g_K3 = (1755/3724)^(1/4) ≈ 0.82855 admits no
+        closed form in the TCS basis {1, √n : n ≤ 110} at 15-digit precision.
+
+    Consequence: the triple (g_ss, g_T², g_K3) is a structural decomposition
+    accurate to O(10⁻³), not an exact identity; the determinant is fixed by
+    construction. This file axiomatises each fraction independently (Category F);
+    no lemma asserts the triple-det multiplicative identity. -/
 theorem det_g_from_metric : det_g_num = 65 ∧ det_g_den = 32 := ⟨rfl, rfl⟩
 
 -- =============================================================================
