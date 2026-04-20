@@ -70,8 +70,10 @@ noncomputable def K3_ratio_2 : ℝ :=
 noncomputable def K3_ratio_3 : ℝ :=
   (K3_eigenvalue_3 - K3_mean) / (K3_eigenvalue_3 - K3_mean)
 
-/-- K3 anisotropy scale, least-squares fit to the naive target (-3/2, 0, 1/2, 1). -/
-axiom K3_sigma : ℝ
+/-- K3 anisotropy scale, least-squares fit to the naive target (-3/2, 0, 1/2, 1).
+    σ = (-3·λ₀ + λ₂ + 2·λ₃) / 7, derived from the eigenvalue axioms. -/
+noncomputable def K3_sigma : ℝ :=
+  (-3 * K3_eigenvalue_0 + K3_eigenvalue_2 + 2 * K3_eigenvalue_3) / 7
 
 /-!
 # Phase 1b certificate — det(g) = 65/32 and K3 eigenvalue brackets
@@ -304,10 +306,16 @@ theorem K3_ratio_3_bracketed :
   rw [div_self (ne_of_gt K3_denom_pos)]
   constructor <;> norm_num
 
-/-- σ (K3 anisotropy) ∈ [0.003827555955722, 0.003827555955725]. -/
-axiom K3_sigma_bracketed :
-  (3827555955722 : ℝ) / 10^15 ≤ K3_sigma ∧
-  K3_sigma ≤ (3827555955725 : ℝ) / 10^15
+/-- σ (K3 anisotropy) bracket derived from eigenvalue brackets.
+    σ = (-3·λ₀ + λ₂ + 2·λ₃) / 7 ∈ [3827512367455, 3827512367465] / 10¹⁵. -/
+theorem K3_sigma_bracketed :
+  (3827512367455 : ℝ) / 10^15 ≤ K3_sigma ∧
+  K3_sigma ≤ (3827512367465 : ℝ) / 10^15 := by
+  unfold K3_sigma
+  have h0 := K3_eigenvalue_0_bracketed
+  have h2 := K3_eigenvalue_2_bracketed
+  have h3 := K3_eigenvalue_3_bracketed
+  constructor <;> linarith [h0.1, h0.2, h2.1, h2.2, h3.1, h3.2]
 
 /-!
 ## Naive pattern falsification (Phase 3B)
