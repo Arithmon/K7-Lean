@@ -50,7 +50,8 @@ axiom K3_eigenvalue_2 : ℝ
 axiom K3_eigenvalue_3 : ℝ
 
 /-- Arithmetic mean of the four K3 block eigenvalues at s = 0.5. -/
-axiom K3_mean : ℝ
+noncomputable def K3_mean : ℝ :=
+  (K3_eigenvalue_0 + K3_eigenvalue_1 + K3_eigenvalue_2 + K3_eigenvalue_3) / 4
 
 /-- Deviation ratios r_i = (λ_i - mean) / (λ_max - mean),
     i.e. y_i / y_3 for the sorted deviations y_i = λ_i - mean. -/
@@ -116,6 +117,18 @@ axiom K3_eigenvalue_2_bracketed :
 axiom K3_eigenvalue_3_bracketed :
   (831664797650332 : ℝ) / 10^15 ≤ K3_eigenvalue_3 ∧
   K3_eigenvalue_3 ≤ (831664797650334 : ℝ) / 10^15
+
+/-- The arithmetic mean of the four K3 block eigenvalues lies in a tight bracket
+    derived from the individual eigenvalue brackets. -/
+theorem K3_mean_bracketed :
+  (827798366328200 : ℝ) / 10^15 ≤ K3_mean ∧
+  K3_mean ≤ (827798366328203 : ℝ) / 10^15 := by
+  have h0 := K3_eigenvalue_0_bracketed
+  have h1 := K3_eigenvalue_1_bracketed
+  have h2 := K3_eigenvalue_2_bracketed
+  have h3 := K3_eigenvalue_3_bracketed
+  unfold K3_mean
+  constructor <;> linarith [h0.1, h0.2, h1.1, h1.2, h2.1, h2.2, h3.1, h3.2]
 
 /-- All four K3 block eigenvalues are positive — the metric is positive
     definite on the K3 block. -/

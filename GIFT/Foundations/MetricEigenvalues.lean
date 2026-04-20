@@ -28,7 +28,7 @@ namespace GIFT.Foundations.MetricEigenvalues
 
 open GIFT.Core
 open GIFT.Foundations.K3HarmonicCorrection (K3_euler)
-open GIFT.Foundations.IntervalCertificates (K3_mean)
+open GIFT.Foundations.IntervalCertificates (K3_mean K3_mean_bracketed)
 
 -- =============================================================================
 -- SECTION 1: METRIC COMPONENT EXACT FORMULAS
@@ -177,8 +177,12 @@ theorem g_K3_coprime : Nat.gcd g_K3_num g_K3_den = 1 := by native_decide
     Eigenvalue brackets have width ~10⁻¹²; the 5 × 10⁻³ bound is
     dominated by the physical rational-approximation gap, not by
     numerical uncertainty. -/
-axiom g_K3_rational_approximates_K3_mean :
-  |K3_mean - (g_K3_num : ℝ) / g_K3_den| ≤ (5 : ℝ) / 1000
+theorem g_K3_rational_approximates_K3_mean :
+  |K3_mean - (g_K3_num : ℝ) / g_K3_den| ≤ (5 : ℝ) / 1000 := by
+  have hb := K3_mean_bracketed
+  rw [abs_le]
+  unfold g_K3_num g_K3_den
+  constructor <;> linarith [hb.1, hb.2]
 
 -- γ² = (2 × b3 − b2 + 2) / 4 = 135/4
 
