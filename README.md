@@ -3,7 +3,7 @@
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **4 logical axioms** on the main prediction chain (plus 11 interval-arithmetic certificates for the K3 block of g*), all theorems proven in **Lean 4** (8380 build jobs).
+Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **15 axioms** (4 logical on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), all theorems proven in **Lean 4** (8380 build jobs).
 
 ## Structure
 
