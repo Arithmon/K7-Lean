@@ -18,7 +18,7 @@ These verify:
   - The L2 inner product is well-defined and non-degenerate
   - Yukawa coupling normalization Y_ijk = int omega_i ^ omega_j ^ eta_k is well-posed
 
-All constants below are **Category F (Numerically verified)** — values from
+All constants below are **numerically verified** — values from
 `private/notebooks/k7_orthonormality_results.json`. The arithmetic on these
 constants is proven, not axiomatized.
 
@@ -67,7 +67,7 @@ Computed from 220,000-point Monte Carlo integration using:
 
 /-- G_K3(22) condition number numerator (×10000): cond = 1.0523.
 
-**Category F**: Numerically verified, eigenvalue range [0.9739, 1.0248]. -/
+**Numerically verified**, eigenvalue range [0.9739, 1.0248]. -/
 def G_K3_cond_num : ℕ := 10523
 
 /-- G_K3(22) condition number denominator -/
@@ -81,7 +81,7 @@ theorem G_K3_cond_gt_one : G_K3_cond_num > G_K3_cond_den := by native_decide
 
 /-- G_K3(22) off-diagonal (normalized) numerator (×10000): max = 0.01180.
 
-**Category F**: max|G_norm - I| over off-diagonal entries. -/
+**Numerically verified**: max|G_norm - I| over off-diagonal entries. -/
 def G_K3_offdiag_num : ℕ := 118
 
 /-- G_K3(22) off-diagonal (normalized) denominator -/
@@ -92,7 +92,7 @@ theorem G_K3_22_near_orthonormal : G_K3_offdiag_num < 150 := by native_decide
 
 /-- G_K3(22) min eigenvalue (×10000): 9739.
 
-**Category F**: Positive definiteness verified (min eigenvalue = 0.9739). -/
+**Numerically verified**: Positive definiteness verified (min eigenvalue = 0.9739). -/
 def G_K3_min_eval_num : ℕ := 9739
 
 /-- G_K3(22) min eigenvalue denominator -/
@@ -113,7 +113,7 @@ R11 = R22 ≈ 0.7504, R12 ≈ 0.3752.
 
 /-- Radial overlap R11 (×10000): R11 = 0.7504.
 
-**Category F**: Trapezoidal integration of f₁²·p over s-grid. -/
+**Numerically verified**: Trapezoidal integration of f₁²·p over s-grid. -/
 def R11_num : ℕ := 7504
 
 /-- Radial overlap denominator -/
@@ -121,7 +121,7 @@ def R11_den : ℕ := 10000
 
 /-- G_K7(22) condition number (×10000): cond = 1.0471.
 
-**Category F**: Eigenvalue range [0.7327, 0.7672]. -/
+**Numerically verified**: Eigenvalue range [0.7327, 0.7672]. -/
 def G_K7_cond_num : ℕ := 10471
 
 /-- G_K7(22) condition number denominator -/
@@ -132,7 +132,7 @@ theorem G_K7_22_well_conditioned : G_K7_cond_num < 10500 := by native_decide
 
 /-- G_K7(22) min eigenvalue (×10000): 7327.
 
-**Category F**: min eigenvalue = 0.7327. -/
+**Numerically verified**: min eigenvalue = 0.7327. -/
 def G_K7_min_eval_num : ℕ := 7327
 
 /-- G_K7(22) positive definite: min eigenvalue > 0.73 -/
@@ -150,7 +150,7 @@ range from 1.65 to 12.57, giving condition number ≈ 7.66.
 
 /-- G_35 condition number (×10000): cond = 7.6621.
 
-**Category F**: Eigenvalue range [1.647, 12.622]. -/
+**Numerically verified**: Eigenvalue range [1.647, 12.622]. -/
 def G_35_cond_num : ℕ := 76621
 
 /-- G_35 condition number denominator -/
@@ -161,7 +161,7 @@ theorem G_35_well_conditioned : G_35_cond_num < 80000 := by native_decide
 
 /-- G_35 min eigenvalue (×1000): 1647.
 
-**Category F**: min eigenvalue = 1.647. -/
+**Numerically verified**: min eigenvalue = 1.647. -/
 def G_35_min_eval_num : ℕ := 1647
 
 /-- G_35 positive definite: min eigenvalue > 1.6 -/
@@ -179,7 +179,7 @@ S_θ ≈ S_ψ ≈ 6.127, S_cross ≈ -6.5 × 10⁻⁵.
 
 /-- S_theta (×1000): S_θ = 6.127.
 
-**Category F**: ∫ g^{θθ} √det(g) ds. -/
+**Numerically verified**: ∫ g^{θθ} √det(g) ds. -/
 def S_theta_num : ℕ := 6127
 
 /-- S_theta denominator -/
@@ -187,7 +187,7 @@ def S_theta_den : ℕ := 1000
 
 /-- Cross-block max (×10^7): |S_cross| · max|G_K3| ≈ 653.
 
-**Category F**: max = 6.53 × 10⁻⁵. -/
+**Numerically verified**: max = 6.53 × 10⁻⁵. -/
 def G_77_cross_num : ℕ := 653
 
 /-- Cross-block max denominator -/
@@ -207,7 +207,7 @@ an orthonormalization matrix T = L⁻ᵀ such that TᵀGT = I.
 
 All four matrices pass with residual < 10⁻¹⁵.
 
-**Category F**: Residuals: 3.3e-16, 3.3e-16, 4.4e-16, 4.4e-16.
+**Numerically verified**: Residuals: 3.3e-16, 3.3e-16, 4.4e-16, 4.4e-16.
 -/
 
 /-- Gram-Schmidt residual exponent: all residuals < 10⁻¹⁵ -/

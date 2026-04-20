@@ -162,8 +162,9 @@ Bounding via Fréchet: δ_K3_cert ≤ C_red × η_L² ≤ 0.881 × 1.596e-2 ≈ 
 
 This is numerically larger than the current NK-scaled bound (×8.8 worse), but
 remains 7× below the Joyce threshold ε₀ = 0.1. Full propagation requires a
-C⁰ bound (not just L²) and replacement of cymyc throughout the G₂ computation;
-see §4.2 addendum of Paper A.
+C⁰ bound (not just L²) and replacement of the neural-network K3
+approximation throughout the G₂ computation; see the §4.2 addendum
+of the existence paper.
 -/
 
 /-- Fréchet sensitivity bound C_red ≤ 0.881 (analytical) -/

@@ -10,7 +10,7 @@
 -- 4. 57 associative 3-cycles (35 constant + 22 mixed)
 -- 5. All instanton volumes positive (suppressed)
 --
--- All results are Category F (numerically verified definitions) with
+-- All results are numerically verified definitions with
 -- native_decide proofs. Zero new axioms.
 --
 -- Source: gauge_bundle_data_results.json (gauge_bundle computation)
@@ -40,7 +40,7 @@ Source: `k7_orthonormality_results.json` (gauge_breaking), reinterpreted in gaug
 
 /-- Gauge kinetic condition number numerator: cond = 1.047 = 1047/1000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: gauge_bundle_data_results.json -/
 def gauge_kinetic_cond_num : ℕ := 1047
 
@@ -75,13 +75,13 @@ Source: `gauge_bundle_data_results.json` (gauge_bundle computation).
 
 /-- Number of self-dual (positive) Yukawa eigenvalues = N_gen
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: gauge_bundle_data_results.json -/
 def yukawa_rank : ℕ := 3
 
 /-- Yukawa Frobenius norm numerator: ||Y|| = 8.969 = 8969024/1000000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: gauge_bundle_data_results.json -/
 def yukawa_norm_num : ℕ := 8969024
 
@@ -153,7 +153,7 @@ Source: `gauge_bundle_data_results.json` (gauge_bundle computation).
 
 /-- Number of associative 3-cycles on K7
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: gauge_bundle_data_results.json -/
 def n_associative_cycles : ℕ := 57
 
@@ -165,7 +165,7 @@ def n_mixed_associative : ℕ := 22
 
 /-- Minimum instanton volume numerator: V_min = 0.0013 = 13/10000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: gauge_bundle_data_results.json -/
 def min_instanton_vol_num : ℕ := 13
 

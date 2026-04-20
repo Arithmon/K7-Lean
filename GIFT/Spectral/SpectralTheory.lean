@@ -11,14 +11,14 @@ This module provides the abstract framework for spectral theory:
 
 ## Axiom Classification (v3.3.47)
 
-### Category A: TYPE DEFINITIONS (irreducible)
+### Type definitions (irreducible)
 These define mathematical objects, not claims. They are the vocabulary
 for stating theorems.
 - `CompactManifold : Type` - Abstract manifold type
 - `CompactManifold.dim/volume/volume_pos` - Basic manifold properties
 - `LaplaceBeltrami.canonical` - Canonical Laplacian exists
 
-### Category B: STANDARD RESULTS (textbook theorems)
+### Standard results (textbook theorems)
 These are well-established theorems. Full formalization requires
 Mathlib's Riemannian geometry (in development).
 - `spectral_theorem_discrete` - **FUSED v3.3.42** into `manifold_spectral_data`
@@ -27,7 +27,7 @@ Mathlib's Riemannian geometry (in development).
 - `IsEigenvalue` - **ELIMINATED v3.3.47** (axiom → def from eigseq)
 - `spectrum_nonneg` - **ELIMINATED v3.3.47** (axiom → theorem from eigseq)
 
-### Category C: GIFT CLAIMS (to be proven)
+### GIFT claims (to be proven)
 These are the actual GIFT predictions.
 - `MassGap` - Definition
 - `mass_gap_exists_positive` - **ELIMINATED v3.3.39** (subtype projection)
@@ -67,12 +67,12 @@ consequences.
 -/
 
 -- ============================================================================
--- ABSTRACT MANIFOLD (structure — Phase 3 refactor v4.0.12)
+-- ABSTRACT MANIFOLD (structure — v4.0.12 refactor)
 -- ============================================================================
 
 /-- Abstract compact Riemannian manifold with bundled spectral data.
 
-**Phase 3 refactor (v4.0.12):** Replaces `opaque CompactManifold` + `axiom manifold_spectral_data`.
+**v4.0.12 refactor:** Replaces `opaque CompactManifold` + `axiom manifold_spectral_data`.
 All spectral data is now bundled as structure fields. `manifold_spectral_data` is a
 noncomputable def (structure projection) — no longer an axiom.
 
@@ -150,7 +150,7 @@ opaque LaplaceBeltrami.canonical (M : CompactManifold) : LaplaceBeltrami M
 For a compact manifold M with Laplacian Δ:
   mass_gap(M) = λ₁ = inf { λ > 0 : λ ∈ Spec(Δ) }
 
-**Phase 3 refactor (v4.0.12):** Now a direct projection from CompactManifold.mass_gap_aux.
+**v4.0.12 refactor:** Now a direct projection from CompactManifold.mass_gap_aux.
 -/
 noncomputable def MassGap (M : CompactManifold) : ℝ := M.mass_gap_aux.val
 
@@ -183,7 +183,7 @@ is stated directly on sequence indices.
 self-adjoint operators on infinite-dimensional Hilbert spaces (currently a TODO in
 `Mathlib.Analysis.InnerProductSpace.Spectrum`), this axiom can be eliminated by
 connecting `CompactManifold` to Mathlib's `IsCompactOperator` + `IsSelfAdjoint`
-via the resolvent (Δ + I)⁻¹. See `tier4_axiom_elimination_plan.md`. -/
+via the resolvent (Δ + I)⁻¹. -/
 structure ManifoldSpectralData (M : CompactManifold) where
   /-- Eigenvalue sequence: 0 = λ₀ ≤ λ₁ ≤ λ₂ ≤ ... → ∞ -/
   eigseq : ℕ → ℝ
@@ -200,7 +200,7 @@ structure ManifoldSpectralData (M : CompactManifold) where
 
 /-- Every compact Riemannian manifold has spectral data.
 
-**Phase 3 refactor (v4.0.12):** Formerly `axiom` (Category B, Chavel 1984 Thm 1.2.1),
+**v4.0.12 refactor:** Formerly an axiom (standard result, Chavel 1984 Thm 1.2.1),
 now a `noncomputable def` — structure projection from CompactManifold fields.
 This eliminates one GIFT axiom.
 
@@ -222,11 +222,11 @@ noncomputable def manifold_spectral_data (M : CompactManifold) : ManifoldSpectra
 Pure `Type 0` structure (no universe polymorphism) — safe for cross-module projection.
 Asserts the exact spectral data needed to construct K7 as a CompactManifold.
 
-**Phase 3 refactor (v4.0.12):** Introduced to replace `axiom K7_exists : K7_Manifold`
+**v4.0.12 refactor:** Introduced to replace `axiom K7_exists : K7_Manifold`
 with a `noncomputable def` in G2Manifold.lean. K7 is now concretely constructed from
 these fields rather than asserted to exist opaquely.
 
-**Axiom Category: C** — K7-specific geometric data (Kovalev 2003). -/
+**Structural axiom; to be formalised** — K7-specific geometric data (Kovalev 2003). -/
 structure K7SpectralData where
   /-- K7 volume bundled with positivity -/
   volume_aux : {x : ℝ // x > 0}
@@ -404,7 +404,7 @@ theorem mass_gap_positive (M : CompactManifold) : MassGap M > 0 := by
 
 /-- Mass gap determines the decay rate of eigenfunctions.
 
-**Axiom Category: B (Standard Result)** — Heat kernel decay estimate. -/
+**(Standard result)** — Heat kernel decay estimate. -/
 theorem mass_gap_decay_rate (_M : CompactManifold) :
   ∀ (_t : ℝ), _t > 0 → ∃ C > 0, True := -- Placeholder for heat kernel decay
   fun _ _ => ⟨1, one_pos, trivial⟩
@@ -415,7 +415,7 @@ theorem mass_gap_decay_rate (_M : CompactManifold) :
 
 /-- Weyl's law: N(λ) ~ C_n · Vol(M) · λ^(n/2) as λ → ∞
 
-**Axiom Category: B (Standard Result)** - TEXTBOOK THEOREM
+**(Standard result)** - TEXTBOOK THEOREM
 
 **Citation:** Weyl, H. (1911). "Uber die asymptotische Verteilung der Eigenwerte"
 Also: Chavel (1984), Theorem 6.3.1; Berger (2003), Section 9.G
@@ -451,7 +451,7 @@ theorem dim_7_from_gift (M : CompactManifold) (h : dim_7_manifold M) :
 
 /-- The Rayleigh quotient characterization of eigenvalues.
 
-**Axiom Category: B (Standard Result)** - TEXTBOOK THEOREM
+**(Standard result)** - TEXTBOOK THEOREM
 
 **Citation:** Courant, R. & Hilbert, D. (1953). "Methods of Mathematical Physics", Vol. 1
 Also: Chavel (1984), Theorem 1.3.3

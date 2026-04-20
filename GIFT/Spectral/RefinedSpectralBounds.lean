@@ -149,7 +149,7 @@ Proof idea:
 2. For f_perp: transverse eigenvalue >= gamma, so f_perp decays exponentially
 3. For f_0: extends to caps with exponential decay from matching conditions
 
-**Axiom Category: B (Standard Result)** — Eigenfunction localization via exponential decay.
+**(Standard result)** — Eigenfunction localization via exponential decay.
 
 **Why axiom**: Requires Agmon-type estimates on manifolds.
 **Elimination path**: Formalize Agmon estimates in Mathlib.
@@ -173,7 +173,7 @@ This function:
 
 The Rayleigh quotient of this function gives the upper bound.
 
-**Axiom Category: C (Geometric structure)** — Smooth test function on TCS neck.
+**(Structural axiom; to be formalised)** — Smooth test function on TCS neck.
 -/
 theorem test_function_exists (K : TCSManifold) (_hyp : TCSHypotheses K) :
   ∃ (_ : Type), True := -- Placeholder for L^2 function construction
@@ -186,9 +186,9 @@ Calculation:
 - integral|f|^2 = integral_0^L cos^2(pi*t/L) Vol(Y) dt + O(1) = Vol(Y) * L/2 + O(1)
 - Ratio = pi^2/L^2 + O(1/L^3)
 
-**Formerly Axiom Category: C (Geometric structure)** — Rayleigh quotient with pi^2/L^2 leading term.
+**Formerly a structural axiom (to be formalised)** — Rayleigh quotient with pi^2/L^2 leading term.
 
-**PROVEN v3.3.46 (Aristotle Tier B)** — Existential proof: choose
+**PROVEN v3.3.46 (Aristotle)** — Existential proof: choose
 C = (MassGap K - spectralCoefficient/L²) · L³. With this choice, C/L³ simplifies
 to MassGap K - spectralCoefficient/L², making the RHS equal to MassGap K. -/
 theorem rayleigh_upper_bound_refined (K : TCSManifold) (hyp : TCSHypotheses K) :
@@ -210,7 +210,7 @@ For f : [0, L] -> R with integral f = 0:
 
 This is the sharp constant, achieved by cos(pi*t/L).
 
-**Axiom Category: B (Standard Result)** — Sharp Poincare constant for Neumann problem on interval.
+**(Standard result)** — Sharp Poincare constant for Neumann problem on interval.
 
 **Reference**: Payne & Weinberger (1960).
 -/
@@ -226,9 +226,9 @@ Proof:
 3. Apply 1D Poincare to the zero mode: lambda >= pi^2/L^2 - correction
 4. Correction is O(e^{-delta*L}) from exponential tails
 
-**Formerly Axiom Category: C (Geometric structure)** — Localization-based spectral lower bound.
+**Formerly a structural axiom (to be formalised)** — Localization-based spectral lower bound.
 
-**PROVEN v3.3.46 (Aristotle Tier B)** — Existential proof: choose delta = 1 and
+**PROVEN v3.3.46 (Aristotle)** — Existential proof: choose delta = 1 and
 C = spectralCoefficient · exp(L) / L². With these choices, C · exp(-delta · L) =
 spectralCoefficient / L² (since exp(L) · exp(-L) = 1), so the RHS simplifies to 0.
 Since MassGap K > 0 ≥ 0, the inequality holds. -/

@@ -8,7 +8,7 @@
 --   4. sin2 theta_W and alpha_s deviation bounds vs experiment
 --   5. Neumann spectral gap lambda_1 = 0.1244 — computed eigenvalue
 --
--- All results are Category F (numerically verified definitions) with
+-- All results are numerically verified definitions with
 -- native_decide proofs. Zero new axioms.
 --
 -- References:
@@ -79,7 +79,7 @@ Source: `k7_harmonic_2forms_results.json`, Spectral paper S4.
 
 /-- Smallest SD eigenvalue lower bound numerator: |lambda_SD_min| >= 4779/1000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: k7_harmonic_2forms_results.json (actual = 4.779, the third SD eigenvalue) -/
 def min_SD_num : ℕ := 4779
 
@@ -88,7 +88,7 @@ def min_SD_den : ℕ := 1000
 
 /-- Largest ASD eigenvalue upper bound numerator: |lambda_ASD_max| <= 219/100000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: k7_harmonic_2forms_results.json (actual = 0.00219) -/
 def max_ASD_num : ℕ := 219
 
@@ -125,7 +125,7 @@ Source: `gauge_coupling_running_results.json`, Spectral paper S8.
 
 /-- B-test value numerator: B = 1.4033 = 14033/10000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: gauge_coupling_running_results.json -/
 def B_test_num : ℕ := 14033
 
@@ -164,7 +164,7 @@ Both deviations are within 0.3%, consistent with RG running corrections.
 
 /-- sin2 theta_W experimental value numerator: 0.23129
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: PDG 2025 — sin2 theta_W(M_Z) = 0.23129 (error 0.00004) -/
 def sin2w_exp_num : ℕ := 23129
 
@@ -186,7 +186,7 @@ theorem sin2w_deviation_small :
 
 /-- alpha_s(M_Z) experimental value numerator: 0.11800
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: PDG 2025 — alpha_s(M_Z) = 0.1180 (error 0.0009) -/
 def alpha_s_exp_num : ℕ := 11800
 
@@ -230,7 +230,7 @@ Source: `K7_spectrum_neumann_results.json`
 
 /-- Neumann spectral gap numerator: lambda_1 = 0.1244
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: K7_spectrum_neumann_results.json (actual = 0.12440) -/
 def lambda1_neumann_num : ℕ := 1244
 

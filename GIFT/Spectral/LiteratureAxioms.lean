@@ -7,7 +7,7 @@ neck length L and topological invariants.
 
 ## Axiom Classification (v3.3.42)
 
-### Category D: LITERATURE AXIOMS (peer-reviewed)
+### Literature axioms (peer-reviewed)
 These are results from published mathematical literature. Full formalization
 would require months of work per paper.
 
@@ -133,7 +133,7 @@ theorem K3_S1_density_coeff_3 : density_coefficient_K3S1 3 = 88 := rfl
 
 /-- Bundled literature results for TCS spectral geometry.
 
-Consolidates three Category D axioms into a single structure (v3.3.42):
+Consolidates three literature axioms into a single structure (v3.3.42):
 - CGN Proposition 3.16: no small eigenvalues
 - CGN line 3598: Cheeger-based lower bound
 - Joyce IFT: torsion-free correction
@@ -164,7 +164,7 @@ structure LiteraturePackage (K : TCSManifold) where
 
 /-- Literature results hold for any TCS manifold.
 
-**Axiom Category: D (Literature)** — Consolidation of 3 peer-reviewed results.
+**(Literature axiom)** — Consolidation of 3 peer-reviewed results.
 
 **Axiom consolidation (v3.3.42):** Replaces `cgn_no_small_eigenvalues`,
 `cgn_cheeger_lower_bound`, `torsion_free_correction` (3 axioms → 1). -/

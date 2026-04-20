@@ -9,7 +9,7 @@ which provides `pi_gt_three`, `pi_lt_four`, and tighter bounds via the
 sqrtTwoAddSeries method.
 
 **opaque refactoring (2026-02-09)**: 3 axioms → 0 axioms.
-Previously these were Category F numerical axioms because the CLAUDE.md
+Previously these were numerical axioms because the project notes
 incorrectly stated Mathlib 4.27 did not export them. In fact,
 `Mathlib.Analysis.Real.Pi.Bounds` provides `pi_gt_three`, `pi_lt_four`,
 `pi_lt_d2` (π < 3.15), and much tighter bounds up to 20 decimal places.
@@ -46,7 +46,7 @@ theorem pi_ne_zero' : Real.pi ≠ 0 := Real.pi_ne_zero
 /-!
 ## Section 2: Strict bounds (proven via Mathlib.Analysis.Real.Pi.Bounds)
 
-Previously axiomatized as Category F. Now fully proven.
+Previously axiomatized as numerical bounds. Now fully proven.
 -/
 
 /-- π > 3. PROVEN via Mathlib's `pi_gt_three`.

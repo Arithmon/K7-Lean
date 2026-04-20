@@ -12,7 +12,7 @@
 --   4. Cheeger isoperimetric bound: h ≤ 0.706
 --   5. b₁ = 0 spectral confirmation (all 1-form gaps < 10⁻¹⁰)
 --
--- All results are Category F (numerically verified) with native_decide proofs.
+-- All results are numerically verified with native_decide proofs.
 -- Zero new axioms.
 --
 -- References:
@@ -46,7 +46,7 @@ Source: `spectral_invariants.json`
 
 /-- Heat kernel a_0 (1D effective), numerator: 64.53 = 6453/100
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: spectral_invariants.json (a0 = 64.5285) -/
 def a0_1d_num : ℕ := 6453
 
@@ -55,7 +55,7 @@ def a0_1d_den : ℕ := 100
 
 /-- Heat kernel a_1 (1D effective): 4112 (integer approximation)
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: spectral_invariants.json (a1 = 4111.92) -/
 def a1_1d : ℕ := 4112
 
@@ -85,7 +85,7 @@ Source: `spectral_invariants.json`
 
 /-- |zeta'(0)| numerator: 294.81 = 29481/100
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: spectral_invariants.json (zeta_prime_0 = -294.81) -/
 def zeta_prime_0_num : ℕ := 29481
 
@@ -95,7 +95,7 @@ def zeta_prime_0_den : ℕ := 100
 /-- Order of magnitude of the regularized determinant:
     det'(Delta) = exp(-zeta'(0)) ~ 10^128
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: spectral_invariants.json (det_prime = 1.08e+128) -/
 def log_det_order : ℕ := 128
 
@@ -129,7 +129,7 @@ Source: `spectral_invariants.json`
 
 /-- Zhong-Yang diameter bound, numerator: D <= 8.90 = 890/100
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: spectral_invariants.json (zhong_yang_D_upper = 8.8998) -/
 def zhong_yang_D_num : ℕ := 890
 
@@ -138,7 +138,7 @@ def zhong_yang_D_den : ℕ := 100
 
 /-- Cheeger isoperimetric bound, numerator: h <= 0.706 = 706/1000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: spectral_invariants.json (cheeger_h_upper = 0.7060) -/
 def cheeger_h_num : ℕ := 706
 
@@ -147,7 +147,7 @@ def cheeger_h_den : ℕ := 1000
 
 /-- K₇/circle eigenvalue ratio, numerator: 0.0789 = 789/10000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: spectral_invariants.json (ratio_K7_circle = 0.0789) -/
 def ratio_K7_circle_num : ℕ := 789
 
@@ -190,7 +190,7 @@ Source: `spectral_b1_metric_data.json`
 /-- Upper bound on |gap| scaled by 10¹¹: all 1-form Neumann gaps < 3/10¹¹.
     Actual max = 2.40e-11 (d-theta channel).
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: spectral_b1_metric_data.json -/
 def b1_max_gap_scaled : ℕ := 3
 

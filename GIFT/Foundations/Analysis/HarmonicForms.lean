@@ -11,8 +11,8 @@ Harmonic forms are isomorphic to de Rham cohomology.
 |-------|----------|--------|
 | `K7_hodge_data` | — | **FUSED v3.3.42** into `K7_analysis_data` |
 | `K7_harmonic_basis` | — | **FUSED v3.3.42** into `K7_analysis_data` |
-| `K7_analysis_data` | C: Geometric structure | **NEW** bundled K7 Hodge + harmonic data |
-| `hodge_isomorphism` | B: Standard result | Hodge (1941) |
+| `K7_analysis_data` | geometric structure | **NEW** bundled K7 Hodge + harmonic data |
+| `hodge_isomorphism` | standard result | Hodge (1941) |
 
 Version: 3.3.42 (axiom consolidation: K7_hodge_data + K7_harmonic_basis → K7_analysis_data)
 -/
@@ -101,7 +101,7 @@ Constructive witness: zero Laplacian (Δ=0, all forms harmonic), standard
 inner product (Σᵢ ωᵢηᵢ), standard basis vectors (Pi.single i 1).
 
 **Axiom consolidation (v3.3.42):** Replaces `K7_hodge_data` + `K7_harmonic_basis` (9→1).
-**Phase 3 (v4.0.12):** Added spectral fields — absorbs K7_exists axiom (→ noncomputable def).
+**v4.0.12:** Added spectral fields — absorbs K7_exists axiom (→ noncomputable def).
 **Eliminated (v3.4.9):** axiom → noncomputable def via constructive witness. -/
 -- Constructive witness components (private, not exported)
 private def k7_bundle : DifferentialFormBundle K7 where

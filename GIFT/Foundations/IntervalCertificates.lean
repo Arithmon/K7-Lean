@@ -1,25 +1,19 @@
 -- GIFT Foundations: Interval Certificates
 -- ========================================
 --
--- Numerical interval brackets imported from Colab interval-arithmetic
--- verification notebooks:
---   - canonical/notebooks/colab_phase1b_interval_cert.ipynb
---   - canonical/notebooks/colab_phase3_interval_cert.ipynb
+-- Numerical interval brackets for the determinant and K3 block eigenvalues
+-- of the G₂ candidate metric g* at the seam midpoint s = 1/2. The brackets
+-- are obtained by mpmath.iv interval arithmetic propagating 1-ULP float64
+-- halos through the full reconstruction pipeline (Chebyshev expansion,
+-- softplus on diagonals, Cholesky g = L Lᵀ, normalisation det(g) = 65/32,
+-- K3 block extraction, Weyl eigenvalue perturbation bound).
 --
--- These notebooks use mpmath.iv to propagate 1-ULP float64 halos through
--- the full metric reconstruction (Chebyshev evaluation, softplus on diagonals,
--- Cholesky g = L Lᵀ, det(g) = 65/32 normalisation, K3 block extraction,
--- Weyl eigenvalue perturbation bound).
---
--- Each axiom carries Category F status (numerical external certificate)
--- but with EXPLICIT numerical content — a reader can verify the bracket
--- by re-running the Colab notebook. This is strictly stronger than the
--- Category F axioms in MetricEigenvalues.lean, which assert only
--- integer cross-product identities without physical interval content.
---
--- Source data: private/canonical/data/metric_169_g5.json
--- Colab certs verified 2026-04-19 (output phase1b_interval_certificate.json
--- archived at canonical/notebooks/).
+-- Each bracket axiom is an externally certified numerical input with
+-- EXPLICIT content — a reader can verify the bracket by re-running the
+-- underlying interval computation. Follow-up theorems below (K3_mean,
+-- K3_ratio_i, K3_sigma brackets; pattern rejection; one-parameter
+-- signature) are derived from these certificates by pure linear
+-- arithmetic.
 
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
@@ -35,9 +29,12 @@ open GIFT.Core
 /-!
 # Axiomatic declaration of metric quantities
 
-These are the quantities certified by the Colab notebooks. They are declared
-as opaque real constants; the interval-bracket axioms below constrain them
-tightly (width ~10⁻¹²).
+The four K3 block eigenvalues λ_i and the metric determinant det(g) at
+s = 1/2 are declared as opaque real constants, with bracket axioms below
+constraining them tightly (width ~10⁻¹²) from an external interval-
+arithmetic verification. All other quantities in this file (K3_mean,
+K3_ratio_i, K3_sigma) are noncomputable definitions derived from the λ_i,
+and their brackets are proven theorems.
 -/
 
 /-- Determinant of the NK-certified G₂ metric g* at the seam midpoint s = 0.5.
@@ -76,18 +73,16 @@ noncomputable def K3_sigma : ℝ :=
   (-3 * K3_eigenvalue_0 + K3_eigenvalue_2 + 2 * K3_eigenvalue_3) / 7
 
 /-!
-# Phase 1b certificate — det(g) = 65/32 and K3 eigenvalue brackets
+# Determinant and K3 eigenvalue brackets
 
-Source: `canonical/notebooks/colab_phase1b_interval_cert.ipynb`,
-Colab-verified 2026-04-19. Weyl perturbation bound ‖E‖_F ≤ 8.14 × 10⁻¹⁶.
-det intervallly certified via 7×7 cofactor expansion on interval entries.
+External interval certificate: Weyl perturbation bound
+‖E‖_F ≤ 8.14 × 10⁻¹⁶ on the K3 block; determinant bracket from a
+7×7 cofactor expansion on interval entries.
 -/
 
-/-- **Axiom Category F (Phase 1b interval cert).**
-    The metric determinant at s = 0.5 lies in [2.031249...9929, 2.031250...0070],
-    and this interval strictly contains 65/32 = 2.03125.
-    Source: `colab_phase1b_interval_cert.ipynb`, interval cofactor det on
-    7×7 interval matrix. -/
+/-- **Externally certified numerical bracket.**
+    The metric determinant at s = 1/2 lies in [2.031249…9929, 2.031250…0070],
+    which strictly contains 65/32 = 2.03125. -/
 axiom det_g_at_half_bracketed :
   (2031249999999929 : ℝ) / 10^15 ≤ det_g_at_half ∧
   det_g_at_half ≤ (2031250000000071 : ℝ) / 10^15
@@ -105,9 +100,11 @@ theorem det_g_at_half_near_65_32 :
   · rw [this]; linarith
 
 /-!
-## K3 block eigenvalue brackets (Phase 1b)
+## K3 block eigenvalue brackets
 
-Four sorted eigenvalues λ_i at s = 0.5. Widths ~1.6 × 10⁻¹² each.
+Four sorted eigenvalues λ_i at s = 1/2. Widths ~1.6 × 10⁻¹² each,
+obtained by centre-reconstruction in mpmath (dps 80) with a
+Weyl halo from the interval perturbation bound.
 -/
 
 /-- λ_0 ∈ [0.822090788514199, 0.822090788514201]. -/
@@ -173,19 +170,15 @@ theorem K3_eigenvalues_strict_order :
   · linarith [h2.2, h3.1]
 
 /-!
-# Phase 3 certificate — NK fixed-point ratios and pattern falsification
+# K3 deviation ratios and pattern rejection
 
-Source: `canonical/notebooks/colab_phase3_interval_cert.ipynb`,
-Colab-verified 2026-04-19. Starts from the iter-9 state of 9 Joyce
-iterations (`phase3b_joyce_extended.py`), torsion T_C0 reduced 18837×.
-
-Ratios r_i = y_i / y_3 where y_i = λ_i - mean.
-
-The ratio brackets below are now THEOREMS derived from the four eigenvalue
-bracket axioms and the K3_mean_bracketed theorem, rather than axioms.
-The brackets are slightly wider than the original Colab interval-arithmetic
-certificates because we treat the numerator and denominator intervals
-independently; the true values lie well within the stated bounds.
+Deviation ratios r_i = y_i / y_3 where y_i = λ_i − mean. These are
+noncomputable definitions above; the bracket theorems below are derived
+from the four eigenvalue bracket axioms and the K3_mean_bracketed
+theorem by pure linear arithmetic on the positive denominator. The
+intervals are slightly wider than the underlying interval-arithmetic
+computation (numerator and denominator are treated independently); the
+true values lie well within the stated bounds.
 -/
 
 /-! ## Helper lemmas for ratio bracket proofs -/
@@ -318,12 +311,13 @@ theorem K3_sigma_bracketed :
   constructor <;> linarith [h0.1, h0.2, h2.1, h2.2, h3.1, h3.2]
 
 /-!
-## Naive pattern falsification (Phase 3B)
+## Rejection of the naive integer pattern
 
-The target ratio vector $(-3/2, 0, 1/2, 1)$ — suggestive at 2% in Phase 1b —
-was proven empirically NOT the NK fixed point: 9 Joyce iterations reduce
-torsion 18837× but leave the pattern residual pinned at 1.11 × 10⁻⁴
-(contraction rate 0.9993).
+The integer ratio target $(-3/2, 0, 1/2, 1)$ — visible at the 2%
+level in the raw eigenvalues — is not realised at the torsion-
+free fixed point: 9 iterations of the Joyce torsion minimisation
+reduce the torsion 18 837× while leaving the ratio residual pinned
+at 1.11 × 10⁻⁴ (contraction rate 0.9993 on the ratio residual).
 
 The theorems below formalise this by showing each target value lies
 STRICTLY OUTSIDE the certified ratio interval.
@@ -361,16 +355,18 @@ theorem naive_pattern_falsified :
   Or.inl r_0_ne_neg_three_halves
 
 /-!
-## 1-parameter signature (Phase 3B+C)
+## One-parameter signature
 
-The NK fixed-point ratios admit an approximate 1-parameter form
+The torsion-free fixed-point ratios admit an approximate one-parameter
+form
     r ≈ (-3/2 + δ, -δ, 1/2, 1)    with  δ ≈ 0.02379
 i.e. dev_0 + dev_1 ≈ -dev_2 ≈ 0 at the 10⁻³ level, where
     dev_0 := r_0 + 3/2
     dev_1 := r_1
     dev_2 := r_2 - 1/2
 
-This is the strongest substantive structural claim surviving Phase 3.
+This is the strongest structural statement supported by the current
+numerical certificates.
 -/
 
 /-- dev_0 (= r_0 + 3/2) is small, between 0.0237 and 0.02380.
@@ -408,40 +404,44 @@ theorem one_parameter_signature :
   ⟨dev_2_small, dev_0_small, dev_1_small⟩
 
 /-!
-## PSLQ null (Phase 3D) — no short closed-form identification
+## Integer-relation null search — no short closed-form identification
 
-Phase 3D: PSLQ with basis {1, √p (p ≤ 77), π, ln 2, ε_k, ε_k², σ}
-at tol 10⁻⁸ through 10⁻¹² with maxcoeff 2000 found NO certified relation.
-Every candidate match was below the statistical threshold
-(M+1)^n · ε needed for significance in a 13-element basis.
+PSLQ integer-relation detection in the basis
+{1, √p (p ≤ 77), π, ln 2, ε_k, ε_k², σ}
+at tolerance 10⁻⁸ through 10⁻¹² with maximum integer coefficient 2000
+returns no certified relation. Every candidate falls below the
+statistical threshold (M+1)^n · ε required for significance in a
+13-element basis.
 
-This is recorded here as a non-theorem (a null meta-claim); the Lean
-framework cannot formalise "no PSLQ relation exists" beyond the negative
-examples below.
+This is recorded here as a meta-level statement; no logical content
+beyond the null-search summary is asserted.
 -/
 
-/-- **Axiom Category F (meta).** The ratios (r_0, r_1, r_2, σ) do NOT
-    admit a short integer linear combination in the basis
+/-- **Null integer-relation result (meta).** The deviation ratios
+    (r_0, r_1, r_2) and the anisotropy σ do NOT admit a short integer
+    linear combination in the basis
     {1, √2, √3, √5, √7, √11, √13, √19, √77, π, ln 2, ε_k, ε_k², σ}
-    with coefficients |c| ≤ 200 at tolerance 10⁻¹⁰.
-    Source: `canonical/scripts/phase3d_hp_pslq.py`, Colab-ready.
-    This axiom is intentionally weak (a meta-claim about the search space);
-    it is superseded once Phase 3(A) Picard-Fuchs delivers a derivation. -/
+    with coefficients |c| ≤ 200 at tolerance 10⁻¹⁰. This axiom carries
+    no formal content (a placeholder for the external PSLQ search
+    report). -/
 axiom PSLQ_null_in_TCS_basis :
-  True  -- placeholder; no formal content beyond the source-file reference
+  True  -- placeholder; no formal content beyond the statement above
 
 /-!
 ## Master certificate
 
-Compact summary: the Phase 1b + Phase 3 interval certificates entail:
- 1. det(g(0.5)) = 65/32 to within 10⁻¹²
- 2. All four K3 eigenvalues strictly positive and strictly ordered
- 3. The naive pattern (-3/2, 0, 1/2, 1) is NOT the NK fixed point
- 4. The 1-parameter signature holds (dev_2 is much smaller than dev_0, dev_1)
+Compact summary: the external interval certificates entail
+ 1. det(g(1/2)) = 65/32 to within 10⁻¹²,
+ 2. all four K3 eigenvalues strictly positive and strictly ordered,
+ 3. the integer pattern (-3/2, 0, 1/2, 1) is not realised at the
+    torsion-free fixed point,
+ 4. the one-parameter signature holds (|dev_2| is much smaller than
+    |dev_0|, |dev_1|).
 -/
 
-/-- **Master interval certificate.** Conjunction of the four machine-checkable
-    claims extracted from Phase 1b + Phase 3 Colab interval notebooks. -/
+/-- **Master interval certificate.** Conjunction of the four
+    machine-checkable claims derived from the determinant and
+    K3 eigenvalue interval-arithmetic certificates. -/
 theorem interval_certificates_master :
     -- (1) det(g(0.5)) ≈ 65/32 at 10⁻¹² precision
     (|det_g_at_half - 65/32| ≤ (71 : ℝ) / 10^15) ∧

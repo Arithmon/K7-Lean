@@ -14,7 +14,7 @@
 -- extended fiber enumeration with V_fiber < 50 yields ~57,000 channels
 -- and a measured exponent of 3.46 (1.1% deviation from 3.5).
 --
--- All results are Category F (numerically verified definitions) with
+-- All results are numerically verified definitions with
 -- native_decide proofs. Zero new axioms.
 --
 -- References:
@@ -48,7 +48,7 @@ Source: `k7_spectrum_unified_results.json` (spectral computation).
 
 /-- Measured Weyl exponent numerator: alpha = 3.46 = 346/100
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: k7_spectrum_unified_results.json (weighted fit, actual = 3.4600) -/
 def weyl_exponent_num : ℕ := 346
 
@@ -93,13 +93,13 @@ Source: `k7_spectrum_unified_results.json` (spectral computation).
 
 /-- Number of distinct KK states below lambda = 20
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: k7_spectrum_unified_results.json -/
 def n_kk_states_below_20 : ℕ := 22671
 
 /-- Number of fiber channels enumerated
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: k7_spectrum_unified_results.json -/
 def n_fiber_channels : ℕ := 57578
 
@@ -130,7 +130,7 @@ Source: `k7_spectrum_unified_results.json` (spectral computation).
 
 /-- Effective volume numerator: Vol_eff ~ 538412 = 53841230/100
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: k7_spectrum_unified_results.json -/
 def vol_effective_num : ℕ := 53841230
 

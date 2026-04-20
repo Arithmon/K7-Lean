@@ -15,7 +15,7 @@
 --   dist(g₅, g*) ≤ 4.86 × 10⁻⁶
 --
 -- All numerical bounds are verified by run_g9_unconditional_certification.py
--- (17/17 checks) and constitute Category F axioms (numerically verified).
+-- (17/17 checks) and constitute numerically verified constants.
 --
 -- References:
 --   - Kantorovich, L.V. (1948). "Functional analysis and applied
@@ -79,14 +79,14 @@ The h parameter is expressed as a rational bound:
 
 This satisfies h < 1/2 with a safety factor of 7.52 million.
 
-**Axiom Category: F (Numerically verified)** — All bounds verified in
+**Numerically verified** — All bounds verified in
 `private/notebooks/g9_certification_results.json`.
 -/
 
 /-- NK contraction parameter upper bound numerator.
     h ≤ 665 / 10^10 = 6.65 × 10⁻⁸.
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Verified: run_g9_unconditional_certification.py (17/17 checks)
 **Why axiom**: Computed from numerical torsion evaluation on 80 grid points.
 **Elimination path**: Interval arithmetic certification over full domain. -/
@@ -125,14 +125,14 @@ The NK contraction parameter h = β η ω decomposes into three independent boun
 Their product gives:
   h = β η ω ≤ 6.674 × 10⁻⁸ < 0.5
 
-**Axiom Category: F (Numerically verified)** — All bounds verified in
+**Numerically verified** — All bounds verified in
 `private/notebooks/g9_certification_results.json`.
 -/
 
 /-- β = ||F'(g₅)⁻¹|| upper bound numerator.
     β ≤ 2962/100000 = 0.02962.
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Verified: run_g9_unconditional_certification.py (17/17 checks)
 **Why axiom**: Computed from numerical operator norm evaluation.
 **Elimination path**: Interval arithmetic certification. -/
@@ -142,7 +142,7 @@ def beta_den : ℕ := 100000
 /-- η = ||F'(g₅)⁻¹ F(g₅)|| upper bound numerator.
     η ≤ 316/10000000 = 3.16 × 10⁻⁵ (grid-free certified).
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Verified: run_g9_unconditional_certification.py (17/17 checks)
 **Why axiom**: Computed from numerical residual evaluation.
 **Elimination path**: Interval arithmetic certification. -/
@@ -152,7 +152,7 @@ def eta_den : ℕ := 10000000
 /-- ω = sup ||F'(g₅)⁻¹ F''(·)|| upper bound numerator.
     ω ≤ 713/10000 = 0.0713 (3× safety on max).
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Verified: run_g9_unconditional_certification.py (17/17 checks)
 **Why axiom**: Computed from numerical Lipschitz constant evaluation.
 **Elimination path**: Interval arithmetic certification. -/

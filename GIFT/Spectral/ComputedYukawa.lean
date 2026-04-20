@@ -5,7 +5,7 @@
 -- on K7. The non-adiabatic Yukawa coupling (rank 3) reproduces the
 -- tau:mu:e mass ratios at the percent level.
 --
--- All results are Category F (numerically verified definitions) with
+-- All results are numerically verified definitions with
 -- native_decide proofs. Zero new axioms.
 --
 -- References:
@@ -41,7 +41,7 @@ Source: `wilson_line_3gen_results.json` (best fit)
 
 /-- Predicted m_tau/m_mu numerator: 16.54
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: wilson_line_3gen_results.json (actual = 16.544) -/
 def yukawa_tau_mu_num : ℕ := 16540
 
@@ -50,13 +50,13 @@ def yukawa_tau_mu_den : ℕ := 1000
 
 /-- Predicted m_tau/m_e: 3403 (integer)
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: wilson_line_3gen_results.json (actual = 3403.1) -/
 def yukawa_tau_e : ℕ := 3403
 
 /-- Predicted m_mu/m_e numerator: 205.7
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: wilson_line_3gen_results.json (actual = 205.7) -/
 def yukawa_mu_e_num : ℕ := 2057
 

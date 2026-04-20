@@ -142,7 +142,7 @@ theorem spd7_eq_twice_dimG2 : spd7_dim = 2 * dim_G2 := by native_decide
 /-- dim(SPD₇) = 4 × dim(K₇) = 4 × 7: each direction gets 4 coupling parameters -/
 theorem spd7_eq_four_times_dimK7 : spd7_dim = 4 * dim_K7 := by native_decide
 
-/-- PINN model parameter count (Phase 2, three-chart atlas) -/
+/-- PINN model parameter count (three-chart atlas) -/
 def pinn_param_count : ℕ := 1070471
 
 /-- Compression ratio (integer part): 1,070,471 / 28 = 38,231 -/

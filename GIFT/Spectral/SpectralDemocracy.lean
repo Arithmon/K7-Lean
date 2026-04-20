@@ -8,7 +8,7 @@
 --   - The 3 SD modes correspond to 3 generations
 --   - Their near-degeneracy (spread < 2% of mean) = spectral democracy
 --
--- All results are Category F (numerically verified definitions) with
+-- All results are numerically verified definitions with
 -- native_decide proofs. Zero new axioms.
 --
 -- References:
@@ -35,19 +35,19 @@ fermion generations. Values from k7_harmonic_2forms_results.json.
 
 /-- First SD eigenvalue numerator: lambda_1 = 4.863
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: k7_harmonic_2forms_results.json -/
 def sd_ev_1_num : ℕ := 4863
 
 /-- Second SD eigenvalue numerator: lambda_2 = 4.821
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: k7_harmonic_2forms_results.json -/
 def sd_ev_2_num : ℕ := 4821
 
 /-- Third SD eigenvalue numerator: lambda_3 = 4.779
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: k7_harmonic_2forms_results.json -/
 def sd_ev_3_num : ℕ := 4779
 

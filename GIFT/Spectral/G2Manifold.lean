@@ -111,7 +111,7 @@ theorem G2_manifold_dim (M : G2HolonomyManifold) : M.base.dim = GIFT.Core.dim_K7
 
     NK-certified Betti numbers: b₂=21, b₃=77, H*=99.
 
-    NOTE (2026-04-14): Building block identification is an open problem.
+    NOTE: Building block identification is an open problem.
     The arithmetic witnesses M1_candidate (b2=11, b3=40) and
     M2_candidate (b2=10, b3=37) are placeholders only; no geometric
     TCS realization of (21,77) is known. See TCSConstruction.lean.
@@ -130,7 +130,7 @@ structure K7_Manifold where
 
 /-- K7 as a CompactManifold, constructed from K7_analysis_data spectral fields.
 
-**Phase 3 refactor (v4.0.12):** K7's spectral data is now bundled in K7AnalysisData
+**v4.0.12 refactor:** K7's spectral data is now bundled in K7AnalysisData
 (one axiom covering both Hodge and spectral properties). -/
 noncomputable def K7_compact_manifold : CompactManifold :=
   { dim := 7
@@ -145,7 +145,7 @@ noncomputable def K7_compact_manifold : CompactManifold :=
 
 /-- K7 exists as a G2-holonomy TCS manifold.
 
-**Phase 3 refactor (v4.0.12):** Formerly `axiom`, now `noncomputable def` constructed
+**v4.0.12 refactor:** Formerly `axiom`, now `noncomputable def` constructed
 from K7_compact_manifold (spectral data from K7_analysis_data) and TCS Betti numbers.
 **Axiom reduction:** -1 (K7_exists eliminated, spectral data absorbed into K7_analysis_data).
 
@@ -280,9 +280,9 @@ theorem G2_laplacian_decomposition (_M : G2HolonomyManifold) :
 
 /-- The spectral gap is constrained by G2 holonomy.
 
-**Formerly Axiom Category: E (GIFT Claim)** — Spectral gap controlled by holonomy dimension.
+**Formerly a GIFT numerical claim** — Spectral gap controlled by holonomy dimension.
 
-**PROVEN v3.3.46 (Aristotle Tier B)** — Trivial proof: MassGap M.base is positive by
+**PROVEN v3.3.46 (Aristotle)** — Trivial proof: MassGap M.base is positive by
 `mass_gap_positive`, so we can use it as the witness for the existential. The inequality
 MassGap M.base ≥ MassGap M.base holds by reflexivity. -/
 theorem G2_spectral_constraint (M : G2HolonomyManifold) :

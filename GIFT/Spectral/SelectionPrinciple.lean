@@ -227,7 +227,7 @@ theorem L_canonical_pos : L_canonical > 0 := by
     i.e., sqrt(63.6) < L* < sqrt(70.7), so roughly 7.9 < L* < 8.5
 
 **Proven** from pi_squared_gt_9, pi_squared_lt_10, and sqrt monotonicity.
-Former axiom (Category F), eliminated v3.3.31. -/
+Former numerical axiom, eliminated v3.3.31. -/
 theorem L_canonical_rough_bounds : (7 : ℝ) < L_canonical ∧ L_canonical < 9 := by
   unfold L_canonical
   have hL2_pos : (0 : ℝ) < L_squared_canonical := L_squared_canonical_pos
@@ -280,7 +280,7 @@ AXIOM: Pending variational proof. The conjecture is that among all
 TCS G2 manifolds with fixed topology (b2, b3), the canonical one
 minimizes some geometric functional at L^2 = kappa * H*.
 
-**Axiom Category: E (GIFT Claim)** — Variational selection principle (pending proof). -/
+**(GIFT numerical claim)** — Variational selection principle (pending proof). -/
 theorem selection_principle_holds (K : TCSManifold) :
     K.neckLength ^ 2 = L_squared_canonical → True := -- placeholder constraint
   fun _ => trivial

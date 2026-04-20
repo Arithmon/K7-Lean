@@ -49,9 +49,9 @@ import GIFT.Foundations.ExplicitG2Metric
 import GIFT.Foundations.NewtonKantorovich
 -- K3 harmonic correction: torsion reduction ×2995, 1D floor (v4.0)
 import GIFT.Foundations.K3HarmonicCorrection
--- K3 NK certificate: CI(2,2,2) Donaldson k=4, h=7.83e-2 ×6.4 (v2.2, 2026-04-18)
+-- K3 NK certificate: CI(2,2,2) Donaldson k=4, h=7.83e-2 ×6.4 (v2.2)
 import GIFT.Foundations.K3NewtonKantorovich
--- Interval certificates: Phase 1b + Phase 3 Colab interval-arith brackets (2026-04-19)
+-- Interval certificates: interval-arithmetic brackets
 import GIFT.Foundations.IntervalCertificates
 
 namespace GIFT.Foundations
@@ -116,9 +116,9 @@ Derives: b₂ = 21 = 7 + 14 from G₂ representation theory!
    - Torsion-free is necessary but NOT sufficient for G₂ holonomy
    - so(7) = g₂ ⊕ g₂⊥ decomposition: 21 = 14 + 7
    - AS constraints: 147 = dim(K₇) × b₂ per point
-   - Phase 3 diagnostic: hol_rank = 21 (target: 14)
+   - Training diagnostic: hol_rank = 21 (target: 14)
 
-6. **TCSConstruction.lean** (corrected 2026-04-14)
+6. **TCSConstruction.lean**
    - Abstract TCS framework (ACyl_CY3, TCS_b2/TCS_b3 formulas)
    - Arithmetic witnesses: M1_candidate (b₂=11, b₃=40), M2_candidate (b₂=10, b₃=37)
    - b₂=21, b₃=77 certified by NK metric (not derived from TCS)

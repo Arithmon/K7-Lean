@@ -1,7 +1,7 @@
 -- GIFT Foundations: Ambrose-Singer Theorem and Holonomy Diagnostics
 -- The gap between torsion-free G₂ structure and G₂ holonomy
 --
--- Central insight from Phase 3 PINN training (v6-v20, Feb 2026):
+-- Central insight from PINN training (v6-v20, Feb 2026):
 -- Torsion-free (nabla phi = 0) is NECESSARY but NOT SUFFICIENT for G₂ holonomy.
 -- The curvature must additionally lie in the g₂ subalgebra of so(7).
 --
@@ -10,7 +10,7 @@
 -- 2. Dimensional gap: dim(so(7)) = 21, dim(g₂) = 14, gap = 7 = dim(K₇)
 -- 3. Holonomy constraint: Riem(g) must have image in g₂ ⊂ so(7)
 -- 4. AS diagnostic: ratio ||proj_{g₂⊥}(R)||/||R|| measures holonomy deviation
--- 5. Phase 3 status: AS ratio ~4.0 (target <1.0), hol_rank = 21 (target 14)
+-- 5. Current training status: AS ratio ~4.0 (target <1.0), hol_rank = 21 (target 14)
 --
 -- References:
 --   - Ambrose, W.; Singer, I.M. (1953). "A theorem on holonomy."
@@ -81,7 +81,7 @@ For a metric g on a 7-manifold M:
 **G₂ holonomy criterion**: AS ratio = 0 everywhere
   equivalently: the holonomy algebra has rank ≤ 14 = dim(g₂)
 
-**Phase 3 v20 status** (Feb 2026):
+**Training status** (v20, Feb 2026):
   - g₂_self (torsion-free loss) descended from 3.86 to 2.251
   - AS ratio ≈ 4.0 (curvature still has significant g₂⊥ component)
   - Holonomy rank = 21 = dim(so(7)) (full SO(7), not yet G₂)
@@ -93,7 +93,7 @@ the curvature into g₂. An explicit Ambrose-Singer loss is needed.
 /-- Target holonomy rank for G₂ holonomy -/
 def target_hol_rank : ℕ := dim_G2
 
-/-- Current holonomy rank from PINN Phase 3 v20: full so(7) -/
+/-- Current holonomy rank from PINN training v20: full so(7) -/
 def current_hol_rank : ℕ := dim_so7
 
 /-- Target holonomy rank is 14 -/
@@ -271,11 +271,11 @@ theorem holonomy_manifold_ratio : dim_G2 = p2 * dim_K7 := by native_decide
 theorem so7_triple_K7 : dim_so7 = 3 * dim_K7 := by native_decide
 
 -- =============================================================================
--- PHASE 3 PINN TRAINING METRICS (numerical constants)
+-- PINN TRAINING METRICS (numerical constants)
 -- =============================================================================
 
 /-!
-## Phase 3 PINN metrics (v6-v20)
+## PINN metrics (v6-v20)
 
 The PINN training descended g₂_self from 3.86 (v6) to 2.251 (v20)
 over 19 training runs and ~64,000 epochs.
@@ -287,23 +287,23 @@ Key diagnostic values at v20:
 - hol_rank = 21 (target: 14)
 
 The AS ratio ~4.0 indicates the curvature generates all of so(7),
-confirming that explicit Ambrose-Singer loss is needed for Phase 4.
+confirming that an explicit Ambrose-Singer loss is needed going forward.
 -/
 
-/-- Phase 3 best g₂_self loss (×1000 for integer arithmetic): 2251 -/
+/-- Best g₂_self loss (×1000 for integer arithmetic): 2251 -/
 def phase3_g2_self_x1000 : ℕ := 2251
 
-/-- Phase 3 initial g₂_self loss (×1000): 3860 -/
+/-- Initial g₂_self loss (×1000): 3860 -/
 def phase3_g2_self_initial_x1000 : ℕ := 3860
 
 /-- Improvement factor numerator (×1000): 3860 - 2251 = 1609 -/
 theorem phase3_improvement : phase3_g2_self_initial_x1000 - phase3_g2_self_x1000 = 1609 := by
   native_decide
 
-/-- Phase 3 total training runs -/
+/-- Total training runs -/
 def phase3_total_runs : ℕ := 20
 
-/-- Phase 3 approximate total epochs -/
+/-- Approximate total epochs -/
 def phase3_total_epochs : ℕ := 64000
 
 -- =============================================================================

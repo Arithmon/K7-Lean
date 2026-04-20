@@ -11,23 +11,23 @@ This module formalizes:
 
 ## Axiom Classification
 
-| Axiom | Category | Status |
-|-------|----------|--------|
-| `CompactSimpleGroup` | A: Definition | Type for gauge groups |
-| `SU` | A: Definition | SU(N) constructor |
-| `Connection` | A: Definition | Gauge field type |
-| `Curvature` | A: Definition | Field strength type |
-| `YangMillsAction` | A: Definition | Action functional (subtype projection) |
+| Axiom | Kind | Status |
+|-------|------|--------|
+| `CompactSimpleGroup` | type definition | Type for gauge groups |
+| `SU` | type definition | SU(N) constructor |
+| `Connection` | type definition | Gauge field type |
+| `Curvature` | type definition | Field strength type |
+| `YangMillsAction` | type definition | Action functional (subtype projection) |
 | `yang_mills_nonneg` | — | **ELIMINATED v3.3.39** (subtype projection) |
-| `flat_connection_minimizes` | B: Standard result | Variational principle |
-| `YangMillsHamiltonian` | A: Definition | Quantum operator type |
-| `vacuum` | A: Definition | Ground state type |
-| `vacuum_energy` | A: Definition | Ground state energy |
-| `first_excited_energy` | A: Definition | Excited state energy |
+| `flat_connection_minimizes` | standard result | Variational principle |
+| `YangMillsHamiltonian` | type definition | Quantum operator type |
+| `vacuum` | type definition | Ground state type |
+| `vacuum_energy` | type definition | Ground state energy |
+| `first_excited_energy` | type definition | Excited state energy |
 | `mass_gap_nonneg` | — | **ELIMINATED v3.3.39** (subtype projection) |
-| `GIFT_mass_gap_relation` | E: GIFT claim | Δ = λ₁ × Λ_QCD |
+| `GIFT_mass_gap_relation` | GIFT claim | Δ = λ₁ × Λ_QCD |
 
-**Note**: Most axioms here are DEFINITIONS (Category A), not claims.
+**Note**: Most axioms here are type definitions, not claims.
 The only GIFT-specific claim is `GIFT_mass_gap_relation`.
 
 References:

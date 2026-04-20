@@ -11,7 +11,7 @@
 -- 3. Volume difference dV(e-mu) = 3.27 within 15.9% of ln(16.82) = 2.82
 -- 4. Both within 20% of targets (instanton hierarchy passes)
 --
--- All results are Category F (numerically verified definitions) with
+-- All results are numerically verified definitions with
 -- native_decide proofs. Zero new axioms.
 --
 -- Source: associative_volumes_results.json (instanton_volume computation)
@@ -44,20 +44,20 @@ Source: `associative_volumes_results.json` (instanton_volume computation).
 /-- SD1 cycle volume numerator: Vol_e = 11.109 = 111090/10000
     (electron wraps largest volume = smallest Yukawa coupling)
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: associative_volumes_results.json -/
 def vol_sd1_num : ℕ := 111090
 
 /-- SD2 cycle volume numerator: Vol_mu = 7.838 = 78378/10000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: associative_volumes_results.json -/
 def vol_sd2_num : ℕ := 78378
 
 /-- SD3 cycle volume numerator: Vol_tau = 2.476 = 24759/10000
     (tau wraps smallest volume = largest Yukawa coupling)
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: associative_volumes_results.json -/
 def vol_sd3_num : ℕ := 24759
 
@@ -90,13 +90,13 @@ and ln(m_tau/m_mu) = ln(16.82) = 2.823.
 
 /-- Volume difference dV(e - tau) numerator: 8.633 = 86331/10000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: associative_volumes_results.json -/
 def delta_vol_13_num : ℕ := 86331
 
 /-- Volume difference dV(e - mu) numerator: 3.271 = 32713/10000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: associative_volumes_results.json -/
 def delta_vol_12_num : ℕ := 32713
 
@@ -105,13 +105,13 @@ def delta_vol_den : ℕ := 10000
 
 /-- Target ln(m_tau/m_e) numerator: ln(3477) = 8.154 = 81539/10000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: associative_volumes_results.json -/
 def ln_tau_e_num : ℕ := 81539
 
 /-- Target ln(m_tau/m_mu) numerator: ln(16.82) = 2.823 = 28226/10000
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: associative_volumes_results.json -/
 def ln_tau_mu_num : ℕ := 28226
 
@@ -175,13 +175,13 @@ Source: Combined wilson_line + instanton_volume with alpha = e^K from S9.
 
 /-- Combined m_tau/m_e prediction: 3485 (with alpha = e^K)
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: Combined wilson_line + instanton_volume analysis, alpha = e^K -/
 def combined_tau_e : ℕ := 3485
 
 /-- Combined m_tau/m_mu numerator: 16.69 = 1669/100
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: Combined wilson_line + instanton_volume analysis, alpha = e^K -/
 def combined_tau_mu_num : ℕ := 1669
 
@@ -190,7 +190,7 @@ def combined_tau_mu_den : ℕ := 100
 
 /-- Combined m_mu/m_e numerator: 208.8 = 2088/10
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: Combined wilson_line + instanton_volume analysis, alpha = e^K -/
 def combined_mu_e_num : ℕ := 2088
 
@@ -200,7 +200,7 @@ def combined_mu_e_den : ℕ := 10
 /-- Instanton calibration alpha = e^K numerator: 0.002763 = 2763/1000000
     Geometric origin: alpha = exp(K_0) = Vol(K7)^(-3) where K_0 = -5.891
 
-**Axiom Category: F (Numerically verified)**
+**Numerically verified**
 Source: effective_lagrangian_4d_results.json (S9) -/
 def alpha_inst_num : ℕ := 2763
 
