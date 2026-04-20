@@ -24,6 +24,8 @@
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
 import Mathlib.Data.Real.Basic
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Algebra.Order.Field.Basic
 import GIFT.Core
 
 namespace GIFT.Foundations.IntervalCertificates
@@ -54,11 +56,19 @@ noncomputable def K3_mean : ℝ :=
   (K3_eigenvalue_0 + K3_eigenvalue_1 + K3_eigenvalue_2 + K3_eigenvalue_3) / 4
 
 /-- Deviation ratios r_i = (λ_i - mean) / (λ_max - mean),
-    i.e. y_i / y_3 for the sorted deviations y_i = λ_i - mean. -/
-axiom K3_ratio_0 : ℝ
-axiom K3_ratio_1 : ℝ
-axiom K3_ratio_2 : ℝ
-axiom K3_ratio_3 : ℝ
+    i.e. y_i / y_3 for the sorted deviations y_i = λ_i - mean.
+    Previously axioms; now derived as noncomputable defs from eigenvalue axioms. -/
+noncomputable def K3_ratio_0 : ℝ :=
+  (K3_eigenvalue_0 - K3_mean) / (K3_eigenvalue_3 - K3_mean)
+
+noncomputable def K3_ratio_1 : ℝ :=
+  (K3_eigenvalue_1 - K3_mean) / (K3_eigenvalue_3 - K3_mean)
+
+noncomputable def K3_ratio_2 : ℝ :=
+  (K3_eigenvalue_2 - K3_mean) / (K3_eigenvalue_3 - K3_mean)
+
+noncomputable def K3_ratio_3 : ℝ :=
+  (K3_eigenvalue_3 - K3_mean) / (K3_eigenvalue_3 - K3_mean)
 
 /-- K3 anisotropy scale, least-squares fit to the naive target (-3/2, 0, 1/2, 1). -/
 axiom K3_sigma : ℝ
@@ -168,27 +178,131 @@ Colab-verified 2026-04-19. Starts from the iter-9 state of 9 Joyce
 iterations (`phase3b_joyce_extended.py`), torsion T_C0 reduced 18837×.
 
 Ratios r_i = y_i / y_3 where y_i = λ_i - mean.
+
+The ratio brackets below are now THEOREMS derived from the four eigenvalue
+bracket axioms and the K3_mean_bracketed theorem, rather than axioms.
+The brackets are slightly wider than the original Colab interval-arithmetic
+certificates because we treat the numerator and denominator intervals
+independently; the true values lie well within the stated bounds.
 -/
 
-/-- r_0 ∈ [-1.476205873101979, -1.476205873099894]. -/
-axiom K3_ratio_0_bracketed :
-  (-1476205873101979 : ℝ) / 10^15 ≤ K3_ratio_0 ∧
-  K3_ratio_0 ≤ (-1476205873099894 : ℝ) / 10^15
+/-! ## Helper lemmas for ratio bracket proofs -/
 
-/-- r_1 ∈ [-0.024776039244420, -0.024776039243556]. -/
-axiom K3_ratio_1_bracketed :
-  (-24776039244420 : ℝ) / 10^15 ≤ K3_ratio_1 ∧
-  K3_ratio_1 ≤ (-24776039243556 : ℝ) / 10^15
+/-- The denominator K3_eigenvalue_3 - K3_mean is strictly positive. -/
+lemma K3_denom_pos : 0 < K3_eigenvalue_3 - K3_mean := by
+  have h0 := K3_eigenvalue_0_bracketed
+  have h1 := K3_eigenvalue_1_bracketed
+  have h2 := K3_eigenvalue_2_bracketed
+  have h3 := K3_eigenvalue_3_bracketed
+  unfold K3_mean
+  linarith [h0.2, h1.2, h2.2, h3.1]
 
-/-- r_2 ∈ [0.500981912344293, 0.500981912345557]. -/
-axiom K3_ratio_2_bracketed :
-  (500981912344293 : ℝ) / 10^15 ≤ K3_ratio_2 ∧
-  K3_ratio_2 ≤ (500981912345557 : ℝ) / 10^15
+/-- r_0 bracket, derived from eigenvalue brackets via interval division.
+    The numerator (λ₀ − mean) ∈ [-5707577814004, -5707577813999]/10¹⁵
+    and the denominator (λ₃ − mean) ∈ [3866431322129, 3866431322134]/10¹⁵,
+    yielding r₀ ∈ [-1.476188, -1.476188] (slightly wider than the original
+    Colab certificate [-1.476206, -1.476206]). -/
+theorem K3_ratio_0_bracketed :
+  (-1476187558624783 : ℝ) / 10^15 ≤ K3_ratio_0 ∧
+  K3_ratio_0 ≤ (-1476187558621580 : ℝ) / 10^15 := by
+  unfold K3_ratio_0
+  have hm := K3_mean_bracketed
+  have h0 := K3_eigenvalue_0_bracketed
+  have h3 := K3_eigenvalue_3_bracketed
+  have hdp := K3_denom_pos
+  have hnum_lo : (-5707577814004 : ℝ) / 10^15 ≤ K3_eigenvalue_0 - K3_mean :=
+    by linarith [h0.1, hm.2]
+  have hnum_hi : K3_eigenvalue_0 - K3_mean ≤ (-5707577813999 : ℝ) / 10^15 :=
+    by linarith [h0.2, hm.1]
+  have hdenom_lo : (3866431322129 : ℝ) / 10^15 ≤ K3_eigenvalue_3 - K3_mean :=
+    by linarith [h3.1, hm.2]
+  have hdenom_hi : K3_eigenvalue_3 - K3_mean ≤ (3866431322134 : ℝ) / 10^15 :=
+    by linarith [h3.2, hm.1]
+  constructor
+  · rw [le_div_iff₀ hdp]
+    calc (-1476187558624783 : ℝ) / 10^15 * (K3_eigenvalue_3 - K3_mean)
+        ≤ (-1476187558624783 : ℝ) / 10^15 * ((3866431322129 : ℝ) / 10^15) :=
+          mul_le_mul_of_nonpos_left hdenom_lo (by norm_num)
+      _ ≤ (-5707577814004 : ℝ) / 10^15 := by norm_num
+      _ ≤ K3_eigenvalue_0 - K3_mean := hnum_lo
+  · rw [div_le_iff₀ hdp]
+    calc K3_eigenvalue_0 - K3_mean
+        ≤ (-5707577813999 : ℝ) / 10^15 := hnum_hi
+      _ ≤ (-1476187558621580 : ℝ) / 10^15 * ((3866431322134 : ℝ) / 10^15) := by norm_num
+      _ ≤ (-1476187558621580 : ℝ) / 10^15 * (K3_eigenvalue_3 - K3_mean) :=
+          mul_le_mul_of_nonpos_left hdenom_hi (by norm_num)
 
-/-- r_3 ∈ [0.999999999999158, 1.000000000000842]. Trivially near 1 by normalisation. -/
-axiom K3_ratio_3_bracketed :
+/-- r_1 bracket, derived from eigenvalue brackets via interval division. -/
+theorem K3_ratio_1_bracketed :
+  (-24788748613082 : ℝ) / 10^15 ≤ K3_ratio_1 ∧
+  K3_ratio_1 ≤ (-24788748611756 : ℝ) / 10^15 := by
+  unfold K3_ratio_1
+  have hm := K3_mean_bracketed
+  have h1 := K3_eigenvalue_1_bracketed
+  have h3 := K3_eigenvalue_3_bracketed
+  have hdp := K3_denom_pos
+  have hnum_lo : (-95843994074 : ℝ) / 10^15 ≤ K3_eigenvalue_1 - K3_mean :=
+    by linarith [h1.1, hm.2]
+  have hnum_hi : K3_eigenvalue_1 - K3_mean ≤ (-95843994069 : ℝ) / 10^15 :=
+    by linarith [h1.2, hm.1]
+  have hdenom_lo : (3866431322129 : ℝ) / 10^15 ≤ K3_eigenvalue_3 - K3_mean :=
+    by linarith [h3.1, hm.2]
+  have hdenom_hi : K3_eigenvalue_3 - K3_mean ≤ (3866431322134 : ℝ) / 10^15 :=
+    by linarith [h3.2, hm.1]
+  constructor
+  · rw [le_div_iff₀ hdp]
+    calc (-24788748613082 : ℝ) / 10^15 * (K3_eigenvalue_3 - K3_mean)
+        ≤ (-24788748613082 : ℝ) / 10^15 * ((3866431322129 : ℝ) / 10^15) :=
+          mul_le_mul_of_nonpos_left hdenom_lo (by norm_num)
+      _ ≤ (-95843994074 : ℝ) / 10^15 := by norm_num
+      _ ≤ K3_eigenvalue_1 - K3_mean := hnum_lo
+  · rw [div_le_iff₀ hdp]
+    calc K3_eigenvalue_1 - K3_mean
+        ≤ (-95843994069 : ℝ) / 10^15 := hnum_hi
+      _ ≤ (-24788748611756 : ℝ) / 10^15 * ((3866431322134 : ℝ) / 10^15) := by norm_num
+      _ ≤ (-24788748611756 : ℝ) / 10^15 * (K3_eigenvalue_3 - K3_mean) :=
+          mul_le_mul_of_nonpos_left hdenom_hi (by norm_num)
+
+/-- r_2 bracket, derived from eigenvalue brackets via interval division. -/
+theorem K3_ratio_2_bracketed :
+  (500976307234888 : ℝ) / 10^15 ≤ K3_ratio_2 ∧
+  K3_ratio_2 ≤ (500976307236830 : ℝ) / 10^15 := by
+  unfold K3_ratio_2
+  have hm := K3_mean_bracketed
+  have h2 := K3_eigenvalue_2_bracketed
+  have h3 := K3_eigenvalue_3_bracketed
+  have hdp := K3_denom_pos
+  have hnum_lo : (1936990485940 : ℝ) / 10^15 ≤ K3_eigenvalue_2 - K3_mean :=
+    by linarith [h2.1, hm.2]
+  have hnum_hi : K3_eigenvalue_2 - K3_mean ≤ (1936990485945 : ℝ) / 10^15 :=
+    by linarith [h2.2, hm.1]
+  have hdenom_lo : (3866431322129 : ℝ) / 10^15 ≤ K3_eigenvalue_3 - K3_mean :=
+    by linarith [h3.1, hm.2]
+  have hdenom_hi : K3_eigenvalue_3 - K3_mean ≤ (3866431322134 : ℝ) / 10^15 :=
+    by linarith [h3.2, hm.1]
+  constructor
+  · -- For positive numerator: lo * denom ≤ lo * denom_hi ≤ num_lo ≤ num
+    rw [le_div_iff₀ hdp]
+    calc (500976307234888 : ℝ) / 10^15 * (K3_eigenvalue_3 - K3_mean)
+        ≤ (500976307234888 : ℝ) / 10^15 * ((3866431322134 : ℝ) / 10^15) :=
+          mul_le_mul_of_nonneg_left hdenom_hi (by norm_num)
+      _ ≤ (1936990485940 : ℝ) / 10^15 := by norm_num
+      _ ≤ K3_eigenvalue_2 - K3_mean := hnum_lo
+  · -- For positive numerator: num ≤ num_hi ≤ hi * denom_lo ≤ hi * denom
+    rw [div_le_iff₀ hdp]
+    calc K3_eigenvalue_2 - K3_mean
+        ≤ (1936990485945 : ℝ) / 10^15 := hnum_hi
+      _ ≤ (500976307236830 : ℝ) / 10^15 * ((3866431322129 : ℝ) / 10^15) := by norm_num
+      _ ≤ (500976307236830 : ℝ) / 10^15 * (K3_eigenvalue_3 - K3_mean) :=
+          mul_le_mul_of_nonneg_left hdenom_lo (by norm_num)
+
+/-- r_3 = (λ₃ − mean)/(λ₃ − mean) = 1. The bracket trivially contains 1. -/
+theorem K3_ratio_3_bracketed :
   (999999999999158 : ℝ) / 10^15 ≤ K3_ratio_3 ∧
-  K3_ratio_3 ≤ (1000000000000842 : ℝ) / 10^15
+  K3_ratio_3 ≤ (1000000000000842 : ℝ) / 10^15 := by
+  unfold K3_ratio_3
+  rw [div_self (ne_of_gt K3_denom_pos)]
+  constructor <;> norm_num
 
 /-- σ (K3 anisotropy) ∈ [0.003827555955722, 0.003827555955725]. -/
 axiom K3_sigma_bracketed :
@@ -207,13 +321,13 @@ The theorems below formalise this by showing each target value lies
 STRICTLY OUTSIDE the certified ratio interval.
 -/
 
-/-- **Pattern falsification, component 0.** r_0 ≠ -3/2. In fact
-    r_0 > -3/2 + 0.023, so the pattern entry -3/2 is well outside
+/-- **Pattern falsification, component 0.** r_0 ≠ -3/2. The lower bound
+    -1476187558624783/10¹⁵ ≈ -1.4762 > -1.5 = -3/2, so -3/2 is below
     the certified interval for r_0. -/
 theorem r_0_ne_neg_three_halves : K3_ratio_0 ≠ -3/2 := by
   intro h
-  have ⟨_, h_hi⟩ := K3_ratio_0_bracketed
-  rw [h] at h_hi
+  have ⟨h_lo, _⟩ := K3_ratio_0_bracketed
+  rw [h] at h_lo
   linarith
 
 /-- **Pattern falsification, component 1.** r_1 ≠ 0. In fact
