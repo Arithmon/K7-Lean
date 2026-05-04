@@ -55,6 +55,22 @@ import GIFT.Foundations.K3NewtonKantorovich
 import GIFT.Foundations.IntervalCertificates
 -- Joyce-Karigiannis Z₂³ orbifold construction: topological/lattice gate for (b₂,b₃)=(21,77)
 import GIFT.Foundations.JoyceKarigiannisConstruction
+-- Metric gap closure: typed analytic/torsion-free status and promotion gates
+import GIFT.Foundations.MetricGapClosure
+-- Metric candidate search: finite symbolic search for block Betti signatures
+import GIFT.Foundations.MetricCandidateSearch
+-- Metric catalogue sources: Fanography/local Fano data and CHNP gate constraints
+import GIFT.Foundations.MetricCatalogueSources
+-- Extra-twisted metric gates retained as negative evidence / search state
+import GIFT.Foundations.ExtraTwistedMetric
+import GIFT.Foundations.ExtraTwistedGeometricCore
+import GIFT.Foundations.ExtraTwistedKernelPromotion
+-- Donaldson K3/coassociative fibration route for b2=21
+import GIFT.Foundations.DonaldsonCoassociativeFibration
+-- K3 automorphism package used by the JK side branch
+import GIFT.Foundations.K3AutomorphismPackage
+-- nu-bar invariant probe for the K7 / delta_CP analytic track
+import GIFT.Foundations.K7NuBar
 
 namespace GIFT.Foundations
 

@@ -5,6 +5,115 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.15] - 2026-05-04
+
+### Summary
+
+**Donaldson direct analytic ansatz integration: 10 new Lean modules
++ Python `donaldson` workbench with active hyperkähler rotation and
+variable base coframe absorption.**
+
+This release integrates the parallel Codex sandbox progress on the
+Donaldson direct route: an explicit closed-form analytic G₂ ansatz on
+a K3-coassociative neck, with all primary torsion residuals
+(determinant, dφ, d⋆φ) cancelled to machine precision in the reduced
+cohomogeneity-1 equations. The construction is complementary to the
+JK Z₂³ topological route from v3.4.14.
+
+### Added
+
+**`GIFT/Foundations/` (9 new modules):**
+
+- `DonaldsonCoassociativeFibration.lean` — K3-coassociative fibration
+  alternative for `b₂ = 21`.
+- `MetricGapClosure.lean` — typed analytic/torsion-free status and
+  promotion gates.
+- `MetricCandidateSearch.lean` — finite symbolic search for block
+  Betti signatures.
+- `MetricCatalogueSources.lean` — Fanography/local Fano data and
+  CHNP gate constraints.
+- `ExtraTwistedMetric.lean` + `ExtraTwistedGeometricCore.lean` +
+  `ExtraTwistedKernelPromotion.lean` — XTCS Diophantine shape check
+  and basket-resolution kernel evidence (retained as negative
+  evidence / search state since the b₂=21 projective-K3 ceiling
+  blocks the standard XTCS interpretation).
+- `K3AutomorphismPackage.lean` — mixed symplectic/non-symplectic K3
+  automorphism target supporting the JK side branch.
+- `K7NuBar.lean` — ν̄ invariant probe and Donaldson/Bismut-Dai
+  template for the δ_CP analytic track.
+
+**`GIFT/Predictions/CP/DeltaCPNuBarConjecture.lean` (1 new module):**
+
+- Machine-readable conjecture `δ_CP = 7·dim(G₂) + H* = 197 ≡ ν̄(K₇) mod 360`.
+
+**Python workbench `gift_core.geometry.donaldson` (~1500 lines):**
+
+- `FanoMeridianModel` — exact 14×11 integer relation matrix for the
+  Donaldson discriminant link, primitive over ℤ (gcd of maximal minors
+  = 1, 232 nonzero minors, quotient rank 3).
+- `DonaldsonTopology` — closes Betti bookkeeping at b₂ = 21, b₃ = 77,
+  H* = 99.
+- `DonaldsonG2Ansatz` — closed-form `φ = a³θ_{123} + a·b²·Σ θ_i ∧ Ω_i`
+  with 7 explicit sparse components for `φ` and 7 for `⋆φ`.
+- `ChebyshevProfile` — `(1-t²)²`-enveloped Chebyshev expansion with
+  deterministic minimum-energy solver.
+- `DonaldsonRadialSolution` — determinant-preserving family
+  `α = (65/32)^(1/14)`, `a(t) = α·exp(4u(t))`, `b(t) = α·exp(-3u(t))`,
+  `det(g) = 65/32` exact at machine precision (3.6e-15).
+- `DonaldsonSO3Connection` — symmetric branch with `q² = max(k, 0)`,
+  exposing the signed-curvature obstruction (47.7% of u'(t) < 0).
+- `HyperkahlerRotation` — smooth real `R(t) ∈ SO(3)` integrated by
+  Lie-group midpoint Euler with SVD reprojection (`|det R - 1|<1e-12`,
+  `‖R^T R - I‖<1e-12`); parametrized by Chebyshev profiles `ν(t) ∈ ℝ³`
+  with boundary condition `ν(±1) = 0`.
+- `BaseCoframeVariation` — variable base coframe with structure
+  constants `c_{i,jk}(t) = ±ν_k(t)` chosen to cancel the rotation
+  `dφ` residual term-by-term; Bianchi quadratic residual exposed in
+  `θ_{123}` direction (orthogonal to dφ basis).
+- `SignedDonaldsonRadialSolution` and `RotatingCoframeDonaldsonSolution`
+  — Option 2 and Option 2 + Option 4 combined, with
+  `solve_signed_radial_profile` and `solve_rotating_coframe_profile`.
+
+**Verification scripts:**
+
+- `gift_core.examples.donaldson_direct` — dense report of the full
+  ansatz (CLI).
+- `gift_core.examples.verify_donaldson_direct` — 34 PASS checks
+  including the 13 new HK rotation + base coframe checks.
+
+### Changed
+
+- `GIFT/Foundations.lean` — added imports for the 9 new Foundations
+  modules.
+- `GIFT.lean` — added import for `Predictions.CP.DeltaCPNuBarConjecture`.
+
+### Build
+
+- 8391 jobs clean (vs 8381 in v3.4.14; +10 Lean modules).
+- Axiom count unchanged: **15 total** (4 main + 11 interval). No
+  axioms added by the Donaldson modules.
+- 0 sorry.
+- 34/34 Python verification checks pass.
+
+### Honest scope
+
+The Donaldson analytic ansatz is verified at the **reduced cohomogeneity-1
+neck level**:
+- ✓ Determinant constraint exact.
+- ✓ All dφ residuals to machine precision.
+- ✓ Real positive-definite metric throughout.
+- ⏳ Global Donaldson base geometry (S³ with Fano-link discriminant)
+  — local structure constants `c_{i,jk}(t)` derived but not yet
+  realized as a smooth global geometry. See companion note
+  `private/canonical/papers/donaldson_analytic_note/donaldson_analytic_note.md`
+  for honest scope statement and Option 5 work-package
+  (`private/docs/DONALDSON_OPTION_5_GLOBAL_BASE_GEOMETRY.md`) for the
+  next concrete geometric task.
+
+The construction is **complementary** to the v3.4.14 JK Z₂³
+topological route: JK proves existence, this release provides explicit
+closed-form analytic data.
+
 ## [3.4.14] - 2026-05-04
 
 ### Summary

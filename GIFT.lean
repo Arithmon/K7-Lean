@@ -40,6 +40,7 @@ import GIFT.Hierarchy
 
 import GIFT.Observables
 import GIFT.Spectral
+import GIFT.Predictions.CP.DeltaCPNuBarConjecture
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- CERTIFICATE (modular: Foundations / Predictions / Spectral)
