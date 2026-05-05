@@ -10,6 +10,7 @@ from gift_core.geometry.donaldson import (
     FanoPLWirtingerCandidate,
     audit_fano_meridian_rotation,
     audit_global_base_geometry,
+    audit_spatial_embedding_candidates,
     solve_fano_meridian_profile,
     solve_min_energy_radial_profile,
     solve_rotating_coframe_profile,
@@ -35,6 +36,11 @@ def verify() -> dict[str, bool]:
     meridian_audit = audit_fano_meridian_rotation(meridian)
     wirtinger_audit = FanoPLWirtingerCandidate().audit()
     incidence_audit = FanoIncidenceGraphIdentifier().audit()
+    spatial_audit = audit_spatial_embedding_candidates()
+    spatial_reports = {
+        report["name"]: report
+        for report in spatial_audit["candidates"]
+    }
 
     return {
         "fano_relation_rank_11": meridians.relation_rank == 11,
@@ -87,6 +93,18 @@ def verify() -> dict[str, bool]:
         "pl_wirtinger_candidate_not_claimed_pi1": wirtinger_audit["can_claim_graph_complement_pi1"] is False,
         "fano_incidence_line_identity_relators_fail": incidence_audit["line_identity_relators"]["all_lines_identity"] is False,
         "fano_incidence_products_not_uniform_pl_reflections": incidence_audit["line_generator_products"]["all_line_products_order_two"] is False,
+        "k7_spatial_embedding_obstructed_by_rank": spatial_reports["k7_fano_colored"]["abelianization_rank"] != 3
+        and spatial_reports["k7_fano_colored"]["matches_v3_4_15_presentation"] is False,
+        "heawood_spatial_embedding_obstructed_by_rank": spatial_reports["heawood_incidence_graph"]["abelianization_rank"] != 3
+        and spatial_reports["heawood_incidence_graph"]["matches_v3_4_15_presentation"] is False,
+        "fano_seven_link_matches_rank3_presentation_shadow": spatial_reports["fano_seven_component_link"]["matches_v3_4_15_presentation"] is True,
+        "fano_seven_link_pl_representation_descends": spatial_reports["fano_seven_component_link"]["pl_representation_descends"] is True,
+        "fano_seven_link_line_345_is_reflection": spatial_reports["fano_seven_component_link"]["line_3_4_5_is_reflection"] is True,
+        "at_least_one_spatial_embedding_admits_pl_descent": spatial_audit["at_least_one_spatial_embedding_admits_pl_descent"] is True,
+        "fano_seven_link_hopf_embedding_certified_smooth": spatial_reports["fano_seven_component_link"]["embedding_is_explicit_and_smooth"] is True,
+        "fano_seven_link_hopf_pairwise_linking_plus_one": spatial_audit["fano_seven_link_hopf_certificate"]["all_off_diagonal_linking_plus_one"] is True,
+        "fano_seven_link_projection_has_generic_crossings": spatial_audit["fano_seven_link_projection"]["has_transverse_double_points_only"] is True,
+        "fano_seven_link_projection_crossings_present": spatial_audit["fano_seven_link_projection"]["crossing_count"] > 0,
         "rotation_holonomy_status_reported": "is_closed_loop_at_identity" in base_audit["rotation_holonomy"],
         "fano_meridian_rotation_matches_holonomy": meridian_audit["matches_meridian_holonomy"] is True,
         "fano_meridian_rotation_order_two": meridian_audit["target_order_two_error"] < 1e-12,

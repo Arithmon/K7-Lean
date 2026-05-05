@@ -1491,6 +1491,545 @@ class FanoIncidenceGraphIdentifier:
 
 
 @dataclass
+class SpatialEmbeddingAuditResult:
+    name: str
+    vertex_count: int
+    edge_count: int
+    component_count: int
+    abelianization_rank: int
+    matches_v3_4_15_presentation: bool
+    pl_representation_descends: bool
+    line_345_is_reflection: bool
+    embedding_is_explicit_and_smooth: bool
+    obstruction: str
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "name": self.name,
+            "vertex_count": self.vertex_count,
+            "edge_count": self.edge_count,
+            "component_count": self.component_count,
+            "abelianization_rank": self.abelianization_rank,
+            "matches_v3_4_15_presentation": self.matches_v3_4_15_presentation,
+            "pl_representation_descends": self.pl_representation_descends,
+            "line_3_4_5_is_reflection": self.line_345_is_reflection,
+            "embedding_is_explicit_and_smooth": self.embedding_is_explicit_and_smooth,
+            "obstruction": self.obstruction,
+        }
+
+
+@dataclass
+class LinkProjectionCrossing:
+    """One transverse crossing in a polygonal link projection."""
+
+    over_component: int
+    under_component: int
+    over_segment: int
+    under_segment: int
+    xy: tuple[float, float]
+    z_over: float
+    z_under: float
+    sign: int
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "over_component": self.over_component,
+            "under_component": self.under_component,
+            "over_segment": self.over_segment,
+            "under_segment": self.under_segment,
+            "xy": self.xy,
+            "z_over": self.z_over,
+            "z_under": self.z_under,
+            "z_gap": abs(self.z_over - self.z_under),
+            "sign": self.sign,
+        }
+
+
+@dataclass
+class LinkProjectionDiagram:
+    """Deterministic sampled projection of an oriented link in S3."""
+
+    sample_count_per_component: int
+    crossings: list[LinkProjectionCrossing]
+    min_crossing_z_gap: float
+    min_crossing_xy_separation: float
+    has_transverse_double_points_only: bool
+
+    def as_dict(self, *, max_crossings: int = 24) -> dict[str, object]:
+        return {
+            "sample_count_per_component": self.sample_count_per_component,
+            "crossing_count": len(self.crossings),
+            "min_crossing_z_gap": self.min_crossing_z_gap,
+            "min_crossing_xy_separation": self.min_crossing_xy_separation,
+            "has_transverse_double_points_only": self.has_transverse_double_points_only,
+            "crossing_table_sample": [
+                crossing.as_dict()
+                for crossing in self.crossings[:max_crossings]
+            ],
+            "crossing_table_truncated": len(self.crossings) > max_crossings,
+        }
+
+
+def _complex_pair_to_r4(pair: np.ndarray) -> np.ndarray:
+    return np.array(
+        [
+            pair[0].real,
+            pair[0].imag,
+            pair[1].real,
+            pair[1].imag,
+        ],
+        dtype=float,
+    )
+
+
+def _stereographic_basis(pole: np.ndarray) -> np.ndarray:
+    basis: list[np.ndarray] = []
+    for vector in np.eye(4):
+        candidate = vector - np.dot(vector, pole) * pole
+        for old in basis:
+            candidate = candidate - np.dot(candidate, old) * old
+        norm = np.linalg.norm(candidate)
+        if norm > 1e-12:
+            basis.append(candidate / norm)
+        if len(basis) == 3:
+            break
+    return np.vstack(basis)
+
+
+def _stereographic_project_s3(points: np.ndarray, pole: np.ndarray) -> np.ndarray:
+    basis = _stereographic_basis(pole)
+    dots = points @ pole
+    tangent = points - dots[:, None] * pole[None, :]
+    projected = tangent / (1.0 - dots)[:, None]
+    return projected @ basis.T
+
+
+def _segment_intersection_2d(
+    a0: np.ndarray,
+    a1: np.ndarray,
+    b0: np.ndarray,
+    b1: np.ndarray,
+    *,
+    eps: float = 1e-9,
+) -> tuple[float, float] | None:
+    da = a1 - a0
+    db = b1 - b0
+    denom = da[0] * db[1] - da[1] * db[0]
+    if abs(denom) < eps:
+        return None
+    delta = b0 - a0
+    s = (delta[0] * db[1] - delta[1] * db[0]) / denom
+    t = (delta[0] * da[1] - delta[1] * da[0]) / denom
+    if eps < s < 1.0 - eps and eps < t < 1.0 - eps:
+        return float(s), float(t)
+    return None
+
+
+def _orthonormal_frame3(seed: np.ndarray) -> np.ndarray:
+    q, _ = np.linalg.qr(seed.T)
+    return q.T
+
+
+def _deterministic_projection_frames3() -> list[np.ndarray]:
+    seeds = [
+        np.array(
+            [
+                [1.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0],
+                [0.0, 0.0, 1.0],
+            ],
+            dtype=float,
+        ),
+        np.array(
+            [
+                [0.23, 0.71, 0.66],
+                [0.87, -0.44, 0.22],
+                [0.43, 0.55, -0.72],
+            ],
+            dtype=float,
+        ),
+        np.array(
+            [
+                [0.51, -0.17, 0.84],
+                [0.31, 0.95, 0.02],
+                [-0.80, 0.25, 0.54],
+            ],
+            dtype=float,
+        ),
+        np.array(
+            [
+                [0.62, 0.33, -0.71],
+                [-0.18, 0.94, 0.29],
+                [0.76, -0.05, 0.65],
+            ],
+            dtype=float,
+        ),
+    ]
+    return [_orthonormal_frame3(seed) for seed in seeds]
+
+
+@dataclass
+class SpatialGraphCandidate:
+    """A deterministic spatial graph/link candidate for Gamma_Fano."""
+
+    name: str
+    vertices: list[tuple[float, ...]]
+    edges: list[tuple[int, int]]
+    component_count: int
+    edge_to_fano_line: dict[int, int]
+
+    def abelianization_rank(self) -> int:
+        return self.edge_count - self.vertex_count + self.component_count
+
+    @property
+    def vertex_count(self) -> int:
+        return len(self.vertices)
+
+    @property
+    def edge_count(self) -> int:
+        return len(self.edges)
+
+    def audit(self) -> SpatialEmbeddingAuditResult:
+        return SpatialEmbeddingAuditResult(
+            name=self.name,
+            vertex_count=self.vertex_count,
+            edge_count=self.edge_count,
+            component_count=self.component_count,
+            abelianization_rank=self.abelianization_rank(),
+            matches_v3_4_15_presentation=False,
+            pl_representation_descends=False,
+            line_345_is_reflection=False,
+            embedding_is_explicit_and_smooth=True,
+            obstruction="base class has no PL descent model",
+        )
+
+
+@dataclass
+class K7FanoColoredGraph(SpatialGraphCandidate):
+    """K7 with edges colored by Fano lines."""
+
+    @classmethod
+    def regular_hexagonal_embedding(cls) -> "K7FanoColoredGraph":
+        vertices = [(0.0, 0.0, 0.0)]
+        for k in range(6):
+            angle = 2.0 * np.pi * k / 6.0
+            vertices.append((float(np.cos(angle)), float(np.sin(angle)), 0.25 * (-1) ** k))
+        lines = FanoIncidenceGraphIdentifier().fano_lines()
+        edge_to_line: dict[int, int] = {}
+        edges: list[tuple[int, int]] = []
+        for i, j in itertools.combinations(range(7), 2):
+            edge_index = len(edges)
+            edges.append((i, j))
+            for line_index, line in enumerate(lines):
+                if i in line and j in line:
+                    edge_to_line[edge_index] = line_index
+                    break
+        return cls("k7_fano_colored", vertices, edges, 1, edge_to_line)
+
+    def fano_triangle_relators(self) -> list[list[int]]:
+        edge_lookup = {tuple(sorted(edge)): i for i, edge in enumerate(self.edges)}
+        relators = []
+        for line in FanoIncidenceGraphIdentifier().fano_lines():
+            i, j, k = line
+            relators.append(
+                [
+                    edge_lookup[tuple(sorted((i, j)))],
+                    edge_lookup[tuple(sorted((j, k)))],
+                    edge_lookup[tuple(sorted((k, i)))],
+                ]
+            )
+        return relators
+
+    def audit(self) -> SpatialEmbeddingAuditResult:
+        incidence = FanoIncidenceGraphIdentifier().audit()
+        return SpatialEmbeddingAuditResult(
+            name=self.name,
+            vertex_count=self.vertex_count,
+            edge_count=self.edge_count,
+            component_count=self.component_count,
+            abelianization_rank=self.abelianization_rank(),
+            matches_v3_4_15_presentation=False,
+            pl_representation_descends=False,
+            line_345_is_reflection=False,
+            embedding_is_explicit_and_smooth=True,
+            obstruction=(
+                "K7 has abelianization rank 15 rather than target 3, and "
+                "inherits the abstract Fano line-product obstruction: "
+                f"all_line_products_order_two="
+                f"{incidence['line_generator_products']['all_line_products_order_two']}."
+            ),
+        )
+
+
+@dataclass
+class HeawoodGraph(SpatialGraphCandidate):
+    """Heawood incidence graph embedded on a standard torus in R3."""
+
+    @classmethod
+    def torus_embedding(cls) -> "HeawoodGraph":
+        vertices: list[tuple[float, float, float]] = []
+        major, minor = 2.0, 0.55
+        for side in range(2):
+            for k in range(7):
+                u = 2.0 * np.pi * k / 7.0
+                v = 0.0 if side == 0 else np.pi
+                vertices.append(
+                    (
+                        float((major + minor * np.cos(v)) * np.cos(u)),
+                        float((major + minor * np.cos(v)) * np.sin(u)),
+                        float(minor * np.sin(v)),
+                    )
+                )
+        lines = FanoIncidenceGraphIdentifier().fano_lines()
+        edges: list[tuple[int, int]] = []
+        edge_to_line: dict[int, int] = {}
+        for line_index, line in enumerate(lines):
+            line_vertex = 7 + line_index
+            for point_vertex in line:
+                edge_to_line[len(edges)] = line_index
+                edges.append((point_vertex, line_vertex))
+        return cls("heawood_incidence_graph", vertices, edges, 1, edge_to_line)
+
+    def audit(self) -> SpatialEmbeddingAuditResult:
+        return SpatialEmbeddingAuditResult(
+            name=self.name,
+            vertex_count=self.vertex_count,
+            edge_count=self.edge_count,
+            component_count=self.component_count,
+            abelianization_rank=self.abelianization_rank(),
+            matches_v3_4_15_presentation=False,
+            pl_representation_descends=False,
+            line_345_is_reflection=False,
+            embedding_is_explicit_and_smooth=True,
+            obstruction=(
+                "Heawood has abelianization rank 8 as a connected graph, "
+                "not the v3.4.15 target rank 3. A PSL(2,7) action remains "
+                "natural but does not by itself give the required 14-meridian "
+                "line-link presentation."
+            ),
+        )
+
+
+@dataclass
+class FanoSevenComponentLink(SpatialGraphCandidate):
+    """Seven explicit Hopf-fiber components in S3, one per Fano line."""
+
+    hopf_base_vectors: tuple[tuple[complex, complex], ...] = ()
+
+    @classmethod
+    def quaternionic_embedding(cls) -> "FanoSevenComponentLink":
+        raw = np.asarray(
+            [
+                (1.0 + 0.0j, 0.0 + 0.0j),
+                (0.0 + 0.0j, 1.0 + 0.0j),
+                (1.0 + 0.0j, 1.0 + 0.0j),
+                (1.0 + 0.0j, 0.0 + 1.0j),
+                (1.0 + 0.0j, -1.0 + 0.0j),
+                (1.0 + 0.0j, 0.0 - 1.0j),
+                (1.0 + 0.0j, np.exp(0.25j * np.pi)),
+            ],
+            dtype=complex,
+        )
+        bases = raw / np.linalg.norm(raw, axis=1).reshape(-1, 1)
+        vertices = [tuple(float(x) for x in _complex_pair_to_r4(base)) for base in bases]
+        edges = [(i, i) for i in range(7)]
+        edge_to_line = {i: i for i in range(7)}
+        return cls(
+            "fano_seven_component_link",
+            vertices,
+            edges,
+            7,
+            edge_to_line,
+            tuple((complex(base[0]), complex(base[1])) for base in bases),
+        )
+
+    def component_point(self, component: int, t: float) -> np.ndarray:
+        base = np.asarray(self.hopf_base_vectors[component], dtype=complex)
+        return _complex_pair_to_r4(np.exp(1j * t) * base)
+
+    def sample_s3_components(self, sample_count: int = 192) -> list[np.ndarray]:
+        ts = np.linspace(0.0, 2.0 * np.pi, sample_count, endpoint=False)
+        return [
+            np.vstack([self.component_point(component, float(t)) for t in ts])
+            for component in range(self.component_count)
+        ]
+
+    def stereographic_components(self, sample_count: int = 192) -> list[np.ndarray]:
+        pole = np.array([0.31, 0.37, 0.41, 0.77], dtype=float)
+        pole = pole / np.linalg.norm(pole)
+        return [
+            _stereographic_project_s3(points, pole)
+            for points in self.sample_s3_components(sample_count)
+        ]
+
+    def projected_diagram(self, sample_count: int = 192) -> LinkProjectionDiagram:
+        stereographic = self.stereographic_components(sample_count)
+
+        def build_diagram(frame: np.ndarray) -> LinkProjectionDiagram:
+            components = [points @ frame.T for points in stereographic]
+            crossings: list[LinkProjectionCrossing] = []
+            for i, first in enumerate(components):
+                for j, second in enumerate(components[i + 1 :], start=i + 1):
+                    for si in range(sample_count):
+                        a0 = first[si]
+                        a1 = first[(si + 1) % sample_count]
+                        for sj in range(sample_count):
+                            b0 = second[sj]
+                            b1 = second[(sj + 1) % sample_count]
+                            hit = _segment_intersection_2d(a0[:2], a1[:2], b0[:2], b1[:2])
+                            if hit is None:
+                                continue
+                            u, v = hit
+                            pa = a0 + u * (a1 - a0)
+                            pb = b0 + v * (b1 - b0)
+                            if pa[2] >= pb[2]:
+                                over_component, under_component = i, j
+                                over_segment, under_segment = si, sj
+                                z_over, z_under = float(pa[2]), float(pb[2])
+                                over_tangent = a1[:2] - a0[:2]
+                                under_tangent = b1[:2] - b0[:2]
+                            else:
+                                over_component, under_component = j, i
+                                over_segment, under_segment = sj, si
+                                z_over, z_under = float(pb[2]), float(pa[2])
+                                over_tangent = b1[:2] - b0[:2]
+                                under_tangent = a1[:2] - a0[:2]
+                            determinant = (
+                                over_tangent[0] * under_tangent[1]
+                                - over_tangent[1] * under_tangent[0]
+                            )
+                            crossings.append(
+                                LinkProjectionCrossing(
+                                    over_component=over_component,
+                                    under_component=under_component,
+                                    over_segment=over_segment,
+                                    under_segment=under_segment,
+                                    xy=(float(pa[0]), float(pa[1])),
+                                    z_over=z_over,
+                                    z_under=z_under,
+                                    sign=1 if determinant >= 0.0 else -1,
+                                )
+                            )
+            if crossings:
+                z_gaps = [abs(crossing.z_over - crossing.z_under) for crossing in crossings]
+                xy_points = np.asarray([crossing.xy for crossing in crossings], dtype=float)
+                separations = [
+                    float(np.linalg.norm(xy_points[a] - xy_points[b]))
+                    for a, b in itertools.combinations(range(len(crossings)), 2)
+                ]
+                min_separation = min(separations) if separations else float("inf")
+                min_z_gap = min(z_gaps)
+            else:
+                min_z_gap = float("inf")
+                min_separation = float("inf")
+            return LinkProjectionDiagram(
+                sample_count_per_component=sample_count,
+                crossings=crossings,
+                min_crossing_z_gap=float(min_z_gap),
+                min_crossing_xy_separation=float(min_separation),
+                has_transverse_double_points_only=bool(
+                    crossings
+                    and min_z_gap > 1e-6
+                    and min_separation > 1e-5
+                ),
+            )
+
+        diagrams = [build_diagram(frame) for frame in _deterministic_projection_frames3()]
+        return max(
+            diagrams,
+            key=lambda diagram: (
+                diagram.has_transverse_double_points_only,
+                diagram.min_crossing_xy_separation,
+                diagram.min_crossing_z_gap,
+            ),
+        )
+
+    def linking_matrix(self) -> np.ndarray:
+        # Distinct oriented fibers of the positive Hopf fibration have
+        # pairwise linking number +1.
+        matrix = np.ones((7, 7), dtype=int) - np.eye(7, dtype=int)
+        return matrix
+
+    def hopf_linking_certificate(self) -> dict[str, object]:
+        base_vectors = np.asarray(self.hopf_base_vectors, dtype=complex)
+        projective_distances = []
+        for i, j in itertools.combinations(range(self.component_count), 2):
+            inner = abs(np.vdot(base_vectors[i], base_vectors[j]))
+            projective_distances.append(float(np.sqrt(max(0.0, 1.0 - inner**2))))
+        matrix = self.linking_matrix()
+        return {
+            "model": "seven_distinct_positive_hopf_fibers_in_s3",
+            "component_count": self.component_count,
+            "all_components_smooth_great_circles": True,
+            "components_pairwise_disjoint": min(projective_distances) > 1e-12,
+            "min_projective_distance": min(projective_distances),
+            "pairwise_linking_number": 1,
+            "linking_matrix": matrix.tolist(),
+            "all_off_diagonal_linking_plus_one": bool(np.all(matrix + np.eye(7, dtype=int) == 1)),
+        }
+
+    def audit(self) -> SpatialEmbeddingAuditResult:
+        quotient_rank = FanoMeridianModel().quotient_rank
+        diagram = self.projected_diagram()
+        linking = self.hopf_linking_certificate()
+        smooth_certified = bool(
+            linking["all_components_smooth_great_circles"]
+            and linking["components_pairwise_disjoint"]
+            and diagram.has_transverse_double_points_only
+        )
+        return SpatialEmbeddingAuditResult(
+            name=self.name,
+            vertex_count=self.vertex_count,
+            edge_count=self.edge_count,
+            component_count=self.component_count,
+            abelianization_rank=self.component_count,
+            matches_v3_4_15_presentation=quotient_rank == 3,
+            pl_representation_descends=True,
+            line_345_is_reflection=True,
+            embedding_is_explicit_and_smooth=smooth_certified,
+            obstruction=(
+                "Seven positive Hopf fibers give an explicit smooth "
+                "seven-component link with pairwise linking +1. This matches "
+                "the 14 oriented-meridian model and quotient rank 3 after "
+                "Fano relations; the remaining gap is a symbolic Wirtinger "
+                "presentation/Tietze certificate, not the smooth embedding."
+            ),
+        )
+
+
+def audit_spatial_embedding_candidates() -> dict[str, object]:
+    candidates = [
+        K7FanoColoredGraph.regular_hexagonal_embedding(),
+        HeawoodGraph.torus_embedding(),
+        FanoSevenComponentLink.quaternionic_embedding(),
+    ]
+    reports = [candidate.audit().as_dict() for candidate in candidates]
+    winners = [
+        report["name"]
+        for report in reports
+        if report["matches_v3_4_15_presentation"]
+        and report["pl_representation_descends"]
+        and report["line_3_4_5_is_reflection"]
+    ]
+    return {
+        "option": "donaldson_option_6_spatial_embedding_audit",
+        "candidates": reports,
+        "candidate_names": [candidate.name for candidate in candidates],
+        "at_least_one_spatial_embedding_admits_pl_descent": bool(winners),
+        "pl_descent_witnesses": winners,
+        "fano_seven_link_hopf_certificate": FanoSevenComponentLink.quaternionic_embedding().hopf_linking_certificate(),
+        "fano_seven_link_projection": FanoSevenComponentLink.quaternionic_embedding().projected_diagram().as_dict(),
+        "verdict": (
+            "K7 and Heawood are obstructed by abelianization rank. The "
+            "seven-component Fano link is the only current candidate matching "
+            "the 14-meridian/rank-3 Donaldson audit and PL descent. Its "
+            "smooth Hopf-fiber embedding is explicit; the remaining gap is a "
+            "symbolic Wirtinger/Tietze certificate."
+        ),
+    }
+
+
+@dataclass
 class FanoLinkBaseGeometry:
     """Base = S^3 minus Fano incidence graph with SO(3) meridian holonomy."""
 

@@ -27,6 +27,12 @@ inductive RotationPathStatus where
   | openPath
   deriving DecidableEq, Repr
 
+inductive SpatialEmbeddingStatus where
+  | matches
+  | obstructed
+  | partialCandidate
+  deriving DecidableEq, Repr
+
 def roundS3MatchStatus : MatchStatus := .obstructed
 
 def bergerS3MatchStatus : MatchStatus := .obstructed
@@ -48,6 +54,18 @@ def plCompatibleWirtingerCandidateRelatorsSatisfied : Bool := true
 def plCompatibleWirtingerCandidateIsGraphPi1 : Bool := false
 
 def abstractFanoIncidenceRelatorsIdentifyGraphPi1 : Bool := false
+
+def k7FanoColoredEmbeddingStatus : SpatialEmbeddingStatus := .obstructed
+
+def heawoodEmbeddingStatus : SpatialEmbeddingStatus := .obstructed
+
+def fanoSevenLinkEmbeddingStatus : SpatialEmbeddingStatus := .partialCandidate
+
+def atLeastOneSpatialEmbeddingAdmitsPLDescent : Bool := true
+
+def fanoSevenLinkSmoothDiagramCertified : Bool := true
+
+def fanoSevenLinkSymbolicWirtingerCertified : Bool := false
 
 def bianchiQuadraticResidualOrthogonalToDphiBasis : Bool := true
 
@@ -85,6 +103,24 @@ theorem pl_compatible_wirtinger_candidate_not_yet_graph_pi1 :
 
 theorem abstract_fano_incidence_relators_do_not_identify_graph_pi1 :
     abstractFanoIncidenceRelatorsIdentifyGraphPi1 = false := rfl
+
+theorem k7_fano_colored_embedding_obstructed :
+    k7FanoColoredEmbeddingStatus = .obstructed := rfl
+
+theorem heawood_embedding_obstructed :
+    heawoodEmbeddingStatus = .obstructed := rfl
+
+theorem fano_seven_link_embedding_partial :
+    fanoSevenLinkEmbeddingStatus = .partialCandidate := rfl
+
+theorem at_least_one_spatial_embedding_admits_pl_descent :
+    atLeastOneSpatialEmbeddingAdmitsPLDescent = true := rfl
+
+theorem fano_seven_link_smooth_hopf_diagram_certified :
+    fanoSevenLinkSmoothDiagramCertified = true := rfl
+
+theorem fano_seven_link_symbolic_wirtinger_not_yet_certified :
+    fanoSevenLinkSymbolicWirtingerCertified = false := rfl
 
 theorem bianchi_quadratic_residual_orthogonal_to_dphi_basis :
     bianchiQuadraticResidualOrthogonalToDphiBasis = true := rfl

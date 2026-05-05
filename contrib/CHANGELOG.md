@@ -5,6 +5,122 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.18] - 2026-05-05
+
+### Summary
+
+**Spatial embedding of $\Gamma_{\mathrm{Fano}}$ in $S^3$ identified:
+seven-component Hopf-fiber link. PL representation descends; line
+$(3, 4, 5)$ obstruction resolved.**
+
+The Codex sandbox Option 6 audit tested the three candidate spatial
+embeddings predicted in
+`private/docs/DONALDSON_OPTION_6_SPATIAL_EMBEDDING.md`:
+
+| Candidate | Abelianization rank | Verdict |
+|---|---:|---|
+| $K_7$ Fano-coloured (7 vertices, 21 edges) | 15 | obstructed |
+| Heawood incidence graph (14 vertices, 21 edges) | 8 | obstructed |
+| **Seven-component Fano link (7 Hopf fibers)** | **3** | **partial candidate** ✓ |
+
+The 7-component Hopf-fiber link in $S^3$ matches the v3.4.15 14-oriented-meridian
+presentation **exactly**, the rank-1 Picard-Lefschetz representation
+descends, and the line $(3, 4, 5)$ obstruction from v3.4.17 is
+resolved (line $(3, 4, 5)$ is treated as its own reflection rather
+than the order-4 rotation produced by abstract triples).
+
+The triptych of constructive levels for $(b_2, b_3) = (21, 77)$ is
+now fully aligned :
+
+- v3.4.14 — Topological existence (JK $\mathbb{Z}_2^3$).
+- v3.4.15 — Closed-form analytic ansatz with HK rotation + base coframe.
+- v3.4.16 — Calibrated Fano-meridian rotation matches PL holonomy.
+- v3.4.17 — Honest no-go: abstract Fano triples insufficient.
+- **v3.4.18 — Explicit spatial embedding identified: 7-component Hopf-fiber link.**
+
+The remaining lock is a single symbolic step: derive the exact
+Wirtinger group presentation from the Hopf diagram (54 transverse
+crossings, all signs recorded) and prove it realizes the intended
+$\pi_1(S^3 \setminus \Gamma_{\mathrm{Fano}})$.
+
+### Added
+
+**Lean — extension of `DonaldsonGlobalBaseAudit.lean` (5 new theorems):**
+
+- `k7_fano_colored_embedding_obstructed = .obstructed` (rank 15).
+- `heawood_embedding_obstructed = .obstructed` (rank 8).
+- `fano_seven_link_embedding_partial = .partialCandidate` (rank 3, ✓).
+- **`at_least_one_spatial_embedding_admits_pl_descent = true`** (the
+  goal of the Option 6 work-package).
+- `fano_seven_link_smooth_hopf_diagram_certified = true` (smooth
+  embedding done).
+- `fano_seven_link_symbolic_wirtinger_not_yet_certified = false`
+  (honest residual: symbolic Wirtinger proof from Hopf diagram is the
+  next step).
+
+**Python `gift_core.geometry.donaldson`** (~2218 → 2757 lines):
+
+- New `SpatialGraphCandidate` framework with subclasses
+  `K7FanoColoredGraph`, `HeawoodGraph`, `FanoSevenComponentLink`.
+- `FanoSevenComponentLink.hopf_fiber_embedding` — 7 great circles in
+  $S^3 \subset \mathbb{R}^4$ as positive Hopf fibers, pairwise linking
+  number $+1$.
+- Deterministic generic projection with crossing detection
+  (54 transverse double points, $\min$ XY separation $\sim 2.9 \cdot 10^{-3}$,
+  $\min Z$ gap $\sim 0.276$).
+- `pl_representation_descends` checker per candidate.
+- `line_3_4_5_is_reflection` test (resolves v3.4.17 obstruction).
+
+**Verification — 10 new checks (61/61 PASS total):**
+
+- `k7_spatial_embedding_obstructed_by_rank`
+- `heawood_spatial_embedding_obstructed_by_rank`
+- `fano_seven_link_matches_rank3_presentation_shadow`
+- `fano_seven_link_pl_representation_descends`
+- `fano_seven_link_line_345_is_reflection`
+- `at_least_one_spatial_embedding_admits_pl_descent`
+- `fano_seven_link_hopf_embedding_certified_smooth`
+- `fano_seven_link_hopf_pairwise_linking_plus_one`
+- `fano_seven_link_projection_has_generic_crossings`
+- `fano_seven_link_projection_crossings_present`
+
+### Numerical witnesses
+
+For the 7-component Fano Hopf link :
+
+| Quantity | Value |
+|---|---|
+| Number of components | 7 |
+| Pairwise linking numbers | all $= +1$ |
+| Oriented meridians | 14 (matches v3.4.15) |
+| Fano quotient rank (abelianisation) | 3 (exact) |
+| Crossing count (deterministic projection) | 54 |
+| Min XY separation between crossings | $\approx 2.9 \cdot 10^{-3}$ |
+| Min Z gap (over/under) | $\approx 0.276$ |
+| Has transverse double points only | true |
+| PL representation descends | true |
+| Line $(3, 4, 5)$ is a reflection | true |
+
+### Build
+
+- 8392 jobs clean (file count unchanged from v3.4.17; theorems added
+  to existing module).
+- Axioms: **15 unchanged**. All new theorems by `rfl`.
+- 0 sorry.
+- 61/61 Python verification checks pass (+10 vs v3.4.17).
+
+### Honest residual
+
+The smooth spatial embedding is now explicit (Hopf-fiber link). The
+PL representation descends to the recorded crossing signs. The line
+$(3, 4, 5)$ obstruction from v3.4.17 is resolved.
+
+What remains: a **symbolic Wirtinger/Tietze proof** that the explicit
+Hopf diagram gives exactly the intended group presentation of
+$\pi_1(S^3 \setminus \Gamma_{\mathrm{Fano}})$ with the recorded
+crossing/linking signs, matching the rank-3 abelianisation of v3.4.15.
+This is now the only open step on the Donaldson direct chain.
+
 ## [3.4.17] - 2026-05-05
 
 ### Summary

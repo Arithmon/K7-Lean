@@ -10,6 +10,7 @@ from gift_core.geometry.donaldson import (
     FanoIncidenceGraphIdentifier,
     audit_fano_meridian_rotation,
     audit_global_base_geometry,
+    audit_spatial_embedding_candidates,
     dense_donaldson_report,
     solve_fano_meridian_profile,
     solve_min_energy_radial_profile,
@@ -30,6 +31,7 @@ def main() -> None:
     parser.add_argument("--realize-fano-coframe", action="store_true", help="audit the explicit flat Fano coframe realization prompt")
     parser.add_argument("--pl-wirtinger", action="store_true", help="print the PL-compatible non-abelian Fano Wirtinger candidate")
     parser.add_argument("--identify-fano-incidence", action="store_true", help="audit the abstract Fano incidence graph relators")
+    parser.add_argument("--audit-spatial-embeddings", action="store_true", help="audit Option 6 spatial embedding candidates")
     parser.add_argument("--fano-meridian", action="store_true", help="calibrate active HK rotation to a Fano SO(3) meridian holonomy")
     parser.add_argument("--meridian-index", type=int, default=0)
     parser.add_argument("--nu-degree", type=int, default=4)
@@ -38,6 +40,8 @@ def main() -> None:
 
     if args.identify_fano_incidence:
         payload = FanoIncidenceGraphIdentifier().audit()
+    elif args.audit_spatial_embeddings:
+        payload = audit_spatial_embedding_candidates()
     elif args.pl_wirtinger:
         payload = FanoPLWirtingerCandidate().audit()
     elif args.realize_fano_coframe:
