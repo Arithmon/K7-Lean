@@ -6,7 +6,10 @@ import json
 import argparse
 
 from gift_core.geometry.donaldson import (
+    audit_fano_meridian_rotation,
+    audit_global_base_geometry,
     dense_donaldson_report,
+    solve_fano_meridian_profile,
     solve_min_energy_radial_profile,
     solve_rotating_coframe_profile,
     solve_signed_radial_profile,
@@ -21,11 +24,38 @@ def main() -> None:
     parser.add_argument("--boundary-order", type=int, default=2)
     parser.add_argument("--hk-rotation", action="store_true", help="enable the Option 2 signed HK-rotation report")
     parser.add_argument("--base-coframe", action="store_true", help="enable active HK rotation with the Option 4 base-coframe absorber")
+    parser.add_argument("--audit-base-geometry", action="store_true", help="audit Option 5 global base geometry candidates")
+    parser.add_argument("--fano-meridian", action="store_true", help="calibrate active HK rotation to a Fano SO(3) meridian holonomy")
+    parser.add_argument("--meridian-index", type=int, default=0)
     parser.add_argument("--nu-degree", type=int, default=4)
     parser.add_argument("--nu-amplitude", type=float, default=0.035)
     args = parser.parse_args()
 
-    if args.base_coframe:
+    if args.fano_meridian:
+        solution = solve_fano_meridian_profile(
+            meridian_index=args.meridian_index,
+            center_amplitude=args.amplitude,
+            degree=args.degree,
+            boundary_order=args.boundary_order,
+            nu_degree=args.nu_degree,
+        )
+        payload = {
+            "solution": solution.dense_report(),
+            "fano_meridian_rotation": audit_fano_meridian_rotation(
+                solution,
+                meridian_index=args.meridian_index,
+            ),
+        }
+    elif args.audit_base_geometry:
+        solution = solve_rotating_coframe_profile(
+            center_amplitude=args.amplitude,
+            degree=args.degree,
+            boundary_order=args.boundary_order,
+            nu_degree=args.nu_degree,
+            nu_amplitude=args.nu_amplitude,
+        )
+        payload = audit_global_base_geometry(solution)
+    elif args.base_coframe:
         solution = solve_rotating_coframe_profile(
             center_amplitude=args.amplitude,
             degree=args.degree,

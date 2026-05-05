@@ -15,4 +15,4 @@ This directory contains documentation for the GIFT Core formal verification proj
 
 ## Version
 
-GIFT Core v3.4.15
+GIFT Core v3.4.16

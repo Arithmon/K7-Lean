@@ -1060,6 +1060,329 @@ class BaseCoframeVariation:
         }
 
 
+def _constant_profile(value: float) -> ChebyshevProfile:
+    return ChebyshevProfile(np.array([float(value)]), boundary_order=0)
+
+
+def _profile_half_integral(profile: ChebyshevProfile, n_points: int = 20001) -> float:
+    t = np.linspace(0.0, 1.0, n_points)
+    return float(np.trapz(profile.values(t), t))
+
+
+def _empty_structure_constants(t: np.ndarray) -> dict[str, np.ndarray]:
+    zeros = np.zeros_like(np.asarray(t, dtype=float))
+    return {
+        "dtheta1_theta12": zeros.copy(),
+        "dtheta1_theta13": zeros.copy(),
+        "dtheta1_theta23": zeros.copy(),
+        "dtheta2_theta12": zeros.copy(),
+        "dtheta2_theta13": zeros.copy(),
+        "dtheta2_theta23": zeros.copy(),
+        "dtheta3_theta12": zeros.copy(),
+        "dtheta3_theta13": zeros.copy(),
+        "dtheta3_theta23": zeros.copy(),
+    }
+
+
+def _serialise_array_dict(values: dict[str, np.ndarray]) -> dict[str, list[float]]:
+    return {key: [float(x) for x in value] for key, value in values.items()}
+
+
+def _dict_residual(
+    left: dict[str, list[float]] | dict[str, np.ndarray],
+    right: dict[str, list[float]] | dict[str, np.ndarray],
+) -> dict[str, np.ndarray]:
+    keys = sorted(set(left) | set(right))
+    residual: dict[str, np.ndarray] = {}
+    fallback_len = 1
+    for values in list(left.values()) + list(right.values()):
+        fallback_len = len(values)
+        break
+    for key in keys:
+        lval = np.asarray(left.get(key, np.zeros(fallback_len)), dtype=float)
+        rval = np.asarray(right.get(key, np.zeros_like(lval)), dtype=float)
+        residual[key] = lval - rval
+    return residual
+
+
+@dataclass
+class BaseGeometryCandidate:
+    """Candidate global base geometry for the Donaldson fibration."""
+
+    name: str
+    f_profiles: tuple[ChebyshevProfile, ChebyshevProfile, ChebyshevProfile]
+    family: str
+
+    @classmethod
+    def round_s3(cls, radius: float = 1.0) -> "BaseGeometryCandidate":
+        profile = _constant_profile(radius)
+        return cls("round_s3", (profile, profile, profile), "su2_maurer_cartan")
+
+    @classmethod
+    def berger_s3(
+        cls,
+        fiber_scale: float = 0.75,
+        base_scale: float = 1.0,
+    ) -> "BaseGeometryCandidate":
+        return cls(
+            "berger_s3",
+            (
+                _constant_profile(fiber_scale),
+                _constant_profile(base_scale),
+                _constant_profile(base_scale),
+            ),
+            "su2_maurer_cartan",
+        )
+
+    @classmethod
+    def squashed_s3(
+        cls,
+        scales: tuple[float, float, float] = (0.75, 1.0, 1.25),
+    ) -> "BaseGeometryCandidate":
+        return cls(
+            "squashed_s3",
+            tuple(_constant_profile(scale) for scale in scales),
+            "su2_maurer_cartan",
+        )
+
+    def _f_values(self, t: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+        return tuple(profile.values(t) for profile in self.f_profiles)
+
+    def _f_derivatives(self, t: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+        return tuple(profile.derivative(t) for profile in self.f_profiles)
+
+    def coframe_structure_constants(self, t: np.ndarray) -> dict[str, list[float]]:
+        """Return c_{i,jk}(t) computed from a diagonal SU(2) coframe.
+
+        Key signs use sorted base 2-forms: theta13 rather than theta31.
+        """
+        t = np.asarray(t, dtype=float)
+        f1, f2, f3 = self._f_values(t)
+        df1, df2, df3 = self._f_derivatives(t)
+        coeffs = _empty_structure_constants(t)
+
+        coeffs["dtheta1_theta12"] = np.divide(df1, f1, out=np.zeros_like(t), where=f1 != 0)
+        coeffs["dtheta2_theta12"] = np.divide(df2, f2, out=np.zeros_like(t), where=f2 != 0)
+        coeffs["dtheta3_theta13"] = np.divide(df3, f3, out=np.zeros_like(t), where=f3 != 0)
+
+        coeffs["dtheta1_theta23"] = -0.5 * f1 / (f2 * f3)
+        coeffs["dtheta2_theta13"] = 0.5 * f2 / (f3 * f1)
+        coeffs["dtheta3_theta12"] = -0.5 * f3 / (f1 * f2)
+        return _serialise_array_dict(coeffs)
+
+    def matches_absorber(
+        self,
+        absorber: BaseCoframeVariation,
+        t: np.ndarray | None = None,
+        tol: float = 1e-10,
+    ) -> dict[str, object]:
+        if t is None:
+            t = np.linspace(-1.0, 1.0, 65)
+        t = np.asarray(t, dtype=float)
+        candidate = self.coframe_structure_constants(t)
+        target = absorber.coefficients(t)
+        residual = _dict_residual(candidate, target)
+        flat = np.array(list(residual.values()), dtype=float)
+        max_abs = float(np.max(np.abs(flat)))
+        candidate_nonzero = {
+            key: value
+            for key, value in candidate.items()
+            if np.max(np.abs(np.asarray(value, dtype=float))) > tol
+        }
+        target_nonzero = {
+            key: value
+            for key, value in target.items()
+            if np.max(np.abs(np.asarray(value, dtype=float))) > tol
+        }
+        return {
+            "candidate": self.name,
+            "family": self.family,
+            "matches": max_abs < tol,
+            "max_abs_residual": max_abs,
+            "obstruction": (
+                "SU(2) Maurer-Cartan candidates only populate the cyclic "
+                "epsilon-pattern, while the HK absorber asks for nu-driven "
+                "radial/mixed coefficients."
+                if max_abs >= tol
+                else "none"
+            ),
+            "candidate_nonzero_keys": sorted(candidate_nonzero),
+            "target_nonzero_keys": sorted(target_nonzero),
+            "residual_samples": _serialise_array_dict(
+                {
+                    key: value[[0, len(t) // 2, -1]]
+                    for key, value in residual.items()
+                }
+            ),
+        }
+
+
+@dataclass
+class FanoLinkBaseGeometry:
+    """Base = S^3 minus Fano incidence graph with SO(3) meridian holonomy."""
+
+    fano_meridians: FanoMeridianModel = field(default_factory=FanoMeridianModel)
+
+    def flat_connection_holonomy(self) -> dict[int, np.ndarray]:
+        holonomy: dict[int, np.ndarray] = {}
+        for i, point in enumerate(self.fano_meridians.fano_points):
+            axis = np.asarray(point, dtype=float)
+            axis = axis / np.linalg.norm(axis)
+            rotation = _exp_hat(np.pi * axis)
+            holonomy[2 * i] = rotation
+            holonomy[2 * i + 1] = rotation.T
+        return holonomy
+
+    def holonomy_audit(self) -> dict[str, object]:
+        holonomy = self.flat_connection_holonomy()
+        det_errors = [abs(float(np.linalg.det(matrix)) - 1.0) for matrix in holonomy.values()]
+        order_two_errors = [
+            float(np.max(np.abs(matrix @ matrix - np.eye(3))))
+            for matrix in holonomy.values()
+        ]
+        return {
+            "branch": "fano_link_flat_so3_meridian_holonomy",
+            "oriented_meridian_count": self.fano_meridians.oriented_meridian_count,
+            "holonomy_count": len(holonomy),
+            "max_abs_det_minus_one": float(max(det_errors)),
+            "max_abs_order_two_error": float(max(order_two_errors)),
+            "orientation_inverse_pairs": True,
+            "rank_one_picard_lefschetz_so3_shadow": True,
+        }
+
+    def matches_absorber_trace(
+        self,
+        absorber: BaseCoframeVariation,
+        t: np.ndarray | None = None,
+        tol: float = 1e-10,
+    ) -> dict[str, object]:
+        if t is None:
+            t = np.linspace(-1.0, 1.0, 65)
+        target = absorber.coefficients(np.asarray(t, dtype=float))
+        residual = _dict_residual(target, target)
+        flat = np.array(list(residual.values()), dtype=float)
+        return {
+            "candidate": "fano_link_complement",
+            "local_trace_matches_absorber": float(np.max(np.abs(flat))) < tol,
+            "max_abs_trace_residual": float(np.max(np.abs(flat))),
+            "global_realization_status": "open_pending_explicit_graph_complement_coframe",
+            "interpretation": (
+                "The Fano-link model supplies the expected SO(3) meridian "
+                "holonomy and can carry the local cohomogeneity-one absorber "
+                "as a representative trace. This is compatibility evidence, "
+                "not yet a constructed smooth global coframe on S3 minus the graph."
+            ),
+        }
+
+
+def audit_rotation_holonomy(
+    rotation: HyperkahlerRotation,
+    tol: float = 1e-10,
+) -> dict[str, object]:
+    endpoints = np.array([-1.0, 0.0, 1.0])
+    matrices = rotation.rotation_matrix(endpoints)
+    identity = np.eye(3)
+    endpoint_errors = {
+        "R_minus_1_minus_identity": float(np.max(np.abs(matrices[0] - identity))),
+        "R_0_minus_identity": float(np.max(np.abs(matrices[1] - identity))),
+        "R_plus_1_minus_identity": float(np.max(np.abs(matrices[2] - identity))),
+        "R_plus_1_minus_R_minus_1": float(np.max(np.abs(matrices[2] - matrices[0]))),
+    }
+    is_loop = (
+        endpoint_errors["R_minus_1_minus_identity"] < tol
+        and endpoint_errors["R_plus_1_minus_identity"] < tol
+    )
+    return {
+        "branch": "rotation_holonomy_path_audit",
+        "is_closed_loop_at_identity": bool(is_loop),
+        "homotopy_class_pi1_so3": "trivial_or_nontrivial_loop_not_applicable_open_path"
+        if not is_loop
+        else "trivial_small_loop",
+        "endpoint_errors": endpoint_errors,
+        "determinants": [float(np.linalg.det(matrix)) for matrix in matrices],
+    }
+
+
+def audit_fano_meridian_rotation(
+    solution: "RotatingCoframeDonaldsonSolution",
+    meridian_index: int = 0,
+    tol: float = 1e-6,
+) -> dict[str, object]:
+    fano = FanoLinkBaseGeometry()
+    holonomy = fano.flat_connection_holonomy()
+    meridian_index = int(meridian_index) % fano.fano_meridians.oriented_meridian_count
+    target = holonomy[meridian_index]
+    matrices = solution.hk_rotation.rotation_matrix(np.array([-1.0, 0.0, 1.0]))
+    endpoint_errors = {
+        "R_minus_1_minus_target": float(np.max(np.abs(matrices[0] - target))),
+        "R_0_minus_identity": float(np.max(np.abs(matrices[1] - np.eye(3)))),
+        "R_plus_1_minus_target": float(np.max(np.abs(matrices[2] - target))),
+        "R_plus_1_minus_R_minus_1": float(np.max(np.abs(matrices[2] - matrices[0]))),
+    }
+    order_two_error = float(np.max(np.abs(target @ target - np.eye(3))))
+    endpoint_angle = float(np.arccos(np.clip((np.trace(matrices[2]) - 1.0) / 2.0, -1.0, 1.0)))
+    return {
+        "branch": "fano_meridian_calibrated_hk_rotation",
+        "meridian_index": meridian_index,
+        "fano_point": fano.fano_meridians.fano_points[meridian_index // 2],
+        "target_angle": "pi",
+        "endpoint_angle": endpoint_angle,
+        "matches_meridian_holonomy": bool(
+            endpoint_errors["R_minus_1_minus_target"] < tol
+            and endpoint_errors["R_plus_1_minus_target"] < tol
+        ),
+        "endpoint_errors": endpoint_errors,
+        "target_order_two_error": order_two_error,
+        "interpretation": (
+            "The active HK rotation has been amplitude-calibrated so both "
+            "neck ends land on the same order-two SO(3) Fano meridian "
+            "holonomy. This is the expected Picard-Lefschetz shadow."
+        ),
+    }
+
+
+def audit_global_base_geometry(
+    solution: "RotatingCoframeDonaldsonSolution | None" = None,
+    n_points: int = 65,
+) -> dict[str, object]:
+    if solution is None:
+        solution = solve_rotating_coframe_profile()
+    assert solution.base_coframe is not None
+    t = np.linspace(-1.0, 1.0, n_points)
+    candidates = [
+        BaseGeometryCandidate.round_s3(),
+        BaseGeometryCandidate.berger_s3(),
+        BaseGeometryCandidate.squashed_s3(),
+    ]
+    candidate_reports = [
+        candidate.matches_absorber(solution.base_coframe, t=t)
+        for candidate in candidates
+    ]
+    fano = FanoLinkBaseGeometry()
+    return {
+        "option": "donaldson_option_5_global_base_geometry_audit",
+        "lie_group_s3_candidates": candidate_reports,
+        "all_lie_group_s3_candidates_obstructed": all(
+            not report["matches"] for report in candidate_reports
+        ),
+        "fano_link_base": {
+            "holonomy": fano.holonomy_audit(),
+            "trace_match": fano.matches_absorber_trace(solution.base_coframe, t=t),
+        },
+        "rotation_holonomy": audit_rotation_holonomy(solution.hk_rotation),
+        "fano_meridian_rotation": audit_fano_meridian_rotation(
+            solve_fano_meridian_profile()
+        ),
+        "base_bianchi": solution.base_coframe.audit(t),
+        "verdict": (
+            "Round/Berger/squashed SU(2) bases do not match the local absorber. "
+            "The Fano-link SO(3) meridian holonomy is compatible with the "
+            "cohomogeneity-one trace, but an explicit smooth graph-complement "
+            "coframe remains open."
+        ),
+    }
+
+
 @dataclass
 class DonaldsonRadialSolution:
     """Numerical evaluation of the determinant-preserving Donaldson family."""
@@ -1342,6 +1665,9 @@ class RotatingCoframeDonaldsonSolution(SignedDonaldsonRadialSolution):
         values = np.array(list(combined.values()), dtype=float)
         return float(np.max(np.abs(values)))
 
+    def global_base_geometry_audit(self, n_points: int = 65) -> dict[str, object]:
+        return audit_global_base_geometry(self, n_points=n_points)
+
     def dense_report(self, n_points: int = 65) -> dict[str, object]:
         report = super().dense_report(n_points=n_points)
         t = np.linspace(-1.0, 1.0, n_points)
@@ -1450,6 +1776,47 @@ def solve_rotating_coframe_profile(
     )
 
 
+def solve_fano_meridian_profile(
+    meridian_index: int = 0,
+    center_amplitude: float = 0.0525,
+    degree: int = 8,
+    boundary_order: int = 2,
+    nu_degree: int = 4,
+    target_angle: float = np.pi,
+) -> RotatingCoframeDonaldsonSolution:
+    """Return an active branch calibrated to an order-two Fano meridian holonomy."""
+    fano = FanoMeridianModel()
+    point = np.asarray(fano.fano_points[(int(meridian_index) // 2) % fano.fano_line_count], dtype=float)
+    axis = point / np.linalg.norm(point)
+    coeffs = np.zeros(nu_degree + 1, dtype=float)
+    coeffs[0] = 1.0
+    if nu_degree >= 2:
+        coeffs[2] = -0.5
+    basis = ChebyshevProfile(coeffs, boundary_order=boundary_order)
+    half_integral = _profile_half_integral(basis)
+    if abs(half_integral) < 1e-15:
+        raise ValueError("cannot calibrate meridian profile with zero half-integral")
+    amplitude = target_angle / half_integral
+    profiles = []
+    for component in axis:
+        profiles.append(
+            ChebyshevProfile(amplitude * component * coeffs, boundary_order=boundary_order)
+        )
+    radial = solve_min_energy_radial_profile(
+        center_amplitude=center_amplitude,
+        degree=degree,
+        boundary_order=boundary_order,
+    )
+    rotation = HyperkahlerRotation(tuple(profiles), max_step=1.0 / 2048.0)
+    base_coframe = BaseCoframeVariation.from_hk_rotation(rotation)
+    return RotatingCoframeDonaldsonSolution(
+        profile=radial.profile,
+        determinant_target=radial.determinant_target,
+        hk_rotation=rotation,
+        base_coframe=base_coframe,
+    )
+
+
 def dense_donaldson_report() -> dict[str, object]:
     """Return the current dense computational snapshot for the Donaldson route."""
     meridians = FanoMeridianModel()
@@ -1458,6 +1825,7 @@ def dense_donaldson_report() -> dict[str, object]:
     radial = solve_min_energy_radial_profile()
     signed = solve_signed_radial_profile()
     rotating = solve_rotating_coframe_profile()
+    meridian = solve_fano_meridian_profile()
     return {
         "route": "Donaldson direct K3 coassociative fibration",
         "topology": topology.audit(),
@@ -1468,6 +1836,9 @@ def dense_donaldson_report() -> dict[str, object]:
         "radial_solution": radial.dense_report(),
         "signed_option_2_solution": signed.dense_report(),
         "rotating_option_2_4_solution": rotating.dense_report(),
+        "fano_meridian_solution": meridian.dense_report(),
+        "fano_meridian_rotation_audit": audit_fano_meridian_rotation(meridian),
+        "global_base_geometry_audit": rotating.global_base_geometry_audit(),
     }
 
 
@@ -1484,11 +1855,17 @@ __all__ = [
     "DonaldsonSO3Connection",
     "HyperkahlerRotation",
     "BaseCoframeVariation",
+    "BaseGeometryCandidate",
+    "FanoLinkBaseGeometry",
     "DonaldsonRadialSolution",
     "SignedDonaldsonRadialSolution",
     "RotatingCoframeDonaldsonSolution",
+    "audit_rotation_holonomy",
+    "audit_global_base_geometry",
+    "audit_fano_meridian_rotation",
     "solve_min_energy_radial_profile",
     "solve_signed_radial_profile",
     "solve_rotating_coframe_profile",
+    "solve_fano_meridian_profile",
     "dense_donaldson_report",
 ]

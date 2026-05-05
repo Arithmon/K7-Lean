@@ -6,6 +6,9 @@ from gift_core.geometry.donaldson import (
     DonaldsonG2Ansatz,
     DonaldsonTopology,
     FanoMeridianModel,
+    audit_fano_meridian_rotation,
+    audit_global_base_geometry,
+    solve_fano_meridian_profile,
     solve_min_energy_radial_profile,
     solve_rotating_coframe_profile,
     solve_signed_radial_profile,
@@ -23,6 +26,11 @@ def verify() -> dict[str, bool]:
     signed_report = signed.dense_report()
     rotating = solve_rotating_coframe_profile()
     rotating_report = rotating.dense_report()
+    base_audit = audit_global_base_geometry(rotating)
+    s3_reports = base_audit["lie_group_s3_candidates"]
+    meridian = solve_fano_meridian_profile()
+    meridian_report = meridian.dense_report()
+    meridian_audit = audit_fano_meridian_rotation(meridian)
 
     return {
         "fano_relation_rank_11": meridians.relation_rank == 11,
@@ -63,6 +71,17 @@ def verify() -> dict[str, bool]:
         "base_coframe_bianchi_residual_zero": rotating_report["base_coframe"]["max_abs_ddtheta_residual"] < 1e-12,
         "rotating_branch_stays_so3": rotating_report["hk_rotation"]["max_abs_det_minus_one"] < 1e-12,
         "rotating_branch_keeps_real_metric": rotating_report["positive_definite_metric"] is True,
+        "round_s3_does_not_match_rotation_absorber": s3_reports[0]["matches"] is False,
+        "berger_s3_does_not_match_rotation_absorber": s3_reports[1]["matches"] is False,
+        "squashed_s3_does_not_match_rotation_absorber": s3_reports[2]["matches"] is False,
+        "all_lie_group_s3_candidates_obstructed": base_audit["all_lie_group_s3_candidates_obstructed"] is True,
+        "fano_link_holonomy_is_so3": base_audit["fano_link_base"]["holonomy"]["max_abs_det_minus_one"] < 1e-12,
+        "fano_link_meridian_holonomy_order_two": base_audit["fano_link_base"]["holonomy"]["max_abs_order_two_error"] < 1e-12,
+        "rotation_holonomy_status_reported": "is_closed_loop_at_identity" in base_audit["rotation_holonomy"],
+        "fano_meridian_rotation_matches_holonomy": meridian_audit["matches_meridian_holonomy"] is True,
+        "fano_meridian_rotation_order_two": meridian_audit["target_order_two_error"] < 1e-12,
+        "fano_meridian_base_coframe_cancels_dphi": meridian_report["max_abs_combined_rotation_base_dphi"] < 1e-12,
+        "fano_meridian_bianchi_single_axis_zero": meridian_report["base_coframe"]["max_abs_ddtheta_residual"] < 1e-12,
     }
 
 

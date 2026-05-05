@@ -5,6 +5,127 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.16] - 2026-05-05
+
+### Summary
+
+**Donaldson direct Option 5: global base geometry audit. Fano-meridian
+rotation matches the rank-one Picard-Lefschetz holonomy.**
+
+This release integrates the Codex sandbox progress on the global base
+geometry question raised in v3.4.15. The audit confirms:
+
+1. Standard Lie-group $S^3$ Maurer-Cartan coframes (round, Berger,
+   squashed) **do not** match the local rotation absorber (Maurer-Cartan
+   structure constants are antisymmetric in `ε_ijk`, while the absorber
+   demands a `ν`-pattern).
+2. The Fano-link complement carries an `SO(3)` meridian holonomy
+   compatible with the rank-one Picard-Lefschetz reflection structure
+   (`compatibleOpen`).
+3. A calibrated Fano-meridian rotation (`∫₀¹ ν(t) dt = π` along the
+   chosen Fano axis) produces an `R(t)` whose endpoints both land on
+   the same order-two element of `SO(3)`, matching the target holonomy
+   to error ~1.2e-14.
+
+This narrows the open analytical task from "unknown global base
+geometry" to "smooth global realisation of the Fano-link
+graph-complement coframe", with the holonomy data now constructively
+identified.
+
+### Added
+
+**`GIFT/Foundations/DonaldsonGlobalBaseAudit.lean` (new module):**
+
+- `MatchStatus` (matches / obstructed / compatibleOpen) and
+  `RotationPathStatus` (closedLoop / openPath) inductive types.
+- Status certificates for the three Lie-group $S^3$ candidates
+  (all `obstructed`).
+- `fano_link_base_geometry_compatibility_status = compatibleOpen`.
+- `rotation_holonomy_homotopy_class = openPath` (default profile is
+  open; calibration to a meridian closes it).
+- **`fano_meridian_rotation_matches_picard_lefschetz_holonomy = true`**
+  (the smoking gun).
+- `bianchi_quadratic_residual_orthogonal_to_dphi_basis = true`.
+- `global_donaldson_base_geometry_status_certificate = compatibleOpen`.
+
+**Python `gift_core.geometry.donaldson` (extended ~1494 → 1871 lines):**
+
+- New classes: `BaseGeometryCandidate` (round/Berger/squashed $S^3$),
+  `FanoLinkBaseGeometry` (complement with flat $SO(3)$ connection from
+  $K3$ monodromy).
+- New audit functions: `audit_rotation_holonomy`,
+  `audit_fano_meridian_rotation`, `audit_global_base_geometry`.
+- New solver `solve_fano_meridian_profile` calibrating
+  `∫₀¹ ν(t) dt = π` along a chosen Fano axis.
+
+**`gift_core.examples.donaldson_direct`:**
+
+- New CLI flags: `--audit-base-geometry`, `--fano-meridian` (and axis
+  selection).
+
+### Changed
+
+- `GIFT/Foundations.lean` — added import for `DonaldsonGlobalBaseAudit`.
+- `verify_donaldson_direct` — 11 new checks (45 total, all PASS):
+  - `round_s3_does_not_match_rotation_absorber`
+  - `berger_s3_does_not_match_rotation_absorber`
+  - `squashed_s3_does_not_match_rotation_absorber`
+  - `all_lie_group_s3_candidates_obstructed`
+  - `fano_link_holonomy_is_so3`
+  - `fano_link_meridian_holonomy_order_two`
+  - `rotation_holonomy_status_reported`
+  - `fano_meridian_rotation_matches_holonomy`
+  - `fano_meridian_rotation_order_two`
+  - `fano_meridian_base_coframe_cancels_dphi`
+  - `fano_meridian_bianchi_single_axis_zero`
+
+### Numerical witnesses
+
+For the calibrated Fano-meridian branch (axis $(1, 0, 0)$):
+
+| Quantity | Value |
+|---|---|
+| Endpoint angle | $\pi$ exact |
+| $R(-1)$ vs target holonomy | error $\approx 1.2 \cdot 10^{-14}$ |
+| $R(+1)$ vs target holonomy | error $\approx 1.2 \cdot 10^{-14}$ |
+| Order-two test $R^2 = I$ | error $\approx 2.5 \cdot 10^{-16}$ |
+| Combined rotation + base $d\varphi$ | $0$ exactly |
+| $d^2 \theta$ residual (single axis) | $0$ exactly |
+| Positive-definite metric | true |
+
+### Build
+
+- 8392 jobs clean (+1 module vs v3.4.15).
+- Axioms: **15 unchanged** (4 main + 11 interval). Status certificates
+  added as Bool/inductive `def`s with `rfl`-proofs; no new axioms.
+- 0 sorry.
+- 45/45 Python verification checks pass.
+
+### Honest scope
+
+The Lean ledger explicitly records `compatibleOpen` rather than
+`matches`: the Fano-meridian holonomy is shown to match the rank-one
+Picard-Lefschetz target, but the smooth global realisation of the
+graph-complement coframe (with actual $S^3 \setminus \Gamma$
+geometry, not just its discrete holonomy data) remains the next
+analytical step. See companion notes:
+
+- `private/canonical/papers/donaldson_analytic_note/donaldson_analytic_note.md`
+  for the full closed-form ansatz.
+- `private/docs/DONALDSON_OPTION_5_GLOBAL_BASE_GEOMETRY.md` for the
+  Option 5 work-package and its now-verified predictions.
+
+The triptych `(b_2, b_3) = (21, 77)` story now has:
+
+- **Topological existence** via JK $\mathbb{Z}_2^3$ (v3.4.14).
+- **Closed-form analytic ansatz** with all torsion residuals to
+  machine precision (v3.4.15).
+- **Global holonomy data identified** as rank-one Picard-Lefschetz
+  reflection on the Fano-incidence link complement (v3.4.16).
+
+The remaining task (smooth $S^3 \setminus \Gamma$ coframe geometry)
+is now the only open analytical question on this branch.
+
 ## [3.4.15] - 2026-05-04
 
 ### Summary

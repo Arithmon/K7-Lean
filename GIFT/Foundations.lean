@@ -71,6 +71,8 @@ import GIFT.Foundations.DonaldsonCoassociativeFibration
 import GIFT.Foundations.K3AutomorphismPackage
 -- nu-bar invariant probe for the K7 / delta_CP analytic track
 import GIFT.Foundations.K7NuBar
+-- Donaldson direct Option 5: global base geometry audit status ledger
+import GIFT.Foundations.DonaldsonGlobalBaseAudit
 
 namespace GIFT.Foundations
 
