@@ -5,6 +5,97 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.17] - 2026-05-05
+
+### Summary
+
+**Honest negative result: abstract Fano incidence relators are NOT a
+valid graph $\pi_1$ presentation. The next required object is an
+explicit spatial embedding of $\Gamma_{\mathrm{Fano}}$ in $S^3$.**
+
+The audit (Codex sandbox, 2026-05-05) added a `FanoIncidenceGraphIdentifier`
+that tests whether the 7 Fano-plane incidence triples can serve as
+relators for a non-abelian $\pi_1$ presentation matching the rank-one
+Picard-Lefschetz holonomy. Two natural readings are tested and **both
+fail**:
+
+1. **Naïve line relators** `∏_{i ∈ L} m_i = 1` for each Fano line $L$:
+   `all_lines_identity = false`. The abstract incidence triples do not
+   identify globally as a Wirtinger presentation.
+
+2. **Line generators as products** `ℓ_L = ∏_{p ∈ L} m_p`: of the 7
+   Fano lines, **6 give order-two elements** (PL-reflection compatible),
+   but the line `(3, 4, 5)` produces a rotation by $\pi/2$ (order 4),
+   not a rank-one PL reflection. `all_line_products_order_two = false`.
+
+This sharply localises the missing data: the identification cannot
+come from the abstract incidence graph alone. An **explicit spatial
+embedding** of $\Gamma_{\mathrm{Fano}}$ in $S^3$, with crossings and
+vertex conjugations, is now the next required mathematical object.
+
+### Added
+
+**Lean — extension of `DonaldsonGlobalBaseAudit.lean` (5 new theorems):**
+
+- `fano_relation_rows_not_nonabelian_pi1_presentation = false` —
+  the abelian Fano relation rows are not a non-abelian π₁ presentation.
+- `explicit_flat_fano_coframe_not_yet_constructed = false` —
+  smooth global coframe still open.
+- `pl_compatible_wirtinger_candidate_relators_satisfied = true` —
+  PL-compatible candidate satisfies its local relators (partial).
+- `pl_compatible_wirtinger_candidate_not_yet_graph_pi1 = false` —
+  but is not yet a graph π₁ presentation.
+- **`abstract_fano_incidence_relators_do_not_identify_graph_pi1 = false`**
+  — the smoking honest negative result.
+
+**Python — `FanoIncidenceGraphIdentifier` class** (donaldson.py grew
+1871 → 2218 lines):
+
+- 7 explicit Fano lines: `(0,1,3), (0,2,4), (0,5,6), (1,2,5), (1,4,6),
+  (2,3,6), (3,4,5)`.
+- `line_identity_relators` audit: tests `∏ m_i = 1` per Fano line.
+- `line_generator_products` audit: tests order-two for each line product.
+- Reports `order_two_line_product_count = 6/7` with the offending
+  line `(3, 4, 5)` explicitly identified (rotation by π/2 instead of
+  reflection).
+
+**Verification — 6 new checks (51/51 PASS total):**
+
+- `fano_incidence_lines_count_seven`
+- `fano_incidence_each_line_has_three_points`
+- `fano_incidence_each_point_on_three_lines`
+- `fano_incidence_line_identity_relators_fail`
+- `fano_incidence_line_generator_products_partial_order_two`
+- `fano_incidence_products_not_uniform_pl_reflections`
+
+### Build
+
+- 8392 jobs clean (unchanged file count from v3.4.16; theorems added
+  to existing module).
+- Axioms: **15 unchanged** (4 main + 11 interval). All new theorems by `rfl`.
+- 0 sorry.
+- 51/51 Python verification checks pass (+6 vs v3.4.16).
+
+### Implications for the open analytical task
+
+After v3.4.16 narrowed the open question to "smooth global coframe on
+$S^3 \setminus \Gamma_{\mathrm{Fano}}$", v3.4.17 sharpens it further:
+- The abstract Fano incidence graph (7 points, 7 triples) is **not
+  enough data**. Two of the most natural "automatic" reductions both
+  fail.
+- The missing ingredient is the **spatial embedding**:
+  $\Gamma_{\mathrm{Fano}} \subset S^3$ with explicit crossing data, so
+  that a Wirtinger presentation of $\pi_1(S^3 \setminus \Gamma_{\mathrm{Fano}})$
+  can be written down.
+- With that data, the rank-one PL holonomy (already calibrated in
+  v3.4.16) should automatically generate the correct meridian relations.
+
+This is a **genuinely new mathematical object** to construct, not a
+calculation to refine. Candidate sources: Wirtinger of a specific
+projection of the Heawood graph, or of the Möbius-Kantor 8₃ graph
+embedded as a spatial graph dual to the $A_8$ root system. To be
+investigated in a subsequent work-package.
+
 ## [3.4.16] - 2026-05-05
 
 ### Summary

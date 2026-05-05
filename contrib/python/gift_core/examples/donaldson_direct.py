@@ -6,6 +6,8 @@ import json
 import argparse
 
 from gift_core.geometry.donaldson import (
+    FanoPLWirtingerCandidate,
+    FanoIncidenceGraphIdentifier,
     audit_fano_meridian_rotation,
     audit_global_base_geometry,
     dense_donaldson_report,
@@ -25,13 +27,22 @@ def main() -> None:
     parser.add_argument("--hk-rotation", action="store_true", help="enable the Option 2 signed HK-rotation report")
     parser.add_argument("--base-coframe", action="store_true", help="enable active HK rotation with the Option 4 base-coframe absorber")
     parser.add_argument("--audit-base-geometry", action="store_true", help="audit Option 5 global base geometry candidates")
+    parser.add_argument("--realize-fano-coframe", action="store_true", help="audit the explicit flat Fano coframe realization prompt")
+    parser.add_argument("--pl-wirtinger", action="store_true", help="print the PL-compatible non-abelian Fano Wirtinger candidate")
+    parser.add_argument("--identify-fano-incidence", action="store_true", help="audit the abstract Fano incidence graph relators")
     parser.add_argument("--fano-meridian", action="store_true", help="calibrate active HK rotation to a Fano SO(3) meridian holonomy")
     parser.add_argument("--meridian-index", type=int, default=0)
     parser.add_argument("--nu-degree", type=int, default=4)
     parser.add_argument("--nu-amplitude", type=float, default=0.035)
     args = parser.parse_args()
 
-    if args.fano_meridian:
+    if args.identify_fano_incidence:
+        payload = FanoIncidenceGraphIdentifier().audit()
+    elif args.pl_wirtinger:
+        payload = FanoPLWirtingerCandidate().audit()
+    elif args.realize_fano_coframe:
+        payload = audit_global_base_geometry()["fano_link_base"]["explicit_flat_coframe"]
+    elif args.fano_meridian:
         solution = solve_fano_meridian_profile(
             meridian_index=args.meridian_index,
             center_amplitude=args.amplitude,

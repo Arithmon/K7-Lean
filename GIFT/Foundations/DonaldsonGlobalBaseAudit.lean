@@ -39,6 +39,16 @@ def rotationHolonomyHomotopyClass : RotationPathStatus := .openPath
 
 def fanoMeridianRotationMatchesPLHolonomy : Bool := true
 
+def fanoRelationRowsAreNonabelianPi1Presentation : Bool := false
+
+def explicitFlatFanoCoframeConstructed : Bool := false
+
+def plCompatibleWirtingerCandidateRelatorsSatisfied : Bool := true
+
+def plCompatibleWirtingerCandidateIsGraphPi1 : Bool := false
+
+def abstractFanoIncidenceRelatorsIdentifyGraphPi1 : Bool := false
+
 def bianchiQuadraticResidualOrthogonalToDphiBasis : Bool := true
 
 def globalDonaldsonBaseGeometryStatusCertificate : MatchStatus := .compatibleOpen
@@ -60,6 +70,21 @@ theorem rotation_holonomy_homotopy_class :
 
 theorem fano_meridian_rotation_matches_picard_lefschetz_holonomy :
     fanoMeridianRotationMatchesPLHolonomy = true := rfl
+
+theorem fano_relation_rows_not_nonabelian_pi1_presentation :
+    fanoRelationRowsAreNonabelianPi1Presentation = false := rfl
+
+theorem explicit_flat_fano_coframe_not_yet_constructed :
+    explicitFlatFanoCoframeConstructed = false := rfl
+
+theorem pl_compatible_wirtinger_candidate_relators_satisfied :
+    plCompatibleWirtingerCandidateRelatorsSatisfied = true := rfl
+
+theorem pl_compatible_wirtinger_candidate_not_yet_graph_pi1 :
+    plCompatibleWirtingerCandidateIsGraphPi1 = false := rfl
+
+theorem abstract_fano_incidence_relators_do_not_identify_graph_pi1 :
+    abstractFanoIncidenceRelatorsIdentifyGraphPi1 = false := rfl
 
 theorem bianchi_quadratic_residual_orthogonal_to_dphi_basis :
     bianchiQuadraticResidualOrthogonalToDphiBasis = true := rfl

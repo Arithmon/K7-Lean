@@ -17,6 +17,7 @@ attack the remaining analytic functions directly.
 
 from __future__ import annotations
 
+import itertools
 from dataclasses import dataclass, field
 from fractions import Fraction
 from typing import Iterable
@@ -1105,6 +1106,10 @@ def _dict_residual(
     return residual
 
 
+def _word_to_string(word: tuple[int, ...]) -> str:
+    return " ".join(f"m{i}" for i in word) if word else "1"
+
+
 @dataclass
 class BaseGeometryCandidate:
     """Candidate global base geometry for the Donaldson fibration."""
@@ -1217,6 +1222,274 @@ class BaseGeometryCandidate:
         }
 
 
+@dataclass(frozen=True)
+class FanoPLRelator:
+    """A non-abelian meridian relator represented as a word in m_0,...,m_6."""
+
+    name: str
+    word: tuple[int, ...]
+    source: str
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "name": self.name,
+            "word": [int(x) for x in self.word],
+            "word_string": _word_to_string(self.word),
+            "source": self.source,
+        }
+
+
+@dataclass
+class FanoPLWirtingerCandidate:
+    """PL-compatible non-abelian presentation candidate.
+
+    This is not claimed to be the graph-complement group.  It is the smallest
+    currently defensible presentation whose meridian generators map to the
+    rank-one Picard-Lefschetz SO(3) half-turns and whose listed relators are
+    actually satisfied by those matrices.
+    """
+
+    fano_meridians: FanoMeridianModel = field(default_factory=FanoMeridianModel)
+
+    @property
+    def generator_count(self) -> int:
+        return self.fano_meridians.fano_line_count
+
+    def relators(self) -> tuple[FanoPLRelator, ...]:
+        relators = [
+            FanoPLRelator(f"involution_m{i}", (i, i), "meridian_order_two")
+            for i in range(self.generator_count)
+        ]
+        relators.extend(
+            [
+                FanoPLRelator(
+                    "coordinate_axis_triangle_012",
+                    (0, 1, 2),
+                    "SO3_coordinate_half_turn_identity",
+                ),
+                FanoPLRelator(
+                    "coordinate_axis_triangle_021",
+                    (0, 2, 1),
+                    "SO3_coordinate_half_turn_identity",
+                ),
+            ]
+        )
+        return tuple(relators)
+
+    def generator_holonomies(self) -> tuple[np.ndarray, ...]:
+        holonomy = FanoLinkBaseGeometry(self.fano_meridians).flat_connection_holonomy()
+        return tuple(holonomy[2 * i] for i in range(self.generator_count))
+
+    def evaluate_word(self, word: tuple[int, ...]) -> np.ndarray:
+        generators = self.generator_holonomies()
+        product = np.eye(3)
+        for index in word:
+            product = generators[index] @ product
+        return product
+
+    def audit_relators(self, tol: float = 1e-10) -> dict[str, object]:
+        reports = []
+        for relator in self.relators():
+            product = self.evaluate_word(relator.word)
+            error = float(np.max(np.abs(product - np.eye(3))))
+            reports.append(
+                {
+                    **relator.as_dict(),
+                    "max_abs_product_minus_identity": error,
+                    "satisfied": bool(error < tol),
+                    "determinant": float(np.linalg.det(product)),
+                    "trace": float(np.trace(product)),
+                }
+            )
+        max_error = max(report["max_abs_product_minus_identity"] for report in reports)
+        return {
+            "branch": "fano_pl_wirtinger_candidate_relator_audit",
+            "generator_count": self.generator_count,
+            "relator_count": len(reports),
+            "all_relators_satisfied": all(report["satisfied"] for report in reports),
+            "max_abs_relator_error": float(max_error),
+            "reports": reports,
+            "presentation_status": "pl_compatible_underconstrained_not_graph_pi1",
+        }
+
+    def search_short_identity_words(
+        self,
+        max_length: int = 5,
+        tol: float = 1e-10,
+        limit: int = 64,
+    ) -> list[dict[str, object]]:
+        found: list[dict[str, object]] = []
+
+        def extend(prefix: tuple[int, ...]) -> None:
+            if len(found) >= limit:
+                return
+            if prefix:
+                product = self.evaluate_word(prefix)
+                error = float(np.max(np.abs(product - np.eye(3))))
+                if error < tol:
+                    found.append(
+                        {
+                            "word": [int(x) for x in prefix],
+                            "word_string": _word_to_string(prefix),
+                            "length": len(prefix),
+                            "max_abs_product_minus_identity": error,
+                        }
+                    )
+            if len(prefix) >= max_length:
+                return
+            for index in range(self.generator_count):
+                if prefix and prefix[-1] == index:
+                    continue
+                extend(prefix + (index,))
+
+        extend(())
+        return found
+
+    def audit(self) -> dict[str, object]:
+        relator_audit = self.audit_relators()
+        return {
+            "requested_object": (
+                "non-abelian Wirtinger-style candidate with meridian PL "
+                "half-turn holonomies"
+            ),
+            "can_serve_as_flat_connection_representation": relator_audit[
+                "all_relators_satisfied"
+            ],
+            "can_claim_graph_complement_pi1": False,
+            "relators": relator_audit,
+            "short_identity_words": self.search_short_identity_words(),
+            "next_required_object": (
+                "identify this PL-compatible presentation with an explicit "
+                "Wirtinger presentation of S3 minus Gamma_Fano, or add the "
+                "missing graph-crossing relators and re-audit"
+            ),
+        }
+
+
+@dataclass
+class FanoIncidenceGraphIdentifier:
+    """Audit whether the PL holonomies fit the Fano incidence graph relations."""
+
+    fano_meridians: FanoMeridianModel = field(default_factory=FanoMeridianModel)
+
+    def fano_lines(self) -> tuple[tuple[int, int, int], ...]:
+        points = [np.asarray(point, dtype=int) % 2 for point in self.fano_meridians.fano_points]
+        lines = []
+        for triple in itertools.combinations(range(len(points)), 3):
+            total = (points[triple[0]] + points[triple[1]] + points[triple[2]]) % 2
+            if np.all(total == 0):
+                lines.append(tuple(int(x) for x in triple))
+        return tuple(lines)
+
+    def generator_holonomies(self) -> tuple[np.ndarray, ...]:
+        holonomy = FanoLinkBaseGeometry(self.fano_meridians).flat_connection_holonomy()
+        return tuple(holonomy[2 * i] for i in range(self.fano_meridians.fano_line_count))
+
+    def _word_product(self, word: tuple[int, ...]) -> np.ndarray:
+        generators = self.generator_holonomies()
+        product = np.eye(3)
+        for index in word:
+            product = generators[index] @ product
+        return product
+
+    def audit_line_identity_relators(self, tol: float = 1e-10) -> dict[str, object]:
+        reports = []
+        for line in self.fano_lines():
+            permutation_reports = []
+            for word in itertools.permutations(line):
+                product = self._word_product(tuple(int(x) for x in word))
+                permutation_reports.append(
+                    {
+                        "word": [int(x) for x in word],
+                        "word_string": _word_to_string(tuple(int(x) for x in word)),
+                        "max_abs_product_minus_identity": float(
+                            np.max(np.abs(product - np.eye(3)))
+                        ),
+                        "trace": float(np.trace(product)),
+                        "determinant": float(np.linalg.det(product)),
+                    }
+                )
+            best = min(
+                permutation_reports,
+                key=lambda item: item["max_abs_product_minus_identity"],
+            )
+            reports.append(
+                {
+                    "line": [int(x) for x in line],
+                    "some_order_satisfies_identity": bool(
+                        best["max_abs_product_minus_identity"] < tol
+                    ),
+                    "best_order": best,
+                    "permutation_count": len(permutation_reports),
+                }
+            )
+        return {
+            "branch": "fano_incidence_line_identity_relators",
+            "line_count": len(reports),
+            "all_lines_identity": all(
+                report["some_order_satisfies_identity"] for report in reports
+            ),
+            "reports": reports,
+            "interpretation": (
+                "The naive incidence relator product(point meridians on each "
+                "Fano line)=1 is not satisfied by the PL SO(3) half-turns. "
+                "Therefore this cannot be the graph-complement Wirtinger "
+                "presentation without additional line generators or conjugation data."
+            ),
+        }
+
+    def audit_line_generator_products(self, tol: float = 1e-10) -> dict[str, object]:
+        reports = []
+        for line in self.fano_lines():
+            product = self._word_product(line)
+            order_two_error = float(np.max(np.abs(product @ product - np.eye(3))))
+            trace = float(np.trace(product))
+            angle = float(np.arccos(np.clip((trace - 1.0) / 2.0, -1.0, 1.0)))
+            reports.append(
+                {
+                    "line": [int(x) for x in line],
+                    "line_generator_word": _word_to_string(line),
+                    "is_order_two_so3_element": bool(order_two_error < tol),
+                    "max_abs_order_two_error": order_two_error,
+                    "trace": trace,
+                    "angle": angle,
+                    "determinant": float(np.linalg.det(product)),
+                }
+            )
+        order_two_count = sum(report["is_order_two_so3_element"] for report in reports)
+        return {
+            "branch": "fano_incidence_line_generator_products",
+            "line_count": len(reports),
+            "order_two_line_product_count": int(order_two_count),
+            "all_line_products_order_two": order_two_count == len(reports),
+            "reports": reports,
+            "interpretation": (
+                "Adding line generators l_L = product(point meridians on L) "
+                "almost gives PL-type order-two elements, but not uniformly: "
+                "the current Euclidean SO(3) axis assignment leaves an incidence "
+                "defect. This points to missing conjugation/embedding data, not "
+                "a completed identification."
+            ),
+        }
+
+    def audit(self) -> dict[str, object]:
+        identity = self.audit_line_identity_relators()
+        products = self.audit_line_generator_products()
+        return {
+            "requested_identification": "Fano incidence graph complement presentation",
+            "fano_points": [tuple(int(x) for x in point) for point in self.fano_meridians.fano_points],
+            "fano_lines": [list(line) for line in self.fano_lines()],
+            "line_identity_relators": identity,
+            "line_generator_products": products,
+            "identification_status": "not_identified_incidence_relators_fail",
+            "next_required_object": (
+                "a spatial embedding/diagram of Gamma_Fano giving actual "
+                "Wirtinger crossing and vertex conjugation relators, rather "
+                "than the abstract Fano incidence triples alone"
+            ),
+        }
+
+
 @dataclass
 class FanoLinkBaseGeometry:
     """Base = S^3 minus Fano incidence graph with SO(3) meridian holonomy."""
@@ -1250,6 +1523,56 @@ class FanoLinkBaseGeometry:
             "rank_one_picard_lefschetz_so3_shadow": True,
         }
 
+    def relation_holonomy_audit(self) -> dict[str, object]:
+        """Check the current Fano relation rows as non-abelian SO(3) words.
+
+        Passing this audit would be necessary if the relation matrix were used
+        as an honest presentation of pi_1(S3 minus Gamma_Fano).  It is expected
+        to fail: the relation matrix is an abelian/rank bookkeeping object, not
+        yet a graph-complement group presentation.
+        """
+        holonomy = self.flat_connection_holonomy()
+        reports: list[dict[str, object]] = []
+        for row_index, row in enumerate(self.fano_meridians.projective_relation_rows.tolist()):
+            product = np.eye(3)
+            word: list[tuple[int, int]] = []
+            for point_index, coeff in enumerate(row):
+                if coeff > 0:
+                    for _ in range(int(coeff)):
+                        product = holonomy[2 * point_index] @ product
+                        word.append((point_index, 1))
+                elif coeff < 0:
+                    for _ in range(int(-coeff)):
+                        product = holonomy[2 * point_index + 1] @ product
+                        word.append((point_index, -1))
+            reports.append(
+                {
+                    "row_index": row_index,
+                    "relation_row": [int(x) for x in row],
+                    "word": word,
+                    "max_abs_product_minus_identity": float(np.max(np.abs(product - np.eye(3)))),
+                    "determinant": float(np.linalg.det(product)),
+                    "trace": float(np.trace(product)),
+                }
+            )
+        max_error = max(
+            report["max_abs_product_minus_identity"] for report in reports
+        )
+        return {
+            "branch": "fano_relation_rows_as_nonabelian_holonomy_words",
+            "relations_satisfied": bool(max_error < 1e-10),
+            "max_abs_relation_error": float(max_error),
+            "reports": reports,
+            "interpretation": (
+                "The current Fano relation matrix is valid for primitive rank "
+                "bookkeeping, but the corresponding SO(3) Picard-Lefschetz "
+                "rotations do not satisfy those rows as non-abelian pi1 "
+                "relations. A global flat connection therefore needs an "
+                "actual graph-complement presentation, or modified meridian "
+                "relations, before a smooth coframe can be claimed."
+            ),
+        }
+
     def matches_absorber_trace(
         self,
         absorber: BaseCoframeVariation,
@@ -1271,6 +1594,28 @@ class FanoLinkBaseGeometry:
                 "holonomy and can carry the local cohomogeneity-one absorber "
                 "as a representative trace. This is compatibility evidence, "
                 "not yet a constructed smooth global coframe on S3 minus the graph."
+            ),
+        }
+
+    def explicit_flat_coframe_status(self) -> dict[str, object]:
+        relation_audit = self.relation_holonomy_audit()
+        wirtinger_candidate = FanoPLWirtingerCandidate(self.fano_meridians).audit()
+        incidence_identifier = FanoIncidenceGraphIdentifier(self.fano_meridians).audit()
+        return {
+            "requested_prompt": (
+                "realize theta_i on S3 minus Gamma_Fano with flat connection "
+                "whose meridian holonomies are the corresponding rank-one "
+                "Picard-Lefschetz reflections"
+            ),
+            "constructive_status": "blocked_by_missing_or_incompatible_pi1_presentation",
+            "can_claim_global_flat_coframe": False,
+            "nonabelian_relation_audit": relation_audit,
+            "pl_wirtinger_candidate": wirtinger_candidate,
+            "incidence_graph_identifier": incidence_identifier,
+            "next_required_object": (
+                "an explicit Wirtinger/graph-complement presentation of "
+                "pi1(S3 minus Gamma_Fano) whose meridian relations are "
+                "satisfied by the PL SO(3) rotations"
             ),
         }
 
@@ -1368,6 +1713,8 @@ def audit_global_base_geometry(
         "fano_link_base": {
             "holonomy": fano.holonomy_audit(),
             "trace_match": fano.matches_absorber_trace(solution.base_coframe, t=t),
+            "relation_holonomy": fano.relation_holonomy_audit(),
+            "explicit_flat_coframe": fano.explicit_flat_coframe_status(),
         },
         "rotation_holonomy": audit_rotation_holonomy(solution.hk_rotation),
         "fano_meridian_rotation": audit_fano_meridian_rotation(

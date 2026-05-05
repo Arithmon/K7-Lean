@@ -6,6 +6,8 @@ from gift_core.geometry.donaldson import (
     DonaldsonG2Ansatz,
     DonaldsonTopology,
     FanoMeridianModel,
+    FanoIncidenceGraphIdentifier,
+    FanoPLWirtingerCandidate,
     audit_fano_meridian_rotation,
     audit_global_base_geometry,
     solve_fano_meridian_profile,
@@ -31,6 +33,8 @@ def verify() -> dict[str, bool]:
     meridian = solve_fano_meridian_profile()
     meridian_report = meridian.dense_report()
     meridian_audit = audit_fano_meridian_rotation(meridian)
+    wirtinger_audit = FanoPLWirtingerCandidate().audit()
+    incidence_audit = FanoIncidenceGraphIdentifier().audit()
 
     return {
         "fano_relation_rank_11": meridians.relation_rank == 11,
@@ -77,6 +81,12 @@ def verify() -> dict[str, bool]:
         "all_lie_group_s3_candidates_obstructed": base_audit["all_lie_group_s3_candidates_obstructed"] is True,
         "fano_link_holonomy_is_so3": base_audit["fano_link_base"]["holonomy"]["max_abs_det_minus_one"] < 1e-12,
         "fano_link_meridian_holonomy_order_two": base_audit["fano_link_base"]["holonomy"]["max_abs_order_two_error"] < 1e-12,
+        "fano_relation_rows_not_nonabelian_pi1_relations": base_audit["fano_link_base"]["relation_holonomy"]["relations_satisfied"] is False,
+        "explicit_flat_coframe_status_is_honest_blocked": base_audit["fano_link_base"]["explicit_flat_coframe"]["can_claim_global_flat_coframe"] is False,
+        "pl_wirtinger_candidate_relators_satisfied": wirtinger_audit["relators"]["all_relators_satisfied"] is True,
+        "pl_wirtinger_candidate_not_claimed_pi1": wirtinger_audit["can_claim_graph_complement_pi1"] is False,
+        "fano_incidence_line_identity_relators_fail": incidence_audit["line_identity_relators"]["all_lines_identity"] is False,
+        "fano_incidence_products_not_uniform_pl_reflections": incidence_audit["line_generator_products"]["all_line_products_order_two"] is False,
         "rotation_holonomy_status_reported": "is_closed_loop_at_identity" in base_audit["rotation_holonomy"],
         "fano_meridian_rotation_matches_holonomy": meridian_audit["matches_meridian_holonomy"] is True,
         "fano_meridian_rotation_order_two": meridian_audit["target_order_two_error"] < 1e-12,
