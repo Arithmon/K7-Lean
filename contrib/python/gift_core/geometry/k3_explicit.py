@@ -372,6 +372,28 @@ class K3SexticDoubleCover:
     def predicted_betti_via_lefschetz(self) -> dict[str, object]:
         return self.predicted_betti_for_this_sextic()
 
+    def candidate_profile(self) -> "GIFTCandidateProfile":
+        """Emit a `GIFTCandidateProfile` for the generic $V_4 + S_3$
+        symmetric sextic.
+
+        - $\\iota$ (cover involution): genus-10 sextic, $(g, k) = (10, 0)$.
+          Lattice profile: $(r, a, \\delta) = (1, 1, 1)$ for a generic
+          Picard-1 K3 (sextic double cover with $\\eta^2 = 2$).
+        - $\\alpha\\iota, \\beta\\iota, \\alpha\\beta\\iota$: each fixes a
+          hyperelliptic genus-2 curve, $(g, k) = (2, 0)$.
+
+        This profile does NOT match the GIFT target.
+        """
+        return GIFTCandidateProfile(
+            tau=InvolutionFixedLocusProfile(g=10, k=0, rad=(1, 1, 1)),
+            s1_tau=InvolutionFixedLocusProfile(g=2, k=0, rad=(2, 2, 0)),
+            s2_tau=InvolutionFixedLocusProfile(g=2, k=0, rad=(2, 2, 0)),
+            s12_tau=InvolutionFixedLocusProfile(g=2, k=0, rad=(2, 2, 0)),
+            V4_symplectic_fixed_points=(8, 8, 8),
+            JK_b2=16,
+            JK_b3=94,
+        )
+
 
 # =============================================================================
 # Section 3 — Phase A audit aggregator
@@ -618,6 +640,107 @@ class JKBettiPredictor:
             FixedLocusComponent("S1xSigma_g", genus=2) for _ in range(3)
         )
         return components
+
+
+# =============================================================================
+# Section 4b — Model-agnostic candidate gate (per GPT council #7, 2026-05-09)
+# =============================================================================
+
+
+@dataclass(frozen=True)
+class InvolutionFixedLocusProfile:
+    """Topological profile of the fixed locus of one anti-symplectic
+    involution on the $K3$ surface, plus the associated invariant-lattice
+    data $(r, a, \\delta)$.
+
+    For Nikulin's classification of K3 non-symplectic involutions:
+    $g$ is the genus of the curve component, $k$ the number of disjoint
+    rational $\\mathbb{C}P^1$ components, and $(r, a, \\delta)$ is the
+    invariant-lattice triple.
+    """
+
+    g: int
+    k: int
+    rad: tuple[int, int, int]
+
+
+@dataclass(frozen=True)
+class GIFTCandidateProfile:
+    """The single canonical profile that any candidate explicit $K3$ model
+    must produce to certify $(b_2, b_3) = (21, 77)$ via the JK
+    construction.
+
+    Per GPT council #7 (2026-05-09): each candidate model — sextic,
+    Weierstrass, Inose, lattice-Torelli — should pass through the same
+    sieve and emit this dict. The model-specific machinery (sympy
+    polynomials, Weierstrass coefficients, lattice computations) lives
+    inside the model class; the profile is the universal contract.
+    """
+
+    tau: InvolutionFixedLocusProfile
+    s1_tau: InvolutionFixedLocusProfile
+    s2_tau: InvolutionFixedLocusProfile
+    s12_tau: InvolutionFixedLocusProfile
+    V4_symplectic_fixed_points: tuple[int, int, int]
+    JK_b2: int
+    JK_b3: int
+
+    @classmethod
+    def gift_target(cls) -> "GIFTCandidateProfile":
+        """The canonical GIFT target that any successful explicit model
+        must match component-for-component."""
+        return cls(
+            tau=InvolutionFixedLocusProfile(g=2, k=2, rad=(11, 7, 1)),
+            s1_tau=InvolutionFixedLocusProfile(g=1, k=1, rad=(11, 9, 1)),
+            s2_tau=InvolutionFixedLocusProfile(g=1, k=1, rad=(11, 9, 1)),
+            s12_tau=InvolutionFixedLocusProfile(g=1, k=1, rad=(11, 9, 1)),
+            V4_symplectic_fixed_points=(8, 8, 8),
+            JK_b2=21,
+            JK_b3=77,
+        )
+
+    def matches(self, target: "GIFTCandidateProfile") -> dict[str, bool]:
+        """Component-by-component comparison against a target profile.
+
+        Returns a dict of bool checks, useful for emitting Lean Bool
+        certificates per sub-condition.
+        """
+        return {
+            "tau_matches": self.tau == target.tau,
+            "s1_tau_matches": self.s1_tau == target.s1_tau,
+            "s2_tau_matches": self.s2_tau == target.s2_tau,
+            "s12_tau_matches": self.s12_tau == target.s12_tau,
+            "V4_fixed_points_match": (
+                self.V4_symplectic_fixed_points == target.V4_symplectic_fixed_points
+            ),
+            "JK_b2_matches": self.JK_b2 == target.JK_b2,
+            "JK_b3_matches": self.JK_b3 == target.JK_b3,
+            "all_match": (
+                self.tau == target.tau
+                and self.s1_tau == target.s1_tau
+                and self.s2_tau == target.s2_tau
+                and self.s12_tau == target.s12_tau
+                and self.V4_symplectic_fixed_points
+                == target.V4_symplectic_fixed_points
+                and self.JK_b2 == target.JK_b2
+                and self.JK_b3 == target.JK_b3
+            ),
+        }
+
+    def to_dict(self) -> dict[str, object]:
+        """Serialise to plain dict for JSON / audit output."""
+
+        def _inv(p: InvolutionFixedLocusProfile) -> dict[str, object]:
+            return {"g": p.g, "k": p.k, "rad": list(p.rad)}
+
+        return {
+            "tau": _inv(self.tau),
+            "s1_tau": _inv(self.s1_tau),
+            "s2_tau": _inv(self.s2_tau),
+            "s12_tau": _inv(self.s12_tau),
+            "V4_symplectic_fixed_points": list(self.V4_symplectic_fixed_points),
+            "JK": {"b2": self.JK_b2, "b3": self.JK_b3},
+        }
 
 
 # =============================================================================
@@ -922,6 +1045,34 @@ class K3ReducibleSexticDoubleCover:
             "picard_rank_target_for_11_7_1": 11,
         }
 
+    def candidate_profile(self) -> "GIFTCandidateProfile":
+        """Emit a `GIFTCandidateProfile` for the reducible sextic
+        $f_6 = q_4 \\cdot q_2$ model.
+
+        - $\\iota$ matches GIFT target ✓: $(g, k) = (2, 2)$, lattice
+          $(11, 7, 1)$.
+        - $\\alpha\\iota, \\beta\\iota$: each fixes a single
+          $\\mathbb{C}P^1$ — $(g, k) = (0, 1)$. Lattice profile here is
+          NOT $(11, 9, 1)$ (would require $(g, k) = (1, 1)$).
+        - $\\alpha\\beta\\iota$: fixes only an isolated point (the
+          $V_4$-fixed point $[0:0:1]$, which is the K3 singularity from
+          the node of $q_4$). Encoded as $(g, k) = (-1, 0)$.
+
+        Per GPT council #7: this model is to be **retired** as a
+        diagnostic no-go. The $V_4 \\subset \\mathrm{PGL}(3)$ rigidity
+        forces the $s_i$-fixed planes through the node of $q_4$, locking
+        out the elliptic component required for $(11, 9, 1)$.
+        """
+        return GIFTCandidateProfile(
+            tau=InvolutionFixedLocusProfile(g=2, k=2, rad=(11, 7, 1)),
+            s1_tau=InvolutionFixedLocusProfile(g=0, k=1, rad=(0, 0, 0)),
+            s2_tau=InvolutionFixedLocusProfile(g=0, k=1, rad=(0, 0, 0)),
+            s12_tau=InvolutionFixedLocusProfile(g=-1, k=0, rad=(0, 0, 0)),
+            V4_symplectic_fixed_points=(8, 8, 8),
+            JK_b2=17,
+            JK_b3=67,
+        )
+
 
 # =============================================================================
 # Section 6 — Kummer K3 model (skeleton, Picard rank 17)
@@ -1009,12 +1160,265 @@ class KummerK3Model:
                 " genus-2 substructure)."
             ),
             "next_step": (
-                "Consult Garbagnati 2009 (arXiv:0902.4032) for the explicit"
-                " classification of Z_2^3 actions on K3 with given (r, a, δ)"
-                " profiles. Specifically, the (11, 7, 1) involution arises"
-                " on K3 surfaces in moduli closer to elliptic fibrations"
-                " with reducible fibers, not generic Kummer."
+                "Consult Garbagnati-Salgado (arXiv:1806.03097, arXiv:2304.01383)"
+                " for the explicit classification of elliptic fibrations on K3"
+                " with non-symplectic involution and given (r, a, δ) profiles."
+                " Specifically, the (11, 7, 1) involution arises on K3 surfaces"
+                " in moduli closer to elliptic fibrations with reducible fibers,"
+                " not generic Kummer of E_1 × E_2 with sign-flip τ."
             ),
+        }
+
+    def candidate_profile(self) -> "GIFTCandidateProfile":
+        """Emit a `GIFTCandidateProfile` for the Kummer + sign-flip naive
+        model.
+
+        - $\\tau = (P, Q) \\to (-P, Q)$: $(g, k) = (0, 4)$ — 4 rational
+          curves, no genus-2 component. Encodes a profile far from
+          $(11, 7, 1)$.
+        - $V_4$ fixed-point count not literally $(8, 8, 8)$ on Kummer
+          (the action by 2-torsion translations is fixed-point-free on
+          $T$ but acts non-trivially on the 16 exceptional curves).
+
+        This is a documented no-match, retained for diagnostic value.
+        """
+        return GIFTCandidateProfile(
+            tau=InvolutionFixedLocusProfile(g=0, k=4, rad=(0, 0, 0)),
+            s1_tau=InvolutionFixedLocusProfile(g=0, k=0, rad=(0, 0, 0)),
+            s2_tau=InvolutionFixedLocusProfile(g=0, k=0, rad=(0, 0, 0)),
+            s12_tau=InvolutionFixedLocusProfile(g=0, k=0, rad=(0, 0, 0)),
+            V4_symplectic_fixed_points=(0, 0, 0),
+            JK_b2=0,
+            JK_b3=0,
+        )
+
+
+# =============================================================================
+# Section 6b — Elliptic K3 in Weierstrass form with full 2-torsion
+# (priority path per GPT council #7, 2026-05-09)
+# =============================================================================
+
+
+@dataclass
+class EllipticK3WeierstrassFull2Torsion:
+    """Elliptic $K3$ surface in Weierstrass form with full 2-torsion in
+    the Mordell-Weil group:
+
+    $$
+    y^2 = x \\, (x - A(t)) \\, (x - B(t)),
+    $$
+
+    where $A(t), B(t) \\in \\Gamma(\\mathbb{P}^1, \\mathcal{O}(4))$ are
+    sections of degree 4 (so the Weierstrass equation has degree
+    $1 + 4 + 4 = 9$ in $x$ ... no, the discriminant has degree
+    $\\deg(\\Delta) = 24$, matching a $K3$ elliptic surface).
+
+    For $K3$: take $A, B$ with $\\deg = 4$ as polynomials in $t$ for the
+    affine chart $\\mathbb{A}^1 \\subset \\mathbb{P}^1$, with appropriate
+    weight at infinity.
+
+    **Canonical $V_4$ action** (symplectic, intrinsic, Mukai-type):
+
+    The Mordell-Weil group contains $(\\mathbb{Z}/2)^2$ with non-trivial
+    elements being translations by the three 2-torsion sections:
+
+    - $T_0$: trivial.
+    - $T_1$: translation by the section $(x, y) = (0, 0)$.
+    - $T_A$: translation by the section $(x, y) = (A(t), 0)$.
+    - $T_B$: translation by the section $(x, y) = (B(t), 0)$.
+
+    Each non-trivial translation is a **symplectic Nikulin involution**
+    on $X$ (preserves the holomorphic 2-form $\\Omega = \\frac{dt \\wedge dx}{y}$).
+
+    $V_4 = \\{T_0, T_1, T_A, T_B\\} \\subset \\mathrm{Aut}(X)_{\\mathrm{symp}}$.
+
+    **Candidate non-symplectic $\\tau$**: $(x, y, t) \\to (x, -y, \\sigma(t))$
+    where $\\sigma$ is a base involution (e.g., $\\sigma : t \\to -t$ or
+    a fractional linear involution). For $\\tau$ to commute with the $V_4$,
+    $A$ and $B$ must satisfy $A(\\sigma(t)) = A(t)$ and $B(\\sigma(t)) = B(t)$
+    (or be permuted by $\\sigma$).
+
+    **Audit pipeline** (per GPT council #7):
+
+    1. Singular fibers and their root lattice contributions to NS$(X)$.
+    2. Verify MW torsion contains $(\\mathbb{Z}/2)^2$.
+    3. Check translations by 2-torsion are symplectic Nikulin involutions.
+    4. Compute fixed loci of $\\tau$ and $T_i \\circ \\tau$ on $X$.
+    5. Infer Nikulin invariant-lattice triples $(r, a, \\delta)$.
+    6. Plug into the JK Betti predictor and check for $(21, 77)$.
+
+    This class is a **skeleton**: the audit methods return the structure
+    but the resolution-level fixed-locus computation is left as a
+    next-iteration task (likely with Codex / Sage support).
+    """
+
+    # Coefficients of A(t), B(t) as polynomial coefficient lists, lowest-degree first.
+    # Degree 4 for K3 (discriminant degree = 24). Leading coefficients of A and B
+    # must differ so that deg(A - B) = 4 (otherwise the discriminant degree drops).
+    A_coeffs: tuple[complex, ...] = (1.0, 1.0, 0.0, 0.0, 1.0)  # 1 + t + t^4
+    B_coeffs: tuple[complex, ...] = (-1.0, -1.0, 0.0, 0.0, 2.0)  # -1 - t + 2 t^4
+
+    # Base involution hint (free-form string for documentation).
+    base_involution_hint: str = "t -> -t"
+
+    @property
+    def deg_A(self) -> int:
+        return len(self.A_coeffs) - 1
+
+    @property
+    def deg_B(self) -> int:
+        return len(self.B_coeffs) - 1
+
+    def A_polynomial(self, t: sp.Symbol) -> sp.Expr:
+        return sum(c * t**i for i, c in enumerate(self.A_coeffs))
+
+    def B_polynomial(self, t: sp.Symbol) -> sp.Expr:
+        return sum(c * t**i for i, c in enumerate(self.B_coeffs))
+
+    def weierstrass_equation(self) -> sp.Expr:
+        x, y, t = sp.symbols("x y t")
+        return y**2 - x * (x - self.A_polynomial(t)) * (x - self.B_polynomial(t))
+
+    def deg_A_minus_B(self) -> int:
+        """Degree of $A(t) - B(t)$ as a polynomial in $t$.
+
+        Computed via sympy to handle leading-coefficient cancellation.
+        Returns 0 if $A - B$ is identically zero (degenerate model).
+        """
+        t = sp.Symbol("t")
+        diff = sp.expand(self.A_polynomial(t) - self.B_polynomial(t))
+        if diff == 0:
+            return -1  # sentinel for the degenerate case A = B
+        return int(sp.Poly(diff, t).degree())
+
+    def discriminant_degree(self) -> int:
+        """For $y^2 = x(x - A)(x - B)$:
+
+        $\\Delta(t) = 16 \\cdot A^2 \\cdot B^2 \\cdot (A - B)^2$ has degree
+        $2 \\deg(A) + 2 \\deg(B) + 2 \\deg(A - B)$.
+
+        For a $K3$ elliptic surface, $\\deg \\Delta = 24$, requiring
+        $\\deg A = \\deg B = \\deg(A - B) = 4$ (in the standard
+        convention where the base is $\\mathbb{P}^1$ and $A, B$ are
+        sections of $\\mathcal{O}(4)$).
+        """
+        return 2 * self.deg_A + 2 * self.deg_B + 2 * self.deg_A_minus_B()
+
+    def is_k3_elliptic_surface(self) -> bool:
+        return self.discriminant_degree() == 24
+
+    def mw_torsion_contains_z2_squared(self) -> bool:
+        """The four sections $\\{O, (0, 0), (A, 0), (B, 0)\\}$ form a
+        subgroup isomorphic to $(\\mathbb{Z}/2)^2$ in the Mordell-Weil
+        group, provided $A$ and $B$ are not identically equal and neither
+        is identically zero (so the three non-trivial sections are distinct).
+        """
+        non_zero_A = any(abs(c) > 1e-12 for c in self.A_coeffs)
+        non_zero_B = any(abs(c) > 1e-12 for c in self.B_coeffs)
+        A_neq_B = self.A_coeffs != self.B_coeffs
+        return non_zero_A and non_zero_B and A_neq_B
+
+    def singular_fibers_pseudo_audit(self) -> dict[str, object]:
+        """Identify the loci $A(t) = 0$, $B(t) = 0$, $A(t) = B(t)$ where
+        the elliptic fiber degenerates.
+
+        For a generic configuration: at $A = 0$, two of the three roots of
+        $x(x-A)(x-B)$ collide ($x = 0$ and $x = A$), giving an $I_2$ fiber
+        ($A_1$ Kodaira type). Similarly at $B = 0$ and at $A = B$.
+
+        Total $(-2)$-classes from reducible fibers:
+        $\\deg A + \\deg B + \\deg(A - B) = 4 + 4 + 4 = 12$ generically.
+
+        Combined with the rank of the MW group ($\\ge \\mathrm{rk}(\\mathbb{Z}/2)^2 = 0$
+        free, plus possibly free part) and the trivial/section/fibre
+        classes, this gives Picard rank $\\rho \\ge 2 + 12 = 14$ for the
+        generic such surface — well above the threshold $\\rho \\ge 11$.
+        """
+        return {
+            "A_zero_locus_degree": self.deg_A,
+            "B_zero_locus_degree": self.deg_B,
+            "A_eq_B_locus_degree_max": max(self.deg_A, self.deg_B),
+            "total_reducible_fiber_minus_two_classes_generic": (
+                self.deg_A + self.deg_B + max(self.deg_A, self.deg_B)
+            ),
+            "picard_rank_lower_bound": 2 + (
+                self.deg_A + self.deg_B + max(self.deg_A, self.deg_B)
+            ),
+        }
+
+    def candidate_profile(self) -> Optional[GIFTCandidateProfile]:
+        """Return a `GIFTCandidateProfile` for this Weierstrass model.
+
+        For a NAIVE $\\tau : (x, y, t) \\to (x, -y, -t)$ choice WITHOUT
+        moduli tuning of $A(t), B(t)$:
+
+        - Fixed locus of $\\tau$ on $X$ projects to base fixed points
+          $t = 0$ and $t = \\infty$ of $\\sigma : t \\to -t$. At each
+          fixed base point, the elliptic fiber is fixed pointwise iff
+          $y \\to -y$ is the identity on it, i.e., the fiber is
+          $\\{y = 0\\} = \\{x \\in \\{0, A(0), B(0)\\}\\}$ — three
+          points generically.
+        - This gives a 0-dimensional fixed locus on $X$ from the base
+          fixed points alone, which does not match $(g, k) = (2, 2)$.
+
+        However, the elliptic involution $y \\to -y$ ALONE (without base
+        action) fixes the bisection $\\{y = 0\\} = $ the curve where
+        $x \\in \\{0, A(t), B(t)\\}$. This trisection is generically a
+        smooth curve of genus determined by Hurwitz: as a degree-3 cover
+        of $\\mathbb{P}^1$ (the base), branched where two roots collide
+        (at $A = 0$, $B = 0$, $A = B$, total $4 + 4 + 4 = 12$ simple
+        branch points), genus $g = -3 + 1 + 12/2 = 4$.
+
+        So $y \\to -y$ alone gives $(g, k) = (4, 0)$ — NOT $(2, 2)$.
+
+        **Honest no-go without moduli tuning**: the trisection genus is
+        4, not 2. To get genus 2, the moduli must be tuned so that the
+        trisection factors as (genus-2 curve) ∪ (rational curve), which
+        is a codimension condition on $A(t), B(t)$.
+
+        Returns ``None`` until the moduli are tuned. The Phase A.1 master
+        audit interprets ``None`` as "candidate profile not yet derivable
+        from this model".
+        """
+        return None
+
+    def predicted_full_betti(self) -> dict[str, object]:
+        """Predicted $(b_2, b_3)$ status for this Weierstrass model."""
+        sing = self.singular_fibers_pseudo_audit()
+        return {
+            "weierstrass_equation_degree_check": self.is_k3_elliptic_surface(),
+            "discriminant_degree": self.discriminant_degree(),
+            "mw_torsion_contains_z2_squared": self.mw_torsion_contains_z2_squared(),
+            "singular_fibers": sing,
+            "picard_rank_lower_bound": sing["picard_rank_lower_bound"],
+            "candidate_profile_emitted": False,
+            "diagnosis": (
+                "Weierstrass elliptic K3 with full 2-torsion is the priority"
+                " path (GPT council #7, piste 2+3). Picard rank ≥ 14"
+                " generically — well above the (11, 7, 1) threshold."
+                " The V₄ = (Z/2)² translations by 2-torsion sections are"
+                " symplectic Nikulin involutions, intrinsic (not ambient"
+                " in PGL(3)). The naive τ : y → -y, t → -t gives a"
+                " trisection of genus 4 — so direct (g, k) = (2, 2) fails"
+                " without moduli tuning. Next concrete step: use the"
+                " Garbagnati-Salgado (arXiv:1806.03097, arXiv:2304.01383)"
+                " classification to pick A(t), B(t) so that the y = 0"
+                " trisection factors as (genus-2 curve) ∪ (rational)."
+            ),
+            "next_step": (
+                "(a) Search Clingher-Malmendier (arXiv:2109.01929) tables"
+                " for Jacobian elliptic K3 with NS-2-elementary lattice"
+                " (ρ, ℓ, δ) = (11, 7, 1) and MW torsion containing (Z/2)²."
+                " (b) Reconstruct A(t), B(t) from the chosen lattice via"
+                " the Garbagnati-Salgado algorithm. (c) Re-run this audit."
+            ),
+            "supporting_references": {
+                "garbagnati_salgado_2018": "arXiv:1806.03097",
+                "garbagnati_salgado_2023_survey": "arXiv:2304.01383",
+                "garbagnati_sarti_2010": "arXiv:1006.1604",
+                "piroddi_2024": "arXiv:2408.00643",
+                "clingher_malmendier_2021": "arXiv:2109.01929",
+            },
         }
 
 
@@ -1042,6 +1446,9 @@ class PhaseA1MasterAudit:
     - ``phase_a1_explicit_model_realizes_gift_betti`` — overall status.
     """
 
+    sextic_generic_cover: K3SexticDoubleCover = field(
+        default_factory=K3SexticDoubleCover
+    )
     sextic_generic: PhaseAExplicitModelAudit = field(
         default_factory=PhaseAExplicitModelAudit
     )
@@ -1049,6 +1456,9 @@ class PhaseA1MasterAudit:
         default_factory=K3ReducibleSexticDoubleCover
     )
     kummer: KummerK3Model = field(default_factory=KummerK3Model)
+    weierstrass: EllipticK3WeierstrassFull2Torsion = field(
+        default_factory=EllipticK3WeierstrassFull2Torsion
+    )
 
     def audit(self) -> dict[str, object]:
         # Sanity check: GIFT target profile yields (21, 77).
@@ -1061,27 +1471,52 @@ class PhaseA1MasterAudit:
         sextic_b2, sextic_b3 = JKBettiPredictor().predict(sextic_profile)
         sextic_sanity = (sextic_b2, sextic_b3) == (16, 94)
 
-        # Reducible sextic prediction.
+        # Per-model reports.
         reducible_report = self.sextic_reducible.predicted_full_betti()
         kummer_report = self.kummer.predicted_full_betti()
+        weierstrass_report = self.weierstrass.predicted_full_betti()
 
-        any_model_matches = reducible_report["matches_gift_target"]
-        # Currently no model matches (21, 77). Honest diagnostic.
+        # Candidate gate (per GPT council #7): each model emits a
+        # GIFTCandidateProfile, then we compare against gift_target.
+        target = GIFTCandidateProfile.gift_target()
+        candidate_matches: dict[str, dict[str, bool]] = {
+            "generic_sextic": self.sextic_generic_cover.candidate_profile().matches(
+                target
+            ),
+            "reducible_sextic": self.sextic_reducible.candidate_profile().matches(
+                target
+            ),
+            "kummer_naive": self.kummer.candidate_profile().matches(target),
+        }
+        weierstrass_profile = self.weierstrass.candidate_profile()
+        if weierstrass_profile is not None:
+            candidate_matches["weierstrass"] = weierstrass_profile.matches(target)
+
+        any_model_matches = any(
+            m["all_match"] for m in candidate_matches.values()
+        )
 
         return {
             "infrastructure": {
                 "fixed_locus_component_dataclass": True,
                 "nikulin_g_k_formula": True,
                 "jk_betti_predictor": True,
+                "gift_candidate_profile_dataclass": True,
                 "model_classes_implemented": [
                     "K3SexticDoubleCover (generic V_4+S_3)",
-                    "K3ReducibleSexticDoubleCover (q_4·ℓ²)",
+                    "K3ReducibleSexticDoubleCover (q_4·ℓ², retired no-go)",
                     "KummerK3Model (skeleton)",
+                    "EllipticK3WeierstrassFull2Torsion (priority skeleton)",
                 ],
             },
             "sanity_checks": {
                 "gift_target_profile_yields_21_77": gift_sanity,
                 "generic_sextic_profile_yields_16_94": sextic_sanity,
+            },
+            "candidate_gate": {
+                "target_profile": target.to_dict(),
+                "matches_per_model": candidate_matches,
+                "any_model_matches_full_target": any_model_matches,
             },
             "model_predictions": {
                 "generic_sextic_b2_b3": (16, 94),
@@ -1090,6 +1525,11 @@ class PhaseA1MasterAudit:
                     reducible_report["predicted_b3"],
                 ),
                 "kummer_naive_status": kummer_report["matches_gift_tau_11_7_1"],
+                "weierstrass_picard_lower_bound": weierstrass_report[
+                    "picard_rank_lower_bound"
+                ],
+                "weierstrass_candidate_profile_emitted": weierstrass_profile
+                is not None,
             },
             "partial_positives": {
                 "reducible_sextic_iota_matches_11_7_1": reducible_report[
@@ -1099,9 +1539,17 @@ class PhaseA1MasterAudit:
                     "picard_rank_lower_bound"
                 ]
                 >= 11,
+                "weierstrass_mw_torsion_z2_squared": weierstrass_report[
+                    "mw_torsion_contains_z2_squared"
+                ],
+                "weierstrass_picard_rank_geq_11": weierstrass_report[
+                    "picard_rank_lower_bound"
+                ]
+                >= 11,
             },
             "lean_bool_certificates": {
                 "phase_a1_jk_betti_predictor_implemented": True,
+                "phase_a1_gift_candidate_profile_implemented": True,
                 "phase_a1_gift_target_profile_yields_21_77": gift_sanity,
                 "phase_a1_reducible_sextic_iota_matches_11_7_1": reducible_report[
                     "iota_matches_11_7_1"
@@ -1110,27 +1558,39 @@ class PhaseA1MasterAudit:
                     "picard_rank_lower_bound"
                 ]
                 >= 11,
+                "phase_a1_weierstrass_full_2_torsion_skeleton_in_place": True,
+                "phase_a1_weierstrass_picard_rank_geq_11": weierstrass_report[
+                    "picard_rank_lower_bound"
+                ]
+                >= 11,
                 "phase_a1_explicit_model_realizes_gift_betti": any_model_matches,
             },
             "honest_status": {
                 "explicit_model_with_21_77_certified": any_model_matches,
                 "headline": (
-                    "Phase A.1 infrastructure complete (predictor + 3 model"
-                    " classes). The reducible sextic captures the τ side of"
-                    " GIFT (g, k) = (2, 2) ✓ and reaches Picard rank ≥ 11 ✓,"
-                    " but does NOT yet capture the s_iτ side (1 elliptic +"
-                    " 1 P¹). Kummer K3 also misses (g, k) = (2, 2) for τ."
-                    " No single model in current catalog yields (21, 77)."
+                    "Phase A.1 iteration #3: candidate gate (GIFTCandidateProfile)"
+                    " + Weierstrass elliptic K3 skeleton in place. Reducible"
+                    " sextic retired as no-go diagnostic (V_4 in PGL(3) is"
+                    " too rigid per GPT council #7). Weierstrass model has"
+                    " full 2-torsion ⇒ V_4 symplectic intrinsic + Picard ≥"
+                    " 14, but the naive τ : y→-y, t→-t gives a trisection of"
+                    " genus 4, not 2. Moduli tuning via Garbagnati-Salgado"
+                    " (arXiv:1806.03097, arXiv:2304.01383) tables required."
                 ),
                 "next_concrete_path": (
-                    "(1) Refine the reducible sextic moduli so that the"
-                    " s_i-fixed planes intersect K3 in elliptic curves +"
-                    " P¹ (likely requires choosing q_4 and q_2 so that the"
-                    " restriction f_6|_{x=0} factors as (cubic squarefree)·(square),"
-                    " giving elliptic double cover). (2) Or use Garbagnati"
-                    " 2009 explicit elliptic K3 with the right reducible"
-                    " fibers."
+                    "Search Clingher-Malmendier (arXiv:2109.01929) for"
+                    " 2-elementary NS K3 with (ρ, ℓ, δ) = (11, 7, 1) and MW"
+                    " torsion containing (Z/2)². Reconstruct A(t), B(t) via"
+                    " the Garbagnati-Salgado algorithm. Plug into"
+                    " EllipticK3WeierstrassFull2Torsion and re-audit."
                 ),
+                "supporting_references": {
+                    "garbagnati_salgado_2018": "arXiv:1806.03097",
+                    "garbagnati_salgado_2023_survey": "arXiv:2304.01383",
+                    "garbagnati_sarti_2010": "arXiv:1006.1604",
+                    "piroddi_2024": "arXiv:2408.00643",
+                    "clingher_malmendier_2021": "arXiv:2109.01929",
+                },
             },
         }
 
@@ -1148,10 +1608,13 @@ __all__ = [
     "FixedLocusComponent",
     "nikulin_g_k_from_rad",
     "JKBettiPredictor",
+    "InvolutionFixedLocusProfile",
+    "GIFTCandidateProfile",
     "V4InvariantNodalQuartic",
     "V4InvariantPairOfLines",
     "K3ReducibleSexticDoubleCover",
     "KummerK3Model",
+    "EllipticK3WeierstrassFull2Torsion",
     "PhaseA1MasterAudit",
     "audit_phase_a1_master",
 ]

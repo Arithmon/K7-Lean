@@ -11,8 +11,11 @@ non-zero if any check fails.
 from __future__ import annotations
 
 from gift_core.geometry.k3_explicit import (
+    EllipticK3WeierstrassFull2Torsion,
+    GIFTCandidateProfile,
     JKBettiPredictor,
     K3ReducibleSexticDoubleCover,
+    K3SexticDoubleCover,
     KummerK3Model,
     PhaseA1MasterAudit,
     audit_phase_a1_master,
@@ -40,6 +43,19 @@ def verify() -> dict[str, bool]:
     # Kummer skeleton predictions.
     kummer = KummerK3Model()
     kummer_report = kummer.predicted_full_betti()
+
+    # GIFT candidate gate.
+    target = GIFTCandidateProfile.gift_target()
+    sextic_profile = K3SexticDoubleCover().candidate_profile()
+    sextic_match = sextic_profile.matches(target)
+    reducible_profile = reducible.candidate_profile()
+    reducible_match = reducible_profile.matches(target)
+    kummer_profile = kummer.candidate_profile()
+    kummer_match = kummer_profile.matches(target)
+
+    # Weierstrass elliptic K3 skeleton.
+    weierstrass = EllipticK3WeierstrassFull2Torsion()
+    weierstrass_report = weierstrass.predicted_full_betti()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -93,6 +109,51 @@ def verify() -> dict[str, bool]:
             "lean_bool_certificates"
         ]["phase_a1_explicit_model_realizes_gift_betti"]
         is False,
+        "candidate_gate_target_yields_b2_b3_21_77": target.JK_b2 == 21
+        and target.JK_b3 == 77,
+        "candidate_gate_target_tau_is_2_2_and_11_7_1": (
+            target.tau.g == 2
+            and target.tau.k == 2
+            and target.tau.rad == (11, 7, 1)
+        ),
+        "candidate_gate_target_s1_tau_is_1_1_and_11_9_1": (
+            target.s1_tau.g == 1
+            and target.s1_tau.k == 1
+            and target.s1_tau.rad == (11, 9, 1)
+        ),
+        "candidate_gate_generic_sextic_does_not_match": sextic_match["all_match"]
+        is False,
+        "candidate_gate_reducible_sextic_tau_matches": reducible_match["tau_matches"]
+        is True,
+        "candidate_gate_reducible_sextic_does_not_match_full": reducible_match[
+            "all_match"
+        ]
+        is False,
+        "candidate_gate_kummer_does_not_match": kummer_match["all_match"] is False,
+        "weierstrass_is_k3_elliptic_surface": weierstrass.is_k3_elliptic_surface()
+        is True,
+        "weierstrass_discriminant_degree_24": weierstrass_report["discriminant_degree"]
+        == 24,
+        "weierstrass_mw_torsion_z2_squared": weierstrass_report[
+            "mw_torsion_contains_z2_squared"
+        ]
+        is True,
+        "weierstrass_picard_rank_geq_11": weierstrass_report["picard_rank_lower_bound"]
+        >= 11,
+        "weierstrass_naive_profile_returns_none_pending_moduli_tuning": weierstrass.candidate_profile()
+        is None,
+        "master_audit_weierstrass_skeleton_in_place": master["lean_bool_certificates"][
+            "phase_a1_weierstrass_full_2_torsion_skeleton_in_place"
+        ]
+        is True,
+        "master_audit_weierstrass_picard_geq_11": master["lean_bool_certificates"][
+            "phase_a1_weierstrass_picard_rank_geq_11"
+        ]
+        is True,
+        "master_audit_candidate_profile_implemented": master["lean_bool_certificates"][
+            "phase_a1_gift_candidate_profile_implemented"
+        ]
+        is True,
     }
 
 
