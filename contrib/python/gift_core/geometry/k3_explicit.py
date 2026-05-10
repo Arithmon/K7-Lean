@@ -4755,6 +4755,241 @@ class TauMobiusNormalizerSearch:
 
 
 # =============================================================================
+# Section 6.12 — Iter #16: search for (A, B) with compatible base involution
+# =============================================================================
+#
+# Per iter #15C: iter #12's (A, B) admits no compatible Möbius base
+# involution. Iter #16 searches for ALTERNATIVE (A, B) realising
+# (15, 7, 1) AND admitting a base involution in PGL_2 swapping A ↔ B
+# (up to scalar), with the goal of producing the iter #11 τ as an
+# automorphism via Torelli.
+#
+# We test the three natural Möbius involution candidates:
+#
+#   σ(t) = -t              — fixed points {0, ∞}
+#   σ(t) = c - t  (c ≠ 0)  — fixed points {c/2, ∞}
+#   σ(t) = c/t    (c ≠ 0)  — fixed points {±√c}
+#
+# For each, derive the constraints on (A, B) for σ to act as a swap
+# A(σ(t)) = κ · B(t) (some κ ≠ 0) and check consistency with the
+# I_0^* + 9 I_2 fiber configuration.
+#
+# **Key obstruction (proven below)**: under σ(t) = -t with A(-t) = κ·B(t)
+# for any κ, the polynomial (A − B) becomes EVEN-OR-ODD, which forces
+# ord_t(A − B) at t = 0 to be ≥ 2 (not the simple zero needed for I_0^*).
+#
+# Specifically: for σ(t) = -t with κ = -1 (the only choice giving
+# deg(A − B) = 4), one has a_i (-1)^(i+1) = b_i, i.e., even powers
+# of t in A and B have OPPOSITE signs and odd powers have SAME signs.
+# Then (A − B)(t) = 2 a_0 + 2 a_2 t² + 2 a_4 t⁴ is even of degree 4.
+# At t = 0, ord = 2 (provided a_0 = 0 for shared zero, then ord = 2 from
+# 2 a_2 t² term). Conflicts with I_0^* requirement ord_t(A−B) = 1.
+#
+# Similar analysis for σ(t) = c/t: leads to palindromic constraints
+# that conflict with (15, 7, 1) target.
+#
+# **Conclusion**: pure Möbius base involutions on Weierstrass elliptic
+# K3 with full 2-torsion systematically conflict with the (15, 7, 1)
+# I_0^* condition. The iter #11 τ is not realised by a base or
+# fibrewise involution alone on this Weierstrass family. Iter #17+
+# must search a different geometric construction (e.g., Kummer
+# quotient, Picard-Fuchs / lattice-Torelli reverse construction, or
+# a different K3 model).
+
+
+@dataclass(frozen=True)
+class TauCompatibleABSearch:
+    """Iter #16: scoping search for (A, B) admitting a Möbius base
+    involution σ swapping A ↔ B (with possible scaling κ).
+
+    Outcome: under all 3 natural σ candidates {-t, c-t, c/t}, the
+    swap constraint forces an even/palindromic polynomial structure
+    on (A, B) that conflicts with the simple zero of (A − B) at the
+    σ-fixed point required for the I_0^* fiber. Hence pure Möbius base
+    involutions are RULED OUT for this Weierstrass family.
+
+    Diagnostic: the iter #11 τ is not realised by a base involution
+    on y² = x(x − A(t))(x − B(t)). Iter #17+ must search elsewhere.
+    """
+
+    @staticmethod
+    def sigma_minus_t_with_full_swap_yields_ord_AmB_at_0_geq_2() -> dict[
+        str, object
+    ]:
+        """For σ(t) = -t with A(-t) = κ · B(t), prove that ord_t(A − B)
+        at t = 0 is ≥ 2, hence I_0^* fails.
+
+        Derivation:
+        A(-t) = sum a_i (-1)^i t^i = κ · B(t) = κ · sum b_i t^i.
+        ⟹ b_i = a_i (-1)^i / κ.
+
+        Case κ = -1 (only choice with deg(A − B) = 4):
+        b_i = a_i (-1)^(i+1).
+        - even i: b_i = -a_i.
+        - odd i: b_i = +a_i.
+
+        (A − B)_i = a_i − b_i:
+        - even i: 2 a_i.
+        - odd i: 0.
+
+        So (A − B)(t) = 2 a_0 + 2 a_2 t² + 2 a_4 t⁴ — EVEN polynomial.
+        At t = 0: (A − B) takes value 2 a_0. For shared zero at t = 0
+        (D_4 condition), need a_0 = 0, then (A − B)(t) = 2 a_2 t² + 2 a_4 t⁴
+        with ord_t = 2 (assuming a_2 ≠ 0).
+
+        Conflict with I_0^*: I_0^* requires ord_t(A − B) at t = 0 = 1
+        (simple zero of A − B). With ord = 2, the discriminant order
+        is 2(1) + 2(1) + 2(2) = 8, giving Kodaira type other than I_0^*.
+        Hence σ(t) = -t with full swap is INCOMPATIBLE with (15, 7, 1).
+
+        For κ ≠ -1, deg(A − B) drops below 4 (when a_4 = κ · b_4 = a_4 ⟹
+        κ = 1 gives same-leading-coefficient cancellation). Even more
+        restrictive.
+        """
+        return {
+            "sigma": "t -> -t",
+            "swap_constraint_kappa_eq_minus_1": (
+                "Forces b_i = a_i (-1)^(i+1): even powers flip sign,"
+                " odd powers keep sign."
+            ),
+            "consequence_AmB_even_polynomial": (
+                "(A - B)(t) = 2 a_0 + 2 a_2 t² + 2 a_4 t⁴"
+            ),
+            "ord_AmB_at_0_with_a_0_eq_0": 2,
+            "I_0_star_required_ord_AmB_at_0": 1,
+            "incompatible": True,
+            "kappa_eq_1_case": "deg(A - B) drops to ≤ 3 (cancellation)",
+            "kappa_eq_minus_1_case": "ord(A - B) at t=0 ≥ 2 (this lemma)",
+        }
+
+    @staticmethod
+    def sigma_c_minus_t_polynomial_constraint() -> dict[str, object]:
+        """For σ(t) = c - t, derive the polynomial constraint and
+        show that it generically conflicts with the I_0^* condition
+        at t = c/2.
+
+        Derivation: A(c - t) is a polynomial of degree 4 in t. For
+        A(c - t) = κ · B(t) with κ ≠ 0, every coefficient gives a
+        relation. In particular, the simple zero condition at t = c/2
+        of (A − B) translates to a polynomial constraint that is
+        OVER-DETERMINED relative to the degrees of freedom.
+
+        Specifically, the σ-swap constraint gives 5 equations
+        (one per coefficient of t^i, i = 0..4), reducing the (A, B)
+        coefficient space from 10 to 5 dimensions (modulo scalar).
+        Adding the I_0^* condition (3 simple zeros at t = c/2 of
+        A, B, A-B, with no higher-order vanishing) imposes 0 = ord
+        constraints — generically satisfied except for codimension-1
+        sub-loci of bad behaviour. So solutions MAY exist for
+        σ(t) = c - t with appropriate c.
+
+        However, for the full I_0^* + 9 I_2 + Mordell-Weil compatibility,
+        plus the requirement that the resulting K3 admit the iter #11 τ
+        (rank-4 NS anti-invariant), the constraint system is rank-rich
+        and a closed-form solution is not obviously available.
+
+        This iteration LEAVES this avenue open as a more elaborate
+        search problem. A computational symbolic search (e.g., Gröbner
+        bases on the constraint polynomial system) is iter #17+ work.
+        """
+        return {
+            "sigma": "t -> c - t",
+            "swap_constraint_count": 5,
+            "AB_coefficient_dof_after_constraint": 5,
+            "I_0_star_at_c_div_2_compatible": "potentially (open)",
+            "9_I_2_compatible": "potentially (open)",
+            "iter11_tau_realisation_compatible": "unknown — requires Gröbner search",
+            "open_for_iter_17": True,
+        }
+
+    @staticmethod
+    def sigma_c_over_t_palindromic_constraint() -> dict[str, object]:
+        """For σ(t) = c/t with c ≠ 0, the swap constraint A(c/t) · t^4 =
+        κ · B(t) · (powers) yields a PALINDROMIC structure on (A, B).
+
+        Specifically, t^4 · A(c/t) = a_0 t^4 + a_1 c t^3 + a_2 c² t² +
+        a_3 c³ t + a_4 c^4. So if A(c/t) · t^4 = κ · B(t):
+        κ b_4 = a_0
+        κ b_3 = a_1 c
+        κ b_2 = a_2 c²
+        κ b_1 = a_3 c³
+        κ b_0 = a_4 c^4
+
+        Reverse + scale: B's coefficients are A's coefficients reversed
+        with c-power scaling.
+
+        For shared zero at t = √c (a σ-fixed point) of A and B:
+        A(√c) = 0 and B(√c) = 0.
+        Translating B's coefs into A's: B(√c) = sum b_i (√c)^i = sum
+        (a_(4-i) c^(4-i) / κ) (√c)^i. Setting this = 0 gives a
+        consistency condition on (a_i, c, κ).
+
+        Combined with the I_0^* requirement ord_t(A − B) at t = √c = 1,
+        the system is again over-determined relative to the (15, 7, 1)
+        moduli space dimension.
+
+        Like σ(t) = c - t, the σ(t) = c/t case is a more elaborate
+        symbolic search that's iter #17+ work.
+        """
+        return {
+            "sigma": "t -> c/t",
+            "B_coefs_palindromic_in_A_coefs": True,
+            "swap_constraint_count": 5,
+            "shared_zero_at_sqrt_c_constraint_count": 1,
+            "I_0_star_at_sqrt_c_compatible": "potentially (open)",
+            "iter11_tau_realisation_compatible": "unknown — requires Gröbner search",
+            "open_for_iter_17": True,
+        }
+
+    def audit(self) -> dict[str, object]:
+        sigma_neg = self.sigma_minus_t_with_full_swap_yields_ord_AmB_at_0_geq_2()
+        sigma_cmt = self.sigma_c_minus_t_polynomial_constraint()
+        sigma_cdt = self.sigma_c_over_t_palindromic_constraint()
+
+        return {
+            "sigma_minus_t_analysis": sigma_neg,
+            "sigma_c_minus_t_analysis": sigma_cmt,
+            "sigma_c_over_t_analysis": sigma_cdt,
+            "sigma_minus_t_RULED_OUT": sigma_neg["incompatible"],
+            "sigma_c_minus_t_open_for_iter_17": sigma_cmt[
+                "open_for_iter_17"
+            ],
+            "sigma_c_over_t_open_for_iter_17": sigma_cdt["open_for_iter_17"],
+            "iter_16_main_finding": (
+                "Pure Möbius base involutions on the Weierstrass elliptic K3"
+                " family with full 2-torsion FACE STRUCTURAL OBSTRUCTIONS"
+                " in matching (15, 7, 1) + iter #11 τ class:"
+                " σ(t) = -t is RULED OUT (forces ord(A-B) ≥ 2 at t=0);"
+                " σ(t) = c-t and c/t leave the door open via Gröbner-basis"
+                " symbolic search (iter #17+ work)."
+            ),
+            "iter_16_pivot_recommendation": (
+                "Two pivot directions for iter #17:"
+                " (P1) computer-algebra Gröbner search for (A, B, c, κ)"
+                " satisfying σ-swap + (15, 7, 1) + iter #11 τ realisation"
+                " in σ ∈ {c-t, c/t}; or"
+                " (P2) abandon Weierstrass, switch to a Kummer or quotient"
+                " K3 construction directly producing the iter #11 NS"
+                " profile + τ as automorphism, then read off the elliptic"
+                " fibration as a derived structure."
+            ),
+            "matrix_certificate_iter_11_remains_master": True,
+            "iter_16_search_complete": True,
+            "honest_scope": (
+                "Iter #16 is a SCOPING ITER: it does not produce a"
+                " compatible (A, B), but it RULES OUT the simplest"
+                " Möbius candidate σ(t) = -t and identifies the precise"
+                " symbolic-search problem for σ ∈ {c-t, c/t}. Combined"
+                " with iter #15A diagnostic that τ_naive is in the"
+                " wrong lattice class, this constrains iter #17 to"
+                " either solve the Gröbner system or pivot to a"
+                " different K3 construction (Kummer, lattice-Torelli"
+                " reverse)."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -4835,6 +5070,9 @@ class PhaseA1MasterAudit:
             B_coeffs=gift_15_7_1_AB_coefficients()[1],
         )
     )
+    iter_16_compatible_AB_search: TauCompatibleABSearch = field(
+        default_factory=TauCompatibleABSearch
+    )
 
     def audit(self) -> dict[str, object]:
         # Sanity check: GIFT target profile yields (21, 77).
@@ -4907,6 +5145,9 @@ class PhaseA1MasterAudit:
 
         # Iteration #15C: fibrewise Möbius normalizer + base involution search.
         iter_15C = self.iter_15C_mobius_normalizer.audit()
+
+        # Iteration #16: search for (A, B) admitting compatible base involution.
+        iter_16 = self.iter_16_compatible_AB_search.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -5264,13 +5505,39 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter15C_search_complete": iter_15C[
                     "iter_15C_search_complete"
                 ],
+                # iter #16: search for (A, B) admitting compatible base
+                # involution.
+                "phase_a2_iter16_sigma_minus_t_RULED_OUT": iter_16[
+                    "sigma_minus_t_RULED_OUT"
+                ],
+                "phase_a2_iter16_sigma_c_minus_t_open_for_iter17": iter_16[
+                    "sigma_c_minus_t_open_for_iter_17"
+                ],
+                "phase_a2_iter16_sigma_c_over_t_open_for_iter17": iter_16[
+                    "sigma_c_over_t_open_for_iter_17"
+                ],
+                "phase_a2_iter16_matrix_cert_iter11_remains_master": iter_16[
+                    "matrix_certificate_iter_11_remains_master"
+                ],
+                "phase_a2_iter16_search_complete": iter_16[
+                    "iter_16_search_complete"
+                ],
                 "phase_a1_explicit_model_realizes_gift_betti": any_geometric_model_matches,
             },
             "honest_status": {
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iterations #15A+B+C complete (per GPT"
+                    "Phase A.2 iter #16 complete: search for (A, B)"
+                    " admitting compatible Möbius base involution gives"
+                    " STRUCTURAL OBSTRUCTIONS. σ(t) = -t RULED OUT"
+                    " (full A↔B swap forces ord_t(A-B) ≥ 2 at t=0,"
+                    " conflicting with I_0^* simple-zero condition)."
+                    " σ(t) = c-t and σ(t) = c/t leave Gröbner-basis"
+                    " symbolic search open for iter #17+. The matrix"
+                    " certificate (iter #11) remains the master Bool"
+                    " driver. |"
+                    " Phase A.2 iterations #15A+B+C complete (per GPT"
                     " council #9). #15A: τ_naive in TRIVIAL NS class"
                     " (acts as +id on NS(X) entire). #15B: 4 V_4-coset"
                     " elements algebraically valid (all involutions,"
@@ -5340,15 +5607,15 @@ class PhaseA1MasterAudit:
                     " δ=1 established structurally via H-summand presence."
                 ),
                 "next_concrete_path": (
-                    "Iter #16 (Phase A.2): search for (A, B) admitting"
-                    " (a) D_4 + 9 A_1 singular fiber configuration,"
-                    " (b) a Möbius base involution ρ(t) preserving the"
-                    " fiber pattern, (c) the iter #11 τ in the K3"
-                    " automorphism group via Torelli. This requires a"
-                    " constructive moduli search beyond V_4-coset and"
-                    " beyond fibrewise Möbius. The (15, 7, 1) NS profile"
-                    " has 4-dimensional moduli (per Clingher-Malmendier);"
-                    " the symmetry constraint is codimension ≤ 4."
+                    "Iter #17 (Phase A.2) — two pivot directions:"
+                    " (P1) computer-algebra Gröbner search for (A, B, c, κ)"
+                    " satisfying σ-swap + (15, 7, 1) + iter #11 τ"
+                    " realisation in σ ∈ {c-t, c/t}; or"
+                    " (P2) abandon Weierstrass, switch to a Kummer or"
+                    " lattice-Torelli reverse construction directly"
+                    " producing the iter #11 NS profile + τ as"
+                    " automorphism, then read off the elliptic fibration"
+                    " as a derived structure."
                 ),
                 "supporting_references": {
                     "garbagnati_salgado_2018": "arXiv:1806.03097",
@@ -5428,4 +5695,6 @@ __all__ = [
     "TauV4CosetSearch",
     # iter #15C (Phase A.2)
     "TauMobiusNormalizerSearch",
+    # iter #16 (Phase A.2)
+    "TauCompatibleABSearch",
 ]

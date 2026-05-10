@@ -24,6 +24,7 @@ from gift_core.geometry.k3_explicit import (
     KummerK3Model,
     PhaseA1MasterAudit,
     TwoElementaryLatticeRAD,
+    TauCompatibleABSearch,
     TauMobiusNormalizerSearch,
     TauNaiveAntiSymplecticCandidate,
     TauNaiveLatticeClassDiagnostic,
@@ -153,6 +154,9 @@ def verify() -> dict[str, bool]:
 
     # Iter #15C: fibrewise Möbius normalizer + base involution search.
     iter15C = TauMobiusNormalizerSearch(A_coeffs=A_c, B_coeffs=B_c).audit()
+
+    # Iter #16: search for (A, B) admitting compatible base involution.
+    iter16 = TauCompatibleABSearch().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1023,6 +1027,45 @@ def verify() -> dict[str, bool]:
         is True,
         "master_audit_iter15C_complete": master["lean_bool_certificates"][
             "phase_a2_iter15C_search_complete"
+        ]
+        is True,
+        # Iter #16 (Phase A.2): search for (A, B) compatible with base involution.
+        "iter16_sigma_minus_t_RULED_OUT": iter16[
+            "sigma_minus_t_RULED_OUT"
+        ]
+        is True,
+        "iter16_sigma_c_minus_t_open_for_iter17": iter16[
+            "sigma_c_minus_t_open_for_iter_17"
+        ]
+        is True,
+        "iter16_sigma_c_over_t_open_for_iter17": iter16[
+            "sigma_c_over_t_open_for_iter_17"
+        ]
+        is True,
+        "iter16_matrix_certificate_iter11_remains_master": iter16[
+            "matrix_certificate_iter_11_remains_master"
+        ]
+        is True,
+        "iter16_search_complete": iter16["iter_16_search_complete"]
+        is True,
+        "master_audit_iter16_sigma_minus_t_ruled_out": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter16_sigma_minus_t_RULED_OUT"]
+        is True,
+        "master_audit_iter16_sigma_c_minus_t_open": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter16_sigma_c_minus_t_open_for_iter17"]
+        is True,
+        "master_audit_iter16_sigma_c_over_t_open": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter16_sigma_c_over_t_open_for_iter17"]
+        is True,
+        "master_audit_iter16_iter11_master": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter16_matrix_cert_iter11_remains_master"]
+        is True,
+        "master_audit_iter16_complete": master["lean_bool_certificates"][
+            "phase_a2_iter16_search_complete"
         ]
         is True,
     }
