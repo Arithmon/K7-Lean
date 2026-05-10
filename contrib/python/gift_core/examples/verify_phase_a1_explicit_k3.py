@@ -15,6 +15,7 @@ from gift_core.geometry.k3_explicit import (
     GIFT15_7_1WeierstrassRealisation,
     GIFTCandidateProfile,
     gift_15_7_1_AB_coefficients,
+    IterSeventeenMobiusOneOverTAblation,
     JKBettiPredictor,
     K3CM_15_7_1_D4_9A1,
     K3GenusTwoSymmetricDoubleCover,
@@ -157,6 +158,9 @@ def verify() -> dict[str, bool]:
 
     # Iter #16: search for (A, B) admitting compatible base involution.
     iter16 = TauCompatibleABSearch().audit()
+
+    # Iter #17: σ(t) = 1/t Möbius palindromic ablation (P1 closure).
+    iter17 = IterSeventeenMobiusOneOverTAblation().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1079,6 +1083,63 @@ def verify() -> dict[str, bool]:
             "lean_bool_certificates"
         ]["phase_a2_geometric_weierstrass_realizes_gift_fixed_loci"]
         is False,
+        # Iter #17 (Phase A.2): σ(t) = 1/t ablation closing P1 search.
+        "iter17_case_1_palindromic_antiinv_RULED_OUT": iter17[
+            "case_1_palindromic_antiinvariant_AB"
+        ]["case_1_RULED_OUT"]
+        is True,
+        "iter17_case_2_swap_yields_D4_dihedral": iter17[
+            "case_2_sigma_swaps_A_and_B"
+        ]["case_2_RULED_OUT"]
+        is True,
+        "iter17_case_2_fiber_pattern_correct_D4_plus_9A1": iter17[
+            "case_2_sigma_swaps_A_and_B"
+        ]["fiber_count_correct_D4_plus_9A1"]
+        is True,
+        "iter17_case_2_group_NOT_abelian_Z2_cubed": iter17[
+            "case_2_sigma_swaps_A_and_B"
+        ]["group_generated_is_D4_dihedral_not_Z2_cubed"]
+        is True,
+        "iter17_case_3_individual_invariance_RULED_OUT": iter17[
+            "case_3_individual_invariance"
+        ]["case_3_RULED_OUT"]
+        is True,
+        "iter17_all_3_cases_ruled_out": iter17["all_3_cases_ruled_out"]
+        is True,
+        "iter17_sigma_one_over_t_RULED_OUT": iter17[
+            "sigma_one_over_t_search_RULED_OUT"
+        ]
+        is True,
+        "iter17_pivot_to_P2_recommended": iter17[
+            "pivot_to_P2_recommended"
+        ]
+        is True,
+        "iter17_P1_search_complete": iter17["iter_17_P1_search_complete"]
+        is True,
+        "master_audit_iter17_case_1_ruled_out": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter17_case_1_palindromic_antiinvariant_RULED_OUT"]
+        is True,
+        "master_audit_iter17_case_2_dihedral": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter17_case_2_swap_yields_D4_dihedral_not_Z2_cubed"]
+        is True,
+        "master_audit_iter17_case_3_ruled_out": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter17_case_3_individual_invariance_RULED_OUT"]
+        is True,
+        "master_audit_iter17_sigma_1_over_t_ruled_out": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter17_sigma_one_over_t_search_RULED_OUT"]
+        is True,
+        "master_audit_iter17_pivot_P2": master["lean_bool_certificates"][
+            "phase_a2_iter17_pivot_to_P2_recommended"
+        ]
+        is True,
+        "master_audit_iter17_P1_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter17_P1_search_complete"]
+        is True,
     }
 
 

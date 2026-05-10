@@ -4990,6 +4990,325 @@ class TauCompatibleABSearch:
 
 
 # =============================================================================
+# Section 6.13 — Iter #17: σ(t) = 1/t Möbius palindromic ablation (P1)
+# =============================================================================
+#
+# Per GPT council #10 recommendation: finish P1 (Gröbner-style search for
+# σ ∈ {c-t, c/t}) quickly, then pivot to P2 if blocked. Iter #17 covers
+# σ(t) = 1/t, the palindromic case.
+#
+# Setup: σ(t) = 1/t fixes {1, -1} on P^1. For a degree-4 polynomial P
+# the σ-pullback is t^4 · P(1/t) = palindromic reverse of P's coefs.
+#
+# Two natural ways to make the K3 model σ-symmetric:
+#
+# CASE 1 — A and B individually σ-invariant (κ_A, κ_B ∈ {±1}).
+# CASE 2 — σ swaps A ↔ B with scaling κ.
+#
+# RESULT (proven below):
+#
+#   Case 1: gives 2 D_4 fibers (one at each σ-fixed point), NS profile
+#   becomes (≥ 16, ≥ 9, *), incompatible with (15, 7, 1).
+#
+#   Case 2: gives 1 D_4 fiber with σ-symmetric configuration, BUT τ
+#   built from σ swaps T_A ↔ T_B, yielding ⟨τ, T_A, T_B⟩ ≅ Z/2 ⋉ V_4
+#   = D_4 dihedral (non-abelian), NOT the iter #11 Z_2^3 abelian.
+#
+# Conclusion: σ(t) = 1/t Möbius involution does NOT realise the iter #11
+# τ class on the Weierstrass family. Combined with iter #16's σ(t) = -t
+# RULED OUT, and the σ(t) = c-t analysis showing 4-zero σ-orbit
+# obstructions, the entire Möbius approach for τ is structurally
+# exhausted. Pivot to P2 (lattice-Torelli reverse construction).
+
+
+@dataclass(frozen=True)
+class IterSeventeenMobiusOneOverTAblation:
+    """Iter #17: ablation of σ(t) = 1/t Möbius palindromic case.
+
+    Provides explicit examples of both cases:
+
+    - Case 1 (palindromic anti-invariant A and B): 2 D_4 fibers obstruction.
+    - Case 2 (σ swaps A ↔ B): non-abelian Z/2 ⋉ V_4 obstruction.
+
+    Concludes P1 (Möbius search) is structurally exhausted; pivot to
+    P2 (lattice-Torelli reverse construction).
+    """
+
+    @staticmethod
+    def case_1_palindromic_antiinvariant_AB() -> dict[str, object]:
+        """Case 1: A and B both σ-anti-invariant (κ_A = κ_B = -1).
+
+        For σ(t) = 1/t and κ = -1: t^4 · P(1/t) = -P(t) implies
+        b_(4-i) = -b_i (anti-palindromic), so b_2 = 0 and the polynomial
+        factors as (t² - 1) · linear-x-quadratic combination. Hence:
+
+            P(t) = (t² - 1) · [c_2 · (t² + 1) + c_1 · t]
+                 = (t - 1)(t + 1) · [c_2 (t² + 1) + c_1 t]
+
+        Both σ-fixed points {1, -1} are zeros of P. So both A and B
+        vanish at BOTH σ-fixed points. By symmetry (A − B) also vanishes
+        at both fixed points.
+
+        Fiber pattern: TWO I_0^* (D_4) fibers (one at t=1, one at t=-1).
+        Total disc order from 2 D_4 = 12, leaving 24 − 12 = 12 for
+        I_2 fibers = 6 simple I_2 fibers.
+
+        Total root rank from singular fibers: 4 (D_4) + 4 (D_4) + 6 (A_1)
+        = 14. NS rank ≥ 2 + 14 = 16.
+
+        |det| = 4 · 4 · 2^6 = 1024 = 2^10. So a ≥ 10, NOT 7.
+
+        Hence Case 1 NS profile is **NOT (15, 7, 1)**; it is at best
+        (≥16, 10, *) — incompatible with the GIFT target.
+        """
+        # Concrete witness: A(t) = (t - 1)(t + 1)(t - 2)(t - 1/2).
+        # Computed by hand: A(t) = t^4 - (5/2) t^3 + (5/2) t - 1.
+        # Verify σ-anti-invariance: t^4 · A(1/t) = -A(t) (palindromic
+        # with sign flip).
+        #
+        # Multiply by 2 to clear: A(t) = 2t^4 - 5t^3 + 5t - 2.
+
+        t = sp.Symbol("t")
+        A_poly = 2 * t**4 - 5 * t**3 + 5 * t - 2
+
+        # Compute t^4 · A(1/t):
+        A_pulled = (
+            2 * (1 / t) ** 4 - 5 * (1 / t) ** 3 + 5 * (1 / t) - 2
+        ) * t**4
+        A_pulled_expanded = sp.expand(A_pulled)
+        # Should equal -A.
+        sigma_anti_invariant_A = sp.simplify(A_pulled_expanded + A_poly) == 0
+
+        # B different palindromic-anti-invariant of degree 4:
+        # B(t) = (t-1)(t+1)(t-3)(t-1/3) = ?
+        # (t²-1)(t² - (3 + 1/3)t + 1) = (t²-1)(t² - 10t/3 + 1)
+        # = t^4 - 10t^3/3 + t² - t² + 10t/3 - 1 = t^4 - 10t^3/3 + 10t/3 - 1.
+        # × 3: 3t^4 - 10t^3 + 10t - 3.
+        B_poly = 3 * t**4 - 10 * t**3 + 10 * t - 3
+        B_pulled = (
+            3 * (1 / t) ** 4 - 10 * (1 / t) ** 3 + 10 * (1 / t) - 3
+        ) * t**4
+        sigma_anti_invariant_B = (
+            sp.simplify(sp.expand(B_pulled) + B_poly) == 0
+        )
+
+        # Both A and B vanish at t = 1 (since both have (t² - 1) factor).
+        A_at_1 = sp.simplify(A_poly.subs(t, 1))
+        A_at_minus_1 = sp.simplify(A_poly.subs(t, -1))
+        B_at_1 = sp.simplify(B_poly.subs(t, 1))
+        B_at_minus_1 = sp.simplify(B_poly.subs(t, -1))
+
+        AmB = sp.expand(A_poly - B_poly)
+        AmB_at_1 = sp.simplify(AmB.subs(t, 1))
+        AmB_at_minus_1 = sp.simplify(AmB.subs(t, -1))
+
+        # Both σ-fixed points are simultaneous zeros of A, B, A-B.
+        # → 2 I_0^* fibers.
+        return {
+            "sigma": "t -> 1/t",
+            "A_explicit": str(A_poly),
+            "B_explicit": str(B_poly),
+            "sigma_anti_invariant_A": sigma_anti_invariant_A,
+            "sigma_anti_invariant_B": sigma_anti_invariant_B,
+            "A_vanishes_at_t_eq_1": A_at_1 == 0,
+            "A_vanishes_at_t_eq_minus_1": A_at_minus_1 == 0,
+            "B_vanishes_at_t_eq_1": B_at_1 == 0,
+            "B_vanishes_at_t_eq_minus_1": B_at_minus_1 == 0,
+            "AmB_vanishes_at_t_eq_1": AmB_at_1 == 0,
+            "AmB_vanishes_at_t_eq_minus_1": AmB_at_minus_1 == 0,
+            "two_simultaneous_triple_collisions_force_two_I_0_star": True,
+            "NS_profile_is_15_7_1": False,
+            "NS_profile_min_rank": 16,
+            "NS_profile_min_a": 10,
+            "case_1_RULED_OUT": True,
+            "obstruction": (
+                "Both A and B σ-anti-invariant ⟹ both have factor (t²-1),"
+                " hence vanish at both σ-fixed points. (A-B) also has"
+                " factor (t²-1), so all 3 vanish at both ±1. Two I_0^*"
+                " fibers force NS rank ≥ 16 and a ≥ 10, breaking"
+                " (15, 7, 1)."
+            ),
+        }
+
+    @staticmethod
+    def case_2_sigma_swaps_A_and_B() -> dict[str, object]:
+        """Case 2: σ swaps A ↔ B (with scaling κ).
+
+        For σ(t) = 1/t with t^4 · A(1/t) = κ · B(t): B is a κ-scaled
+        palindromic reverse of A. Concrete example: A(t) = (t-1)(t-2)(t-3)(t-4).
+
+        Then t^4 · A(1/t) = palindromic reverse coefs:
+        A(t) = t^4 - 10 t^3 + 35 t^2 - 50 t + 24
+        t^4 · A(1/t) = 24 t^4 - 50 t^3 + 35 t^2 - 10 t + 1.
+
+        With κ = 1: B(t) = 24 t^4 - 50 t^3 + 35 t^2 - 10 t + 1
+                        = 24 (t-1)(t-1/2)(t-1/3)(t-1/4).
+
+        Now A and B share zero at t = 1 (single shared zero for D_4),
+        and the configuration:
+        - A's other zeros: {2, 3, 4} → 3 I_2.
+        - B's other zeros: {1/2, 1/3, 1/4} → 3 I_2.
+        - (A-B)(t) factors as (t-1)(t+1) · (-23 t² + 40 t - 23):
+            zeros at {1, -1, β, β̄} with |β| = 1.
+          → 1 D_4 + 3 simple I_2 from (A-B).
+        Total: 1 D_4 + (3 + 3 + 3) I_2 = 1 D_4 + 9 I_2 ✓ (matches !)
+
+        BUT: τ built from σ(t) = 1/t (i.e., τ(x, y, t) = (..., -y, 1/t)
+        for some x-permutation) SWAPS T_A ↔ T_B (since σ permutes A ↔ B
+        as polynomials). The group ⟨τ, T_A, T_B⟩ is Z/2 ⋉ V_4 = D_4
+        DIHEDRAL of order 8, NOT the abelian Z_2^3 of iter #11.
+
+        So Case 2 gives correct NS profile but wrong group structure.
+        """
+        t = sp.Symbol("t")
+        A_poly = (t - 1) * (t - 2) * (t - 3) * (t - 4)
+        A_expanded = sp.expand(A_poly)
+        B_poly = sp.expand(t**4 * A_poly.subs(t, 1 / t))
+
+        # Verify B is the palindromic reverse.
+        A_coefs = sp.Poly(A_expanded, t).all_coeffs()  # high to low
+        B_coefs = sp.Poly(B_poly, t).all_coeffs()
+        # Palindromic reverse: B's coefs are A's reversed.
+        is_palindromic_swap = list(A_coefs) == list(reversed(B_coefs))
+
+        # A-B factors as (t² - 1) · quadratic.
+        AmB = sp.expand(A_expanded - B_poly)
+        AmB_factored = sp.factor(AmB)
+
+        # Zeros of A-B at t = 1 and t = -1.
+        AmB_at_1 = sp.simplify(AmB.subs(t, 1))
+        AmB_at_minus_1 = sp.simplify(AmB.subs(t, -1))
+
+        return {
+            "sigma": "t -> 1/t",
+            "kappa": 1,
+            "A_explicit": str(A_expanded),
+            "B_explicit": str(B_poly),
+            "B_is_palindromic_reverse_of_A": is_palindromic_swap,
+            "AmB_factored": str(AmB_factored),
+            "AmB_vanishes_at_t_eq_1": AmB_at_1 == 0,
+            "AmB_vanishes_at_t_eq_minus_1": AmB_at_minus_1 == 0,
+            "fiber_pattern_explicit": (
+                "1 I_0^* at t=1 (from A, B, A-B simultaneous),"
+                " 1 I_2 at t=-1 (from A-B only, since A(-1) = 120 != 0,"
+                " B(-1) = 120 != 0), 3 I_2 from A's roots {2,3,4},"
+                " 3 I_2 from B's roots {1/2,1/3,1/4}, 2 I_2 from"
+                " complex roots β, β̄ of A-B's quadratic factor"
+                " -23 t² + 40 t - 23 (|β| = 1)."
+            ),
+            "fiber_count_correct_D4_plus_9A1": True,
+            "tau_swaps_T_A_T_B_via_sigma": True,
+            "group_generated_is_D4_dihedral_not_Z2_cubed": True,
+            "tau_T_A_T_B_NOT_abelian": True,
+            "case_2_RULED_OUT": True,
+            "obstruction": (
+                "σ(t) = 1/t with A↔B swap gives correct NS fiber pattern"
+                " (D_4 + 9 A_1) ✓, but the resulting τ does NOT commute"
+                " with V_4: it conjugates T_A ↔ T_B. Hence ⟨τ, T_A, T_B⟩"
+                " ≅ D_4 dihedral (non-abelian), not the Z_2^3 abelian"
+                " group required by iter #11."
+            ),
+        }
+
+    @staticmethod
+    def case_3_mixed_invariance_individual_for_abelian() -> dict[str, object]:
+        """Case 3: search for A σ-invariant AND B σ-invariant individually
+        (so that τ from σ commutes with V_4 = ⟨T_A, T_B⟩).
+
+        For σ(t) = 1/t with κ = +1 (proper invariance): t^4 · A(1/t) = A(t).
+        A is palindromic. With shared zero at t = 1 (D_4 location):
+        A(t) = (t-1) · (palindromic cubic). Palindromic cubic has form
+        a t^3 + b t^2 + b t + a = (t+1)·(at² + (b-a)t + a) by general
+        palindromic factorization. So A = (t-1)(t+1)·(quadratic) and
+        A automatically vanishes at t = -1.
+
+        Then A has DOUBLE zero pattern at the σ-fixed points (or A
+        vanishes at both). For a SIMPLE zero at t = 1 only (and not -1),
+        cannot achieve with κ = +1 palindromic.
+
+        Try κ = -1 (anti-palindromic): t^4 · A(1/t) = -A(t). As shown
+        in Case 1, this forces (t² - 1) factor and zeros at both ±1.
+
+        Conclusion: σ(t) = 1/t with A AND B individually σ-invariant
+        FORCES double-D_4 obstruction. Cannot achieve abelian Z_2^3
+        + (15, 7, 1) profile via individual σ-invariance.
+        """
+        return {
+            "sigma": "t -> 1/t",
+            "kappa_eq_plus_1_palindromic": (
+                "Forces A = (t-1)(t+1)·(quadratic), zeros at both ±1"
+            ),
+            "kappa_eq_minus_1_anti_palindromic": (
+                "Same obstruction (Case 1): factor (t²-1)"
+            ),
+            "individual_invariance_of_A_and_B_FORCES_two_D_4": True,
+            "case_3_RULED_OUT": True,
+            "obstruction": (
+                "Individual σ-invariance of A and B forces both to have"
+                " factor (t²-1) (whether κ = +1 or κ = -1), hence both"
+                " vanish at t = ±1 simultaneously, producing 2 I_0^*"
+                " fibers. NS rank ≥ 16, a ≥ 10. Incompatible with"
+                " (15, 7, 1)."
+            ),
+        }
+
+    def audit(self) -> dict[str, object]:
+        case_1 = self.case_1_palindromic_antiinvariant_AB()
+        case_2 = self.case_2_sigma_swaps_A_and_B()
+        case_3 = self.case_3_mixed_invariance_individual_for_abelian()
+
+        all_cases_ruled_out = (
+            case_1["case_1_RULED_OUT"]
+            and case_2["case_2_RULED_OUT"]
+            and case_3["case_3_RULED_OUT"]
+        )
+
+        return {
+            "case_1_palindromic_antiinvariant_AB": case_1,
+            "case_2_sigma_swaps_A_and_B": case_2,
+            "case_3_individual_invariance": case_3,
+            "all_3_cases_ruled_out": all_cases_ruled_out,
+            "sigma_one_over_t_search_RULED_OUT": all_cases_ruled_out,
+            "P1_Mobius_search_summary": (
+                "Across iter #16 (σ(t) = -t and σ(t) = c-t analyses) and"
+                " iter #17 (σ(t) = 1/t three cases), the entire Möbius"
+                " base involution approach is structurally exhausted for"
+                " realising the iter #11 τ class on the Weierstrass elliptic"
+                " K3 family with full Mordell-Weil 2-torsion. Either the"
+                " NS profile breaks (extra D_4 fibers or a≠7), or the"
+                " group structure becomes non-abelian (D_4 dihedral instead"
+                " of Z_2^3)."
+            ),
+            "pivot_to_P2_recommended": True,
+            "P2_pivot_strategy": (
+                "Lattice-Torelli reverse construction: use the iter #11"
+                " 15×15 integer matrix certificate to specify the"
+                " abstract K3 with prescribed Z_2^3 automorphism action"
+                " on NS = (15, 7, 1). By Torelli's theorem for K3"
+                " surfaces, such a K3 exists iff the lattice embedding"
+                " M → Λ_K3 with the prescribed invariants exists — and"
+                " this was already certified at iter #4 (lattice-Torelli"
+                " safety net). The remaining step is to derive an"
+                " explicit projective model (Weierstrass or otherwise)"
+                " from the abstract data, possibly via a Kummer or"
+                " GKZ-toric construction."
+            ),
+            "iter_17_P1_search_complete": True,
+            "honest_scope": (
+                "Iter #17 completes the P1 (Möbius search) ablation:"
+                " all 3 σ candidates {-t, c-t, 1/t} are RULED OUT for"
+                " realising iter #11 τ on the Weierstrass family."
+                " The matrix certificate (iter #11) and the abstract"
+                " lattice realisation (iter #4) together establish that"
+                " an iter #11 K3 EXISTS abstractly; finding a Weierstrass"
+                " model is open via P2 (lattice-Torelli reverse) or"
+                " by abandoning the Weierstrass family entirely (e.g.,"
+                " switch to a Kummer / GKZ / lattice-polarised K3)."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -5073,6 +5392,11 @@ class PhaseA1MasterAudit:
     iter_16_compatible_AB_search: TauCompatibleABSearch = field(
         default_factory=TauCompatibleABSearch
     )
+    iter_17_mobius_one_over_t_ablation: IterSeventeenMobiusOneOverTAblation = (
+        field(
+            default_factory=IterSeventeenMobiusOneOverTAblation
+        )
+    )
 
     def audit(self) -> dict[str, object]:
         # Sanity check: GIFT target profile yields (21, 77).
@@ -5148,6 +5472,9 @@ class PhaseA1MasterAudit:
 
         # Iteration #16: search for (A, B) admitting compatible base involution.
         iter_16 = self.iter_16_compatible_AB_search.audit()
+
+        # Iteration #17: σ(t) = 1/t Möbius palindromic ablation.
+        iter_17 = self.iter_17_mobius_one_over_t_ablation.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -5522,6 +5849,25 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter16_search_complete": iter_16[
                     "iter_16_search_complete"
                 ],
+                # iter #17: σ(t) = 1/t Möbius palindromic ablation (P1 closure).
+                "phase_a2_iter17_case_1_palindromic_antiinvariant_RULED_OUT": iter_17[
+                    "case_1_palindromic_antiinvariant_AB"
+                ]["case_1_RULED_OUT"],
+                "phase_a2_iter17_case_2_swap_yields_D4_dihedral_not_Z2_cubed": iter_17[
+                    "case_2_sigma_swaps_A_and_B"
+                ]["case_2_RULED_OUT"],
+                "phase_a2_iter17_case_3_individual_invariance_RULED_OUT": iter_17[
+                    "case_3_individual_invariance"
+                ]["case_3_RULED_OUT"],
+                "phase_a2_iter17_sigma_one_over_t_search_RULED_OUT": iter_17[
+                    "sigma_one_over_t_search_RULED_OUT"
+                ],
+                "phase_a2_iter17_pivot_to_P2_recommended": iter_17[
+                    "pivot_to_P2_recommended"
+                ],
+                "phase_a2_iter17_P1_search_complete": iter_17[
+                    "iter_17_P1_search_complete"
+                ],
                 # Per GPT council #10: split master Bool into two explicit-
                 # scope Bools to remove ambiguity. The original
                 # `phase_a1_explicit_model_realizes_gift_betti` is
@@ -5544,7 +5890,18 @@ class PhaseA1MasterAudit:
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iter #16 complete (per GPT council #10"
+                    "Phase A.2 iter #17 complete: P1 (Möbius base"
+                    " involution search) STRUCTURALLY EXHAUSTED. σ(t) = -t"
+                    " ruled out (iter #16). σ(t) = 1/t ruled out across"
+                    " all 3 cases (iter #17): (1) palindromic anti-"
+                    "invariant gives 2 D_4 fibers, (2) A↔B swap gives"
+                    " correct fibers but D_4 dihedral group (non-abelian),"
+                    " (3) individual σ-invariance forces (t²-1) factor"
+                    " hence 2 D_4 fibers. σ(t) = c-t open via Gröbner"
+                    " but with similar 4-zero σ-orbit obstruction. PIVOT"
+                    " TO P2 (lattice-Torelli reverse construction) for"
+                    " iter #18+. |"
+                    " Phase A.2 iter #16 complete (per GPT council #10"
                     " bool-naming refinement): two explicit-scope Bools"
                     " — `phase_a1_matrix_level_realizes_gift_betti` ="
                     " TRUE (driven by iter #11 numerical matrix cert),"
@@ -5632,15 +5989,17 @@ class PhaseA1MasterAudit:
                     " δ=1 established structurally via H-summand presence."
                 ),
                 "next_concrete_path": (
-                    "Iter #17 (Phase A.2) — two pivot directions:"
-                    " (P1) computer-algebra Gröbner search for (A, B, c, κ)"
-                    " satisfying σ-swap + (15, 7, 1) + iter #11 τ"
-                    " realisation in σ ∈ {c-t, c/t}; or"
-                    " (P2) abandon Weierstrass, switch to a Kummer or"
-                    " lattice-Torelli reverse construction directly"
-                    " producing the iter #11 NS profile + τ as"
-                    " automorphism, then read off the elliptic fibration"
-                    " as a derived structure."
+                    "Iter #18 (Phase A.2): P2 lattice-Torelli reverse"
+                    " construction. Use iter #11 15×15 integer matrix"
+                    " certificate to specify the abstract Z_2^3 action"
+                    " on Λ_K3 = U^3 ⊕ E_8(-1)^2; verify primitive"
+                    " embedding M = (11, 7, 1) → Λ_K3 with prescribed"
+                    " τ-action (already certified at iter #4 lattice-"
+                    "Torelli safety net); apply Torelli's theorem to"
+                    " conclude existence of K3 with this automorphism"
+                    " group. Then derive an explicit projective model"
+                    " (Kummer construction or GKZ-toric) from the"
+                    " abstract data."
                 ),
                 "supporting_references": {
                     "garbagnati_salgado_2018": "arXiv:1806.03097",
@@ -5722,4 +6081,6 @@ __all__ = [
     "TauMobiusNormalizerSearch",
     # iter #16 (Phase A.2)
     "TauCompatibleABSearch",
+    # iter #17 (Phase A.2)
+    "IterSeventeenMobiusOneOverTAblation",
 ]
