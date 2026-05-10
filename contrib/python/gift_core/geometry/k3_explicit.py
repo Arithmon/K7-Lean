@@ -3725,6 +3725,201 @@ class GIFT15_7_1WeierstrassRealisation:
 
 
 # =============================================================================
+# Section 6.7 — Iter #13: V_4 = ⟨T_A, T_B⟩ symplectic 2-torsion translations
+# =============================================================================
+#
+# On the elliptic K3 surface y² = x(x − A(t))(x − B(t)) with full Mordell-
+# Weil 2-torsion {O, (0, 0), (A(t), 0), (B(t), 0)}, translation by each of
+# the three non-trivial 2-torsion sections is a symplectic Nikulin
+# involution (it preserves the holomorphic 2-form Ω = dt ∧ dx/y).
+#
+# The fiber-wise translation formulas, derived from the chord-tangent
+# group law on E_t : y² = x(x − A)(x − B) with O = ∞:
+#
+#   T_1 := translation by (0, 0):
+#       (x, y) ↦ ( AB/x,  −AB·y / x² )
+#
+#   T_A := translation by (A(t), 0):
+#       (x, y) ↦ ( A(x − B)/(x − A),  −A(A − B)y / (x − A)² )
+#
+#   T_B := translation by (B(t), 0):
+#       (x, y) ↦ ( B(x − A)/(x − B),  −B(B − A)y / (x − B)² )
+#
+# These are PURELY RATIONAL identities on Q(t)(x, y) (no use of the
+# relation y² = f(x) needed for the verifications below). Iter #13
+# verifies symbolically:
+#
+#   - involutivity: T_i² = id for each i ∈ {1, A, B}
+#   - V_4 closure: T_A ∘ T_B = T_1 and T_A ∘ T_B = T_B ∘ T_A
+#   - symplectic: each T_i preserves dx/y (so Ω = dt ∧ dx/y is preserved)
+
+
+@dataclass(frozen=True)
+class V4Z2TorsionTranslations:
+    """Iter #13: symbolic verification of V_4 = ⟨T_A, T_B⟩ symplectic
+    action via Mordell-Weil 2-torsion translations on the explicit
+    Weierstrass K3 from iter #12.
+    """
+
+    A_coeffs: tuple[int, ...]
+    B_coeffs: tuple[int, ...]
+
+    @property
+    def t(self) -> sp.Symbol:
+        return sp.Symbol("t")
+
+    @property
+    def x(self) -> sp.Symbol:
+        return sp.Symbol("x")
+
+    @property
+    def y(self) -> sp.Symbol:
+        return sp.Symbol("y")
+
+    @property
+    def A(self) -> sp.Expr:
+        return sum(c * self.t**i for i, c in enumerate(self.A_coeffs))
+
+    @property
+    def B(self) -> sp.Expr:
+        return sum(c * self.t**i for i, c in enumerate(self.B_coeffs))
+
+    def T_1_action(
+        self, x_in: sp.Expr, y_in: sp.Expr
+    ) -> tuple[sp.Expr, sp.Expr]:
+        """Translation by (0, 0)."""
+        A, B = self.A, self.B
+        return (A * B / x_in, -A * B * y_in / x_in**2)
+
+    def T_A_action(
+        self, x_in: sp.Expr, y_in: sp.Expr
+    ) -> tuple[sp.Expr, sp.Expr]:
+        """Translation by (A(t), 0)."""
+        A, B = self.A, self.B
+        return (
+            A * (x_in - B) / (x_in - A),
+            -A * (A - B) * y_in / (x_in - A) ** 2,
+        )
+
+    def T_B_action(
+        self, x_in: sp.Expr, y_in: sp.Expr
+    ) -> tuple[sp.Expr, sp.Expr]:
+        """Translation by (B(t), 0)."""
+        A, B = self.A, self.B
+        return (
+            B * (x_in - A) / (x_in - B),
+            -B * (B - A) * y_in / (x_in - B) ** 2,
+        )
+
+    def _is_zero(self, expr: sp.Expr) -> bool:
+        """Check that a sympy expression simplifies to 0 in Q(t, x, y)."""
+        return sp.simplify(sp.together(expr)) == 0
+
+    def involutivity(self) -> dict[str, bool]:
+        """Verify T_i² = id for i ∈ {1, A, B}."""
+        out: dict[str, bool] = {}
+        for name, action in [
+            ("T_1", self.T_1_action),
+            ("T_A", self.T_A_action),
+            ("T_B", self.T_B_action),
+        ]:
+            x1, y1 = action(self.x, self.y)
+            x2, y2 = action(x1, y1)
+            out[f"{name}_squared_eq_id_x"] = self._is_zero(x2 - self.x)
+            out[f"{name}_squared_eq_id_y"] = self._is_zero(y2 - self.y)
+        return out
+
+    def v4_closure(self) -> dict[str, bool]:
+        """Verify T_A ∘ T_B = T_1 (and T_B ∘ T_A = T_1)."""
+        # T_A ∘ T_B
+        x_AB, y_AB = self.T_A_action(*self.T_B_action(self.x, self.y))
+        # T_B ∘ T_A
+        x_BA, y_BA = self.T_B_action(*self.T_A_action(self.x, self.y))
+        # Reference T_1
+        x_T1, y_T1 = self.T_1_action(self.x, self.y)
+        return {
+            "T_A_after_T_B_eq_T_1_x": self._is_zero(x_AB - x_T1),
+            "T_A_after_T_B_eq_T_1_y": self._is_zero(y_AB - y_T1),
+            "T_B_after_T_A_eq_T_1_x": self._is_zero(x_BA - x_T1),
+            "T_B_after_T_A_eq_T_1_y": self._is_zero(y_BA - y_T1),
+            "T_A_T_B_commute_x": self._is_zero(x_AB - x_BA),
+            "T_A_T_B_commute_y": self._is_zero(y_AB - y_BA),
+        }
+
+    def symplectic(self) -> dict[str, bool]:
+        """Verify each T_i preserves the meromorphic 1-form dx/y on
+        each fiber (hence Ω = dt ∧ dx/y on the K3 surface).
+
+        For (x, y) ↦ (x', y'), dx'/y' = dx/y is equivalent to
+        (∂x'/∂x) · y / y' = 1.
+        """
+        out: dict[str, bool] = {}
+        for name, action in [
+            ("T_1", self.T_1_action),
+            ("T_A", self.T_A_action),
+            ("T_B", self.T_B_action),
+        ]:
+            x_new, y_new = action(self.x, self.y)
+            dx_new_dx = sp.diff(x_new, self.x)
+            # We want dx_new/dx · y/y_new = 1.
+            ratio = dx_new_dx * self.y / y_new
+            out[f"{name}_preserves_dx_over_y"] = self._is_zero(ratio - 1)
+        return out
+
+    def audit(self) -> dict[str, object]:
+        """Full iter #13 verification report."""
+        invol = self.involutivity()
+        closure = self.v4_closure()
+        sympl = self.symplectic()
+
+        all_invol = all(invol.values())
+        all_closure = all(closure.values())
+        all_sympl = all(sympl.values())
+
+        return {
+            "A_coeffs_lowest_first": list(self.A_coeffs),
+            "B_coeffs_lowest_first": list(self.B_coeffs),
+            "T_1_x_formula": "AB/x",
+            "T_1_y_formula": "-AB·y/x^2",
+            "T_A_x_formula": "A(x-B)/(x-A)",
+            "T_A_y_formula": "-A(A-B)y/(x-A)^2",
+            "T_B_x_formula": "B(x-A)/(x-B)",
+            "T_B_y_formula": "-B(B-A)y/(x-B)^2",
+            "involutivity": invol,
+            "all_three_translations_are_involutions": all_invol,
+            "v4_closure": closure,
+            "v4_closure_holds": all(
+                closure[k]
+                for k in [
+                    "T_A_after_T_B_eq_T_1_x",
+                    "T_A_after_T_B_eq_T_1_y",
+                    "T_B_after_T_A_eq_T_1_x",
+                    "T_B_after_T_A_eq_T_1_y",
+                ]
+            ),
+            "v4_commutative": all(
+                closure[k]
+                for k in ["T_A_T_B_commute_x", "T_A_T_B_commute_y"]
+            ),
+            "v4_group_isomorphic_to_Z2_squared": all_closure,
+            "symplectic": sympl,
+            "all_three_translations_are_symplectic": all_sympl,
+            "iter_13_complete": all_invol and all_closure and all_sympl,
+            "honest_scope": (
+                "Iter #13 verifies the V_4 = ⟨T_A, T_B⟩ ≅ (Z/2)^2"
+                " symplectic action by Mordell-Weil 2-torsion translations"
+                " on the explicit Weierstrass K3 of iter #12."
+                " Symbolic over Q(t)(x, y), no floating point. The fiber"
+                " formulas are RATIONAL identities (no use of the relation"
+                " y² = x(x-A)(x-B) needed). Each T_i is an involution,"
+                " all three commute pairwise, T_A ∘ T_B = T_1, and each"
+                " preserves dx/y (hence the holomorphic 2-form Ω). Next:"
+                " iter #14 (τ candidate) and iter #15 (NS lattice action)."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -3774,6 +3969,12 @@ class PhaseA1MasterAudit:
     )
     iter_12_weierstrass: GIFT15_7_1WeierstrassRealisation = field(
         default_factory=GIFT15_7_1WeierstrassRealisation
+    )
+    iter_13_v4_translations: V4Z2TorsionTranslations = field(
+        default_factory=lambda: V4Z2TorsionTranslations(
+            A_coeffs=gift_15_7_1_AB_coefficients()[0],
+            B_coeffs=gift_15_7_1_AB_coefficients()[1],
+        )
     )
 
     def audit(self) -> dict[str, object]:
@@ -3829,6 +4030,9 @@ class PhaseA1MasterAudit:
 
         # Iteration #12: Weierstrass discriminant configuration.
         iter_12 = self.iter_12_weierstrass.audit()
+
+        # Iteration #13: V_4 = ⟨T_A, T_B⟩ symplectic action via 2-torsion.
+        iter_13 = self.iter_13_v4_translations.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -4103,13 +4307,34 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter12_picard_rank_from_singular_fibers_eq_15": iter_12[
                     "picard_rank_from_singular_fibers_eq_15"
                 ],
+                # iter #13: V_4 symplectic action via 2-torsion translations.
+                "phase_a2_iter13_three_translations_are_involutions": iter_13[
+                    "all_three_translations_are_involutions"
+                ],
+                "phase_a2_iter13_v4_closure_holds": iter_13[
+                    "v4_closure_holds"
+                ],
+                "phase_a2_iter13_v4_commutative": iter_13["v4_commutative"],
+                "phase_a2_iter13_v4_isomorphic_to_z2_squared": iter_13[
+                    "v4_group_isomorphic_to_Z2_squared"
+                ],
+                "phase_a2_iter13_three_translations_are_symplectic": iter_13[
+                    "all_three_translations_are_symplectic"
+                ],
+                "phase_a2_iter13_complete": iter_13["iter_13_complete"],
                 "phase_a1_explicit_model_realizes_gift_betti": any_geometric_model_matches,
             },
             "honest_status": {
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iteration #12 🎯: explicit Clingher-"
+                    "Phase A.2 iteration #13 🎯: V_4 = ⟨T_A, T_B⟩ ≅ (Z/2)²"
+                    " symplectic action via Mordell-Weil 2-torsion"
+                    " translations verified symbolically over Q(t)(x, y)"
+                    " on the explicit Weierstrass model. Each translation"
+                    " is an involution, V_4 abelian (T_A∘T_B = T_1 ="
+                    " T_B∘T_A), and each preserves dx/y (hence Ω). |"
+                    " Phase A.2 iteration #12: explicit Clingher-"
                     "Malmendier Weierstrass A(t), B(t) realises the"
                     " D_4 + 9 A_1 singular fiber configuration of the"
                     " (15, 7, 1) profile. Picard rank from singular"
@@ -4140,13 +4365,13 @@ class PhaseA1MasterAudit:
                     " δ=1 established structurally via H-summand presence."
                 ),
                 "next_concrete_path": (
-                    "Iter #13+ (Phase A.2): symbolic verification of"
-                    " V_4 = ⟨T_A, T_B⟩ symplectic action via 2-torsion"
-                    " translations on the explicit Weierstrass model;"
-                    " then τ candidate (x, y, t) → (x, -y, σ(t)) with"
-                    " base involution σ; finally the NS(X) lattice"
-                    " action computed in the section/fiber basis,"
-                    " matching the iter #11 matrices via Torelli."
+                    "Iter #14 (Phase A.2): τ candidate"
+                    " (x, y, t) → (x, -y, σ(t)) with base involution σ:"
+                    " find σ such that A(σ(t)) = A(t), B(σ(t)) = B(t)"
+                    " (or A↔B permuted), making τ commute with V_4."
+                    " Verify τ is anti-symplectic and τ² = id. Then"
+                    " iter #15: NS(X) lattice action in section/fiber"
+                    " basis, matching the iter #11 matrices via Torelli."
                 ),
                 "supporting_references": {
                     "garbagnati_salgado_2018": "arXiv:1806.03097",
@@ -4216,4 +4441,6 @@ __all__ = [
     "WeierstrassDiscriminantAnalyzer",
     "gift_15_7_1_AB_coefficients",
     "GIFT15_7_1WeierstrassRealisation",
+    # iter #13 (Phase A.2)
+    "V4Z2TorsionTranslations",
 ]

@@ -14,6 +14,7 @@ from gift_core.geometry.k3_explicit import (
     EllipticK3WeierstrassFull2Torsion,
     GIFT15_7_1WeierstrassRealisation,
     GIFTCandidateProfile,
+    gift_15_7_1_AB_coefficients,
     JKBettiPredictor,
     K3CM_15_7_1_D4_9A1,
     K3GenusTwoSymmetricDoubleCover,
@@ -23,6 +24,7 @@ from gift_core.geometry.k3_explicit import (
     KummerK3Model,
     PhaseA1MasterAudit,
     TwoElementaryLatticeRAD,
+    V4Z2TorsionTranslations,
     Z2CubedExplicit15x15Matrices,
     Z2CubedLatticeAction,
     audit_phase_a1_master,
@@ -127,6 +129,10 @@ def verify() -> dict[str, bool]:
     # configuration of the (15, 7, 1) profile.
     iter12 = GIFT15_7_1WeierstrassRealisation().audit()
     iter12_config = iter12["configuration_summary"]
+
+    # Iter #13: V_4 = ⟨T_A, T_B⟩ symplectic via 2-torsion translations.
+    A_c, B_c = gift_15_7_1_AB_coefficients()
+    iter13 = V4Z2TorsionTranslations(A_coeffs=A_c, B_coeffs=B_c).audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -736,6 +742,86 @@ def verify() -> dict[str, bool]:
         is True,
         "master_audit_iter12_picard_rank_15": master["lean_bool_certificates"][
             "phase_a2_iter12_picard_rank_from_singular_fibers_eq_15"
+        ]
+        is True,
+        # Iter #13 (Phase A.2): V_4 symplectic action via 2-torsion.
+        "iter13_T_1_squared_eq_id": iter13["involutivity"][
+            "T_1_squared_eq_id_x"
+        ]
+        is True
+        and iter13["involutivity"]["T_1_squared_eq_id_y"] is True,
+        "iter13_T_A_squared_eq_id": iter13["involutivity"][
+            "T_A_squared_eq_id_x"
+        ]
+        is True
+        and iter13["involutivity"]["T_A_squared_eq_id_y"] is True,
+        "iter13_T_B_squared_eq_id": iter13["involutivity"][
+            "T_B_squared_eq_id_x"
+        ]
+        is True
+        and iter13["involutivity"]["T_B_squared_eq_id_y"] is True,
+        "iter13_all_three_translations_are_involutions": iter13[
+            "all_three_translations_are_involutions"
+        ]
+        is True,
+        "iter13_T_A_after_T_B_eq_T_1": iter13["v4_closure"][
+            "T_A_after_T_B_eq_T_1_x"
+        ]
+        is True
+        and iter13["v4_closure"]["T_A_after_T_B_eq_T_1_y"] is True,
+        "iter13_T_B_after_T_A_eq_T_1": iter13["v4_closure"][
+            "T_B_after_T_A_eq_T_1_x"
+        ]
+        is True
+        and iter13["v4_closure"]["T_B_after_T_A_eq_T_1_y"] is True,
+        "iter13_T_A_T_B_commute": iter13["v4_closure"]["T_A_T_B_commute_x"]
+        is True
+        and iter13["v4_closure"]["T_A_T_B_commute_y"] is True,
+        "iter13_v4_closure_holds": iter13["v4_closure_holds"] is True,
+        "iter13_v4_commutative": iter13["v4_commutative"] is True,
+        "iter13_v4_isomorphic_to_z2_squared": iter13[
+            "v4_group_isomorphic_to_Z2_squared"
+        ]
+        is True,
+        "iter13_T_1_preserves_dx_over_y": iter13["symplectic"][
+            "T_1_preserves_dx_over_y"
+        ]
+        is True,
+        "iter13_T_A_preserves_dx_over_y": iter13["symplectic"][
+            "T_A_preserves_dx_over_y"
+        ]
+        is True,
+        "iter13_T_B_preserves_dx_over_y": iter13["symplectic"][
+            "T_B_preserves_dx_over_y"
+        ]
+        is True,
+        "iter13_all_three_translations_are_symplectic": iter13[
+            "all_three_translations_are_symplectic"
+        ]
+        is True,
+        "iter13_complete_master_bool": iter13["iter_13_complete"] is True,
+        "master_audit_iter13_three_involutions": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter13_three_translations_are_involutions"]
+        is True,
+        "master_audit_iter13_v4_closure": master["lean_bool_certificates"][
+            "phase_a2_iter13_v4_closure_holds"
+        ]
+        is True,
+        "master_audit_iter13_v4_commutative": master["lean_bool_certificates"][
+            "phase_a2_iter13_v4_commutative"
+        ]
+        is True,
+        "master_audit_iter13_v4_z2_squared": master["lean_bool_certificates"][
+            "phase_a2_iter13_v4_isomorphic_to_z2_squared"
+        ]
+        is True,
+        "master_audit_iter13_three_symplectic": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter13_three_translations_are_symplectic"]
+        is True,
+        "master_audit_iter13_complete": master["lean_bool_certificates"][
+            "phase_a2_iter13_complete"
         ]
         is True,
     }
