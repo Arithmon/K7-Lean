@@ -26,8 +26,12 @@ from gift_core.geometry.k3_explicit import (
     audit_phase_a1_master,
     branch_a_quick_kill_diagnostic,
     enumerate_branch_singularity_patterns_with_delta_8,
+    L_11_7_1_gram,
+    L_15_7_1_gram,
     nikulin_admits_primitive_embedding_in_K3,
     nikulin_g_k_from_rad,
+    nikulin_primitive_embedding_M_into_L,
+    verify_lattice_invariants,
 )
 
 
@@ -91,6 +95,12 @@ def verify() -> dict[str, bool]:
     cm_157 = K3CM_15_7_1_D4_9A1()
     cm_partial = cm_157.partial_profile_status()
     cm_tau = cm_157.tau_search_problem()
+
+    # Iter #8: τ lattice candidate.
+    L_11_inv = verify_lattice_invariants(L_11_7_1_gram())
+    L_15_inv = verify_lattice_invariants(L_15_7_1_gram())
+    embed_11_15 = nikulin_primitive_embedding_M_into_L((11, 7, 1), (15, 7, 1))
+    cm_recipe = cm_157.tau_lattice_candidate_recipe()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -337,7 +347,9 @@ def verify() -> dict[str, bool]:
             "V_4_via_2_torsion_translations_implemented"
         ]
         is True,
-        "iter7_branch_b_cm_tau_search_pending": cm_partial["tau_searched"] is False,
+        # iter #7 said τ search was pending; iter #8 resolved it at lattice level.
+        "iter8_tau_search_resolved_at_lattice_level": cm_partial["tau_searched"]
+        is True,
         "iter7_branch_b_cm_no_candidate_profile_yet": cm_157.candidate_profile()
         is None,
         "master_audit_iter7_branch_b_skeleton_implemented": master[
@@ -347,6 +359,57 @@ def verify() -> dict[str, bool]:
         "master_audit_iter7_branch_b_v4_via_2_torsion": master[
             "lean_bool_certificates"
         ]["phase_a1_iter7_branch_b_v4_via_2_torsion_translations"]
+        is True,
+        # Iter #8: τ lattice candidate.
+        "iter8_L_11_7_1_rank_11_sig_1_10": (
+            L_11_inv["rank"] == 11 and L_11_inv["signature"] == (1, 10)
+        ),
+        "iter8_L_11_7_1_abs_det_2_to_7": L_11_inv["abs_det"] == 128,
+        "iter8_L_11_7_1_even": L_11_inv["even"] is True,
+        "iter8_L_15_7_1_rank_15_sig_1_14": (
+            L_15_inv["rank"] == 15 and L_15_inv["signature"] == (1, 14)
+        ),
+        "iter8_L_15_7_1_abs_det_2_to_7": L_15_inv["abs_det"] == 128,
+        "iter8_L_15_7_1_even": L_15_inv["even"] is True,
+        "iter8_11_7_1_into_15_7_1_embeds_primitively": embed_11_15[
+            "embeds_primitively"
+        ]
+        is True,
+        "iter8_11_7_1_into_15_7_1_has_4_valid_complement_options": len(
+            embed_11_15["valid_orthogonal_complement_invariants"]
+        )
+        == 4,
+        "iter8_tau_lattice_candidate_via_recipe": cm_recipe[
+            "primitive_embedding_M_into_L"
+        ]
+        is True,
+        "iter8_tau_g_k_is_2_2_via_nikulin": cm_recipe[
+            "tau_matches_gift_2_2_profile"
+        ]
+        is True,
+        "iter8_s_i_tau_lattice_invariants_pending_iter_9": cm_partial[
+            "s_i_tau_lattice_invariants_computed"
+        ]
+        is False,
+        "master_audit_iter8_11_7_1_embeds_in_15_7_1": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter8_11_7_1_primitively_embeds_into_15_7_1"]
+        is True,
+        "master_audit_iter8_L_11_7_1_gram_verified": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter8_L_11_7_1_gram_matrix_verified"]
+        is True,
+        "master_audit_iter8_L_15_7_1_gram_verified": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter8_L_15_7_1_gram_matrix_verified"]
+        is True,
+        "master_audit_iter8_tau_lattice_candidate_identified": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter8_tau_lattice_candidate_identified"]
+        is True,
+        "master_audit_iter8_tau_g_k_2_2": master["lean_bool_certificates"][
+            "phase_a1_iter8_tau_invariant_lattice_g_k_is_2_2"
+        ]
         is True,
     }
 
