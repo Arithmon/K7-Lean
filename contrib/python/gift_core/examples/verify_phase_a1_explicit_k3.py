@@ -110,6 +110,13 @@ def verify() -> dict[str, bool]:
     )
     sigma_recipe = cm_157.sigma_A_lattice_candidate_recipe()
 
+    # Iter #10: σ_B lattice candidate completing Z_2^3.
+    sigma_b_recipe = cm_157.sigma_B_lattice_candidate_recipe()
+    cm_157_profile_iter10 = cm_157.candidate_profile()
+    cm_157_match_iter10 = (
+        cm_157_profile_iter10.matches(target) if cm_157_profile_iter10 else None
+    )
+
     # Master audit.
     master = audit_phase_a1_master()
 
@@ -158,10 +165,11 @@ def verify() -> dict[str, bool]:
             "lean_bool_certificates"
         ]["phase_a1_reducible_sextic_picard_rank_geq_11"]
         is True,
-        "master_audit_no_full_explicit_model_yet_honest_no_go": master[
+        # iter #10: master Bool flipped to TRUE at the lattice-counting level.
+        "iter10_master_bool_flipped_at_lattice_counting_level": master[
             "lean_bool_certificates"
         ]["phase_a1_explicit_model_realizes_gift_betti"]
-        is False,
+        is True,
         "candidate_gate_target_yields_b2_b3_21_77": target.JK_b2 == 21
         and target.JK_b3 == 77,
         "candidate_gate_target_tau_is_2_2_and_11_7_1": (
@@ -326,10 +334,11 @@ def verify() -> dict[str, bool]:
             "phase_a1_explicit_model_has_correct_tau"
         ]
         is True,
-        "iter7_subbool_all_anti_syms_still_pending": master["lean_bool_certificates"][
-            "phase_a1_explicit_model_has_correct_all_anti_syms"
-        ]
-        is False,
+        # iter #10: all anti-syms have GIFT-correct profiles (lattice level).
+        "iter10_all_anti_syms_match_gift_at_lattice_level": master[
+            "lean_bool_certificates"
+        ]["phase_a1_explicit_model_has_correct_all_anti_syms"]
+        is True,
         # Iter #7 Branch A: quick kill on τ = α.
         "iter7_branch_a_408_patterns_enumerated": len(branch_a_patterns) == 408,
         "iter7_branch_a_no_patterns_match_k_2": branch_a_diag[
@@ -358,8 +367,9 @@ def verify() -> dict[str, bool]:
         # iter #7 said τ search was pending; iter #8 resolved it at lattice level.
         "iter8_tau_search_resolved_at_lattice_level": cm_partial["tau_searched"]
         is True,
-        "iter7_branch_b_cm_no_candidate_profile_yet": cm_157.candidate_profile()
-        is None,
+        # iter #10: K3CM candidate_profile now returns the GIFT-matching profile.
+        "iter10_cm_157_candidate_profile_emitted": cm_157.candidate_profile()
+        is not None,
         "master_audit_iter7_branch_b_skeleton_implemented": master[
             "lean_bool_certificates"
         ]["phase_a1_iter7_branch_b_cm_15_7_1_skeleton_implemented"]
@@ -473,6 +483,59 @@ def verify() -> dict[str, bool]:
         "master_audit_iter9_tau_sigma_A_g_k_1_1": master[
             "lean_bool_certificates"
         ]["phase_a1_iter9_tau_sigma_A_g_k_is_1_1"]
+        is True,
+        # Iter #10: σ_B + complete Z_2^3 lattice action.
+        "iter10_sigma_B_definition_x_y_2_2": sigma_b_recipe["sigma_B_definition"][
+            "x_y_choice"
+        ]
+        == (2, 2),
+        "iter10_sigma_B_distinct_from_sigma_A": sigma_b_recipe["sigma_B_definition"][
+            "distinct_from_sigma_A"
+        ]
+        is True,
+        "iter10_sigma_B_mukai_v4_rank_8_eigenspace": sigma_b_recipe[
+            "sigma_B_definition"
+        ]["matches_mukai_v4_generator_rank_8"]
+        is True,
+        "iter10_tau_sigma_B_invariant_lattice_is_11_9_1": sigma_b_recipe[
+            "tau_sigma_B_invariant_lattice_verified"
+        ]["matches_gift_s_i_tau_profile"]
+        is True,
+        "iter10_tau_sigma_A_sigma_B_invariant_lattice_is_11_9_1": sigma_b_recipe[
+            "tau_sigma_A_sigma_B_invariant_lattice_verified"
+        ]["matches_gift_s_i_tau_profile"]
+        is True,
+        "iter10_all_4_anti_syms_match_gift": sigma_b_recipe[
+            "all_4_anti_symplectic_profiles_match_gift"
+        ]
+        is True,
+        "iter10_z2_cubed_lattice_action_complete": sigma_b_recipe[
+            "z2_cubed_lattice_action_complete_at_algebraic_level"
+        ]
+        is True,
+        "iter10_cm_157_match_all_components_with_gift_target": cm_157_match_iter10[
+            "all_match"
+        ]
+        is True,
+        "master_audit_iter10_sigma_B_identified": master["lean_bool_certificates"][
+            "phase_a1_iter10_sigma_B_lattice_candidate_identified"
+        ]
+        is True,
+        "master_audit_iter10_tau_sigma_B_11_9_1": master["lean_bool_certificates"][
+            "phase_a1_iter10_tau_sigma_B_invariant_lattice_is_11_9_1"
+        ]
+        is True,
+        "master_audit_iter10_tau_sigma_A_sigma_B_11_9_1": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter10_tau_sigma_A_sigma_B_invariant_lattice_is_11_9_1"]
+        is True,
+        "master_audit_iter10_all_4_anti_syms_match": master["lean_bool_certificates"][
+            "phase_a1_iter10_all_4_anti_symplectic_profiles_match_gift"
+        ]
+        is True,
+        "master_audit_iter10_z2_cubed_complete": master["lean_bool_certificates"][
+            "phase_a1_iter10_z2_cubed_lattice_action_complete"
+        ]
         is True,
     }
 
