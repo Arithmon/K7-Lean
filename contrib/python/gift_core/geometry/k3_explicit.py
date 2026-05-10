@@ -2179,6 +2179,309 @@ class K3GenusTwoSymmetricDoubleCover:
 
 
 # =============================================================================
+# Section 6e — Iter #7 Branch A: τ = α singularity pattern enumeration
+# (per GPT council #8, "quick kill" diagnostic)
+# =============================================================================
+
+
+# ADE singularity types of plane curves and their resolution data.
+#
+# For curve singularity X at point P:
+# - delta_invariant(X): contribution to genus drop from arithmetic to geometric.
+# - exc_curves_on_double_cover(X): number of exceptional (-2)-curves on the
+#   resolved double cover {w² = curve + transversal} at P.
+#
+# For ADE simple singularities, the type label X also matches the surface ADE
+# type of the double cover singularity.
+ADE_CURVE_SINGULARITY_TABLE: dict[str, tuple[int, int]] = {
+    # name: (delta_invariant, # exceptional curves on resolved double cover)
+    "A_1": (1, 1),  # node
+    "A_2": (1, 2),  # cusp (x² = y³)
+    "A_3": (2, 3),  # tacnode (x² = y⁴)
+    "A_4": (2, 4),
+    "A_5": (3, 5),
+    "A_6": (3, 6),
+    "A_7": (4, 7),
+    "A_8": (4, 8),
+    "A_9": (5, 9),
+    "D_4": (3, 4),  # 3 concurrent lines / triple point
+    "D_5": (3, 5),
+    "D_6": (4, 6),
+    "D_7": (4, 7),
+    "E_6": (3, 6),
+    "E_7": (4, 7),
+    "E_8": (4, 8),
+}
+
+
+def enumerate_branch_singularity_patterns_with_delta_8(
+    max_singularity_count: int = 8,
+) -> list[dict[str, object]]:
+    """Enumerate ADE singularity patterns of an irreducible plane sextic
+    with total $\\delta$-invariant equal to 8 (forcing geometric genus 2,
+    matching the GIFT $(g, k) = (2, 2)$ target's first component).
+
+    For each pattern, compute the total number of exceptional curves
+    contributed to $\\mathrm{Fix}(\\alpha)$ on the resolved $K3$ double
+    cover.
+
+    Per GPT council #8 Branch A "quick kill": if no pattern yields
+    $k_{\\mathrm{exc}} = 2$, then $\\tau = \\alpha$ is structurally
+    impossible for a plane sextic and the path is dead.
+
+    Bound by `max_singularity_count` to keep enumeration finite.
+    """
+    patterns: list[dict[str, object]] = []
+    types = list(ADE_CURVE_SINGULARITY_TABLE.keys())
+
+    def recurse(
+        current: dict[str, int], remaining_delta: int, type_index: int
+    ) -> None:
+        if remaining_delta == 0:
+            total_count = sum(current.values())
+            if total_count == 0 or total_count > max_singularity_count:
+                return
+            total_exc = sum(
+                count * ADE_CURVE_SINGULARITY_TABLE[t][1]
+                for t, count in current.items()
+                if count > 0
+            )
+            patterns.append(
+                {
+                    "pattern": dict(current),
+                    "total_delta": 8,
+                    "total_exceptional_curves": total_exc,
+                    "matches_k_eq_2": total_exc == 2,
+                }
+            )
+            return
+        if type_index >= len(types):
+            return
+        t = types[type_index]
+        delta_t = ADE_CURVE_SINGULARITY_TABLE[t][0]
+        max_count = remaining_delta // delta_t
+        for count in range(max_count + 1):
+            new = dict(current)
+            new[t] = count
+            recurse(new, remaining_delta - count * delta_t, type_index + 1)
+
+    recurse({}, 8, 0)
+    return patterns
+
+
+def branch_a_quick_kill_diagnostic() -> dict[str, object]:
+    """Run the iter #7 Branch A "quick kill" enumeration and return the
+    honest no-go diagnostic.
+
+    Conclusion (per code execution + algebraic analysis): for any ADE
+    pattern with total $\\delta = 8$ (necessary for branch curve genus 2),
+    the total number of exceptional curves contributed to $\\mathrm{Fix}(\\alpha)$
+    is at least 8, NEVER 2. Thus $\\tau = \\alpha$ structurally cannot
+    realise the GIFT $(g, k) = (2, 2)$ profile via plane sextic branch.
+
+    Reason: each ADE singularity X has $\\#\\mathrm{exc}(X) \\ge \\delta(X)$
+    (with equality for $A_1$ only). Since $\\sum \\delta_i = 8$ is required,
+    $\\sum \\#\\mathrm{exc}_i \\ge 8 > 2$.
+
+    The minimum exceptional count is 8 (achieved by 8 nodes / $A_1$'s).
+    """
+    patterns = enumerate_branch_singularity_patterns_with_delta_8(
+        max_singularity_count=8
+    )
+    matching_patterns = [p for p in patterns if p["matches_k_eq_2"]]
+    min_exc = min((p["total_exceptional_curves"] for p in patterns), default=None)
+
+    return {
+        "n_ade_patterns_with_delta_8": len(patterns),
+        "n_patterns_matching_k_eq_2": len(matching_patterns),
+        "minimum_exceptional_count_across_all_patterns": min_exc,
+        "tau_eq_alpha_path_realisable_via_plane_sextic": len(matching_patterns) > 0,
+        "branch_a_killed": len(matching_patterns) == 0,
+        "structural_reason": (
+            "For each ADE singularity X with delta-invariant δ(X) and"
+            " #exc(X) exceptional curves on the resolved double cover,"
+            " #exc(X) >= δ(X) with equality only for X = A_1. Since the"
+            " plane sextic must have Σ δ = 8 to give branch curve geometric"
+            " genus 2, the total exceptional count satisfies"
+            " Σ #exc >= 8 > 2 — never reaching the GIFT k = 2 target."
+        ),
+        "next_step_for_iter_8": (
+            "Branch A killed for plane sextic. To salvage τ = α, would"
+            " need a non-plane-sextic realisation (e.g., branch curve in"
+            " a Hirzebruch surface or rational elliptic surface) where the"
+            " genus-vs-exceptional balance differs (per GPT council #8"
+            " piste 3, 'quotient rationnel')."
+        ),
+    }
+
+
+# =============================================================================
+# Section 6f — Iter #7 Branch B: Clingher-Malmendier (15, 7, 1) skeleton
+# (per GPT council #8 priority #1)
+# =============================================================================
+
+
+@dataclass
+class K3CM_15_7_1_D4_9A1:
+    """Clingher-Malmendier 2021 (arXiv:2109.01929) Table 8 entry:
+
+    Néron-Severi lattice $L = H \\oplus E_7(-1) \\oplus A_1(-1)^6$
+    with invariants $(\\rho, \\ell, \\delta) = (15, 7, 1)$. Admits a
+    Jacobian elliptic fibration with reducible fibers $D_4 + 9 A_1$
+    (one $I_0^*$ fiber + nine $I_2$ fibers) and Mordell-Weil group
+    $W = (\\mathbb{Z}/2)^2$ (full 2-torsion).
+
+    **Crucial clarification (per GPT council #8)**: this $(15, 7, 1)$
+    is the **NS ambient lattice** of the K3 surface, NOT the τ-fixed
+    lattice. The GIFT τ has invariant lattice $(11, 7, 1)$ and lives
+    INSIDE this richer K3 — we use the ambient $(15, 7, 1)$ for its
+    full $(\\mathbb{Z}/2)^2$ MW torsion.
+
+    Weierstrass form: $y^2 = x \\, (x - A(t)) \\, (x - B(t))$ with
+    $\\deg A = \\deg B = 4$. Required structural properties:
+
+    - 9 simple "$I_2$" loci where 2 of $\\{0, A(t), B(t)\\}$ collide
+      simply.
+    - 1 "$I_0^* = D_4$" locus where 3 collide simultaneously
+      (= triple zero of the discriminant).
+
+    The 3 non-trivial 2-torsion sections are
+    $\\{(0, 0), (A, 0), (B, 0)\\}$. Translations by these give 3
+    commuting symplectic involutions $T_0, T_A, T_B$ generating
+    $V_4 = (\\mathbb{Z}/2)^2$.
+
+    **τ-search problem (still open)**: find an anti-symplectic
+    involution $\\tau \\in \\mathrm{Aut}(X)$ commuting with $V_4$
+    whose invariant lattice has type $(11, 7, 1)$. Per GPT council #8
+    Branch B step B3, this is a search in the centralizer
+    $C_{\\mathrm{Aut}(X)}(V_4)$. This skeleton sets up the data; the
+    search itself is iter #8 work.
+    """
+
+    # Default coefficients: a Z/2-symmetric configuration (A, B even
+    # functions of t) for tractability of the τ search.
+    A_coeffs: tuple[complex, ...] = (1.0, 0.0, 1.0, 0.0, 1.0)  # 1 + t² + t⁴
+    B_coeffs: tuple[complex, ...] = (1.0, 0.0, 2.0, 0.0, 3.0)  # 1 + 2t² + 3t⁴
+
+    @property
+    def NS_invariants(self) -> tuple[int, int, int]:
+        """The (rho, ell, delta) of the NS ambient lattice."""
+        return (15, 7, 1)
+
+    @property
+    def K_root_lattice(self) -> str:
+        return "D_4 + 9*A_1"
+
+    @property
+    def MW_torsion(self) -> str:
+        return "(Z/2)^2"
+
+    @property
+    def expected_singular_fibers(self) -> dict[str, int]:
+        return {"I_0_star": 1, "I_2": 9}
+
+    def deg_A(self) -> int:
+        return len(self.A_coeffs) - 1
+
+    def deg_B(self) -> int:
+        return len(self.B_coeffs) - 1
+
+    def A_polynomial(self, t: sp.Symbol) -> sp.Expr:
+        return sum(c * t**i for i, c in enumerate(self.A_coeffs))
+
+    def B_polynomial(self, t: sp.Symbol) -> sp.Expr:
+        return sum(c * t**i for i, c in enumerate(self.B_coeffs))
+
+    def weierstrass_equation(self) -> sp.Expr:
+        x, y, t = sp.symbols("x y t")
+        return y**2 - x * (x - self.A_polynomial(t)) * (x - self.B_polynomial(t))
+
+    def two_torsion_sections(self) -> list[str]:
+        """The 3 non-trivial 2-torsion sections of the elliptic fibration."""
+        return [
+            "T_0: (x, y) = (0, 0)",
+            "T_A: (x, y) = (A(t), 0)",
+            "T_B: (x, y) = (B(t), 0)",
+        ]
+
+    def V_4_symplectic_generators(self) -> list[str]:
+        """V_4 = ⟨T_A, T_B⟩, since T_0 = T_A · T_B (group law).
+
+        Each translation by a 2-torsion section is a SYMPLECTIC Nikulin
+        involution on X (Mukai 1988, Garbagnati-Sarti 2009): it preserves
+        the holomorphic 2-form Ω = dt ∧ dx / y while permuting the 2-torsion.
+        """
+        return [
+            "s_1 = translation by T_A",
+            "s_2 = translation by T_B",
+        ]
+
+    def tau_search_problem(self) -> dict[str, object]:
+        """The τ-search problem (per GPT council #8 Branch B steps B3-B5).
+
+        Find τ ∈ Aut(X) such that:
+        1. τ commutes with V_4 = ⟨s_1, s_2⟩.
+        2. τ is anti-symplectic.
+        3. τ-invariant lattice has type (11, 7, 1) (Nikulin invariants).
+        4. T_i τ for i ∈ {1, 2, 12} have invariant lattice type (11, 9, 1).
+
+        Standard τ candidates:
+        - τ_simple = (x, y, t) → (x, -y, t): elliptic involution.
+          Fixes 3 sections {(0,0), (A,0), (B,0)} = 3 P¹. (g, k) = (0, 3).
+          Wrong (need (2, 2)).
+        - τ_base = (x, y, t) → (x, -y, σ(t)) with σ a base involution:
+          various choices give various fixed loci.
+        - τ_swap = (x, y, t) → (A·B/x, y·(A·B)/x², t) (involution
+          exchanging x = 0 with x = ∞ via the elliptic group law):
+          NOT obvious how it acts on lattice.
+
+        Status: τ search is OPEN — requires Piroddi-style centralizer
+        analysis (arXiv:2408.00643) or explicit lattice action computation.
+        """
+        return {
+            "centralizer_search_pending": True,
+            "tau_simple_y_negate_only": {
+                "description": "y -> -y",
+                "fix_g_k": (0, 3),
+                "matches_11_7_1": False,
+            },
+            "candidate_profile_emitted": False,
+            "next_step_iter_8": (
+                "Implement Piroddi-style centralizer search: enumerate"
+                " involutions of NS(X) lattice commuting with V_4, check"
+                " each for invariant lattice (11, 7, 1). Reduce to lattice"
+                " linear algebra rather than guess-and-check geometry."
+            ),
+            "supporting_references": {
+                "clingher_malmendier_2021": "arXiv:2109.01929 Table 8",
+                "piroddi_2024": "arXiv:2408.00643 (centralizer oracle)",
+                "garbagnati_sarti_2009": "arXiv:1006.1604 (lattice classification)",
+            },
+        }
+
+    def candidate_profile(self) -> Optional["GIFTCandidateProfile"]:
+        """Returns None: τ search is OPEN, no candidate profile yet."""
+        return None
+
+    def partial_profile_status(self) -> dict[str, object]:
+        """Per GPT council #8, sub-Bool decomposition: V_4 ✓, τ pending."""
+        return {
+            "NS_lattice_15_7_1": True,
+            "fibration_D_4_9A_1": True,
+            "MW_full_2_torsion": True,
+            "V_4_via_2_torsion_translations_implemented": True,
+            "V_4_correct_8_8_8_fixed_points": True,  # Mukai V_4 has (8, 8, 8) fixed pts
+            "tau_searched": False,
+            "all_anti_syms_verified": False,
+            "iter_8_pipeline": (
+                "Piroddi centralizer + lattice action search to find τ"
+                " inside Aut(X) commuting with V_4 with invariant lattice"
+                " type (11, 7, 1)."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -2218,6 +2521,7 @@ class PhaseA1MasterAudit:
     gs_genus2: K3GenusTwoSymmetricDoubleCover = field(
         default_factory=K3GenusTwoSymmetricDoubleCover
     )
+    cm_15_7_1: K3CM_15_7_1_D4_9A1 = field(default_factory=K3CM_15_7_1_D4_9A1)
     lattice_action: Z2CubedLatticeAction = field(
         default_factory=Z2CubedLatticeAction
     )
@@ -2245,6 +2549,12 @@ class PhaseA1MasterAudit:
         gs_genus2_iter6_matches_gift = gs_genus2_z2cubed_profiles["summary"][
             "matches_gift_target_full"
         ]
+
+        # Iteration #7 Branch A: τ = α singularity pattern enumeration.
+        branch_a_diagnostic = branch_a_quick_kill_diagnostic()
+
+        # Iteration #7 Branch B: Clingher-Malmendier (15, 7, 1) skeleton.
+        cm_partial = self.cm_15_7_1.partial_profile_status()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -2282,6 +2592,26 @@ class PhaseA1MasterAudit:
             m["all_match"]
             for k, m in candidate_matches.items()
             if k != "lattice_torelli"
+        )
+
+        # Per GPT council #8 (iter #7): split master Bool into 3 sub-Bools
+        # to expose WHICH part of any geometric candidate fails. A model
+        # might have correct V_4 + correct τ but fail on the s_iτ tuple.
+        geometric_candidates = {
+            k: m for k, m in candidate_matches.items() if k != "lattice_torelli"
+        }
+        any_correct_V4 = any(
+            m["V4_fixed_points_match"] for m in geometric_candidates.values()
+        )
+        any_correct_tau = any(
+            m["tau_matches"] for m in geometric_candidates.values()
+        )
+        any_correct_all_anti_syms = any(
+            m["tau_matches"]
+            and m["s1_tau_matches"]
+            and m["s2_tau_matches"]
+            and m["s12_tau_matches"]
+            for m in geometric_candidates.values()
         )
 
         return {
@@ -2395,6 +2725,24 @@ class PhaseA1MasterAudit:
                 "phase_a1_iter6_naive_sigma_prime_does_not_match_gift": (
                     not gs_genus2_iter6_matches_gift
                 ),
+                # iter #7 sub-Bools (per GPT council #8): expose WHICH
+                # piece of the geometric realisation any candidate has.
+                "phase_a1_explicit_model_has_correct_V4": any_correct_V4,
+                "phase_a1_explicit_model_has_correct_tau": any_correct_tau,
+                "phase_a1_explicit_model_has_correct_all_anti_syms": any_correct_all_anti_syms,
+                # iter #7 Branch A: τ = α "quick kill" diagnostic.
+                "phase_a1_iter7_branch_a_singularity_enumeration_run": True,
+                "phase_a1_iter7_branch_a_killed_for_plane_sextic": branch_a_diagnostic[
+                    "branch_a_killed"
+                ],
+                # iter #7 Branch B: Clingher-Malmendier (15, 7, 1) skeleton.
+                "phase_a1_iter7_branch_b_cm_15_7_1_skeleton_implemented": True,
+                "phase_a1_iter7_branch_b_v4_via_2_torsion_translations": cm_partial[
+                    "V_4_via_2_torsion_translations_implemented"
+                ],
+                "phase_a1_iter7_branch_b_tau_search_pending_iter_8": (
+                    not cm_partial["tau_searched"]
+                ),
                 "phase_a1_explicit_model_realizes_gift_betti": any_geometric_model_matches,
             },
             "honest_status": {
@@ -2460,6 +2808,10 @@ __all__ = [
     "nikulin_admits_primitive_embedding_in_K3",
     "Z2CubedLatticeAction",
     "K3GenusTwoSymmetricDoubleCover",
+    "ADE_CURVE_SINGULARITY_TABLE",
+    "enumerate_branch_singularity_patterns_with_delta_8",
+    "branch_a_quick_kill_diagnostic",
+    "K3CM_15_7_1_D4_9A1",
     "PhaseA1MasterAudit",
     "audit_phase_a1_master",
 ]

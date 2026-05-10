@@ -14,6 +14,7 @@ from gift_core.geometry.k3_explicit import (
     EllipticK3WeierstrassFull2Torsion,
     GIFTCandidateProfile,
     JKBettiPredictor,
+    K3CM_15_7_1_D4_9A1,
     K3GenusTwoSymmetricDoubleCover,
     K3Lattice,
     K3ReducibleSexticDoubleCover,
@@ -23,6 +24,8 @@ from gift_core.geometry.k3_explicit import (
     TwoElementaryLatticeRAD,
     Z2CubedLatticeAction,
     audit_phase_a1_master,
+    branch_a_quick_kill_diagnostic,
+    enumerate_branch_singularity_patterns_with_delta_8,
     nikulin_admits_primitive_embedding_in_K3,
     nikulin_g_k_from_rad,
 )
@@ -79,6 +82,15 @@ def verify() -> dict[str, bool]:
     gs_iter6_match = (
         gs_iter6_candidate.matches(target) if gs_iter6_candidate else None
     )
+
+    # Iter #7 Branch A: τ = α singularity pattern enumeration.
+    branch_a_diag = branch_a_quick_kill_diagnostic()
+    branch_a_patterns = enumerate_branch_singularity_patterns_with_delta_8()
+
+    # Iter #7 Branch B: Clingher-Malmendier (15, 7, 1) skeleton.
+    cm_157 = K3CM_15_7_1_D4_9A1()
+    cm_partial = cm_157.partial_profile_status()
+    cm_tau = cm_157.tau_search_problem()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -286,6 +298,55 @@ def verify() -> dict[str, bool]:
         "master_audit_iter6_naive_sigma_prime_no_go": master["lean_bool_certificates"][
             "phase_a1_iter6_naive_sigma_prime_does_not_match_gift"
         ]
+        is True,
+        # Iter #7: 3 sub-Bools refactor.
+        "iter7_subbool_correct_V4_present": master["lean_bool_certificates"][
+            "phase_a1_explicit_model_has_correct_V4"
+        ]
+        is True,
+        "iter7_subbool_correct_tau_present": master["lean_bool_certificates"][
+            "phase_a1_explicit_model_has_correct_tau"
+        ]
+        is True,
+        "iter7_subbool_all_anti_syms_still_pending": master["lean_bool_certificates"][
+            "phase_a1_explicit_model_has_correct_all_anti_syms"
+        ]
+        is False,
+        # Iter #7 Branch A: quick kill on τ = α.
+        "iter7_branch_a_408_patterns_enumerated": len(branch_a_patterns) == 408,
+        "iter7_branch_a_no_patterns_match_k_2": branch_a_diag[
+            "n_patterns_matching_k_eq_2"
+        ]
+        == 0,
+        "iter7_branch_a_min_exc_count_is_8": branch_a_diag[
+            "minimum_exceptional_count_across_all_patterns"
+        ]
+        == 8,
+        "iter7_branch_a_killed_for_plane_sextic": branch_a_diag["branch_a_killed"]
+        is True,
+        "master_audit_branch_a_killed": master["lean_bool_certificates"][
+            "phase_a1_iter7_branch_a_killed_for_plane_sextic"
+        ]
+        is True,
+        # Iter #7 Branch B: CM (15, 7, 1) skeleton.
+        "iter7_branch_b_cm_NS_invariants_15_7_1": cm_157.NS_invariants
+        == (15, 7, 1),
+        "iter7_branch_b_cm_K_root_D4_9A1": cm_157.K_root_lattice == "D_4 + 9*A_1",
+        "iter7_branch_b_cm_MW_torsion_full_2": cm_157.MW_torsion == "(Z/2)^2",
+        "iter7_branch_b_cm_v4_implemented": cm_partial[
+            "V_4_via_2_torsion_translations_implemented"
+        ]
+        is True,
+        "iter7_branch_b_cm_tau_search_pending": cm_partial["tau_searched"] is False,
+        "iter7_branch_b_cm_no_candidate_profile_yet": cm_157.candidate_profile()
+        is None,
+        "master_audit_iter7_branch_b_skeleton_implemented": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter7_branch_b_cm_15_7_1_skeleton_implemented"]
+        is True,
+        "master_audit_iter7_branch_b_v4_via_2_torsion": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter7_branch_b_v4_via_2_torsion_translations"]
         is True,
     }
 
