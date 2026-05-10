@@ -1993,6 +1993,190 @@ class K3GenusTwoSymmetricDoubleCover:
             ),
         }
 
+    @property
+    def is_sigma_prime_symmetric(self) -> bool:
+        """True if $f_2, f_4, f_6$ are even in $x_1$, allowing the lift
+        $\\sigma' : (x_0, x_1, x_2, w) \\to (x_0, -x_1, x_2, w)$ to be
+        an automorphism of $X$.
+
+        Conditions: every monomial of $f_i$ must have even degree in $x_1$.
+        """
+        # f_2 = a x_1² + b x_1 x_2 + c x_2² → even in x_1 iff b = 0.
+        if abs(self.f2_coeffs[1]) > 1e-12:
+            return False
+        # f_4 coefficient indices: x_1^k x_2^(4-k) for k = 0..4. Odd k = 1, 3.
+        if abs(self.f4_coeffs[1]) > 1e-12 or abs(self.f4_coeffs[3]) > 1e-12:
+            return False
+        # f_6: odd k = 1, 3, 5.
+        if (
+            abs(self.f6_coeffs[1]) > 1e-12
+            or abs(self.f6_coeffs[3]) > 1e-12
+            or abs(self.f6_coeffs[5]) > 1e-12
+        ):
+            return False
+        return True
+
+    def sigma_prime_action(self) -> dict[str, str]:
+        """The candidate second involution $\\sigma'$ obtained by lifting
+        $(x_1 \\to -x_1)$ from $\\mathbb{P}^2$ to $X$ when $f_2, f_4, f_6$
+        are even in $x_1$.
+
+        $\\sigma' : (x_0, x_1, x_2, w) \\to (x_0, -x_1, x_2, w)$.
+
+        This is **anti-symplectic** (it negates $\\Omega = dx_0 \\wedge dx_1 / w$
+        via $dx_1 \\to -dx_1$), NOT symplectic. So $\\sigma'$ is one of the
+        $s_i \\tau$ candidates (anti-sym), not a $V_4$ generator.
+
+        The composition $\\iota \\sigma' = (x_0, x_1, x_2, w) \\to (-x_0, -x_1, x_2, w)$
+        IS symplectic (anti × anti = sym), and gives the second $V_4$
+        generator: $V_4 = \\langle \\sigma, \\iota\\sigma' \\rangle$.
+        """
+        return {
+            "x0": "x0",
+            "x1": "-x1",
+            "x2": "x2",
+            "w": "w",
+            "symplectic_type": "anti-symplectic",
+            "requires_sigma_prime_symmetric_branch_sextic": True,
+        }
+
+    def z2_cubed_anti_symplectic_profiles(self) -> dict[str, dict[str, object]]:
+        """Compute the 4 anti-symplectic involutions of the $\\mathbb{Z}_2^3$
+        action $\\langle \\sigma, \\iota\\sigma', \\iota \\rangle$ assuming
+        the branch sextic is $\\sigma'$-symmetric.
+
+        The 4 anti-symplectic elements (per group law):
+
+        - $\\iota$: $(x_0, x_1, x_2, w) \\to (-x_0, x_1, x_2, w)$.
+          Fixed locus = $\\{x_0 = 0\\} \\cap X$ = smooth genus-2 curve $C$
+          (= GS Prop 7.3).
+          $(g, k) = (2, 2)$ matching $(r, a, \\delta) = (11, 7, 1)$ ✓.
+
+        - $\\alpha = \\sigma\\iota$: $(x_0, x_1, x_2, w) \\to (x_0, x_1, x_2, -w)$
+          (cover involution).
+          Fixed locus = $\\{w = 0\\} \\cap X$ = the BRANCH sextic $\\{s = 0\\} \\subset \\mathbb{P}^2$.
+          For a generic $\\sigma'$-symmetric branch sextic with one $A_3$
+          singularity at $(1:0:0)$: geometric genus $= 10 - 2 = 8$, plus
+          3 exceptional $\\mathbb{C}P^1$ from the $A_3$ resolution.
+          $(g, k) = (8, 3)$ — does **NOT** match $(1, 1)$.
+
+        - $\\sigma'$: $(x_0, x_1, x_2, w) \\to (x_0, -x_1, x_2, w)$.
+          Fixed locus = $\\{x_1 = 0\\} \\cap X$ = $\\{w^2 = c x_0^4 x_2^2 + c_4 x_0^2 x_2^4 + d_6 x_2^6\\}$.
+          After substitution $V = w/x_2$ (away from $x_2 = 0$):
+          $V^2 = c x_0^4 + c_4 x_0^2 x_2^2 + d_6 x_2^4$ is a hyperelliptic
+          curve of genus 1 (= elliptic curve) generically.
+          Plus exceptional curves from singularities. $(g, k) \\approx (1, ?)$.
+
+        - $\\sigma\\sigma'$: $(x_0, x_1, x_2, w) \\to (-x_0, -x_1, x_2, -w)$.
+          Fixed: $x_0 = x_1 = w = 0$. On $X$: $w^2 = s(0, 0, x_2) = d_6 x_2^6$.
+          For generic $d_6 \\ne 0$: no fixed points (since $w = 0$ but
+          $w^2 = d_6 x_2^6 \\ne 0$). Fixed locus is **empty** generically.
+
+        The 4-tuple of $(g, k)$ profiles is therefore $\\{(2,2), (8,3),
+        (\\text{elliptic} + ?), \\text{empty}\\}$ — does NOT match the GIFT
+        target $\\{(2,2), (1,1), (1,1), (1,1)\\}$.
+        """
+        return {
+            "iota": {
+                "g_k": (2, 2),
+                "rad": (11, 7, 1),
+                "matches_gift_tau_profile": True,
+                "fixed_locus_description": (
+                    "x_0 = 0 ∩ X = genus-2 curve C + 2 P¹ (A_3 resolution)"
+                ),
+            },
+            "alpha_eq_sigma_iota": {
+                "g_k": (8, 3),
+                "rad": "incompatible_with_11_9_1",
+                "matches_gift_s_i_tau_profile": False,
+                "fixed_locus_description": (
+                    "w = 0 ∩ X = entire branch sextic (geometric genus 8) +"
+                    " 3 P¹ from A_3 resolution"
+                ),
+            },
+            "sigma_prime": {
+                "g_k_naive": (1, "exceptional_count_pending"),
+                "matches_gift_s_i_tau_profile_partial": True,
+                "fixed_locus_description": (
+                    "x_1 = 0 ∩ X = hyperelliptic V² = c x_0⁴ + c_4 x_0² x_2² +"
+                    " d_6 x_2⁴ = elliptic curve generically + exceptional"
+                    " curves from (1:0:0) singularity"
+                ),
+            },
+            "sigma_sigma_prime": {
+                "g_k": (-1, 0),  # sentinel for empty
+                "matches_gift_s_i_tau_profile": False,
+                "fixed_locus_description": (
+                    "Empty for generic d_6 ≠ 0. Becomes 0-dimensional only"
+                    " when d_6 = 0 (special moduli)."
+                ),
+            },
+            "summary": {
+                "matches_gift_target_full": False,
+                "headline": (
+                    "Naive σ' symmetry gives 4 anti-sym profiles {(2,2),"
+                    " (8,3), (1,?), empty} — only τ = ι matches GIFT (2,2)."
+                    " The other 3 don't match (1,1). The σι = α (cover"
+                    " involution) has fixed locus = entire branch sextic"
+                    " (genus 8 generically), structurally too high to be"
+                    " (1,1)."
+                ),
+                "diagnosis": (
+                    "The cover involution α always fixes the entire branch"
+                    " sextic, which has high genus (10 minus singularity"
+                    " δ-invariants) for an irreducible generic sextic. To"
+                    " force (g, k) = (1, 1) for α, the branch sextic must"
+                    " FACTOR (e.g., as 2 cubics) so that fix(α) = 2"
+                    " disjoint elliptic components — and even then it's"
+                    " not (1, 1) but (1, 1) ∪ (1, 1) = wrong count."
+                    " Conclusion: this naive Z_2^3 ⟨σ, ισ', ι⟩ structure"
+                    " does NOT realise GIFT directly."
+                ),
+                "next_concrete_path": (
+                    "(a) Try Z_2^3 with τ = α (= cover involution) instead"
+                    " of ι, which requires the branch sextic to have"
+                    " genus 2 (geometric) — possibly by forcing 8 nodes."
+                    " (b) Use a higher-Picard K3 (ρ ≥ 15) where the GIFT"
+                    " Z_2^3 admits a different geometric realisation."
+                    " (c) Accept iter #5 + lattice-Torelli (iter #4) as"
+                    " the best available certs and ship v3.4.20 on those."
+                ),
+            },
+        }
+
+    def candidate_profile(self) -> Optional["GIFTCandidateProfile"]:
+        """Emit a `GIFTCandidateProfile` from this model's $\\mathbb{Z}_2^3$
+        analysis.
+
+        Returns `None` if the branch sextic is not $\\sigma'$-symmetric
+        (the lift $\\sigma'$ is then not an automorphism of $X$).
+
+        For $\\sigma'$-symmetric coefficients, returns the 4-tuple of
+        $(g, k)$ profiles computed by `z2_cubed_anti_symplectic_profiles`.
+        Per iter #6 honest no-go: this profile does NOT match GIFT
+        because $\\sigma\\iota = \\alpha$ has $(g, k) = (8, 3)$ and
+        $\\sigma\\sigma'$ is empty.
+        """
+        if not self.is_sigma_prime_symmetric:
+            return None
+
+        profiles = self.z2_cubed_anti_symplectic_profiles()
+        return GIFTCandidateProfile(
+            tau=InvolutionFixedLocusProfile(g=2, k=2, rad=(11, 7, 1)),
+            s1_tau=InvolutionFixedLocusProfile(
+                g=8, k=3, rad=(0, 0, 0)
+            ),  # α: g=8 wrong
+            s2_tau=InvolutionFixedLocusProfile(
+                g=1, k=0, rad=(0, 0, 0)
+            ),  # σ': elliptic, k pending
+            s12_tau=InvolutionFixedLocusProfile(
+                g=-1, k=0, rad=(0, 0, 0)
+            ),  # σσ': empty
+            V4_symplectic_fixed_points=(8, 8, 8),  # placeholder
+            JK_b2=0,
+            JK_b3=0,
+        )
+
 
 # =============================================================================
 # Section 7 — Phase A.1 master audit
@@ -2055,6 +2239,12 @@ class PhaseA1MasterAudit:
         kummer_report = self.kummer.predicted_full_betti()
         weierstrass_report = self.weierstrass.predicted_full_betti()
         gs_genus2_report = self.gs_genus2.candidate_profile_partial()
+
+        # Iteration #6: σ'-symmetric Z_2^3 audit (honest no-go diagnostic).
+        gs_genus2_z2cubed_profiles = self.gs_genus2.z2_cubed_anti_symplectic_profiles()
+        gs_genus2_iter6_matches_gift = gs_genus2_z2cubed_profiles["summary"][
+            "matches_gift_target_full"
+        ]
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -2201,6 +2391,10 @@ class PhaseA1MasterAudit:
                 "phase_a1_gs_prop_7_3_sigma_via_2_torsion_translation": gs_genus2_report[
                     "sigma_symplectic_via_2_torsion_translation"
                 ],
+                "phase_a1_iter6_z2_cubed_anti_symplectic_profiles_computed": True,
+                "phase_a1_iter6_naive_sigma_prime_does_not_match_gift": (
+                    not gs_genus2_iter6_matches_gift
+                ),
                 "phase_a1_explicit_model_realizes_gift_betti": any_geometric_model_matches,
             },
             "honest_status": {

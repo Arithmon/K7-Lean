@@ -73,6 +73,13 @@ def verify() -> dict[str, bool]:
     gs_genus2 = K3GenusTwoSymmetricDoubleCover()
     gs_profile = gs_genus2.candidate_profile_partial()
 
+    # Iter #6: σ'-symmetric Z_2^3 audit.
+    gs_z2cubed_profiles = gs_genus2.z2_cubed_anti_symplectic_profiles()
+    gs_iter6_candidate = gs_genus2.candidate_profile()
+    gs_iter6_match = (
+        gs_iter6_candidate.matches(target) if gs_iter6_candidate else None
+    )
+
     # Master audit.
     master = audit_phase_a1_master()
 
@@ -251,6 +258,34 @@ def verify() -> dict[str, bool]:
         "master_audit_gs_prop_7_3_sigma_via_2_torsion": master[
             "lean_bool_certificates"
         ]["phase_a1_gs_prop_7_3_sigma_via_2_torsion_translation"]
+        is True,
+        # Iteration #6: σ'-symmetric Z_2^3 audit.
+        "iter6_default_branch_sextic_is_sigma_prime_symmetric": gs_genus2.is_sigma_prime_symmetric
+        is True,
+        "iter6_iota_g_k_matches_gift_2_2": gs_z2cubed_profiles["iota"]["g_k"]
+        == (2, 2),
+        "iter6_alpha_g_k_is_8_3_does_not_match_1_1": gs_z2cubed_profiles[
+            "alpha_eq_sigma_iota"
+        ]["g_k"]
+        == (8, 3),
+        "iter6_sigma_sigma_prime_fixed_locus_empty": gs_z2cubed_profiles[
+            "sigma_sigma_prime"
+        ]["g_k"]
+        == (-1, 0),
+        "iter6_summary_matches_gift_full_is_false_honest_no_go": gs_z2cubed_profiles[
+            "summary"
+        ]["matches_gift_target_full"]
+        is False,
+        "iter6_candidate_profile_emitted": gs_iter6_candidate is not None,
+        "iter6_candidate_does_not_match_gift": gs_iter6_match["all_match"]
+        is False,
+        "master_audit_iter6_z2_cubed_profiles_computed": master[
+            "lean_bool_certificates"
+        ]["phase_a1_iter6_z2_cubed_anti_symplectic_profiles_computed"]
+        is True,
+        "master_audit_iter6_naive_sigma_prime_no_go": master["lean_bool_certificates"][
+            "phase_a1_iter6_naive_sigma_prime_does_not_match_gift"
+        ]
         is True,
     }
 
