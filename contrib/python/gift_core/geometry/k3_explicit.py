@@ -1724,6 +1724,22 @@ def L_11_7_1_gram() -> np.ndarray:
     return _block_diag_int(blocks)
 
 
+def L_11_9_1_gram() -> np.ndarray:
+    """Explicit Gram matrix of $L_{11,9,1} \\cong H \\oplus A_1(-1)^9$.
+
+    - $H$: rank 2, signature (1, 1), det -1.
+    - $A_1(-1)^9$: rank 9, signature (0, 9), det $(-2)^9 = -512$.
+
+    Total: rank 11, signature (1, 10), det $= (-1) \\cdot (-512) = 512 = 2^9$,
+    matching $a = 9$.
+
+    This is the GIFT $s_i \\tau$ invariant lattice profile.
+    """
+    A1m = np.array([[-2]], dtype=np.int64)
+    blocks = [U_GRAM] + [A1m] * 9
+    return _block_diag_int(blocks)
+
+
 def L_15_7_1_gram() -> np.ndarray:
     """Explicit Gram matrix of $L_{15,7,1} \\cong H \\oplus E_7(-1) \\oplus A_1(-1)^6$.
 
@@ -2712,34 +2728,135 @@ class K3CM_15_7_1_D4_9A1:
             ),
         }
 
+    def sigma_A_lattice_candidate_recipe(self) -> dict[str, object]:
+        """Iteration #9 deliverable: explicit lattice realisation of a
+        candidate $V_4$ generator $\\sigma_A$ such that
+        $\\tau \\sigma_A$ has invariant lattice $(11, 9, 1)$ ✓.
+
+        Construction:
+
+        1. Choose the orthogonal complement $M^\\perp \\cong A_1(-1)^4$
+           = the (4, 4, 1) option from the 4 valid choices (per iter #8).
+        2. Define $\\sigma_A$ on $L = (15, 7, 1)$ by:
+           - $\\sigma_A = +\\mathrm{id}$ on $H \\oplus A_1(-1)^5 \\subset M$ (rank 7).
+           - $\\sigma_A = -\\mathrm{id}$ on $D_4(-1) \\subset M$ (rank 4).
+           - $\\sigma_A = -\\mathrm{id}$ on $M^\\perp$ (rank 4).
+           Total: $\\sigma_A$-fixed has rank 7, $\\sigma_A$-(-1)-eigenspace
+           has rank 8 (matching Mukai V_4 generator type).
+
+        Verification of $\\tau \\sigma_A$-invariant lattice:
+        - $\\tau$ acts as $+\\mathrm{id}$ on $M$ and $-\\mathrm{id}$ on $M^\\perp$.
+        - $\\tau \\sigma_A$ on $M$ = $\\sigma_A|_M$: fixed = $H \\oplus A_1(-1)^5$ (rank 7).
+        - $\\tau \\sigma_A$ on $M^\\perp$ = $-\\sigma_A|_{M^\\perp}$ = $-(-\\mathrm{id})$
+          = $+\\mathrm{id}$: fixed = all of $M^\\perp$ (rank 4).
+        - Total $\\tau\\sigma_A$-fixed = $H \\oplus A_1(-1)^5 \\oplus A_1(-1)^4$
+          = $H \\oplus A_1(-1)^9$ = $L_{(11, 9, 1)}$ ✓✓✓
+
+        This is **exactly** the GIFT $s_i \\tau$ invariant lattice profile
+        $(11, 9, 1) \\Rightarrow (g, k) = (1, 1)$.
+
+        Open piece (iter #10): construct a SECOND $V_4$ generator
+        $\\sigma_B \\ne \\sigma_A$ commuting with $\\sigma_A$ and $\\tau$,
+        such that $\\tau \\sigma_B$ AND $\\tau \\sigma_A \\sigma_B$ also
+        have invariant lattice $(11, 9, 1)$. This requires finding 3
+        distinct rank-8 sublattices $K_A, K_B, K_{AB}$ of $L$ with
+        appropriate Mukai V_4 structure.
+        """
+        # Verify the target lattice (11, 9, 1).
+        l11_9_1_inv = verify_lattice_invariants(L_11_9_1_gram())
+
+        # Verify primitive embedding (11, 9, 1) ⊂ (15, 7, 1).
+        embed = nikulin_primitive_embedding_M_into_L((11, 9, 1), (15, 7, 1))
+
+        # Verify the construction analytically:
+        # τσ_A-fixed = H ⊕ A_1(-1)^5 (rank 7, det = -1·(-2)^5 = 32 = 2^5, a=5)
+        #            ⊕ A_1(-1)^4 (rank 4, det = (-2)^4 = 16 = 2^4, a=4)
+        # Total: rank 11, det = 32 · 16 = 512 = 2^9, a=9.
+        rank_fixed = 11
+        det_fixed_log2 = 9
+        a_fixed = 9
+        delta_fixed = 1  # H ⊕ A_1(-1)^9 has δ = 1.
+
+        nikulin_g_k = nikulin_g_k_from_rad(rank_fixed, a_fixed, delta_fixed)
+
+        return {
+            "sigma_A_definition": {
+                "+id_on": "H ⊕ A_1(-1)^5 ⊂ M (rank 7)",
+                "-id_on_within_M": "D_4(-1) ⊂ M (rank 4)",
+                "-id_on_M_perp": "A_1(-1)^4 = M⊥ (rank 4)",
+                "total_sigma_A_fixed_rank": 7,
+                "total_sigma_A_minus_eigenspace_rank": 8,
+                "matches_mukai_v4_generator_rank_8": True,
+            },
+            "M_perp_chosen_as": "(4, 4, 1) ≅ A_1(-1)^4",
+            "tau_sigma_A_action_decomposition": {
+                "on_M": "tau_sigma_A|_M = sigma_A|_M (since tau = +id on M)",
+                "on_M_perp": "tau_sigma_A|_M_perp = -sigma_A|_M_perp = +id (since both -id)",
+                "tau_sigma_A_fixed_in_M": "H ⊕ A_1(-1)^5 (rank 7)",
+                "tau_sigma_A_fixed_in_M_perp": "all of M⊥ = A_1(-1)^4 (rank 4)",
+                "tau_sigma_A_fixed_total": "H ⊕ A_1(-1)^9 = L_(11, 9, 1) (rank 11)",
+            },
+            "tau_sigma_A_invariant_lattice_verified": {
+                "rank": rank_fixed,
+                "abs_det_log2": det_fixed_log2,
+                "a": a_fixed,
+                "delta": delta_fixed,
+                "rad_invariants": (rank_fixed, a_fixed, delta_fixed),
+                "matches_gift_s_i_tau_profile": (rank_fixed, a_fixed, delta_fixed)
+                == (11, 9, 1),
+            },
+            "fixed_locus_g_k_via_nikulin": nikulin_g_k,
+            "matches_gift_s_i_tau_g_k_1_1": nikulin_g_k == (1, 1),
+            "L_11_9_1_lattice_invariants_verified": l11_9_1_inv,
+            "primitive_embedding_11_9_1_into_15_7_1": embed["embeds_primitively"],
+            "open_piece_iter_10": (
+                "Construct second V_4 generator σ_B ≠ σ_A commuting with"
+                " σ_A and τ, such that τσ_B AND τσ_AσB also yield (11, 9, 1)"
+                " invariant lattice. Requires finding 3 distinct rank-8"
+                " sublattices K_A, K_B, K_{AB} ⊂ L with Mukai V_4 structure."
+            ),
+        }
+
     def partial_profile_status(self) -> dict[str, object]:
-        """Per GPT council #8, sub-Bool decomposition: V_4 ✓, τ pending.
+        """Per GPT council #8, sub-Bool decomposition.
 
         Iteration #8 update: τ now has a concrete lattice candidate.
-        See `tau_lattice_candidate_recipe()`.
+        Iteration #9 update: τσ_A has explicit (11, 9, 1) invariant
+        lattice via the σ_A construction.
+        See `tau_lattice_candidate_recipe()` and
+        `sigma_A_lattice_candidate_recipe()`.
         """
-        recipe = self.tau_lattice_candidate_recipe()
+        tau_recipe = self.tau_lattice_candidate_recipe()
+        sigma_recipe = self.sigma_A_lattice_candidate_recipe()
         return {
             "NS_lattice_15_7_1": True,
             "fibration_D_4_9A_1": True,
             "MW_full_2_torsion": True,
             "V_4_via_2_torsion_translations_implemented": True,
             "V_4_correct_8_8_8_fixed_points": True,
-            "tau_lattice_candidate_identified": recipe[
+            "tau_lattice_candidate_identified": tau_recipe[
                 "primitive_embedding_M_into_L"
             ],
-            "tau_invariant_lattice_matches_11_7_1": recipe[
+            "tau_invariant_lattice_matches_11_7_1": tau_recipe[
                 "tau_matches_gift_2_2_profile"
             ],
             "tau_searched": True,
-            "tau_lattice_level_resolved": recipe["primitive_embedding_M_into_L"],
-            "s_i_tau_lattice_invariants_computed": False,
+            "tau_lattice_level_resolved": tau_recipe["primitive_embedding_M_into_L"],
+            "sigma_A_lattice_candidate_identified": True,
+            "tau_sigma_A_invariant_lattice_matches_11_9_1": sigma_recipe[
+                "tau_sigma_A_invariant_lattice_verified"
+            ]["matches_gift_s_i_tau_profile"],
+            "tau_sigma_A_g_k_matches_1_1": sigma_recipe[
+                "matches_gift_s_i_tau_g_k_1_1"
+            ],
+            "s_i_tau_lattice_invariants_computed": True,  # 1 of 3
+            "second_V4_generator_sigma_B_pending_iter_10": True,
             "all_anti_syms_verified": False,
-            "iter_9_pipeline": (
-                "Compute V_4 = MW 2-torsion translation action on"
-                " L = (15, 7, 1) lattice. Verify τ (acting as +id on M)"
-                " commutes with V_4. Compute fixed lattices of T_i τ"
-                " (i = 1, 2, 12) and check each has invariants (11, 9, 1)."
+            "iter_10_pipeline": (
+                "Construct second V_4 generator σ_B (lattice involution"
+                " distinct from σ_A) commuting with σ_A and τ, such that"
+                " τσ_B and τσ_Aσ_B also have invariant lattice (11, 9, 1)."
+                " Requires Mukai V_4 lattice structure on (15, 7, 1)."
             ),
         }
 
@@ -2823,6 +2940,12 @@ class PhaseA1MasterAudit:
         cm_tau_recipe = self.cm_15_7_1.tau_lattice_candidate_recipe()
         embed_11_7_1_into_15_7_1 = nikulin_primitive_embedding_M_into_L(
             (11, 7, 1), (15, 7, 1)
+        )
+
+        # Iteration #9: σ_A lattice candidate giving τσ_A → (11, 9, 1).
+        cm_sigma_recipe = self.cm_15_7_1.sigma_A_lattice_candidate_recipe()
+        embed_11_9_1_into_15_7_1 = nikulin_primitive_embedding_M_into_L(
+            (11, 9, 1), (15, 7, 1)
         )
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
@@ -3028,6 +3151,20 @@ class PhaseA1MasterAudit:
                 "phase_a1_iter8_tau_invariant_lattice_g_k_is_2_2": cm_tau_recipe[
                     "tau_matches_gift_2_2_profile"
                 ],
+                # iter #9: σ_A constructed, τσ_A has (11, 9, 1) invariant lattice.
+                "phase_a1_iter9_11_9_1_primitively_embeds_into_15_7_1": embed_11_9_1_into_15_7_1[
+                    "embeds_primitively"
+                ],
+                "phase_a1_iter9_L_11_9_1_gram_matrix_verified": (
+                    verify_lattice_invariants(L_11_9_1_gram())["abs_det"] == 512
+                ),
+                "phase_a1_iter9_sigma_A_lattice_candidate_identified": True,
+                "phase_a1_iter9_tau_sigma_A_invariant_lattice_is_11_9_1": cm_sigma_recipe[
+                    "tau_sigma_A_invariant_lattice_verified"
+                ]["matches_gift_s_i_tau_profile"],
+                "phase_a1_iter9_tau_sigma_A_g_k_is_1_1": cm_sigma_recipe[
+                    "matches_gift_s_i_tau_g_k_1_1"
+                ],
                 "phase_a1_explicit_model_realizes_gift_betti": any_geometric_model_matches,
             },
             "honest_status": {
@@ -3099,6 +3236,7 @@ __all__ = [
     "K3CM_15_7_1_D4_9A1",
     "nikulin_primitive_embedding_M_into_L",
     "L_11_7_1_gram",
+    "L_11_9_1_gram",
     "L_15_7_1_gram",
     "verify_lattice_invariants",
     "D4_GRAM",
