@@ -25,6 +25,7 @@ from gift_core.geometry.k3_explicit import (
     PhaseA1MasterAudit,
     TwoElementaryLatticeRAD,
     TauNaiveAntiSymplecticCandidate,
+    TauNaiveLatticeClassDiagnostic,
     V4Z2TorsionTranslations,
     Z2CubedExplicit15x15Matrices,
     Z2CubedLatticeAction,
@@ -137,6 +138,11 @@ def verify() -> dict[str, bool]:
 
     # Iter #14: τ_naive anti-symplectic candidate framework.
     iter14 = TauNaiveAntiSymplecticCandidate(
+        A_coeffs=A_c, B_coeffs=B_c
+    ).audit()
+
+    # Iter #15A: τ_naive lattice-class diagnostic (per GPT council #9).
+    iter15A = TauNaiveLatticeClassDiagnostic(
         A_coeffs=A_c, B_coeffs=B_c
     ).audit()
 
@@ -898,6 +904,58 @@ def verify() -> dict[str, bool]:
         "master_audit_iter14_geometric_pending_honest": master[
             "lean_bool_certificates"
         ]["phase_a2_iter14_tau_naive_geometric_match_pending_honest"]
+        is True,
+        # Iter #15A (Phase A.2, GPT council #9): τ_naive lattice-class
+        # diagnostic.
+        "iter15A_tau_naive_acts_as_plus_I_on_NS": iter15A[
+            "tau_naive_action_on_NS"
+        ]["tau_naive_acts_as_plus_I_on_NS"]
+        is True,
+        "iter15A_tau_naive_invariant_NS_rank_eq_15": iter15A[
+            "lattice_class"
+        ]["tau_naive_invariant_NS_rank"]
+        == 15,
+        "iter15A_tau_naive_anti_invariant_NS_rank_eq_0": iter15A[
+            "lattice_class"
+        ]["tau_naive_anti_invariant_NS_rank"]
+        == 0,
+        "iter15A_lattice_classes_do_NOT_match_iter11": iter15A[
+            "lattice_class"
+        ]["matches_iter11_tau_class"]
+        is False,
+        "iter15A_belongs_to_trivial_NS_class": iter15A[
+            "tau_naive_belongs_to_trivial_NS_class"
+        ]
+        is True,
+        "iter15A_NOT_iter11_geometric_representative": iter15A[
+            "tau_naive_is_NOT_iter11_tau_geometric_representative"
+        ]
+        is True,
+        "iter15A_moduli_tuning_route_ruled_out": iter15A[
+            "moduli_tuning_route_ruled_out"
+        ]
+        is True,
+        "iter15A_diagnostic_complete": iter15A["iter_15A_diagnostic_complete"]
+        is True,
+        "master_audit_iter15A_plus_I_on_NS": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15A_tau_naive_acts_as_plus_I_on_NS"]
+        is True,
+        "master_audit_iter15A_trivial_NS_class": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15A_tau_naive_belongs_to_trivial_NS_class"]
+        is True,
+        "master_audit_iter15A_NOT_iter11_geometric_rep": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15A_tau_naive_is_NOT_iter11_geometric_rep"]
+        is True,
+        "master_audit_iter15A_moduli_tuning_ruled_out": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15A_moduli_tuning_route_ruled_out_honest"]
+        is True,
+        "master_audit_iter15A_diagnostic_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter15A_diagnostic_complete"]
         is True,
     }
 

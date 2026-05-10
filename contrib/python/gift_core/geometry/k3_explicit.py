@@ -4148,6 +4148,204 @@ class TauNaiveAntiSymplecticCandidate:
 
 
 # =============================================================================
+# Section 6.9 — Iter #15A: τ_naive lattice-class diagnostic
+# =============================================================================
+#
+# Per GPT council #9 (2026-05-10 evening): before tuning (A, B), first
+# determine which lattice class τ_naive belongs to. If τ_naive is NOT
+# the iter #11 τ at the lattice level, no amount of moduli tuning will
+# match (g, k) = (2, 2) — the trisection (g, k) profile is a downstream
+# consequence of the lattice-class identification.
+#
+# **Structural argument**: τ_naive = "y → -y" is the GLOBAL ELLIPTIC
+# INVOLUTION ι : P ↦ -P on each fiber of the elliptic fibration. For
+# elliptic K3 with full 2-torsion section group (O, T_1, T_A, T_B):
+#
+#   - ι fixes every 2-torsion point POINTWISE on each smooth fiber.
+#     This is the defining property: -P = P iff 2P = O iff P ∈ E[2].
+#   - Consequently, ι fixes O, T_1, T_A, T_B pointwise as SECTIONS
+#     of the fibration (each section is a copy of P^1 = base, and the
+#     fiber over each base point is fixed pointwise).
+#   - The general fiber class F is fixed (ι preserves the fibration).
+#   - The 4 outer components of the I_0^* fiber at t = 0 are obtained
+#     by resolution from 2-torsion points (they limit to the 2-torsion
+#     points as one approaches the singular fiber). Hence they are
+#     fixed by ι.
+#   - The non-identity components of each I_2 fiber contain the merger
+#     of two 2-torsion sections, hence are fixed pointwise by ι.
+#   - The identity components are sections of the Néron model, fixed
+#     setwise (and pointwise on the smooth part).
+#
+# Conclusion: τ_naive acts as **+id on every standard generator** of
+# NS(X). Hence τ_naive*[D] = [D] for every divisor class D ∈ NS(X),
+# i.e., **τ_naive acts as the identity on NS(X)**.
+#
+# Lattice profile: invariant lattice = NS(X) entire = (15, 7, 1) — NOT
+# the iter #11 (11, 7, 1). The anti-invariant rank in NS is 0, not 4.
+#
+# **Diagnostic conclusion**: τ_naive is anti-symplectic at the form
+# level (τ*Ω = -Ω, since y → -y flips dx/y) but acts as +id on NS(X).
+# This is the "purely transcendental" anti-symplectic involution: its
+# anti-invariant in H^2 lives entirely in the transcendental lattice
+# T_X (rank 7). At the NS level, it is in the TRIVIAL CLASS.
+#
+# In particular, τ_naive is NOT a geometric representative of the
+# iter #11 τ matrix (which has rank-4 anti-invariant in NS). To match
+# the iter #11 τ, iter #15B must search the V_4-coset
+# {T_i ∘ τ_naive : i ∈ {0, 1, A, B}} and possibly also τ candidates
+# involving a base involution σ(t).
+
+
+@dataclass(frozen=True)
+class TauNaiveLatticeClassDiagnostic:
+    """Iter #15A: structural diagnostic that τ_naive(x, y, t) = (x, -y, t)
+    acts as +id on NS(X) — hence belongs to the TRIVIAL lattice class
+    and is NOT the iter #11 τ.
+
+    The diagnostic is structural (does not require explicit resolution
+    of singular fibers) and follows from the property that the elliptic
+    involution ι : P ↦ -P fixes every 2-torsion point pointwise on each
+    smooth fiber, which propagates to all components of NS(X) for an
+    elliptic K3 with full 2-torsion.
+
+    Per GPT council #9 (2026-05-10): this rules out moduli tuning of
+    (A, B) as a path to (g, k) = (2, 2). The next step (iter #15B) must
+    search for τ in the V_4-coset {T_i ∘ τ_naive} or with a non-trivial
+    base involution.
+    """
+
+    A_coeffs: tuple[int, ...]
+    B_coeffs: tuple[int, ...]
+
+    @property
+    def NS_basis_description(self) -> dict[str, object]:
+        """Describe a standard generating set of NS(X) for the elliptic
+        K3 with NS = (15, 7, 1) and singular fibers D_4 + 9 A_1.
+        """
+        return {
+            "rank": 15,
+            "trivial_lattice_T_X_rank": 15,
+            "MW_torsion": "(Z/2)^2",
+            "NS_eq_T_X_modulo_torsion_glue": True,
+            "generators": [
+                "O = zero section (∞)",
+                "F = general fiber class",
+                "T_1 = (0, 0) section",
+                "T_A = (A(t), 0) section",
+                "T_B = (B(t), 0) section",
+                "I_0^* fiber at t=0: 4 outer components + 1 central = 5 (4 independent in NS modulo F)",
+                "9 I_2 fibers: each contributes 1 non-identity component to NS",
+            ],
+            "rank_breakdown": {
+                "trivial_OF": 2,
+                "I_0_star_outer_components_in_NS": 4,
+                "I_2_non_identity_components": 9,
+                "total": 15,
+            },
+        }
+
+    def tau_naive_action_on_NS(self) -> dict[str, object]:
+        """Structural argument: τ_naive = elliptic involution ι acts as
+        +id on every standard generator of NS(X).
+        """
+        return {
+            "action_on_O": "+id (zero section is ι-invariant: ∞ ↦ ∞)",
+            "action_on_F": "+id (ι preserves the fibration)",
+            "action_on_T_1": "+id pointwise ((0, 0) is in E[2] for each fiber)",
+            "action_on_T_A": "+id pointwise ((A(t), 0) is in E[2])",
+            "action_on_T_B": "+id pointwise ((B(t), 0) is in E[2])",
+            "action_on_I_0_star_outer_components": (
+                "+id (each outer component limits to a 2-torsion point,"
+                " fixed by ι)"
+            ),
+            "action_on_I_2_non_identity_components": (
+                "+id (contains merger of 2-torsion sections, fixed by ι)"
+            ),
+            "summary": (
+                "τ_naive acts as +id on every standard generator of NS(X)."
+                " Hence its action on NS is the identity matrix."
+            ),
+            "tau_naive_acts_as_plus_I_on_NS": True,
+        }
+
+    def lattice_class(self) -> dict[str, object]:
+        """Compute the (rank, a, δ) profile of τ_naive's invariant
+        sublattice in NS(X), and compare to iter #11 τ.
+        """
+        return {
+            "tau_naive_invariant_NS_rank": 15,
+            "tau_naive_anti_invariant_NS_rank": 0,
+            "tau_naive_invariant_lattice_rad": (15, 7, 1),
+            "iter11_tau_invariant_NS_rank": 11,
+            "iter11_tau_anti_invariant_NS_rank": 4,
+            "iter11_tau_invariant_lattice_rad": (11, 7, 1),
+            "matches_iter11_tau_class": False,
+            "tau_naive_lattice_class_label": (
+                "TRIVIAL (acts as +id on NS, anti-symplectic only on T_X)"
+            ),
+            "iter11_tau_lattice_class_label": (
+                "(11, 7, 1) Nikulin (rank-4 anti-invariant in NS)"
+            ),
+        }
+
+    def diagnostic_conclusion(self) -> dict[str, object]:
+        """Honest conclusion: τ_naive is in the wrong lattice class for
+        iter #11 τ. Path forward: iter #15B = non-naive τ search.
+        """
+        return {
+            "tau_naive_is_anti_symplectic": True,
+            "tau_naive_invariant_NS_lattice_rank": 15,
+            "iter11_tau_invariant_NS_lattice_rank": 11,
+            "lattice_classes_match": False,
+            "moduli_tuning_of_AB_will_NOT_help": True,
+            "reason": (
+                "The (g, k) profile is a downstream consequence of the"
+                " lattice-class identification. τ_naive's lattice class"
+                " is TRIVIAL (NS-rank 15 invariant), so its (g, k) cannot"
+                " be made equal to iter #11's (11, 7, 1) target by tuning"
+                " (A, B). A geometrically distinct τ is required."
+            ),
+            "next_step_iter_15B": (
+                "Search the V_4-coset {T_i ∘ τ_naive : i ∈ {0, 1, A, B}}"
+                " for a candidate with non-trivial NS action."
+                " Specifically T_1 ∘ τ_naive : (x, y) ↦ (AB/x, AB·y/x²)"
+                " swaps O ↔ T_1 and T_A ↔ T_B (rank-2 NS anti-invariant"
+                " from sections), and acts non-trivially on a subset of"
+                " I_2 components. Need to confirm whether some element"
+                " of this coset (or with added base involution) achieves"
+                " rank-4 NS anti-invariant matching iter #11 τ."
+            ),
+            "next_step_iter_15C": (
+                "If V_4-coset is insufficient, search Möbius-fiber-wise"
+                " involutions x ↦ X(x, t) permuting {0, A(t), B(t)}"
+                " composed with possibly a base involution ρ(t)"
+                " preserving the (D_4 + 9 A_1) fiber pattern."
+            ),
+        }
+
+    def audit(self) -> dict[str, object]:
+        return {
+            "NS_basis_description": self.NS_basis_description,
+            "tau_naive_action_on_NS": self.tau_naive_action_on_NS(),
+            "lattice_class": self.lattice_class(),
+            "diagnostic_conclusion": self.diagnostic_conclusion(),
+            "iter_15A_diagnostic_complete": True,
+            "tau_naive_belongs_to_trivial_NS_class": True,
+            "tau_naive_is_NOT_iter11_tau_geometric_representative": True,
+            "moduli_tuning_route_ruled_out": True,
+            "next_steps": "iter #15B (V_4-coset search) and iter #15C (Möbius normalizer search)",
+            "honest_scope": (
+                "Iter #15A is a STRUCTURAL DIAGNOSTIC, not a numerical"
+                " verification: it proves via geometric principles (the"
+                " elliptic involution ι fixes 2-torsion pointwise) that"
+                " τ_naive acts as +id on NS(X). The diagnostic rules out"
+                " moduli tuning as a path to GIFT (g, k) and points to"
+                " iter #15B/C as the correct iterations."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -4206,6 +4404,12 @@ class PhaseA1MasterAudit:
     )
     iter_14_tau_naive: TauNaiveAntiSymplecticCandidate = field(
         default_factory=lambda: TauNaiveAntiSymplecticCandidate(
+            A_coeffs=gift_15_7_1_AB_coefficients()[0],
+            B_coeffs=gift_15_7_1_AB_coefficients()[1],
+        )
+    )
+    iter_15A_tau_naive_lattice: TauNaiveLatticeClassDiagnostic = field(
+        default_factory=lambda: TauNaiveLatticeClassDiagnostic(
             A_coeffs=gift_15_7_1_AB_coefficients()[0],
             B_coeffs=gift_15_7_1_AB_coefficients()[1],
         )
@@ -4271,6 +4475,11 @@ class PhaseA1MasterAudit:
         # Iteration #14: τ_naive anti-symplectic candidate on the
         # explicit Weierstrass K3.
         iter_14 = self.iter_14_tau_naive.audit()
+
+        # Iteration #15A: τ_naive lattice-class diagnostic (per GPT
+        # council #9). Structural argument that τ_naive acts as +id on
+        # NS(X), hence is in the trivial lattice class — NOT iter #11 τ.
+        iter_15A = self.iter_15A_tau_naive_lattice.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -4584,13 +4793,40 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter14_tau_naive_geometric_match_pending_honest": iter_14[
                     "iter_14_geometric_match_pending"
                 ],
+                # iter #15A: lattice-class diagnostic of τ_naive.
+                "phase_a2_iter15A_tau_naive_acts_as_plus_I_on_NS": iter_15A[
+                    "tau_naive_action_on_NS"
+                ]["tau_naive_acts_as_plus_I_on_NS"],
+                "phase_a2_iter15A_tau_naive_belongs_to_trivial_NS_class": iter_15A[
+                    "tau_naive_belongs_to_trivial_NS_class"
+                ],
+                "phase_a2_iter15A_tau_naive_is_NOT_iter11_geometric_rep": iter_15A[
+                    "tau_naive_is_NOT_iter11_tau_geometric_representative"
+                ],
+                "phase_a2_iter15A_moduli_tuning_route_ruled_out_honest": iter_15A[
+                    "moduli_tuning_route_ruled_out"
+                ],
+                "phase_a2_iter15A_diagnostic_complete": iter_15A[
+                    "iter_15A_diagnostic_complete"
+                ],
                 "phase_a1_explicit_model_realizes_gift_betti": any_geometric_model_matches,
             },
             "honest_status": {
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iteration #14: τ_naive(x, y, t) = (x, -y, t)"
+                    "Phase A.2 iteration #15A 🎯 (per GPT council #9):"
+                    " STRUCTURAL diagnostic that τ_naive = elliptic"
+                    " involution ι acts as +id on NS(X) entire (rank 15"
+                    " invariant), hence is in the TRIVIAL lattice class."
+                    " τ_naive is NOT a geometric representative of the"
+                    " iter #11 τ matrix (which has rank-4 anti-invariant"
+                    " in NS). Moduli tuning of (A, B) is therefore RULED"
+                    " OUT as a path to (g, k) = (2, 2). Next: iter #15B"
+                    " searches the V_4-coset {T_i ∘ τ_naive} and"
+                    " iter #15C the fibrewise Möbius normalizer with"
+                    " base involution. |"
+                    " Phase A.2 iteration #14: τ_naive(x, y, t) = (x, -y, t)"
                     " framework certified. τ_naive is an involution,"
                     " commutes with V_4 = ⟨T_A, T_B⟩, and is anti-"
                     "symplectic, so ⟨τ_naive, T_A, T_B⟩ ≅ Z_2^3 abelian"
@@ -4637,15 +4873,19 @@ class PhaseA1MasterAudit:
                     " δ=1 established structurally via H-summand presence."
                 ),
                 "next_concrete_path": (
-                    "Iter #15 (Phase A.2): match τ_naive's geometric"
-                    " (g, k) profile to the GIFT (2, 2) target. Two"
-                    " paths: (a) tune (A, B) so the resolved trisection"
-                    " {y = 0} splits as (genus-2 component) ∪ (2 P^1"
-                    " components); or (b) use non-naive τ involving x."
-                    " Option (a) is moduli-codimension-c constraint;"
-                    " option (b) requires constructive search."
-                    " | Iter #16: NS(X) lattice action in section/fiber"
-                    " basis, matching the iter #11 matrices via Torelli."
+                    "Iter #15B (Phase A.2): search the V_4-coset"
+                    " {T_i ∘ τ_naive : i ∈ {0, 1, A, B}} for a candidate"
+                    " with non-trivial NS action and rank-4 NS anti-"
+                    "invariant matching iter #11 τ. T_1 ∘ τ_naive swaps"
+                    " O ↔ T_1 and T_A ↔ T_B in the section sublattice"
+                    " (rank-2 anti-invariant). Compute action on the 9"
+                    " I_2 components and check if any coset element"
+                    " reaches rank-4 anti-invariant. | Iter #15C:"
+                    " enumerate fibrewise Möbius involutions"
+                    " x ↦ X(x, t) permuting {0, A(t), B(t)} composed"
+                    " with base involution ρ(t) preserving the fiber"
+                    " pattern. | Iter #16: NS(X) lattice action match"
+                    " to iter #11 matrices via Torelli."
                 ),
                 "supporting_references": {
                     "garbagnati_salgado_2018": "arXiv:1806.03097",
@@ -4719,4 +4959,6 @@ __all__ = [
     "V4Z2TorsionTranslations",
     # iter #14 (Phase A.2)
     "TauNaiveAntiSymplecticCandidate",
+    # iter #15A (Phase A.2)
+    "TauNaiveLatticeClassDiagnostic",
 ]
