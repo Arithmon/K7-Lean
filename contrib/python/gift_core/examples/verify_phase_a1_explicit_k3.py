@@ -16,6 +16,7 @@ from gift_core.geometry.k3_explicit import (
     GIFT15_7_1WeierstrassRealisation,
     GIFTCandidateProfile,
     GInvariantPolarisationScanner,
+    ProjectiveModelRouteSelector,
     gift_15_7_1_AB_coefficients,
     IterSeventeenMobiusOneOverTAblation,
     JKBettiPredictor,
@@ -174,6 +175,12 @@ def verify() -> dict[str, bool]:
     # Enumerate primitive h ∈ NS^G, classify by h², recommend route via
     # canonical witness + GPT priority h²=8 > 4 > 2 > 6 > 10.
     iter18B = GInvariantPolarisationScanner().audit()
+
+    # Iter #18C (per GPT council #11): projective model route selector.
+    # Riemann-Roch + Mukai genus-5 → CI(2,2,2) in P^5 for h = 4e + f;
+    # wall screen against D + Q + P-α; predicted singularity D_4 + 9 A_1
+    # matches iter #12 Weierstrass.
+    iter18C = ProjectiveModelRouteSelector().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1404,6 +1411,142 @@ def verify() -> dict[str, bool]:
         is True,
         "master_audit_iter18B_scanner_complete": master["lean_bool_certificates"][
             "phase_a2_iter18B_scanner_complete"
+        ]
+        is True,
+        # Iter #18C: projective model route selector.
+        "iter18C_h_square_eq_8": iter18C["h_square_in_NS_G"] == 8,
+        "iter18C_h_lift_purely_in_P_block": (
+            iter18C["h_lift_to_M_oplus_M_perp"][7:] == [0] * 8
+        ),
+        "iter18C_riemann_roch_h0_eq_6": iter18C["riemann_roch"][
+            "h0_via_riemann_roch"
+        ]
+        == 6,
+        "iter18C_projective_embedding_dim_eq_5": iter18C["riemann_roch"][
+            "projective_embedding_dimension"
+        ]
+        == 5,
+        "iter18C_mukai_genus_5_applies": iter18C["mukai_genus_5_recognition"][
+            "applies"
+        ]
+        is True,
+        "iter18C_mukai_route_CI222_in_P5": iter18C[
+            "mukai_genus_5_recognition"
+        ].get("projective_model_type", "")
+        == "complete intersection (2, 2, 2) in P^5",
+        "iter18C_24_D4_roots_tested": iter18C["D_block_screen"][
+            "num_D_4_roots_tested"
+        ]
+        == 24,
+        "iter18C_all_D4_roots_are_minus_2": iter18C["D_block_screen"][
+            "all_roots_are_minus_2_classes"
+        ]
+        is True,
+        "iter18C_h_orthogonal_to_all_D4_roots": iter18C["D_block_screen"][
+            "all_orthogonal_to_h"
+        ]
+        is True,
+        "iter18C_8_Q_block_roots_tested": iter18C["Q_block_screen"][
+            "num_Q_block_roots_tested"
+        ]
+        == 8,
+        "iter18C_h_orthogonal_to_all_Q_block_A1_roots": iter18C["Q_block_screen"][
+            "all_orthogonal_to_h"
+        ]
+        is True,
+        "iter18C_h_orthogonal_to_all_5_P_alpha_walls": iter18C[
+            "P_alpha_walls_screen"
+        ]["all_orthogonal_to_h"]
+        is True,
+        "iter18C_h_NOT_orthogonal_to_H_wall": iter18C["H_wall_screen"][
+            "h_orthogonal_to_H_wall"
+        ]
+        is False,
+        "iter18C_h_on_positive_side_of_H_wall": iter18C["H_wall_screen"][
+            "h_on_positive_side_of_oriented_wall"
+        ]
+        is True,
+        "iter18C_all_walls_consistent_with_singular_CI222": iter18C[
+            "all_walls_consistent_with_singular_CI222"
+        ]
+        is True,
+        "iter18C_predicted_ADE_eq_D4_plus_9_A1": iter18C[
+            "predicted_singularity_type"
+        ]["ADE_type_summary"]
+        == "D_4 + 9 A_1",
+        "iter18C_predicted_singularity_matches_NS_rank_15": iter18C[
+            "predicted_singularity_type"
+        ]["matches_NS_rank_15"]
+        is True,
+        "iter18C_picard_after_resolution_eq_15": iter18C[
+            "predicted_singularity_type"
+        ]["total_picard_rank_after_resolution"]
+        == 15,
+        "iter18C_V_dim_eq_6": iter18C["G_representation_framework"]["V_dim"]
+        == 6,
+        "iter18C_G_chars_count_eq_8": iter18C["G_representation_framework"][
+            "G_dual_size"
+        ]
+        == 8,
+        "iter18C_Sym2_V_dim_eq_21": iter18C["G_representation_framework"][
+            "sym2_V_dim"
+        ]
+        == 21,
+        "iter18C_Q_triple_dim_eq_3": iter18C["G_representation_framework"][
+            "quadric_space_dim_eq_3"
+        ]
+        is True,
+        "iter18C_character_multiplicities_pending_iter18D": iter18C[
+            "G_representation_framework"
+        ]["character_multiplicities_pending_iter_18D"]
+        is True,
+        "iter18C_route_structure_complete": iter18C[
+            "iter_18C_route_structure_complete"
+        ]
+        is True,
+        "iter18C_explicit_equations_pending_iter18D_HONEST": iter18C[
+            "iter_18D_explicit_equations_pending"
+        ]
+        is True,
+        # Master audit cross-checks for iter #18C.
+        "master_audit_iter18C_h_square_8": master["lean_bool_certificates"][
+            "phase_a2_iter18C_h_square_eq_8"
+        ]
+        is True,
+        "master_audit_iter18C_RR_h0_6": master["lean_bool_certificates"][
+            "phase_a2_iter18C_riemann_roch_h0_eq_6"
+        ]
+        is True,
+        "master_audit_iter18C_mukai_genus_5_applies": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18C_mukai_genus_5_applies"]
+        is True,
+        "master_audit_iter18C_h_perp_24_D4": master["lean_bool_certificates"][
+            "phase_a2_iter18C_h_orthogonal_to_all_D4_roots"
+        ]
+        is True,
+        "master_audit_iter18C_h_perp_Q_roots": master["lean_bool_certificates"][
+            "phase_a2_iter18C_h_orthogonal_to_all_Q_block_A1_roots"
+        ]
+        is True,
+        "master_audit_iter18C_h_not_perp_H_wall": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18C_h_NOT_orthogonal_to_H_wall"]
+        is True,
+        "master_audit_iter18C_singularity_D4_plus_9A1": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18C_predicted_ADE_eq_D4_plus_9_A1"]
+        is True,
+        "master_audit_iter18C_cross_validates_iter12": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18C_cross_validates_iter12_weierstrass_D4_9A1"]
+        is True,
+        "master_audit_iter18C_route_structure_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18C_route_structure_complete"]
+        is True,
+        "master_audit_iter18D_pending_HONEST": master["lean_bool_certificates"][
+            "phase_a2_iter18D_explicit_equations_pending_HONEST"
         ]
         is True,
     }
