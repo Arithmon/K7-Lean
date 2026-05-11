@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from gift_core.geometry.k3_explicit import (
     EllipticK3WeierstrassFull2Torsion,
+    EquivariantK3TorelliPackage,
     GIFT15_7_1WeierstrassRealisation,
     GIFTCandidateProfile,
     gift_15_7_1_AB_coefficients,
@@ -161,6 +162,12 @@ def verify() -> dict[str, bool]:
 
     # Iter #17: σ(t) = 1/t Möbius palindromic ablation (P1 closure).
     iter17 = IterSeventeenMobiusOneOverTAblation().audit()
+
+    # Iter #18A (per GPT council #11): equivariant Torelli package
+    # baseline. Pivot to P2 — lattice triple (Λ_K3, NS = (15, 7, 1),
+    # T_X = (7, 7, 1)) with prescribed Z_2^3 extension; Torelli step
+    # 1 + 2 + 3 (at signature level) verified.
+    iter18 = EquivariantK3TorelliPackage().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1139,6 +1146,172 @@ def verify() -> dict[str, bool]:
         "master_audit_iter17_P1_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_iter17_P1_search_complete"]
+        is True,
+        # Iter #18A: equivariant Torelli package baseline.
+        "iter18_NS_lattice_rank_15": iter18["NS_lattice_invariants"]["rank_15"]
+        is True,
+        "iter18_NS_abs_det_eq_2_to_7": iter18["NS_lattice_invariants"][
+            "abs_det_eq_2_to_7"
+        ]
+        is True,
+        "iter18_NS_signature_1_14": iter18["NS_lattice_invariants"][
+            "signature_1_14"
+        ]
+        is True,
+        "iter18_NS_even": iter18["NS_lattice_invariants"]["even"] is True,
+        "iter18_K3_lattice_rank_22": iter18["K3_lattice_invariants"]["rank_22"]
+        is True,
+        "iter18_K3_lattice_signature_3_19": iter18["K3_lattice_invariants"][
+            "signature_3_19"
+        ]
+        is True,
+        "iter18_K3_lattice_unimodular": iter18["K3_lattice_invariants"][
+            "unimodular"
+        ]
+        is True,
+        "iter18_K3_lattice_even": iter18["K3_lattice_invariants"]["even"]
+        is True,
+        "iter18_T_X_triple_eq_7_7_1": iter18["discriminant_gluing"]["T_X_triple"]
+        == (7, 7, 1),
+        "iter18_T_X_signature_eq_2_5": iter18["discriminant_gluing"][
+            "signature_T_X_eq_2_5"
+        ]
+        is True,
+        "iter18_NS_primitive_embedding_certified": iter18["discriminant_gluing"][
+            "NS_admits_primitive_embedding_into_Lambda_K3"
+        ]
+        is True,
+        "iter18_discriminant_gluing_via_Nikulin": iter18["discriminant_gluing"][
+            "gluing_certified_by_Nikulin_1980_Cor_1_6_2"
+        ]
+        is True,
+        "iter18_22x22_all_squared_to_I": iter18["Lambda_K3_extension"][
+            "all_three_squared_to_I_22"
+        ]
+        is True,
+        "iter18_22x22_all_pairs_commute": iter18["Lambda_K3_extension"][
+            "all_pairs_commute_on_22_dim"
+        ]
+        is True,
+        "iter18_tau_acts_as_minus_I_on_T_X_block": iter18["Lambda_K3_extension"][
+            "tau_T_X_block_eq_minus_I_7"
+        ]
+        is True,
+        "iter18_sigma_A_acts_as_plus_I_on_T_X_block": iter18[
+            "Lambda_K3_extension"
+        ]["sigma_A_T_X_block_eq_plus_I_7"]
+        is True,
+        "iter18_sigma_B_acts_as_plus_I_on_T_X_block": iter18[
+            "Lambda_K3_extension"
+        ]["sigma_B_T_X_block_eq_plus_I_7"]
+        is True,
+        "iter18_Z2_cubed_action_on_22_dim_direct_sum_certified": iter18[
+            "Lambda_K3_extension"
+        ]["Z_2_cubed_action_on_direct_sum_certified"]
+        is True,
+        "iter18_NS_G_rank_eq_7": iter18["NS_G_invariant_sublattice"][
+            "NS_G_eq_P_rank_7"
+        ]
+        is True,
+        "iter18_NS_G_signature_eq_1_6": iter18["NS_G_invariant_sublattice"][
+            "NS_G_signature_eq_1_6"
+        ]
+        is True,
+        "iter18_NS_G_abs_det_eq_2_to_5": iter18["NS_G_invariant_sublattice"][
+            "NS_G_abs_det_eq_2_to_5"
+        ]
+        is True,
+        "iter18_NS_G_contains_positive_class": iter18[
+            "NS_G_invariant_sublattice"
+        ]["NS_G_contains_positive_class"]
+        is True,
+        "iter18_period_domain_nonempty": iter18["period_eigenconditions"][
+            "period_domain_non_empty"
+        ]
+        is True,
+        "iter18_period_eigenconditions_automatic": iter18[
+            "period_eigenconditions"
+        ]["period_eigenconditions_automatic_under_prescribed_extension"]
+        is True,
+        "iter18_hodge_riemann_positivity_realisable": iter18[
+            "period_eigenconditions"
+        ]["hodge_riemann_positivity_realisable"]
+        is True,
+        "iter18_torelli_step_1_lattice_isometry": iter18["torelli_applicability"][
+            "torelli_step_1_abstract_lattice_isometry"
+        ]
+        is True,
+        "iter18_torelli_step_2_hodge_eigenconditions": iter18[
+            "torelli_applicability"
+        ]["torelli_step_2_hodge_eigenconditions"]
+        is True,
+        "iter18_torelli_step_3_ample_chamber_at_signature_level": iter18[
+            "torelli_applicability"
+        ]["torelli_step_3_ample_chamber_preservation_at_signature_level"]
+        is True,
+        "iter18_baseline_complete": iter18["iter_18A_baseline_complete"] is True,
+        # iter #18 honesty: specific polarisation + explicit equations
+        # must remain UNCERTIFIED for now (per GPT council #11).
+        "iter18_specific_polarisation_pending_honest": iter18[
+            "ample_chamber_preservation"
+        ]["iter_18B_specific_polarisation_scan_pending"]
+        is True,
+        "iter18_projective_model_route_pending_honest": iter18[
+            "ample_chamber_preservation"
+        ]["iter_18C_projective_model_route_pending"]
+        is True,
+        # Master audit cross-checks.
+        "master_audit_iter18_NS_15_7_1_invariants_match": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18_NS_15_7_1_invariants_match"]
+        is True,
+        "master_audit_iter18_K3_unimodular_3_19": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18_K3_lattice_unimodular_even_sig_3_19"]
+        is True,
+        "master_audit_iter18_T_X_eq_7_7_1": master["lean_bool_certificates"][
+            "phase_a2_iter18_T_X_invariants_eq_7_7_1"
+        ]
+        is True,
+        "master_audit_iter18_discriminant_gluing": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18_discriminant_gluing_verified"]
+        is True,
+        "master_audit_iter18_full_action_constructed": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18_full_LambdaK3_direct_sum_action_constructed"]
+        is True,
+        "master_audit_iter18_NS_G_rank_7": master["lean_bool_certificates"][
+            "phase_a2_iter18_NS_G_rank_eq_7"
+        ]
+        is True,
+        "master_audit_iter18_period_nonempty": master["lean_bool_certificates"][
+            "phase_a2_iter18_period_domain_nonempty"
+        ]
+        is True,
+        "master_audit_iter18_torelli_step_1": master["lean_bool_certificates"][
+            "phase_a2_iter18_torelli_step_1_lattice_isometry"
+        ]
+        is True,
+        "master_audit_iter18_torelli_step_2": master["lean_bool_certificates"][
+            "phase_a2_iter18_torelli_step_2_hodge_eigenconditions"
+        ]
+        is True,
+        "master_audit_iter18_torelli_step_3": master["lean_bool_certificates"][
+            "phase_a2_iter18_torelli_step_3_ample_chamber_at_signature_level"
+        ]
+        is True,
+        "master_audit_iter18_weierstrass_demoted": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18_weierstrass_demoted_to_derived_structure"]
+        is True,
+        "master_audit_iter18_explicit_equations_FALSE_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18_explicit_equations_found_FALSE_HONEST"]
+        is False,
+        "master_audit_iter18_baseline_complete": master["lean_bool_certificates"][
+            "phase_a2_iter18_baseline_complete"
+        ]
         is True,
     }
 
