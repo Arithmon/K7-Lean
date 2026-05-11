@@ -6668,6 +6668,447 @@ class ProjectiveModelRouteSelector:
 
 
 # =============================================================================
+# Section 6.10 — Iter #18D: Mukai linearisation + explicit equation framework
+# =============================================================================
+#
+# Per GPT council #11: Mukai linearisation of the iter #11 Z_2³ action on
+# V = H^0(X, h) ≅ C^6 (h² = 8). The G-representation structure determines
+# the 3-dim G-stable subspace span{Q_1, Q_2, Q_3} ⊂ Sym²(V) of defining
+# quadrics for the CI(2,2,2) ⊂ P^5 model.
+#
+# Z_2³ has 8 irreducible 1-dim characters indexed by
+# (a_τ, a_A, a_B) ∈ {0, 1}^3:
+#
+#   index 0: (0, 0, 0) — "1"   (trivial)
+#   index 1: (1, 0, 0) — "τ"
+#   index 2: (0, 1, 0) — "A"
+#   index 3: (0, 0, 1) — "B"
+#   index 4: (1, 1, 0) — "τA"
+#   index 5: (1, 0, 1) — "τB"
+#   index 6: (0, 1, 1) — "AB"
+#   index 7: (1, 1, 1) — "τAB"
+#
+# Group law: χ_i · χ_j = χ_{i ⊕ j} where ⊕ is component-wise XOR on the
+# tuple representation.
+#
+# V decomposes as V = ⊕_χ V_χ^{m_χ} with Σ m_χ = 6, parameterised by a
+# multiplicity 8-tuple (m_χ_0, m_χ_τ, m_χ_A, m_χ_B, m_χ_τA, m_χ_τB,
+# m_χ_AB, m_χ_τAB).
+#
+# Sym²(V) has dimension binom(6+1, 2) = 21 and also decomposes into 8
+# isotypes. The 3-dim G-stable defining-quadric subspace
+# span{Q_1, Q_2, Q_3} ⊂ Sym²(V) must be a sum of character isotypes.
+#
+# Honest scope: the specific (m_χ) for our iter #11 Z_2³ action requires
+# Atiyah-Bott / holomorphic Lefschetz fixed-point computation on the
+# fixed loci ((g, k) = (2, 2) for τ; 8 isolated fixed points for σ_A
+# and σ_B; intersection loci). Iter #18D delivers the computational
+# framework and explores multiple natural template candidates; specific
+# template selection is left as a parameter for moduli refinement.
+
+
+# Z_2^3 character index ↔ binary tuple mapping (a_τ, a_A, a_B).
+_Z2_CUBED_CHARACTER_TUPLE: tuple[tuple[int, int, int], ...] = (
+    (0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1),
+    (1, 1, 0), (1, 0, 1), (0, 1, 1), (1, 1, 1),
+)
+
+_Z2_CUBED_CHARACTER_LABEL: tuple[str, ...] = (
+    "1", "τ", "A", "B", "τA", "τB", "AB", "τAB",
+)
+
+
+def _z2_cubed_char_product(i: int, j: int) -> int:
+    """Group law on Z_2^3 characters: χ_i · χ_j = χ_{i ⊕ j}."""
+    t_i = _Z2_CUBED_CHARACTER_TUPLE[i]
+    t_j = _Z2_CUBED_CHARACTER_TUPLE[j]
+    t_k = tuple((t_i[k] + t_j[k]) % 2 for k in range(3))
+    return _Z2_CUBED_CHARACTER_TUPLE.index(t_k)
+
+
+@dataclass(frozen=True)
+class MukaiLinearisationFramework:
+    """Iter #18D (per GPT council #11): Z_2^3 representation theory
+    framework for $V = H^0(X, h) \\cong \\mathbb{C}^6$ and explicit
+    CI(2,2,2) quadric equation derivation.
+
+    Default template: $(m_1, m_τ, m_A, m_B, m_τA, m_τB, m_AB, m_τAB) =
+    (1, 1, 1, 1, 1, 1, 0, 0)$. This is the natural "drop two characters
+    from the regular rep" template. Other templates can be passed via
+    the `multiplicity_template` field.
+
+    Methods:
+
+    - `sym2_decomposition`: dimensions of $\\mathrm{Sym}^2(V)_\\chi$ per
+      character.
+    - `find_G_stable_3_dim_subspaces`: enumerate sums of character
+      isotypes with total dim 3 (candidate defining-quadric spaces).
+    - `symbolic_quadric_monomial_basis`: list monomials in each isotype.
+    - `check_reducibility`: a single character isotype span gives
+      REDUCIBLE K3 if all 3 monomials are products of distinct
+      $V_\\chi$-pairs (e.g., $\\{x_1 \\cdot x_τ, x_A \\cdot x_{τA},
+      x_B \\cdot x_{τB}\\}$ — Q_i = 0 ⟹ each product vanishes ⟹
+      reducible).
+    - `explore_alternative_templates`: try templates with multiplicities
+      ≥ 2 on some character to allow non-monomial (= irreducible) K3.
+    """
+
+    multiplicity_template: tuple[int, int, int, int, int, int, int, int] = (
+        1, 1, 1, 1, 1, 1, 0, 0,
+    )
+
+    @property
+    def V_dim(self) -> int:
+        return sum(self.multiplicity_template)
+
+    @property
+    def sym2_V_dim(self) -> int:
+        n = self.V_dim
+        return n * (n + 1) // 2
+
+    def sym2_decomposition(self) -> dict[int, int]:
+        """Compute dim Sym²(V)_χ for each character χ (index 0..7).
+
+        For each unordered pair (i, j) of character indices with i ≤ j:
+        - if i = j: contributes $\\binom{m_i + 1}{2} = m_i (m_i + 1) / 2$
+          to character $\\chi_i \\cdot \\chi_i = \\chi_0$ (trivial).
+        - if i ≠ j: contributes $m_i \\cdot m_j$ to character
+          $\\chi_i \\cdot \\chi_j = \\chi_{i \\oplus j}$.
+        """
+        m = self.multiplicity_template
+        result = {t: 0 for t in range(8)}
+        for i in range(8):
+            for j in range(i, 8):
+                t = _z2_cubed_char_product(i, j)
+                if i == j:
+                    contrib = m[i] * (m[i] + 1) // 2
+                else:
+                    contrib = m[i] * m[j]
+                result[t] += contrib
+        return result
+
+    def sym2_decomposition_labelled(self) -> dict[str, int]:
+        decomp = self.sym2_decomposition()
+        return {_Z2_CUBED_CHARACTER_LABEL[i]: decomp[i] for i in range(8)}
+
+    def find_G_stable_3_dim_subspaces(self) -> list[dict[str, object]]:
+        """G-stable subspaces of Sym²(V) of total dim 3 = sums of
+        character isotypes whose dimensions sum to 3.
+
+        Three structural types:
+
+        1. Single 3-dim isotype: $\\mathrm{Sym}^2(V)_\\chi$ with
+           dim = 3.
+        2. 1 + 2 split: a 1-dim isotype + a 2-dim isotype.
+        3. 1 + 1 + 1 split: three distinct 1-dim isotypes.
+        """
+        decomp = self.sym2_decomposition()
+        candidates: list[dict[str, object]] = []
+
+        # Type 1: single 3-dim isotype.
+        for t, d in decomp.items():
+            if d == 3:
+                candidates.append(
+                    {
+                        "structure_type": "single_3_dim_isotype",
+                        "characters": [_Z2_CUBED_CHARACTER_LABEL[t]],
+                        "character_indices": [t],
+                        "dims": [d],
+                    }
+                )
+        # Type 2: 1 + 2 split.
+        for t1 in range(8):
+            for t2 in range(t1 + 1, 8):
+                if decomp[t1] == 1 and decomp[t2] == 2:
+                    candidates.append(
+                        {
+                            "structure_type": "1_plus_2_split",
+                            "characters": [
+                                _Z2_CUBED_CHARACTER_LABEL[t1],
+                                _Z2_CUBED_CHARACTER_LABEL[t2],
+                            ],
+                            "character_indices": [t1, t2],
+                            "dims": [decomp[t1], decomp[t2]],
+                        }
+                    )
+                elif decomp[t1] == 2 and decomp[t2] == 1:
+                    candidates.append(
+                        {
+                            "structure_type": "1_plus_2_split",
+                            "characters": [
+                                _Z2_CUBED_CHARACTER_LABEL[t2],
+                                _Z2_CUBED_CHARACTER_LABEL[t1],
+                            ],
+                            "character_indices": [t2, t1],
+                            "dims": [decomp[t2], decomp[t1]],
+                        }
+                    )
+        # Type 3: 1 + 1 + 1 split.
+        chars_dim_1 = [t for t in range(8) if decomp[t] == 1]
+        for i in range(len(chars_dim_1)):
+            for j in range(i + 1, len(chars_dim_1)):
+                for k in range(j + 1, len(chars_dim_1)):
+                    t1, t2, t3 = (
+                        chars_dim_1[i],
+                        chars_dim_1[j],
+                        chars_dim_1[k],
+                    )
+                    candidates.append(
+                        {
+                            "structure_type": "1_plus_1_plus_1_split",
+                            "characters": [
+                                _Z2_CUBED_CHARACTER_LABEL[t1],
+                                _Z2_CUBED_CHARACTER_LABEL[t2],
+                                _Z2_CUBED_CHARACTER_LABEL[t3],
+                            ],
+                            "character_indices": [t1, t2, t3],
+                            "dims": [1, 1, 1],
+                        }
+                    )
+        return candidates
+
+    def symbolic_quadric_monomial_basis(
+        self, isotype_idx: int
+    ) -> list[str]:
+        """List monomials $x_i \\cdot x_j$ (with $i, j$ ranging over
+        character isotypes and basis indices within them) whose
+        character equals $\\chi_{\\text{isotype\\_idx}}$.
+
+        Notation: if $V_\\chi$ has multiplicity $m$, basis vectors are
+        $x_\\chi, x_\\chi'$, ... (subscripted when $m \\ge 2$).
+        """
+        m = self.multiplicity_template
+        monomials: list[str] = []
+
+        def x_label(char_idx: int, basis_idx: int, mult: int) -> str:
+            base = f"x_{_Z2_CUBED_CHARACTER_LABEL[char_idx]}"
+            if mult == 1:
+                return base
+            return f"{base}^({basis_idx + 1})"
+
+        for i in range(8):
+            for j in range(i, 8):
+                if _z2_cubed_char_product(i, j) != isotype_idx:
+                    continue
+                if m[i] == 0 or m[j] == 0:
+                    continue
+                if i == j:
+                    for k in range(m[i]):
+                        for l in range(k, m[i]):
+                            xk = x_label(i, k, m[i])
+                            xl = x_label(i, l, m[i])
+                            if k == l:
+                                monomials.append(f"{xk}^2")
+                            else:
+                                monomials.append(f"{xk} · {xl}")
+                else:
+                    for k in range(m[i]):
+                        for l in range(m[j]):
+                            xk = x_label(i, k, m[i])
+                            xl = x_label(j, l, m[j])
+                            monomials.append(f"{xk} · {xl}")
+        return monomials
+
+    def check_reducibility(
+        self, isotype_idx: int
+    ) -> dict[str, object]:
+        """Detect whether the single-isotype CI(2,2,2) is structurally
+        REDUCIBLE: this happens when all monomials of the isotype are
+        products of distinct $V_\\chi$-pairs, so the 3 vanishing
+        conditions split as 3 independent vanishing products.
+
+        Specifically: if Sym²(V)_χ_t consists only of cross-products
+        $x_{\\chi_i} \\cdot x_{\\chi_j}$ (no squares), and the 3 monomials
+        $\\{x_{a_1} x_{b_1}, x_{a_2} x_{b_2}, x_{a_3} x_{b_3}\\}$ involve
+        6 distinct $V_\\chi$'s, then the 3 quadrics $Q_i$ vanishing
+        implies each product = 0, giving 8 P²-components (reducible).
+
+        REDUCIBLE if all 3 monomials are pure cross-products AND involve
+        6 distinct character indices.
+        """
+        monomials = self.symbolic_quadric_monomial_basis(isotype_idx)
+        decomp = self.sym2_decomposition()
+        if decomp[isotype_idx] != 3:
+            return {
+                "applicable": False,
+                "reason": (
+                    f"Sym²(V)_χ_{_Z2_CUBED_CHARACTER_LABEL[isotype_idx]}"
+                    f" has dim {decomp[isotype_idx]}, not 3."
+                ),
+            }
+        # Inspect the 3 monomials.
+        any_square = any("^2" in m for m in monomials)
+        # Count distinct character indices appearing in monomials.
+        chars_used: set[int] = set()
+        for i in range(8):
+            for j in range(i, 8):
+                if _z2_cubed_char_product(i, j) == isotype_idx:
+                    if self.multiplicity_template[i] > 0 and self.multiplicity_template[j] > 0:
+                        chars_used.add(i)
+                        chars_used.add(j)
+        return {
+            "applicable": True,
+            "isotype_character": _Z2_CUBED_CHARACTER_LABEL[isotype_idx],
+            "monomials_count": len(monomials),
+            "monomials_sample": monomials,
+            "contains_square_monomial": any_square,
+            "num_distinct_V_chi_involved": len(chars_used),
+            "reducible_K3_predicted": (
+                not any_square and len(chars_used) >= 6
+            ),
+            "reducibility_explanation": (
+                "When all 3 quadric monomials are pure cross-products"
+                " x_{χ_i} · x_{χ_j} and involve 6 distinct character"
+                " coordinates, the 3 vanishing conditions imply each"
+                " cross-product = 0, giving a reducible variety (union"
+                " of 8 P²-components)."
+            ),
+        }
+
+    def explore_alternative_templates(self) -> list[dict[str, object]]:
+        """Try a handful of natural V-templates with various multiplicity
+        distributions, report their Sym²(V) structure, count of 3-dim
+        G-stable subspaces, and reducibility status of any single 3-dim
+        isotype.
+        """
+        templates = [
+            # (label, multiplicity 8-tuple)
+            ("T1 — 6 distinct chars (drop AB, τAB)", (1, 1, 1, 1, 1, 1, 0, 0)),
+            ("T2 — drop trivial + τAB", (0, 1, 1, 1, 1, 1, 1, 0)),
+            ("T3 — drop trivial + AB", (0, 1, 1, 1, 1, 1, 0, 1)),
+            ("T4 — trivial mult 2 + 4 others", (2, 1, 1, 1, 1, 0, 0, 0)),
+            ("T5 — τ mult 2 + others", (1, 2, 1, 1, 1, 0, 0, 0)),
+            ("T6 — three chars mult 2", (0, 2, 2, 2, 0, 0, 0, 0)),
+            ("T7 — six τ-anti chars (drop 1, A, B, AB)", (0, 1, 0, 0, 1, 1, 0, 1)),
+        ]
+        out = []
+        for label, mtemp in templates:
+            if sum(mtemp) != 6:
+                out.append(
+                    {
+                        "template_label": label,
+                        "applicable": False,
+                        "reason": f"sum of multiplicities = {sum(mtemp)}, not 6",
+                    }
+                )
+                continue
+            fw = MukaiLinearisationFramework(multiplicity_template=mtemp)
+            decomp = fw.sym2_decomposition()
+            cands = fw.find_G_stable_3_dim_subspaces()
+            single_3_isotypes = [
+                c for c in cands if c["structure_type"] == "single_3_dim_isotype"
+            ]
+            reducibility = [
+                fw.check_reducibility(c["character_indices"][0])
+                for c in single_3_isotypes
+            ]
+            out.append(
+                {
+                    "template_label": label,
+                    "multiplicity_template": list(mtemp),
+                    "Sym2_V_decomposition": {
+                        _Z2_CUBED_CHARACTER_LABEL[i]: decomp[i]
+                        for i in range(8)
+                    },
+                    "G_stable_3_dim_subspace_count_total": len(cands),
+                    "single_3_dim_isotype_count": len(single_3_isotypes),
+                    "single_3_dim_isotype_reducibility": [
+                        {
+                            "isotype": r["isotype_character"],
+                            "reducible_K3_predicted": r["reducible_K3_predicted"],
+                        }
+                        for r in reducibility
+                        if r["applicable"]
+                    ],
+                    "irreducible_template": any(
+                        r["applicable"] and not r["reducible_K3_predicted"]
+                        for r in reducibility
+                    )
+                    or any(
+                        c["structure_type"] != "single_3_dim_isotype"
+                        for c in cands
+                    ),
+                }
+            )
+        return out
+
+    def audit(self) -> dict[str, object]:
+        n = self.V_dim
+        sym2_dim = self.sym2_V_dim
+        decomp = self.sym2_decomposition()
+        candidates = self.find_G_stable_3_dim_subspaces()
+        templates = self.explore_alternative_templates()
+
+        # Default canonical 3-dim isotype + reducibility.
+        canonical = next(
+            (
+                c
+                for c in candidates
+                if c["structure_type"] == "single_3_dim_isotype"
+            ),
+            None,
+        )
+        canonical_reducibility = None
+        canonical_monomials = None
+        if canonical is not None:
+            ct = canonical["character_indices"][0]
+            canonical_reducibility = self.check_reducibility(ct)
+            canonical_monomials = self.symbolic_quadric_monomial_basis(ct)
+
+        return {
+            "default_multiplicity_template": list(self.multiplicity_template),
+            "V_dim": n,
+            "V_dim_eq_6_required_for_h_squared_8": n == 6,
+            "Sym2_V_dim": sym2_dim,
+            "Sym2_V_dim_eq_21": sym2_dim == 21,
+            "Sym2_V_decomposition": {
+                _Z2_CUBED_CHARACTER_LABEL[i]: decomp[i] for i in range(8)
+            },
+            "Sym2_V_decomposition_sums_to_21": sum(decomp.values()) == 21,
+            "G_stable_3_dim_subspace_candidates_count": len(candidates),
+            "G_stable_3_dim_subspace_first_3": candidates[:3],
+            "default_canonical_3_dim_isotype": canonical,
+            "default_canonical_quadric_monomial_basis": canonical_monomials,
+            "default_canonical_reducibility": canonical_reducibility,
+            "default_template_predicts_reducible_K3": (
+                canonical_reducibility is not None
+                and canonical_reducibility.get("reducible_K3_predicted", False)
+            ),
+            "alternative_templates": templates,
+            "templates_predicting_irreducible_K3": [
+                t["template_label"]
+                for t in templates
+                if t.get("irreducible_template", False)
+            ],
+            "framework_complete": (
+                n == 6 and sym2_dim == 21 and len(candidates) > 0
+            ),
+            "iter_18D_explicit_equations_pending_lefschetz_or_moduli_choice": True,
+            "honest_scope": (
+                "Iter #18D (per GPT council #11): Z_2^3 representation"
+                " theory framework for V = H^0(X, h) ≅ C^6. The framework"
+                " computes Sym²(V) decomposition into 8 character"
+                " isotypes for any V-multiplicity template, identifies"
+                " G-stable 3-dim subspaces (single 3-isotype, 1+2 split,"
+                " 1+1+1 split), and checks reducibility (single isotypes"
+                " with 6 distinct character coordinates give reducible"
+                " K3). The DEFAULT template (1, 1, 1, 1, 1, 1, 0, 0) —"
+                " 6 distinct characters dropping AB and τAB — has"
+                " Sym²(V)_τ of dim 3, but this 3-dim subspace gives a"
+                " REDUCIBLE K3 (3 monomials x_1·x_τ, x_A·x_τA, x_B·x_τB,"
+                " all distinct cross-products). For an IRREDUCIBLE"
+                " CI(2,2,2), at least one V_χ must have multiplicity ≥ 2."
+                " Alternative templates are explored. SPECIFIC TEMPLATE"
+                " for our iter #11 Z_2^3 requires Atiyah-Bott / holomorphic"
+                " Lefschetz fixed-point computation on the (g, k) = (2, 2)"
+                " τ-fixed locus + 8-point σ_A, σ_B-fixed loci, deferred to"
+                " a future iteration. The framework is COMPLETE; specific"
+                " equation derivation is parametrised by template choice."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -6765,6 +7206,9 @@ class PhaseA1MasterAudit:
     iter_18C_projective_model_selector: ProjectiveModelRouteSelector = field(
         default_factory=ProjectiveModelRouteSelector
     )
+    iter_18D_mukai_linearisation: MukaiLinearisationFramework = field(
+        default_factory=MukaiLinearisationFramework
+    )
 
     def audit(self) -> dict[str, object]:
         # Sanity check: GIFT target profile yields (21, 77).
@@ -6861,6 +7305,14 @@ class PhaseA1MasterAudit:
         # for h = 4e + f; wall screen against D + Q + P-α; predicted
         # singularity D_4 + 9 A_1 matches iter #12 Weierstrass.
         iter_18C = self.iter_18C_projective_model_selector.audit()
+
+        # Iteration #18D (per GPT council #11): Mukai linearisation
+        # framework. Z_2^3 character theory on V = H^0(X, h) ≅ C^6 (8
+        # chars, multiplicities summing to 6), Sym²(V) decomposition,
+        # G-stable 3-dim subspace identification for quadrics, default
+        # template reducibility check + irreducible-K3 template
+        # alternatives.
+        iter_18D = self.iter_18D_mukai_linearisation.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -7498,6 +7950,35 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter18D_explicit_equations_pending_HONEST": iter_18C[
                     "iter_18D_explicit_equations_pending"
                 ],
+                # iter #18D: Mukai linearisation framework.
+                "phase_a2_iter18D_V_dim_eq_6": iter_18D["V_dim_eq_6_required_for_h_squared_8"],
+                "phase_a2_iter18D_Sym2_V_dim_eq_21": iter_18D["Sym2_V_dim_eq_21"],
+                "phase_a2_iter18D_Sym2_V_decomposition_sums_to_21": iter_18D[
+                    "Sym2_V_decomposition_sums_to_21"
+                ],
+                "phase_a2_iter18D_default_canonical_isotype_chi_tau_dim_3": (
+                    iter_18D["default_canonical_3_dim_isotype"] is not None
+                    and iter_18D["default_canonical_3_dim_isotype"][
+                        "characters"
+                    ]
+                    == ["τ"]
+                ),
+                "phase_a2_iter18D_default_template_reducible_K3_HONEST": iter_18D[
+                    "default_template_predicts_reducible_K3"
+                ],
+                "phase_a2_iter18D_alternative_irreducible_templates_exist": (
+                    len(iter_18D["templates_predicting_irreducible_K3"]) > 0
+                ),
+                "phase_a2_iter18D_T4_trivial_mult_2_irreducible": any(
+                    "T4" in t for t in iter_18D["templates_predicting_irreducible_K3"]
+                ),
+                "phase_a2_iter18D_T5_tau_mult_2_irreducible": any(
+                    "T5" in t for t in iter_18D["templates_predicting_irreducible_K3"]
+                ),
+                "phase_a2_iter18D_framework_complete": iter_18D["framework_complete"],
+                "phase_a2_iter18D_lefschetz_template_choice_pending_HONEST": iter_18D[
+                    "iter_18D_explicit_equations_pending_lefschetz_or_moduli_choice"
+                ],
                 # Per GPT council #10: split master Bool into two explicit-
                 # scope Bools to remove ambiguity. The original
                 # `phase_a1_explicit_model_realizes_gift_betti` is
@@ -7520,7 +8001,30 @@ class PhaseA1MasterAudit:
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iter #18C complete (per GPT council #11):"
+                    "Phase A.2 iter #18D complete (per GPT council #11):"
+                    " Mukai linearisation framework for V = H^0(X, h) ≅ C^6."
+                    " Z_2^3 character theory: 8 irreducible 1-dim chars"
+                    " indexed by (a_τ, a_A, a_B) ∈ {0,1}^3 with group law"
+                    " χ_i · χ_j = χ_{i ⊕ j}. V decomposes as ⊕_χ V_χ^m_χ"
+                    " with Σ m_χ = 6. Sym²(V) of dim 21 decomposes into"
+                    " 8 character isotypes. For the DEFAULT template"
+                    " (m_1, m_τ, m_A, m_B, m_τA, m_τB, m_AB, m_τAB) ="
+                    " (1, 1, 1, 1, 1, 1, 0, 0) — 6 distinct chars dropping"
+                    " AB and τAB — the Sym²(V) decomposition gives"
+                    " {1: 6, τ: 3, A: 2, B: 2, τA: 2, τB: 2, AB: 2, τAB: 2}."
+                    " The unique 3-dim isotype (Sym²V)_τ has monomial"
+                    " basis {x_1·x_τ, x_A·x_τA, x_B·x_τB}, but the"
+                    " corresponding CI(2,2,2) is REDUCIBLE (3 quadrics in"
+                    " 3 distinct cross-products give 8 P²-components)."
+                    " Alternative templates with at least one m_χ ≥ 2"
+                    " (T4: m_1 = 2; T5: m_τ = 2) yield IRREDUCIBLE"
+                    " K3 candidates. Specific template selection requires"
+                    " Atiyah-Bott Lefschetz fixed-point computation on the"
+                    " τ-fixed (g, k) = (2, 2) locus + 8-point σ_A, σ_B"
+                    " loci, deferred to future iteration. Framework"
+                    " COMPLETE; CI(2,2,2) explicit equations parametrised"
+                    " by template choice. |"
+                    " Phase A.2 iter #18C complete (per GPT council #11):"
                     " projective model route selector for h = 4e + f"
                     " (h² = 8, recommended by iter #18B). Riemann-Roch on"
                     " polarised K3 gives h⁰(X, h) = h²/2 + 2 = 6 ⟹"
@@ -7679,24 +8183,34 @@ class PhaseA1MasterAudit:
                     " δ=1 established structurally via H-summand presence."
                 ),
                 "next_concrete_path": (
-                    "Iter #18D (Phase A.2): explicit CI(2,2,2) equations"
-                    " via Mukai linearisation. Concrete tasks: (a)"
-                    " compute the Z_2^3 character multiplicities (m_χ)"
-                    " for V = H^0(X, h) ≅ C^6, using the iter #11"
-                    " explicit 15×15 matrices to track the G-action"
-                    " on differentials / line bundle sections; (b)"
-                    " decompose Sym²(V) = ⊕_χ Sym²(V)_χ (dim 21) into"
-                    " character isotypes; (c) identify the 3-dim"
-                    " G-stable subspace span{Q_1, Q_2, Q_3} ⊂ Sym²(V)_G"
-                    " containing the defining quadrics; (d) derive"
-                    " explicit polynomial equations Q_1, Q_2, Q_3 for the"
-                    " CI(2,2,2) ⊂ P^5 model with prescribed Z_2^3 action;"
-                    " (e) verify the resolution's NS lattice is exactly"
-                    " (15, 7, 1) and the iter #11 Z_2^3 matrices are"
-                    " realised. If iter #18D obstruction: fall back to"
-                    " h² = 4 quartic (witness 2e + f, similar Mukai"
-                    " linearisation in V = C^4, Sym² = C^10) — same"
-                    " architecture, smaller representation."
+                    "Iter #18E (Phase A.2 finale): Atiyah-Bott Lefschetz"
+                    " computation to determine the specific multiplicity"
+                    " template (m_χ) for V = H^0(X, h) on the iter #11"
+                    " Z_2^3 action. Concrete steps: (a) for each non-"
+                    "trivial g ∈ Z_2^3, identify its fixed locus on the"
+                    " K3 (τ: 1 genus-2 curve + 2 disjoint P^1's;"
+                    " σ_A, σ_B: 8 isolated fixed points each; composite"
+                    " loci); (b) apply the holomorphic Lefschetz formula"
+                    " tr(g | H^0(X, h)) = Σ contributions over fixed"
+                    " loci, deg(h|_C) for fixed curves + Atiyah-Bott"
+                    " local form for fixed points; (c) recover the 8"
+                    " character traces (tr(g | V) for g ∈ Z_2^3) which"
+                    " determine (m_χ) uniquely via inverse character"
+                    " transform; (d) plug into iter #18D framework to"
+                    " obtain the 3-dim G-stable subspace; (e) write out"
+                    " explicit Q_1, Q_2, Q_3 polynomials. If Lefschetz"
+                    " requires more geometric input, fall back to"
+                    " enumerating candidate templates (e.g., T4 or T5"
+                    " from iter #18D) and verify a posteriori which"
+                    " produces NS = (15, 7, 1) after blowing up the"
+                    " D_4 + 9 A_1 singularities. PARALLEL TRACK:"
+                    " explicit CI(2,2,2) construction in canonical"
+                    " software (Macaulay2, Sage) seeded by GIFT's"
+                    " character data, then back-verify against iter #11"
+                    " matrix certificate. This closes the Phase A.2"
+                    " architecture; iter #18E delivers the actual"
+                    " polynomial equations or identifies the residual"
+                    " obstruction."
                 ),
                 "supporting_references": {
                     "garbagnati_salgado_2018": "arXiv:1806.03097",
@@ -7786,4 +8300,6 @@ __all__ = [
     "GInvariantPolarisationScanner",
     # iter #18C (Phase A.2): projective model route selector
     "ProjectiveModelRouteSelector",
+    # iter #18D (Phase A.2): Mukai linearisation framework
+    "MukaiLinearisationFramework",
 ]

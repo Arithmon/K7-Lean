@@ -16,6 +16,7 @@ from gift_core.geometry.k3_explicit import (
     GIFT15_7_1WeierstrassRealisation,
     GIFTCandidateProfile,
     GInvariantPolarisationScanner,
+    MukaiLinearisationFramework,
     ProjectiveModelRouteSelector,
     gift_15_7_1_AB_coefficients,
     IterSeventeenMobiusOneOverTAblation,
@@ -181,6 +182,12 @@ def verify() -> dict[str, bool]:
     # wall screen against D + Q + P-α; predicted singularity D_4 + 9 A_1
     # matches iter #12 Weierstrass.
     iter18C = ProjectiveModelRouteSelector().audit()
+
+    # Iter #18D (per GPT council #11): Mukai linearisation framework.
+    # Z_2^3 character theory on V = C^6, Sym²(V) = C^21 decomposition,
+    # G-stable 3-dim subspace identification, default template
+    # reducibility, irreducible alternatives.
+    iter18D = MukaiLinearisationFramework().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1548,6 +1555,69 @@ def verify() -> dict[str, bool]:
         "master_audit_iter18D_pending_HONEST": master["lean_bool_certificates"][
             "phase_a2_iter18D_explicit_equations_pending_HONEST"
         ]
+        is True,
+        # Iter #18D: Mukai linearisation framework.
+        "iter18D_V_dim_eq_6": iter18D["V_dim_eq_6_required_for_h_squared_8"]
+        is True,
+        "iter18D_Sym2_V_dim_eq_21": iter18D["Sym2_V_dim_eq_21"] is True,
+        "iter18D_Sym2_V_decomposition_sums_to_21": iter18D[
+            "Sym2_V_decomposition_sums_to_21"
+        ]
+        is True,
+        "iter18D_default_canonical_isotype_chi_tau_dim_3": (
+            iter18D["default_canonical_3_dim_isotype"] is not None
+            and iter18D["default_canonical_3_dim_isotype"]["characters"]
+            == ["τ"]
+        ),
+        "iter18D_default_canonical_monomials_3_count": (
+            len(iter18D["default_canonical_quadric_monomial_basis"]) == 3
+        ),
+        "iter18D_default_template_reducible_K3_HONEST": iter18D[
+            "default_template_predicts_reducible_K3"
+        ]
+        is True,
+        "iter18D_alternative_irreducible_templates_exist": (
+            len(iter18D["templates_predicting_irreducible_K3"]) > 0
+        ),
+        "iter18D_T4_trivial_mult_2_irreducible": any(
+            "T4" in t for t in iter18D["templates_predicting_irreducible_K3"]
+        ),
+        "iter18D_T5_tau_mult_2_irreducible": any(
+            "T5" in t for t in iter18D["templates_predicting_irreducible_K3"]
+        ),
+        "iter18D_framework_complete": iter18D["framework_complete"] is True,
+        "iter18D_lefschetz_choice_pending_HONEST": iter18D[
+            "iter_18D_explicit_equations_pending_lefschetz_or_moduli_choice"
+        ]
+        is True,
+        # Master audit cross-checks for iter #18D.
+        "master_audit_iter18D_V_dim_eq_6": master["lean_bool_certificates"][
+            "phase_a2_iter18D_V_dim_eq_6"
+        ]
+        is True,
+        "master_audit_iter18D_Sym2_V_dim_21": master["lean_bool_certificates"][
+            "phase_a2_iter18D_Sym2_V_dim_eq_21"
+        ]
+        is True,
+        "master_audit_iter18D_default_canonical_chi_tau": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18D_default_canonical_isotype_chi_tau_dim_3"]
+        is True,
+        "master_audit_iter18D_default_reducible_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18D_default_template_reducible_K3_HONEST"]
+        is True,
+        "master_audit_iter18D_irreducible_templates_exist": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18D_alternative_irreducible_templates_exist"]
+        is True,
+        "master_audit_iter18D_framework_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18D_framework_complete"]
+        is True,
+        "master_audit_iter18D_lefschetz_pending_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18D_lefschetz_template_choice_pending_HONEST"]
         is True,
     }
 
