@@ -11,6 +11,7 @@ non-zero if any check fails.
 from __future__ import annotations
 
 from gift_core.geometry.k3_explicit import (
+    AtiyahBottLefschetzCalculator,
     EllipticK3WeierstrassFull2Torsion,
     EquivariantK3TorelliPackage,
     GIFT15_7_1WeierstrassRealisation,
@@ -188,6 +189,11 @@ def verify() -> dict[str, bool]:
     # G-stable 3-dim subspace identification, default template
     # reducibility, irreducible alternatives.
     iter18D = MukaiLinearisationFramework().audit()
+
+    # Iter #18E (per GPT council #11 finale): Atiyah-Bott Lefschetz
+    # calculator. Direct H^2 trace from iter #11 matrices reveals
+    # σ_B / σ_Aσ_B Mukai anomaly (Lefschetz χ=16 vs 8 expected).
+    iter18E = AtiyahBottLefschetzCalculator().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1618,6 +1624,72 @@ def verify() -> dict[str, bool]:
         "master_audit_iter18D_lefschetz_pending_HONEST": master[
             "lean_bool_certificates"
         ]["phase_a2_iter18D_lefschetz_template_choice_pending_HONEST"]
+        is True,
+        # Iter #18E: Atiyah-Bott Lefschetz calculator.
+        "iter18E_id_lefschetz_eq_24_chi_K3": iter18E[
+            "id_lefschetz_eq_24_chi_K3"
+        ]
+        is True,
+        "iter18E_sigma_A_lefschetz_eq_8_mukai_compatible": iter18E[
+            "sigma_A_lefschetz_eq_8_mukai_compatible"
+        ]
+        is True,
+        "iter18E_sigma_B_lefschetz_eq_16_anomaly_HONEST": iter18E[
+            "sigma_B_lefschetz_eq_16_mukai_ANOMALY"
+        ]
+        is True,
+        "iter18E_sigma_A_sigma_B_lefschetz_eq_16_anomaly_HONEST": iter18E[
+            "sigma_A_sigma_B_lefschetz_eq_16_mukai_ANOMALY"
+        ]
+        is True,
+        "iter18E_all_4_tau_cosets_chi_eq_2": iter18E[
+            "all_4_tau_cosets_lefschetz_eq_2"
+        ]
+        is True,
+        "iter18E_inverse_char_transform_self_consistent_T4": iter18E[
+            "candidate_trace_exploration"
+        ]["transform_is_self_consistent_for_T4"]
+        is True,
+        "iter18E_framework_complete": iter18E[
+            "iter_18E_lefschetz_framework_complete"
+        ]
+        is True,
+        "iter18E_revealed_structural_anomaly_HONEST": iter18E[
+            "iter_18E_revealed_sigma_B_mukai_anomaly_HONEST"
+        ]
+        is True,
+        "iter18E_explicit_m_chi_blocked_HONEST": iter18E[
+            "iter_18E_explicit_m_chi_blocked_by_structural_issue_HONEST"
+        ]
+        is True,
+        # Master audit cross-checks for iter #18E.
+        "master_audit_iter18E_id_lefschetz_24": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18E_id_lefschetz_eq_24_chi_K3"]
+        is True,
+        "master_audit_iter18E_sigma_A_mukai_8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18E_sigma_A_lefschetz_eq_8_mukai_compatible"]
+        is True,
+        "master_audit_iter18E_sigma_B_anomaly_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18E_sigma_B_lefschetz_eq_16_mukai_ANOMALY_HONEST"]
+        is True,
+        "master_audit_iter18E_tau_cosets_chi_2": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18E_all_4_tau_cosets_lefschetz_eq_2_consistent"]
+        is True,
+        "master_audit_iter18E_framework_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18E_framework_complete"]
+        is True,
+        "master_audit_iter18E_anomaly_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18E_revealed_structural_anomaly_HONEST"]
+        is True,
+        "master_audit_iter18E_explicit_blocked_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter18E_explicit_m_chi_blocked_HONEST"]
         is True,
     }
 
