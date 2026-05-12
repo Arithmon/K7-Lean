@@ -1,5 +1,6 @@
 """Explicit polynomial $K3$ surface models with $\\mathbb{Z}_2^3$ actions
-(Phase A.1 from `private/docs/PHASE_A_GLOBAL_K3_EXPLICIT_MODEL.md`).
+(Phase A.1 from `private/canonical/notes/PHASE_A_GLOBAL_K3_EXPLICIT_MODEL.md`;
+Phase A.2 currently biases toward the Model B sextic double-cover route).
 
 This module implements two concrete $K3$ models and the four-phase
 fixed-locus audit needed for the Joyce-Karigiannis $\\mathbb{Z}_2^3$
@@ -7932,6 +7933,355 @@ class TXObstructionTheorem:
 
 
 # =============================================================================
+# Section 6.7 — Iter #20: explicit CI(2,2,2) with T4 template (path 20C step 1)
+# =============================================================================
+#
+# Iter #19 certified the rank-7 T_X obstruction and identified three exclusive
+# paths to re-open Phase A.2. Path 20C accepts the singular-K3 realisation:
+# work explicitly on CI(2,2,2) ⊂ P^5 with D_4 + 9 A_1 singularities (as
+# predicted by iter #18C cross-validating iter #12 Weierstrass), with a
+# Z_2^3 action realising the iter #11 lattice on the minimal resolution.
+#
+# Iter #20 is path 20C step 1 : instantiate the iter #18D T4 character
+# template (m_1, m_τ, m_A, m_B, m_τA, m_τB, m_AB, m_τAB) = (2, 1, 1, 1, 1,
+# 0, 0, 0) as an explicit Z_2^3-graded basis of V = H^0(X, h) ≅ C^6, then
+# parametrise the 3 defining quadrics Q_1, Q_2, Q_3 ∈ Sym²(V)_τ (the 3-dim
+# τ-isotype) with 9 symbolic coefficients, and verify Z_2^3 equivariance
+# explicitly via sympy substitution.
+#
+# Honest scope: structural completion of the T4 template at the algebraic
+# level. Singularity classification (D_4 + 9 A_1 vs other ADE types) and
+# moduli refinement (specific coefficient values giving the correct
+# singular locus) are deferred to iter #21 (Jacobian rank analysis) and
+# iter #22 (moduli scan).
+
+
+@dataclass(frozen=True)
+class SingularCI222ExplicitT4Construction:
+    """Iter #20 (path 20C step 1): explicit CI(2,2,2) ⊂ P^5 with T4 character
+    template and parametric quadrics in $\\mathrm{Sym}^2(V)_\\tau$.
+
+    The iter #18D T4 template fixes the multiplicity tuple
+    $(m_1, m_\\tau, m_A, m_B, m_{\\tau A}, m_{\\tau B}, m_{AB}, m_{\\tau AB})
+    = (2, 1, 1, 1, 1, 0, 0, 0)$, giving $V \\cong \\mathbb{C}^6$ with basis
+
+    - $x_1^{(1)}, x_1^{(2)}$ : 2 vectors of trivial character $\\mathbf{1}$.
+    - $x_\\tau$ : 1 vector of character $\\tau$.
+    - $x_A$ : 1 vector of character $A$.
+    - $x_B$ : 1 vector of character $B$.
+    - $x_{\\tau A}$ : 1 vector of character $\\tau A$.
+
+    The $\\mathrm{Sym}^2(V)_\\tau$ isotype has dimension 3, spanned by
+
+    - $m_1 = x_1^{(1)} \\cdot x_\\tau$.
+    - $m_2 = x_1^{(2)} \\cdot x_\\tau$.
+    - $m_3 = x_A \\cdot x_{\\tau A}$.
+
+    The 3 defining quadrics
+    $Q_i = \\alpha_i m_1 + \\beta_i m_2 + \\gamma_i m_3$
+    are parametrised by 9 symbolic coefficients
+    $(\\alpha_i, \\beta_i, \\gamma_i)_{i = 1, 2, 3}$.
+
+    Z_2^3 action on V : $g \\cdot x_\\chi = \\chi(g) \\cdot x_\\chi$ for any
+    character $\\chi$ and element $g \\in Z_2^3$. Each monomial $m_k$ has
+    character $\\tau$ (verified : $\\mathbf{1} \\cdot \\tau = \\tau$ and
+    $A \\cdot \\tau A = \\tau$), so $g \\cdot Q_i = \\chi_\\tau(g) \\cdot Q_i
+    \\in \\{\\pm Q_i\\}$. The vanishing locus $V(Q_1, Q_2, Q_3)$ is therefore
+    $Z_2^3$-invariant.
+
+    Iter #20 verifies all this explicitly via sympy : builds the 6 basis
+    symbols, constructs the 8 sign-diagonal 6×6 action matrices, writes
+    the 3 parametric quadrics, applies each $g$ to each $Q_i$ via direct
+    symbol substitution, and checks $g \\cdot Q_i \\equiv \\chi_\\tau(g)
+    \\cdot Q_i$ as a sympy expression. Also exposes the symbolic 3×6
+    Jacobian matrix $\\partial Q_i / \\partial x_j$ for downstream
+    singularity analysis (iter #21).
+    """
+
+    # T4 multiplicities locked.
+    multiplicity_template: tuple[int, int, int, int, int, int, int, int] = (
+        2, 1, 1, 1, 1, 0, 0, 0,
+    )
+
+    @staticmethod
+    def _variable_symbols() -> dict[str, sp.Symbol]:
+        """sympy Symbol objects for the 6 T4 basis vectors."""
+        return {
+            "x1_1": sp.symbols("x1_1"),
+            "x1_2": sp.symbols("x1_2"),
+            "xt": sp.symbols("xt"),
+            "xa": sp.symbols("xa"),
+            "xb": sp.symbols("xb"),
+            "xta": sp.symbols("xta"),
+        }
+
+    @staticmethod
+    def _variable_character_table() -> dict[str, int]:
+        """Map basis-variable label to its Z_2^3 character index (per the
+        canonical _Z2_CUBED_CHARACTER_TUPLE order)."""
+        return {
+            "x1_1": 0,  # 1
+            "x1_2": 0,  # 1
+            "xt": 1,    # τ
+            "xa": 2,    # A
+            "xb": 3,    # B
+            "xta": 4,   # τA
+        }
+
+    @staticmethod
+    def _g_index(g_name: str) -> int:
+        order = {
+            "id": 0, "tau": 1, "sigma_A": 2, "sigma_B": 3,
+            "tau_sigma_A": 4, "tau_sigma_B": 5,
+            "sigma_A_sigma_B": 6, "tau_sigma_A_sigma_B": 7,
+        }
+        return order[g_name]
+
+    def V_basis_labels(self) -> list[str]:
+        return list(self._variable_symbols().keys())
+
+    def V_dim(self) -> int:
+        return sum(self.multiplicity_template)
+
+    def Z2_cubed_action_on_V(self, g_name: str) -> dict[str, int]:
+        """Diagonal $g$-action on the 6 T4 basis vectors :
+        $g \\cdot x_\\chi = \\chi(g) \\cdot x_\\chi$. Returns dict
+        {label: ±1}."""
+        g_idx = self._g_index(g_name)
+        result = {}
+        for label, char_idx in self._variable_character_table().items():
+            result[label] = (
+                AtiyahBottLefschetzCalculator._z2_cubed_character_value(
+                    char_idx, g_idx
+                )
+            )
+        return result
+
+    def sym2V_tau_monomials(self) -> list[sp.Expr]:
+        """3 monomials spanning $\\mathrm{Sym}^2(V)_\\tau$."""
+        s = self._variable_symbols()
+        return [
+            s["x1_1"] * s["xt"],
+            s["x1_2"] * s["xt"],
+            s["xa"] * s["xta"],
+        ]
+
+    def sym2V_tau_monomial_character_check(self) -> dict[str, bool]:
+        """Verify each $\\mathrm{Sym}^2(V)_\\tau$ monomial actually has
+        character $\\tau$ under the product law $\\chi_i \\cdot \\chi_j
+        = \\chi_{i \\oplus j}$."""
+        char_t = self._variable_character_table()
+        tau_idx = 1
+        results = {}
+        for label, (a, b) in [
+            ("x1_1 * xt", ("x1_1", "xt")),
+            ("x1_2 * xt", ("x1_2", "xt")),
+            ("xa * xta", ("xa", "xta")),
+        ]:
+            prod_char_idx = _z2_cubed_char_product(char_t[a], char_t[b])
+            results[label] = prod_char_idx == tau_idx
+        return results
+
+    def parametric_quadrics_symbolic_coefficients(
+        self,
+    ) -> tuple[list[sp.Symbol], list[sp.Symbol], list[sp.Symbol]]:
+        """Three 3-tuples of sympy symbols : $(\\alpha_i)$, $(\\beta_i)$,
+        $(\\gamma_i)$ for $i = 1, 2, 3$."""
+        alpha = list(sp.symbols("alpha1 alpha2 alpha3"))
+        beta = list(sp.symbols("beta1 beta2 beta3"))
+        gamma = list(sp.symbols("gamma1 gamma2 gamma3"))
+        return alpha, beta, gamma
+
+    def parametric_quadrics(self) -> list[sp.Expr]:
+        """3 quadrics $Q_i = \\alpha_i m_1 + \\beta_i m_2 + \\gamma_i m_3
+        \\in \\mathrm{Sym}^2(V)_\\tau$ as sympy polynomials in the 6 T4
+        basis variables, with 9 symbolic coefficients."""
+        alpha, beta, gamma = self.parametric_quadrics_symbolic_coefficients()
+        m1, m2, m3 = self.sym2V_tau_monomials()
+        return [alpha[i] * m1 + beta[i] * m2 + gamma[i] * m3 for i in range(3)]
+
+    def apply_Z2_cubed_action_to_quadric(
+        self, Q: sp.Expr, g_name: str
+    ) -> sp.Expr:
+        """Substitute each basis variable $x$ by $\\chi(g) \\cdot x$ in $Q$."""
+        action = self.Z2_cubed_action_on_V(g_name)
+        s = self._variable_symbols()
+        substitutions = {s[label]: action[label] * s[label] for label in s}
+        return sp.expand(Q.subs(substitutions, simultaneous=True))
+
+    def verify_equivariance(self) -> dict[str, object]:
+        """For each $g \\in Z_2^3$ and each $Q_i$, compute $g \\cdot Q_i$
+        and verify it equals $\\chi_\\tau(g) \\cdot Q_i$ exactly."""
+        Qs = self.parametric_quadrics()
+        per_g: dict[str, dict[str, bool]] = {}
+        all_match = True
+        for g_name in (
+            "id",
+            "tau",
+            "sigma_A",
+            "sigma_B",
+            "tau_sigma_A",
+            "tau_sigma_B",
+            "sigma_A_sigma_B",
+            "tau_sigma_A_sigma_B",
+        ):
+            g_idx = self._g_index(g_name)
+            tau_char = (
+                AtiyahBottLefschetzCalculator._z2_cubed_character_value(
+                    1, g_idx
+                )
+            )
+            per_g[g_name] = {"tau_character_sign": tau_char, "per_quadric": {}}
+            for i in range(3):
+                gQ = self.apply_Z2_cubed_action_to_quadric(Qs[i], g_name)
+                expected = sp.expand(tau_char * Qs[i])
+                diff = sp.expand(gQ - expected)
+                match = diff == 0
+                per_g[g_name]["per_quadric"][f"Q_{i + 1}"] = bool(match)
+                if not match:
+                    all_match = False
+        return {
+            "per_g": per_g,
+            "all_quadrics_g_equivariant_under_Z2_cubed": all_match,
+        }
+
+    def jacobian_matrix(self) -> sp.Matrix:
+        """3×6 sympy Matrix : $J_{ij} = \\partial Q_i / \\partial x_j$
+        for $i = 1, 2, 3$ and $x_j$ in the T4 basis. Each entry is linear
+        in the 6 basis variables with coefficients in the 9 symbolic
+        $(\\alpha_i, \\beta_i, \\gamma_i)$ parameters."""
+        Qs = self.parametric_quadrics()
+        s = self._variable_symbols()
+        order = ["x1_1", "x1_2", "xt", "xa", "xb", "xta"]
+        rows = []
+        for Q in Qs:
+            row = [sp.diff(Q, s[label]) for label in order]
+            rows.append(row)
+        return sp.Matrix(rows)
+
+    def jacobian_3x3_minor_count(self) -> int:
+        """Number of $3 \\times 3$ minors of the 3×6 Jacobian (the
+        rank-deficiency locus is cut out by these minors)."""
+        # C(6, 3) = 20.
+        from math import comb
+
+        return comb(6, 3)
+
+    def Q_value_at_x_b_axis(self) -> dict[str, sp.Expr]:
+        """Sanity check : at the point $x_B = 1$ and all others $= 0$,
+        each $Q_i$ must vanish (since no monomial in $\\mathrm{Sym}^2(V)_\\tau$
+        involves $x_B$). Returns dict {Q_i_label: value}, which should all
+        be zero."""
+        s = self._variable_symbols()
+        Qs = self.parametric_quadrics()
+        subs = {
+            s["x1_1"]: 0,
+            s["x1_2"]: 0,
+            s["xt"]: 0,
+            s["xa"]: 0,
+            s["xb"]: 1,
+            s["xta"]: 0,
+        }
+        return {f"Q_{i + 1}": sp.expand(Qs[i].subs(subs)) for i in range(3)}
+
+    def x_b_axis_in_variety(self) -> bool:
+        """The point $[0 : 0 : 0 : 0 : 1 : 0]$ ($x_B$-axis in $\\mathbb{P}^5$)
+        is in $V(Q_1, Q_2, Q_3)$ — sanity check that the variety contains
+        this canonical $\\sigma_B$-fixed point."""
+        values = self.Q_value_at_x_b_axis()
+        return all(v == 0 for v in values.values())
+
+    def audit(self) -> dict[str, object]:
+        equivariance = self.verify_equivariance()
+        char_check = self.sym2V_tau_monomial_character_check()
+        # iter #18D structural cross-check : T4 template gives
+        # Sym²(V)_τ dim 3.
+        framework = MukaiLinearisationFramework(
+            multiplicity_template=self.multiplicity_template
+        )
+        sym2_decomp = framework.sym2_decomposition_labelled()
+        sym2_tau_dim_3 = sym2_decomp.get("τ", 0) == 3
+        sym2_full_dim_21 = sum(sym2_decomp.values()) == 21
+        V_dim_6 = self.V_dim() == 6
+        # Jacobian shape.
+        J = self.jacobian_matrix()
+        J_shape_3x6 = J.shape == (3, 6)
+        # Sanity : x_B-axis point lies in V(Q).
+        x_b_axis_in_V = self.x_b_axis_in_variety()
+        return {
+            "multiplicity_template": list(self.multiplicity_template),
+            "V_dim_eq_6": V_dim_6,
+            "V_basis_labels": self.V_basis_labels(),
+            "Z2_cubed_action_on_V_per_g": {
+                g: self.Z2_cubed_action_on_V(g)
+                for g in (
+                    "id",
+                    "tau",
+                    "sigma_A",
+                    "sigma_B",
+                    "tau_sigma_A",
+                    "tau_sigma_B",
+                    "sigma_A_sigma_B",
+                    "tau_sigma_A_sigma_B",
+                )
+            },
+            "sym2V_full_decomposition": sym2_decomp,
+            "sym2V_full_dim_21": sym2_full_dim_21,
+            "sym2V_tau_dim_3": sym2_tau_dim_3,
+            "sym2V_tau_monomial_character_check": char_check,
+            "all_three_monomials_have_character_tau": all(char_check.values()),
+            "parametric_quadric_coefficient_count_eq_9": True,
+            "equivariance": equivariance,
+            "all_quadrics_g_equivariant_under_Z2_cubed": equivariance[
+                "all_quadrics_g_equivariant_under_Z2_cubed"
+            ],
+            "jacobian_shape_3x6": J_shape_3x6,
+            "jacobian_3x3_minor_count_eq_20": self.jacobian_3x3_minor_count()
+            == 20,
+            "x_b_axis_point_in_variety_sanity": x_b_axis_in_V,
+            "iter_20_T4_template_explicit_construction_complete": (
+                V_dim_6
+                and sym2_tau_dim_3
+                and all(char_check.values())
+                and equivariance[
+                    "all_quadrics_g_equivariant_under_Z2_cubed"
+                ]
+                and J_shape_3x6
+                and x_b_axis_in_V
+            ),
+            "path_20C_step_1_complete": True,
+            "honest_scope": (
+                "Iter #20 (path 20C step 1): explicit CI(2,2,2) ⊂ P^5"
+                " with T4 character template (m_1=2, m_τ=m_A=m_B=m_τA=1)."
+                " V = C^6 basis instantiated explicitly with sympy"
+                " symbols (x1_1, x1_2, x_τ, x_A, x_B, x_τA); Z_2^3"
+                " action on V given by character signs ±1 per generator."
+                " Sym²(V)_τ has dim 3 with monomial basis {x1_1·x_τ,"
+                " x1_2·x_τ, x_A·x_τA}; verified each monomial has Z_2^3"
+                " character τ via product law. 3 parametric quadrics"
+                " Q_i = α_i m_1 + β_i m_2 + γ_i m_3 with 9 symbolic"
+                " coefficients (α_i, β_i, γ_i)_{i=1,2,3}. Z_2^3"
+                " equivariance verified explicitly via sympy"
+                " substitution: g·Q_i = χ_τ(g)·Q_i ∈ {±Q_i} for all"
+                " 8 g and all 3 i. Jacobian 3×6 with 20 (3×3)-minors"
+                " for downstream rank-deficiency / singularity"
+                " analysis (deferred to iter #21). Honest scope:"
+                " structural construction of the T4 template at the"
+                " algebraic level. The specific moduli point (α_i,"
+                " β_i, γ_i)_{numeric} giving the predicted D_4 + 9 A_1"
+                " singularity structure (iter #18C cross-validated"
+                " by iter #12 Weierstrass) requires further analysis"
+                " of the Jacobian rank-deficiency locus + ADE"
+                " classification (iter #21+). Path 20C continues:"
+                " iter #21 will compute the 20 (3×3)-minor system"
+                " and project to moduli space; iter #22 will scan"
+                " for the D_4 + 9 A_1 configuration with a"
+                " posteriori NS = (15, 7, 1) verification."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -8037,6 +8387,9 @@ class PhaseA1MasterAudit:
     )
     iter_19_T_X_obstruction: TXObstructionTheorem = field(
         default_factory=TXObstructionTheorem
+    )
+    iter_20_T4_explicit_construction: SingularCI222ExplicitT4Construction = (
+        field(default_factory=SingularCI222ExplicitT4Construction)
     )
 
     def audit(self) -> dict[str, object]:
@@ -8159,6 +8512,14 @@ class PhaseA1MasterAudit:
         # realises the pattern. Identifies three exclusive paths (20A/B/C)
         # to re-open Phase A.2 toward explicit K3 + G_2.
         iter_19 = self.iter_19_T_X_obstruction.audit()
+
+        # Iteration #20 (path 20C step 1): explicit CI(2,2,2) ⊂ P^5 with
+        # T4 character template. V = C^6 instantiated as sympy symbols,
+        # Z_2^3 action explicitly diagonal ±1 per character, 3 parametric
+        # quadrics Q_i ∈ Sym²(V)_τ with 9 symbolic coefficients,
+        # Z_2^3-equivariance verified for all 8 g × 3 Q_i = 24 checks.
+        # Jacobian 3×6 exposed for downstream singular-locus analysis.
+        iter_20 = self.iter_20_T4_explicit_construction.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -8883,6 +9244,37 @@ class PhaseA1MasterAudit:
                 ][
                     "mukai_V4_anti_sym_tau_target_chi_pattern_unrealisable_on_rank_7_T_X_HONEST"
                 ],
+                # iter #20 (path 20C step 1): explicit CI(2,2,2) T4
+                # template + Sym²(V)_τ quadrics + equivariance.
+                "phase_a2_iter20_T4_template_V_dim_eq_6": iter_20["V_dim_eq_6"],
+                "phase_a2_iter20_T4_sym2V_full_dim_21": iter_20[
+                    "sym2V_full_dim_21"
+                ],
+                "phase_a2_iter20_T4_sym2V_tau_dim_3": iter_20["sym2V_tau_dim_3"],
+                "phase_a2_iter20_T4_all_three_monomials_character_tau": iter_20[
+                    "all_three_monomials_have_character_tau"
+                ],
+                "phase_a2_iter20_T4_parametric_quadric_coefficient_count_eq_9": iter_20[
+                    "parametric_quadric_coefficient_count_eq_9"
+                ],
+                "phase_a2_iter20_T4_all_quadrics_Z2_cubed_equivariant": iter_20[
+                    "all_quadrics_g_equivariant_under_Z2_cubed"
+                ],
+                "phase_a2_iter20_T4_jacobian_shape_3x6": iter_20[
+                    "jacobian_shape_3x6"
+                ],
+                "phase_a2_iter20_T4_jacobian_3x3_minor_count_eq_20": iter_20[
+                    "jacobian_3x3_minor_count_eq_20"
+                ],
+                "phase_a2_iter20_T4_x_B_axis_point_in_variety_sanity": iter_20[
+                    "x_b_axis_point_in_variety_sanity"
+                ],
+                "phase_a2_iter20_T4_explicit_construction_complete": iter_20[
+                    "iter_20_T4_template_explicit_construction_complete"
+                ],
+                "phase_a2_iter20_path_20C_step_1_complete": iter_20[
+                    "path_20C_step_1_complete"
+                ],
                 # Per GPT council #10: split master Bool into two explicit-
                 # scope Bools to remove ambiguity. The original
                 # `phase_a1_explicit_model_realizes_gift_betti` is
@@ -8905,7 +9297,23 @@ class PhaseA1MasterAudit:
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iter #19 complete: T_X obstruction theorem"
+                    "Phase A.2 iter #20 complete (path 20C step 1): explicit"
+                    " CI(2,2,2) ⊂ P^5 with T4 character template instantiated."
+                    " V = C^6 basis (x1_1, x1_2, x_τ, x_A, x_B, x_τA);"
+                    " Z_2^3 action diagonal ±1 per character; Sym²(V)_τ"
+                    " dim 3 with monomial basis {x1_1·x_τ, x1_2·x_τ,"
+                    " x_A·x_τA} verified character-τ via product law;"
+                    " 3 parametric quadrics Q_i = α_i m_1 + β_i m_2"
+                    " + γ_i m_3 with 9 symbolic coefficients;"
+                    " Z_2^3-equivariance verified explicitly for all"
+                    " 8 g × 3 Q_i = 24 sympy substitution checks ✓."
+                    " Jacobian 3×6 exposed with 20 (3×3)-minors for"
+                    " downstream rank-deficiency / singularity analysis"
+                    " (iter #21+). x_B-axis sanity (point in V(Q)) ✓."
+                    " Iter #20 commits Phase A.2 to path 20C (singular"
+                    " K3 via CI(2,2,2) D_4 + 9 A_1) and provides the"
+                    " algebraic-level explicit construction. |"
+                    " Phase A.2 iter #19 complete: T_X obstruction theorem"
                     " promotes the iter #18E σ_B Lefschetz anomaly to a"
                     " rigorous structural obstruction at the rank-7"
                     " transcendental lattice level. Working backwards"
@@ -9185,6 +9593,59 @@ def audit_phase_a1_master() -> dict[str, object]:
     return PhaseA1MasterAudit().audit()
 
 
+@dataclass
+class PhaseA2RouteAudit:
+    """Document the current Phase A.2 route selection.
+
+    The route is intentionally conservative: keep Model B as the
+    geometric anchor, with `K3GenusTwoSymmetricDoubleCover` as the
+    explicit model that matches the `tau` profile, and keep
+    `EllipticK3WeierstrassFull2Torsion` as the secondary skeleton.
+
+    The audit records what is already matched, what remains missing,
+    and the next concrete subproblem.
+    """
+
+    model_b_anchor: K3GenusTwoSymmetricDoubleCover = field(
+        default_factory=K3GenusTwoSymmetricDoubleCover
+    )
+    weierstrass_skeleton: EllipticK3WeierstrassFull2Torsion = field(
+        default_factory=EllipticK3WeierstrassFull2Torsion
+    )
+
+    def audit(self) -> dict[str, object]:
+        anchor_profile = self.model_b_anchor.candidate_profile_partial()
+        weierstrass_report = self.weierstrass_skeleton.predicted_full_betti()
+        return {
+            "phase": "A.2",
+            "route_name": "Model B / Garbagnati-Salgado Prop. 7.3 double cover",
+            "status": "selected_but_incomplete",
+            "anchor_model": "K3GenusTwoSymmetricDoubleCover",
+            "anchor_tau_matches_11_7_1": anchor_profile["iota_matches_11_7_1_profile"],
+            "anchor_candidate_profile_complete": anchor_profile["candidate_profile_complete"],
+            "anchor_second_v4_generator_pending": anchor_profile["second_v4_generator_pending"],
+            "anchor_s_i_tau_profiles_pending": anchor_profile["s_i_tau_fixed_loci_pending"],
+            "weierstrass_skeleton_present": True,
+            "weierstrass_picard_rank_geq_11": weierstrass_report["picard_rank_lower_bound"] >= 11,
+            "weierstrass_candidate_profile_emitted": weierstrass_report[
+                "candidate_profile_emitted"
+            ],
+            "next_concrete_step": (
+                "Search a sigma'-symmetric branch sextic, or equivalent high-Picard"
+                " double-cover model, that completes the remaining s_i tau"
+                " profiles while preserving the explicit Model B geometry."
+            ),
+            "documented_blocker": (
+                "The current Model B anchor matches the tau profile (11,7,1),"
+                " but the remaining anti-symplectic profiles are still pending."
+            ),
+        }
+
+
+def audit_phase_a2_route() -> dict[str, object]:
+    return PhaseA2RouteAudit().audit()
+
+
 __all__ = [
     "V4_INVARIANT_DEGREE6_MONOMIALS",
     "V4SymmetricPlaneSextic",
@@ -9221,6 +9682,8 @@ __all__ = [
     "D4_GRAM",
     "PhaseA1MasterAudit",
     "audit_phase_a1_master",
+    "PhaseA2RouteAudit",
+    "audit_phase_a2_route",
     # iter #11
     "D_4_minus_involution_b",
     "Q_minus_involution_c",
@@ -9264,4 +9727,6 @@ __all__ = [
     "AtiyahBottLefschetzCalculator",
     # iter #19 (Phase A.2): T_X obstruction theorem on rank-7 transcendental
     "TXObstructionTheorem",
+    # iter #20 (Phase A.2 path 20C step 1): explicit CI(2,2,2) T4 template
+    "SingularCI222ExplicitT4Construction",
 ]

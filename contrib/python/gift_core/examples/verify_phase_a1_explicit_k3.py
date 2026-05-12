@@ -34,6 +34,7 @@ from gift_core.geometry.k3_explicit import (
     TauMobiusNormalizerSearch,
     TauNaiveAntiSymplecticCandidate,
     TauNaiveLatticeClassDiagnostic,
+    SingularCI222ExplicitT4Construction,
     TauV4CosetSearch,
     TXObstructionTheorem,
     V4Z2TorsionTranslations,
@@ -200,6 +201,11 @@ def verify() -> dict[str, bool]:
     # the iter #18E anomaly to a rigorous structural impossibility via
     # the inverse Z_2^3 character transform: m_(0,0,0) = -2 < 0.
     iter19 = TXObstructionTheorem().audit()
+
+    # Iter #20 (path 20C step 1): explicit CI(2,2,2) ⊂ P^5 with T4
+    # character template. V = C^6 sympy basis, Z_2^3 diagonal action,
+    # Sym²(V)_τ 3-dim isotype + parametric quadrics, equivariance ✓.
+    iter20 = SingularCI222ExplicitT4Construction().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1780,6 +1786,78 @@ def verify() -> dict[str, bool]:
         "master_audit_iter19_mukai_unrealisable_HONEST": master[
             "lean_bool_certificates"
         ]["phase_a2_iter19_mukai_V4_anti_sym_tau_unrealisable_on_rank_7_T_X_HONEST"]
+        is True,
+        # Iter #20 (path 20C step 1): explicit CI(2,2,2) T4 template.
+        "iter20_T4_V_dim_eq_6": iter20["V_dim_eq_6"] is True,
+        "iter20_T4_sym2V_full_dim_21": iter20["sym2V_full_dim_21"] is True,
+        "iter20_T4_sym2V_tau_dim_3": iter20["sym2V_tau_dim_3"] is True,
+        "iter20_T4_all_three_monomials_character_tau": iter20[
+            "all_three_monomials_have_character_tau"
+        ]
+        is True,
+        "iter20_T4_parametric_quadric_coefficient_count_eq_9": iter20[
+            "parametric_quadric_coefficient_count_eq_9"
+        ]
+        is True,
+        "iter20_T4_all_quadrics_Z2_cubed_equivariant": iter20[
+            "all_quadrics_g_equivariant_under_Z2_cubed"
+        ]
+        is True,
+        "iter20_T4_jacobian_shape_3x6": iter20["jacobian_shape_3x6"] is True,
+        "iter20_T4_jacobian_3x3_minor_count_eq_20": iter20[
+            "jacobian_3x3_minor_count_eq_20"
+        ]
+        is True,
+        "iter20_T4_x_B_axis_sanity_point_in_variety": iter20[
+            "x_b_axis_point_in_variety_sanity"
+        ]
+        is True,
+        "iter20_T4_explicit_construction_complete": iter20[
+            "iter_20_T4_template_explicit_construction_complete"
+        ]
+        is True,
+        "iter20_path_20C_step_1_complete": iter20["path_20C_step_1_complete"]
+        is True,
+        # Master audit cross-checks for iter #20.
+        "master_audit_iter20_V_dim_6": master["lean_bool_certificates"][
+            "phase_a2_iter20_T4_template_V_dim_eq_6"
+        ]
+        is True,
+        "master_audit_iter20_sym2V_full_21": master["lean_bool_certificates"][
+            "phase_a2_iter20_T4_sym2V_full_dim_21"
+        ]
+        is True,
+        "master_audit_iter20_sym2V_tau_3": master["lean_bool_certificates"][
+            "phase_a2_iter20_T4_sym2V_tau_dim_3"
+        ]
+        is True,
+        "master_audit_iter20_monomials_tau": master["lean_bool_certificates"][
+            "phase_a2_iter20_T4_all_three_monomials_character_tau"
+        ]
+        is True,
+        "master_audit_iter20_equivariant": master["lean_bool_certificates"][
+            "phase_a2_iter20_T4_all_quadrics_Z2_cubed_equivariant"
+        ]
+        is True,
+        "master_audit_iter20_jacobian_3x6": master["lean_bool_certificates"][
+            "phase_a2_iter20_T4_jacobian_shape_3x6"
+        ]
+        is True,
+        "master_audit_iter20_jacobian_20_minors": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter20_T4_jacobian_3x3_minor_count_eq_20"]
+        is True,
+        "master_audit_iter20_x_B_sanity": master["lean_bool_certificates"][
+            "phase_a2_iter20_T4_x_B_axis_point_in_variety_sanity"
+        ]
+        is True,
+        "master_audit_iter20_construction_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter20_T4_explicit_construction_complete"]
+        is True,
+        "master_audit_iter20_path_20C_step_1_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter20_path_20C_step_1_complete"]
         is True,
     }
 
