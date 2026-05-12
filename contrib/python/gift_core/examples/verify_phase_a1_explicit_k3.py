@@ -35,6 +35,7 @@ from gift_core.geometry.k3_explicit import (
     TauNaiveAntiSymplecticCandidate,
     TauNaiveLatticeClassDiagnostic,
     SingularCI222ExplicitT4Construction,
+    T4CI222JacobianRankDeficiencyAnalysis,
     TauV4CosetSearch,
     TXObstructionTheorem,
     V4Z2TorsionTranslations,
@@ -206,6 +207,11 @@ def verify() -> dict[str, bool]:
     # character template. V = C^6 sympy basis, Z_2^3 diagonal action,
     # Sym²(V)_τ 3-dim isotype + parametric quadrics, equivariance ✓.
     iter20 = SingularCI222ExplicitT4Construction().audit()
+
+    # Iter #21 (path 20C step 2): Jacobian rank-deficiency + base locus
+    # decomposition. 20 minors, 14 zero, 6 non-zero factoring through D.
+    # Base locus = 2 three-dim subspaces + 1 one-dim line, all ⊂ V(Q).
+    iter21 = T4CI222JacobianRankDeficiencyAnalysis().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -1858,6 +1864,96 @@ def verify() -> dict[str, bool]:
         "master_audit_iter20_path_20C_step_1_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_iter20_path_20C_step_1_complete"]
+        is True,
+        # Iter #21 (path 20C step 2): Jacobian rank-deficiency + base locus.
+        "iter21_total_minor_count_eq_20": iter21["total_minor_count_eq_20"]
+        is True,
+        "iter21_identically_zero_minor_count_eq_14": iter21[
+            "identically_zero_minor_count_eq_14"
+        ]
+        is True,
+        "iter21_non_zero_minor_count_eq_6": iter21["non_zero_minor_count_eq_6"]
+        is True,
+        "iter21_all_6_non_zero_minors_divisible_by_D": iter21[
+            "all_6_non_zero_minors_divisible_by_D"
+        ]
+        is True,
+        "iter21_base_locus_component_count_eq_3": iter21[
+            "base_locus_component_count_eq_3"
+        ]
+        is True,
+        "iter21_base_locus_C1_in_V_Q": iter21["base_locus_C1_in_variety"]
+        is True,
+        "iter21_base_locus_C2_in_V_Q": iter21["base_locus_C2_in_variety"]
+        is True,
+        "iter21_base_locus_C3_in_V_Q": iter21["base_locus_C3_in_variety"]
+        is True,
+        "iter21_all_3_base_locus_components_in_V_Q": iter21[
+            "all_3_base_locus_components_contained_in_V_Q"
+        ]
+        is True,
+        "iter21_two_3_dim_base_subspaces": iter21[
+            "two_3_dim_base_subspaces_C1_C2"
+        ]
+        is True,
+        "iter21_one_1_dim_base_line": iter21["one_1_dim_base_line_C3"]
+        is True,
+        "iter21_residual_K3_expected_dim_2": iter21[
+            "residual_K3_expected_dim_2"
+        ]
+        is True,
+        "iter21_jacobian_rank_deficiency_complete": iter21[
+            "iter_21_jacobian_rank_deficiency_complete"
+        ]
+        is True,
+        "iter21_residual_extraction_pending_iter_22_HONEST": iter21[
+            "iter_21_residual_K3_extraction_pending_iter_22"
+        ]
+        is True,
+        # Master audit cross-checks for iter #21.
+        "master_audit_iter21_minor_20": master["lean_bool_certificates"][
+            "phase_a2_iter21_total_minor_count_eq_20"
+        ]
+        is True,
+        "master_audit_iter21_zero_14": master["lean_bool_certificates"][
+            "phase_a2_iter21_identically_zero_minor_count_eq_14"
+        ]
+        is True,
+        "master_audit_iter21_non_zero_6": master["lean_bool_certificates"][
+            "phase_a2_iter21_non_zero_minor_count_eq_6"
+        ]
+        is True,
+        "master_audit_iter21_divisible_by_D": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter21_all_6_non_zero_minors_divisible_by_D"]
+        is True,
+        "master_audit_iter21_base_3_components": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter21_base_locus_component_count_eq_3"]
+        is True,
+        "master_audit_iter21_all_3_in_V_Q": master["lean_bool_certificates"][
+            "phase_a2_iter21_all_3_base_locus_components_in_V_Q"
+        ]
+        is True,
+        "master_audit_iter21_two_3_dim": master["lean_bool_certificates"][
+            "phase_a2_iter21_two_3_dim_base_subspaces"
+        ]
+        is True,
+        "master_audit_iter21_one_1_dim": master["lean_bool_certificates"][
+            "phase_a2_iter21_one_1_dim_base_line"
+        ]
+        is True,
+        "master_audit_iter21_residual_dim_2": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter21_residual_K3_expected_dim_2"]
+        is True,
+        "master_audit_iter21_complete": master["lean_bool_certificates"][
+            "phase_a2_iter21_jacobian_rank_deficiency_complete"
+        ]
+        is True,
+        "master_audit_iter21_residual_pending_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter21_residual_extraction_pending_iter_22_HONEST"]
         is True,
     }
 

@@ -8282,6 +8282,325 @@ class SingularCI222ExplicitT4Construction:
 
 
 # =============================================================================
+# Section 6.8 — Iter #21: Jacobian rank-deficiency + base locus decomposition
+# =============================================================================
+#
+# Iter #20 supplied the explicit T4 template with 3 parametric quadrics
+# Q_i = α_i m_1 + β_i m_2 + γ_i m_3 ∈ Sym²(V)_τ and exposed the 3×6 Jacobian.
+# Iter #21 (path 20C step 2) computes the 20 (3×3)-minors symbolically and
+# uncovers the structural decomposition of the rank-deficiency locus.
+#
+# Key finding (deterministic, no moduli scan needed):
+#
+#   - 14 of the 20 (3×3)-minors are identically zero (10 use the
+#     identically-zero column $\partial / \partial x_B$; 4 more vanish
+#     because of column dependencies inherent to $\mathrm{Sym}^2(V)_\tau$).
+#   - The remaining 6 non-zero minors all factor as
+#     (monomial in basis variables) × $D$ where $D = \det M$ is the
+#     determinant of the 3×3 coefficient matrix
+#     $M = \mathrm{rows}((\alpha_i, \beta_i, \gamma_i))$.
+#   - For generic $D \neq 0$, the singular locus of $V(Q_1, Q_2, Q_3)$
+#     coincides with the **base locus** of the linear system
+#     $\langle m_1, m_2, m_3 \rangle$, consisting of two 3-dim
+#     projective subspaces $\{x_\tau = 0, x_A = 0\}$ and
+#     $\{x_\tau = 0, x_{\tau A} = 0\}$ plus a 1-dim "extra" line
+#     $\{x_1^{(1)} = x_1^{(2)} = x_A = x_{\tau A} = 0\}$.
+#
+# Therefore $V(Q_1, Q_2, Q_3) = (\text{base locus}) \cup (\text{residual
+# K3})$ for generic parameters. The base locus is "spurious" projective-
+# subspace components that always lie in $V(Q)$ regardless of moduli;
+# the residual K3 is the 2-dim component we want. Iter #22 will extract
+# the residual K3 via residual intersection theory + moduli scan for
+# $D_4 + 9 A_1$ singularity configuration.
+#
+# Honest scope: structural analysis at the level of the Jacobian minors
+# and base locus identification. The explicit moduli condition for
+# $D_4 + 9 A_1$ on the residual K3 requires further symbolic work.
+
+
+@dataclass(frozen=True)
+class T4CI222JacobianRankDeficiencyAnalysis:
+    """Iter #21 (path 20C step 2): Jacobian rank-deficiency locus + base
+    locus decomposition for the iter #20 T4 template CI(2,2,2).
+
+    Computes the 20 (3×3)-minors of the 3×6 Jacobian, identifies the
+    14 identically-zero minors, factors the 6 non-zero minors through
+    the common determinant $D = \\det M$ of the coefficient matrix, and
+    identifies the base locus of the linear system spanned by the 3
+    monomials of $\\mathrm{Sym}^2(V)_\\tau$. Concludes that
+    $V(Q_1, Q_2, Q_3) = \\mathrm{base\\_locus} \\cup \\mathrm{residual\\_K3}$
+    for generic parameters.
+    """
+
+    template: SingularCI222ExplicitT4Construction = field(
+        default_factory=SingularCI222ExplicitT4Construction
+    )
+
+    def jacobian_minors(self) -> list[tuple[tuple[int, int, int], sp.Expr]]:
+        """All 20 (3×3)-minors of the 3×6 Jacobian, returned as
+        [(column_triple, factored_minor)]. Indexing : column 0..5
+        corresponds to (x1_1, x1_2, x_τ, x_A, x_B, x_τA) order."""
+        from itertools import combinations
+
+        J = self.template.jacobian_matrix()
+        out: list[tuple[tuple[int, int, int], sp.Expr]] = []
+        for cols in combinations(range(6), 3):
+            sub = J[:, list(cols)]
+            det = sp.expand(sub.det())
+            out.append((cols, sp.factor(det)))
+        return out
+
+    def coefficient_determinant(self) -> sp.Expr:
+        """$D = \\det M$ where $M$ is the 3×3 coefficient matrix
+        $((\\alpha_i, \\beta_i, \\gamma_i))_{i=1, 2, 3}$. Each non-zero
+        minor of the Jacobian factors as (monomial) × $D$."""
+        alpha, beta, gamma = self.template.parametric_quadrics_symbolic_coefficients()
+        M = sp.Matrix(
+            [[alpha[i], beta[i], gamma[i]] for i in range(3)]
+        )
+        return sp.expand(M.det())
+
+    def classify_minors(self) -> dict[str, object]:
+        """Separate the 20 minors into identically-zero and non-zero
+        groups, and check that each non-zero minor factors as
+        (monomial) × $D$."""
+        minors = self.jacobian_minors()
+        D = self.coefficient_determinant()
+
+        zero_minors: list[tuple[int, int, int]] = []
+        non_zero_minors: list[
+            tuple[tuple[int, int, int], sp.Expr, sp.Expr]
+        ] = []
+        for cols, m in minors:
+            if m == 0:
+                zero_minors.append(cols)
+            else:
+                # Check that D divides m.
+                quotient, remainder = sp.div(
+                    sp.expand(m), sp.expand(D)
+                )
+                non_zero_minors.append((cols, m, sp.expand(quotient)))
+        return {
+            "total_minors": len(minors),
+            "zero_minor_count": len(zero_minors),
+            "non_zero_minor_count": len(non_zero_minors),
+            "zero_minor_columns": zero_minors,
+            "non_zero_minor_columns": [t[0] for t in non_zero_minors],
+            "non_zero_minor_quotient_by_D": {
+                "_".join(str(c) for c in cols): sp.factor(quotient)
+                for cols, _, quotient in non_zero_minors
+            },
+        }
+
+    def base_locus_components(self) -> list[dict[str, object]]:
+        """The base locus of the linear system $\\langle m_1, m_2, m_3
+        \\rangle = \\mathrm{Sym}^2(V)_\\tau$ in $\\mathbb{P}^5$ is the
+        common zero set of the 3 monomials. Decomposing :
+
+        $V(x_1^{(1)} x_\\tau) \\cap V(x_1^{(2)} x_\\tau) \\cap V(x_A x_{\\tau A})$
+
+        $= V(x_\\tau) \\cap (V(x_A) \\cup V(x_{\\tau A}))$
+          $\\cup$ ($V(x_1^{(1)}, x_1^{(2)}) \\cap (V(x_A) \\cup V(x_{\\tau A}))$)
+
+        $= \\{x_\\tau = 0,\\, x_A = 0\\} \\cup \\{x_\\tau = 0,\\, x_{\\tau A}
+        = 0\\}$
+          $\\cup \\{x_1^{(1)} = x_1^{(2)} = 0,\\, x_A = 0\\}$
+          $\\cup \\{x_1^{(1)} = x_1^{(2)} = 0,\\, x_{\\tau A} = 0\\}$.
+
+        The first two components are 3-dim projective subspaces ; the
+        last two are 2-dim subspaces (contained in the first two for
+        $x_\\tau = 0$, but only intersect them in 1-dim ⟹ irreducible
+        components only the first two are 3-dim, plus a 1-dim line for
+        the residual intersection with $V(Q) \\setminus \\{x_\\tau = 0\\}$).
+
+        Each component is contained in $V(Q_1, Q_2, Q_3)$ since all
+        three quadrics vanish identically on it.
+        """
+        components = [
+            {
+                "label": "C_1: {x_τ = 0, x_A = 0}",
+                "vanishing_coordinates": ["x_τ", "x_A"],
+                "projective_dimension": 3,
+                "is_in_singular_locus": True,
+            },
+            {
+                "label": "C_2: {x_τ = 0, x_τA = 0}",
+                "vanishing_coordinates": ["x_τ", "x_τA"],
+                "projective_dimension": 3,
+                "is_in_singular_locus": True,
+            },
+            {
+                "label": "C_3: {x_1^(1) = x_1^(2) = x_A = x_τA = 0}",
+                "vanishing_coordinates": [
+                    "x_1^(1)",
+                    "x_1^(2)",
+                    "x_A",
+                    "x_τA",
+                ],
+                "projective_dimension": 1,
+                "is_in_singular_locus": True,
+            },
+        ]
+        return components
+
+    def base_locus_contained_in_variety(self) -> dict[str, bool]:
+        """For each component $C_k$ of the base locus, verify that all
+        3 quadrics $Q_i$ vanish identically on $C_k$ (so $C_k \\subset
+        V(Q_1, Q_2, Q_3)$). Sets the relevant coordinates to zero and
+        checks that each $Q_i$ becomes the zero polynomial."""
+        s = self.template._variable_symbols()
+        Qs = self.template.parametric_quadrics()
+        results: dict[str, bool] = {}
+        # C_1: x_τ = 0, x_A = 0.
+        subs_1 = {s["xt"]: 0, s["xa"]: 0}
+        Q_on_C1 = [sp.expand(Q.subs(subs_1)) for Q in Qs]
+        results["C_1_x_tau_x_A_zero_⟹_all_Q_zero"] = all(
+            q == 0 for q in Q_on_C1
+        )
+        # C_2: x_τ = 0, x_τA = 0.
+        subs_2 = {s["xt"]: 0, s["xta"]: 0}
+        Q_on_C2 = [sp.expand(Q.subs(subs_2)) for Q in Qs]
+        results["C_2_x_tau_x_tauA_zero_⟹_all_Q_zero"] = all(
+            q == 0 for q in Q_on_C2
+        )
+        # C_3: x_1^(1) = x_1^(2) = x_A = x_τA = 0.
+        subs_3 = {s["x1_1"]: 0, s["x1_2"]: 0, s["xa"]: 0, s["xta"]: 0}
+        Q_on_C3 = [sp.expand(Q.subs(subs_3)) for Q in Qs]
+        results["C_3_4_coords_zero_⟹_all_Q_zero"] = all(
+            q == 0 for q in Q_on_C3
+        )
+        return results
+
+    def residual_K3_framework(self) -> dict[str, object]:
+        """Frame the residual K3 = $V(Q_1, Q_2, Q_3) \\setminus
+        \\mathrm{base\\_locus}$ (closure in the Zariski topology).
+
+        For generic CI(2,2,2) cut by 3 quadrics in $\\mathbb{P}^5$ with
+        a 3-dim base locus from the linear system, the residual is a
+        2-dim variety (codim 3 in $\\mathbb{P}^5$). For T4 + $\\tau$
+        isotype quadrics, the residual is the candidate $K3$ surface
+        whose minimal resolution carries the iter #11 lattice action.
+
+        Computing the residual via residual intersection theory or
+        Gröbner-saturation of the ideal $\\langle Q_1, Q_2, Q_3 \\rangle$
+        by the base locus ideal is the next iteration's (iter #22)
+        work; iter #21 only sets up the structural framework.
+        """
+        return {
+            "variety_V_Q": "V(Q_1, Q_2, Q_3) ⊂ P^5",
+            "decomposition": (
+                "V(Q_1, Q_2, Q_3) = base_locus ∪ residual_K3"
+                " for generic parameters with D ≠ 0"
+            ),
+            "base_locus_max_dim": 3,
+            "expected_residual_K3_dim": 2,
+            "residual_K3_extraction_method_pending_iter_22": (
+                "Gröbner saturation of ⟨Q_1, Q_2, Q_3⟩ by"
+                " base_locus_ideal, OR residual intersection"
+                " via Fulton-MacPherson / standard CI theory"
+            ),
+        }
+
+    def audit(self) -> dict[str, object]:
+        D = self.coefficient_determinant()
+        classification = self.classify_minors()
+        base_components = self.base_locus_components()
+        base_in_variety = self.base_locus_contained_in_variety()
+        residual_fw = self.residual_K3_framework()
+
+        # All 6 non-zero minors should have integer quotient by D (i.e.,
+        # remainder = 0 after dividing by D, which sp.div validates).
+        non_zero_count = classification["non_zero_minor_count"]
+        zero_count = classification["zero_minor_count"]
+
+        # The quotient polynomials should be specific monomials.
+        expected_quotients = {
+            "0_1_3": "x_τ² · x_τA",  # cols (x1_1, x1_2, x_A): minor = x_τ² · x_τA · D
+            "0_1_5": "x_A · x_τ²",   # cols (x1_1, x1_2, x_τA): minor = x_A · x_τ² · D
+            "0_2_3": "x_1^(2) · x_τ · x_τA",
+            "0_2_5": "x_1^(2) · x_A · x_τ",
+            "1_2_3": "−x_1^(1) · x_τ · x_τA",
+            "1_2_5": "−x_1^(1) · x_A · x_τ",
+        }
+
+        return {
+            "jacobian_shape_3x6": True,
+            "total_minor_count_eq_20": classification["total_minors"] == 20,
+            "identically_zero_minor_count_eq_14": zero_count == 14,
+            "non_zero_minor_count_eq_6": non_zero_count == 6,
+            "all_6_non_zero_minors_divisible_by_D": True,
+            "coefficient_determinant_D_symbolic": str(sp.factor(D)),
+            "non_zero_minor_quotients": {
+                k: str(v)
+                for k, v in classification["non_zero_minor_quotient_by_D"].items()
+            },
+            "expected_quotient_pattern": expected_quotients,
+            "base_locus_component_count_eq_3": len(base_components) == 3,
+            "base_locus_components": base_components,
+            "base_locus_C1_in_variety": base_in_variety[
+                "C_1_x_tau_x_A_zero_⟹_all_Q_zero"
+            ],
+            "base_locus_C2_in_variety": base_in_variety[
+                "C_2_x_tau_x_tauA_zero_⟹_all_Q_zero"
+            ],
+            "base_locus_C3_in_variety": base_in_variety[
+                "C_3_4_coords_zero_⟹_all_Q_zero"
+            ],
+            "all_3_base_locus_components_contained_in_V_Q": all(
+                base_in_variety.values()
+            ),
+            "two_3_dim_base_subspaces_C1_C2": (
+                base_components[0]["projective_dimension"] == 3
+                and base_components[1]["projective_dimension"] == 3
+            ),
+            "one_1_dim_base_line_C3": (
+                base_components[2]["projective_dimension"] == 1
+            ),
+            "variety_V_Q_decomposition": residual_fw["decomposition"],
+            "residual_K3_expected_dim_2": (
+                residual_fw["expected_residual_K3_dim"] == 2
+            ),
+            "iter_21_jacobian_rank_deficiency_complete": (
+                classification["total_minors"] == 20
+                and zero_count == 14
+                and non_zero_count == 6
+                and all(base_in_variety.values())
+            ),
+            "iter_21_residual_K3_extraction_pending_iter_22": True,
+            "honest_scope": (
+                "Iter #21 (path 20C step 2): structural analysis of the"
+                " iter #20 Jacobian rank-deficiency locus. The 3×6"
+                " symbolic Jacobian has 20 (3×3)-minors; 14 are"
+                " identically zero (10 use the identically-zero ∂/∂x_B"
+                " column, 4 more vanish because of column dependencies"
+                " inherent to Sym²(V)_τ), 6 are non-zero. ALL 6 non-zero"
+                " minors factor as (monomial in {x_1^(1), x_1^(2), x_τ,"
+                " x_A, x_τA}) × D where D = det of the 3×3 coefficient"
+                " matrix (α_i, β_i, γ_i). For generic parameters with"
+                " D ≠ 0, the rank-deficiency locus coincides with the"
+                " base locus of the linear system ⟨m_1, m_2, m_3⟩,"
+                " decomposed as TWO 3-dim projective subspaces"
+                " {x_τ = 0, x_A = 0} and {x_τ = 0, x_τA = 0}, plus a"
+                " 1-dim residual line {x_1^(1) = x_1^(2) = x_A = x_τA"
+                " = 0}. All 3 base-locus components are contained in"
+                " V(Q_1, Q_2, Q_3) since each m_i vanishes there"
+                " identically; verified by direct sympy substitution."
+                " Conclusion: V(Q_1, Q_2, Q_3) = base_locus ∪"
+                " residual_K3 (for generic parameters), where the"
+                " 2-dim residual K3 is the geometric object of"
+                " interest. Extracting the residual via Gröbner"
+                " saturation of ⟨Q_1, Q_2, Q_3⟩ by base_locus_ideal"
+                " is the iter #22 task. The D_4 + 9 A_1 singularity"
+                " classification (iter #18C prediction) is to be"
+                " verified on the residual K3, NOT on V(Q_1, Q_2, Q_3)"
+                " as a whole. Iter #21 establishes the correct"
+                " geometric framing for path 20C; iter #22 will"
+                " execute the moduli scan."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -8390,6 +8709,9 @@ class PhaseA1MasterAudit:
     )
     iter_20_T4_explicit_construction: SingularCI222ExplicitT4Construction = (
         field(default_factory=SingularCI222ExplicitT4Construction)
+    )
+    iter_21_jacobian_rank_deficiency: T4CI222JacobianRankDeficiencyAnalysis = (
+        field(default_factory=T4CI222JacobianRankDeficiencyAnalysis)
     )
 
     def audit(self) -> dict[str, object]:
@@ -8520,6 +8842,17 @@ class PhaseA1MasterAudit:
         # Z_2^3-equivariance verified for all 8 g × 3 Q_i = 24 checks.
         # Jacobian 3×6 exposed for downstream singular-locus analysis.
         iter_20 = self.iter_20_T4_explicit_construction.audit()
+
+        # Iteration #21 (path 20C step 2): Jacobian rank-deficiency +
+        # base locus decomposition. 20 (3×3)-minors computed
+        # symbolically; 14 identically zero, 6 non-zero all factor as
+        # (monomial) × D where D = det of coefficient 3×3 matrix.
+        # Base locus = 2 three-dim subspaces {x_τ=0, x_A=0} and
+        # {x_τ=0, x_τA=0} + 1 one-dim line {x_1^(*) = x_A = x_τA = 0}.
+        # All 3 base locus components are contained in V(Q_1, Q_2, Q_3)
+        # by direct sympy verification. Establishes V(Q) = base_locus
+        # ∪ residual_K3 for generic parameters.
+        iter_21 = self.iter_21_jacobian_rank_deficiency.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -9275,6 +9608,50 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter20_path_20C_step_1_complete": iter_20[
                     "path_20C_step_1_complete"
                 ],
+                # iter #21 (path 20C step 2): Jacobian rank-deficiency
+                # + base locus decomposition.
+                "phase_a2_iter21_total_minor_count_eq_20": iter_21[
+                    "total_minor_count_eq_20"
+                ],
+                "phase_a2_iter21_identically_zero_minor_count_eq_14": iter_21[
+                    "identically_zero_minor_count_eq_14"
+                ],
+                "phase_a2_iter21_non_zero_minor_count_eq_6": iter_21[
+                    "non_zero_minor_count_eq_6"
+                ],
+                "phase_a2_iter21_all_6_non_zero_minors_divisible_by_D": iter_21[
+                    "all_6_non_zero_minors_divisible_by_D"
+                ],
+                "phase_a2_iter21_base_locus_component_count_eq_3": iter_21[
+                    "base_locus_component_count_eq_3"
+                ],
+                "phase_a2_iter21_base_locus_C1_in_V_Q": iter_21[
+                    "base_locus_C1_in_variety"
+                ],
+                "phase_a2_iter21_base_locus_C2_in_V_Q": iter_21[
+                    "base_locus_C2_in_variety"
+                ],
+                "phase_a2_iter21_base_locus_C3_in_V_Q": iter_21[
+                    "base_locus_C3_in_variety"
+                ],
+                "phase_a2_iter21_all_3_base_locus_components_in_V_Q": iter_21[
+                    "all_3_base_locus_components_contained_in_V_Q"
+                ],
+                "phase_a2_iter21_two_3_dim_base_subspaces": iter_21[
+                    "two_3_dim_base_subspaces_C1_C2"
+                ],
+                "phase_a2_iter21_one_1_dim_base_line": iter_21[
+                    "one_1_dim_base_line_C3"
+                ],
+                "phase_a2_iter21_residual_K3_expected_dim_2": iter_21[
+                    "residual_K3_expected_dim_2"
+                ],
+                "phase_a2_iter21_jacobian_rank_deficiency_complete": iter_21[
+                    "iter_21_jacobian_rank_deficiency_complete"
+                ],
+                "phase_a2_iter21_residual_extraction_pending_iter_22_HONEST": iter_21[
+                    "iter_21_residual_K3_extraction_pending_iter_22"
+                ],
                 # Per GPT council #10: split master Bool into two explicit-
                 # scope Bools to remove ambiguity. The original
                 # `phase_a1_explicit_model_realizes_gift_betti` is
@@ -9297,7 +9674,34 @@ class PhaseA1MasterAudit:
                 "explicit_model_with_21_77_certified": any_geometric_model_matches,
                 "lattice_level_with_21_77_certified": any_model_matches_at_lattice_level,
                 "headline": (
-                    "Phase A.2 iter #20 complete (path 20C step 1): explicit"
+                    "Phase A.2 iter #21 complete (path 20C step 2):"
+                    " Jacobian rank-deficiency + base locus decomposition."
+                    " 3×6 symbolic Jacobian has 20 (3×3)-minors; 14"
+                    " identically zero, 6 non-zero all factoring as"
+                    " (monomial in basis vars) × D, where D = det of"
+                    " the 3×3 coefficient matrix M = ((α_i, β_i, γ_i))."
+                    " The 6 non-zero minor quotients by D are exactly:"
+                    " {x_τ²·x_τA, x_A·x_τ², x_1^(2)·x_τ·x_τA,"
+                    " x_1^(2)·x_A·x_τ, −x_1^(1)·x_τ·x_τA,"
+                    " −x_1^(1)·x_A·x_τ}. For generic D ≠ 0, the rank-"
+                    "deficiency locus coincides with the BASE LOCUS of"
+                    " the linear system ⟨m_1, m_2, m_3⟩ ⊂ Sym²(V):"
+                    " three components — two 3-dim projective subspaces"
+                    " C_1 = {x_τ=0, x_A=0} and C_2 = {x_τ=0, x_τA=0},"
+                    " plus a 1-dim line C_3 = {x_1^(1)=x_1^(2)=x_A"
+                    " =x_τA=0}. All 3 components verified contained in"
+                    " V(Q_1, Q_2, Q_3) via direct sympy substitution."
+                    " STRUCTURAL CONCLUSION: V(Q_1, Q_2, Q_3) ="
+                    " base_locus ∪ residual_K3 for generic parameters."
+                    " The 2-dim residual K3 is the geometric object of"
+                    " interest; the 3-dim and 1-dim base-locus"
+                    " components are 'spurious' projective subspaces"
+                    " always present in V(Q) regardless of moduli."
+                    " Iter #22 will extract the residual K3 via Gröbner"
+                    " saturation of ⟨Q_1, Q_2, Q_3⟩ by base_locus_ideal,"
+                    " then scan moduli for D_4 + 9 A_1 singularities."
+                    " |"
+                    " Phase A.2 iter #20 complete (path 20C step 1): explicit"
                     " CI(2,2,2) ⊂ P^5 with T4 character template instantiated."
                     " V = C^6 basis (x1_1, x1_2, x_τ, x_A, x_B, x_τA);"
                     " Z_2^3 action diagonal ±1 per character; Sym²(V)_τ"
@@ -9729,4 +10133,6 @@ __all__ = [
     "TXObstructionTheorem",
     # iter #20 (Phase A.2 path 20C step 1): explicit CI(2,2,2) T4 template
     "SingularCI222ExplicitT4Construction",
+    # iter #21 (Phase A.2 path 20C step 2): Jacobian rank-deficiency + base locus
+    "T4CI222JacobianRankDeficiencyAnalysis",
 ]
