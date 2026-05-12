@@ -38,6 +38,7 @@ from gift_core.geometry.k3_explicit import (
     T4CI222JacobianRankDeficiencyAnalysis,
     T4Sym2VTauResidualReducibilityDiagnostic,
     T6JacobianStructuralAxisSingularitiesAnalysis,
+    T6KDiscriminantStratification,
     T6MixedIsotypeExplicitConstruction,
     TauV4CosetSearch,
     TXObstructionTheorem,
@@ -229,6 +230,10 @@ def verify() -> dict[str, bool]:
     # 20 minors split 12+8, 3 disjoint P¹ base lines in V(Q), 6 axis
     # singularities, K_xt1 cubic discriminant on moduli, residual deg 5.
     iter24 = T6JacobianStructuralAxisSingularitiesAnalysis().audit()
+
+    # Iter #25 (path 20C step 6): K-discriminant stratification. 6 axis
+    # K-cubics + 3 K_χ(t) degree-2 polynomials → 6 K-vanishing points.
+    iter25 = T6KDiscriminantStratification().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2229,6 +2234,69 @@ def verify() -> dict[str, bool]:
         "master_audit_iter24_complete": master["lean_bool_certificates"][
             "phase_a2_iter24_T6_jacobian_structural_analysis_complete"
         ]
+        is True,
+        # Iter #25 (path 20C step 6): K-discriminant stratification.
+        "iter25_K_tau_of_t_degree_2": iter25["K_tau_of_t_degree_2"] is True,
+        "iter25_K_A_of_t_degree_2": iter25["K_A_of_t_degree_2"] is True,
+        "iter25_K_B_of_t_degree_2": iter25["K_B_of_t_degree_2"] is True,
+        "iter25_all_three_K_chi_quadratic": iter25[
+            "all_three_K_chi_quadratic_in_t"
+        ]
+        is True,
+        "iter25_all_six_axis_K_cubic_4_term": iter25[
+            "all_six_axis_K_cubic_4_term_in_moduli"
+        ]
+        is True,
+        "iter25_K_zeros_per_line_eq_2": iter25["K_zeros_per_line_eq_2"]
+        is True,
+        "iter25_total_K_vanishing_points_eq_6": iter25[
+            "total_K_vanishing_points_on_3_lines_eq_6"
+        ]
+        is True,
+        "iter25_K_discriminant_framework_complete": iter25[
+            "iter_25_K_discriminant_framework_complete"
+        ]
+        is True,
+        "iter25_D4_9A1_pending_iter_26_HONEST": iter25[
+            "iter_25_D4_9A1_matching_pending_iter_26_HONEST"
+        ]
+        is True,
+        # Master audit cross-checks for iter #25.
+        "master_audit_iter25_K_tau_deg_2": master["lean_bool_certificates"][
+            "phase_a2_iter25_K_tau_of_t_degree_2"
+        ]
+        is True,
+        "master_audit_iter25_K_A_deg_2": master["lean_bool_certificates"][
+            "phase_a2_iter25_K_A_of_t_degree_2"
+        ]
+        is True,
+        "master_audit_iter25_K_B_deg_2": master["lean_bool_certificates"][
+            "phase_a2_iter25_K_B_of_t_degree_2"
+        ]
+        is True,
+        "master_audit_iter25_all_quadratic": master["lean_bool_certificates"][
+            "phase_a2_iter25_all_three_K_chi_quadratic"
+        ]
+        is True,
+        "master_audit_iter25_all_cubic_4term": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter25_all_six_axis_K_cubic_4_term"]
+        is True,
+        "master_audit_iter25_zeros_per_line_2": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter25_K_zeros_per_line_eq_2"]
+        is True,
+        "master_audit_iter25_total_K_van_6": master["lean_bool_certificates"][
+            "phase_a2_iter25_total_K_vanishing_points_eq_6"
+        ]
+        is True,
+        "master_audit_iter25_framework_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter25_K_discriminant_framework_complete"]
+        is True,
+        "master_audit_iter25_D4_9A1_pending_HONEST": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter25_D4_9A1_matching_pending_iter_26_HONEST"]
         is True,
     }
 
