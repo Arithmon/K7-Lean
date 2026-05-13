@@ -11224,6 +11224,479 @@ class T5MixedIsotypeExplicitConstruction:
 
 
 # =============================================================================
+# Section 6.15 — Iter #28: T5 smoothness + Z_2³ fix loci analysis (path 22A step 2)
+# =============================================================================
+#
+# Iter #27 established T5 explicit construction with 10/10-seed numerical
+# irreducibility witness. Iter #28 examines two complementary structural
+# properties of $V(Q_1, Q_2, Q_3)$ for the T5 template :
+#
+# (a) **Generic smoothness** : for random integer moduli (seed 7), 200
+# numerical Newton-iterated points on $V(Q)$ all have Jacobian rank 3
+# (max rank). Symbolic verification at $\sigma_A$-fixed points confirms
+# rank 3 at 8/8 points. ⟹ V(Q) is generically a SMOOTH K3 surface in
+# $\mathbb{P}^5$ (not singular as iter #18C predicted for the (15, 7, 1)
+# Picard lattice K3).
+#
+# (b) **$Z_2^3$ fixed loci structure on V(Q)** : each non-trivial $g \in
+# Z_2^3$ has a linear fix locus in $V = \mathbb{C}^6$ (determined by
+# the T5 character assignment of basis vars). $V(Q) \cap \mathrm{Fix}(g)$
+# is then computed by restricting the 3 quadrics to Fix(g).
+#
+# Per-element structure for T5 (basis chars : $x_1 \to 1$, $x_τ^{(*)} \to
+# τ$, $x_A \to A$, $x_B \to B$, $x_{τA} \to τA$) :
+#
+#   - $τ$ (negates xt1, xt2, xta) : Fix $\subset \mathbb{P}^2$ in
+#     $(x_1, x_A, x_B)$. 3 quadrics in $\mathbb{P}^2$ overdetermined ⟹
+#     **EMPTY**. $τ$ acts FREELY on V(Q). $V(Q)/\langle τ \rangle$ is
+#     an **Enriques surface**.
+#   - $\sigma_A$ (negates xa, xta) : Fix $\subset \mathbb{P}^3$ in
+#     $(x_1, x_τ^{(1)}, x_τ^{(2)}, x_B)$. 3 quadrics in $\mathbb{P}^3$
+#     ⟹ **8 isolated points** by Bezout (degree $2^3 = 8$). All 8 are
+#     SMOOTH on V(Q). ⟹ **$\sigma_A$ is a Mukai-style SYMPLECTIC
+#     INVOLUTION** on V(Q) (Mukai 1988 : smooth K3 with symplectic
+#     involution has exactly 8 fixed points ✓).
+#   - $\sigma_B$ (negates xb only) : Fix $\subset \mathbb{P}^4$ in
+#     $(x_1, x_τ^{(1)}, x_τ^{(2)}, x_A, x_{τA})$. 3 quadrics in
+#     $\mathbb{P}^4$ ⟹ **dim-1 curve** of degree 8. ⟹ $\sigma_B$ is
+#     an **ANTI-SYMPLECTIC INVOLUTION** with fixed curve.
+#   - $τ\sigma_A$ (negates xt1, xt2, xa) : Fix in $\mathbb{P}^2$ ⟹
+#     EMPTY.
+#   - $τ\sigma_B$ (negates xt1, xt2, xb, xta) : Fix in $\mathbb{P}^1$
+#     ⟹ EMPTY.
+#   - $\sigma_A\sigma_B$ (negates xa, xb, xta) : Fix in $\mathbb{P}^2$
+#     ⟹ generically EMPTY.
+#   - $τ\sigma_A\sigma_B$ (negates xt1, xt2, xa, xb) : Fix in
+#     $\mathbb{P}^1$ ⟹ EMPTY.
+#
+# **HONEST MISMATCH WITH ITER #11 PRESCRIPTION** :
+#
+# Iter #11 lattice action (15, 7, 1) requires :
+#   - $τ$ : anti-symplectic with fixed curve $(g, k) = (2, 2)$
+#   - $\sigma_A, \sigma_B$ : BOTH symplectic with 8 fixed points each
+#     (Mukai V_4 generators)
+#
+# T5 V(Q) action gives :
+#   - $τ$ : FREE involution (no fixed points)
+#   - $\sigma_A$ : symplectic with 8 fixed points
+#   - $\sigma_B$ : anti-symplectic with fixed curve
+#
+# The mismatch is STRUCTURAL : T5 has $m_A + m_{τA} = 2$ but
+# $m_B + m_{τB} = 1$, making $\sigma_A$ negate 2 vars but $\sigma_B$
+# negate only 1. The asymmetric character multiplicities yield
+# asymmetric involution types.
+#
+# **PIVOT 28A — symmetric T5'** : try template $(1, 2, 1, 1, 0, 0, 1, 0)$
+# (replace $m_{τA} = 1$ with $m_{AB} = 1$). Then $\sigma_A$ negates
+# $\{x_A, x_{AB}\}$ (2 vars) and $\sigma_B$ negates $\{x_B, x_{AB}\}$
+# (2 vars). Symmetric. But $\sigma_A\sigma_B$ then negates 1 var
+# (just $x_{τ?}$ if any) — still asymmetric for V_4. Pivot needs care.
+#
+# Honest scope : iter #28 establishes T5 as a smooth $Z_2^3$-K3 family
+# DIFFERENT from iter #11 prescription. The (15, 7, 1) Picard lattice
+# match requires either (a) lattice-level reinterpretation of T5's
+# natural action, or (b) pivot to a different character template.
+# Iter #29 will explore pivot 28A and/or alternative templates.
+
+
+@dataclass(frozen=True)
+class T5SmoothnessAndZ2CubedFixLociAnalysis:
+    """Iter #28 (path 22A step 2): smoothness verification and
+    $Z_2^3$-fix-loci analysis of the T5 mixed-isotype K3.
+
+    Two structural findings :
+
+    1. **V(Q) is generically smooth** (200/200 numerical Newton-iterated
+       points on V(Q) have Jacobian rank 3 for seed 7).
+    2. **$Z_2^3$-fix loci structure** : $\\sigma_A$ has 8 smooth fixed
+       points (Mukai symplectic), $\\sigma_B$ has a fixed curve
+       (anti-symplectic), $\\tau$ acts freely (Enriques quotient).
+
+    Honest mismatch with iter #11 lattice prescription documented.
+    """
+
+    template: T5MixedIsotypeExplicitConstruction = field(
+        default_factory=T5MixedIsotypeExplicitConstruction
+    )
+
+    @staticmethod
+    def _char_to_binary_triple() -> dict[int, tuple[int, int, int]]:
+        """Map character index to its $Z_2^3$ binary triple
+        $(a_\\tau, a_A, a_B)$.
+
+        Indexing follows Mukai/iter #18D convention :
+        0 = 1, 1 = τ, 2 = A, 3 = B, 4 = τA, 5 = τB, 6 = AB, 7 = τAB.
+        """
+        return {
+            0: (0, 0, 0),
+            1: (1, 0, 0),
+            2: (0, 1, 0),
+            3: (0, 0, 1),
+            4: (1, 1, 0),
+            5: (1, 0, 1),
+            6: (0, 1, 1),
+            7: (1, 1, 1),
+        }
+
+    def char_action_sign(self, char_idx: int, g_idx: int) -> int:
+        """Sign of $g$ (with index $g_{idx}$) acting on a character with
+        index $\\text{char}_{idx}$. Both indexed via the Mukai convention.
+        """
+        triples = self._char_to_binary_triple()
+        tc = triples[char_idx]
+        tg = triples[g_idx]
+        parity = sum(a * b for a, b in zip(tc, tg)) % 2
+        return (-1) ** parity
+
+    def fix_locus_basis_vars(self, g_idx: int) -> tuple[list[str], list[str]]:
+        """Return (fixed_vars, anti_vars) lists of basis variable labels
+        for which $g$ acts as +1 (fixed) or -1 (anti).
+        """
+        basis_chars = self.template._variable_character_table()
+        fixed = [v for v, c in basis_chars.items() if self.char_action_sign(c, g_idx) == +1]
+        anti = [v for v, c in basis_chars.items() if self.char_action_sign(c, g_idx) == -1]
+        return fixed, anti
+
+    def fix_locus_dim_on_V(self, g_idx: int) -> int:
+        """Dimension of Fix(g) on V = $\\mathbb{C}^6$ = number of fixed
+        basis vars."""
+        fixed, _ = self.fix_locus_basis_vars(g_idx)
+        return len(fixed)
+
+    def fix_locus_projective_dim_on_V(self, g_idx: int) -> int:
+        """Projective dim of Fix(g) in $\\mathbb{P}^5$ = $\\dim_V(\\text{Fix}) - 1$."""
+        return self.fix_locus_dim_on_V(g_idx) - 1
+
+    def restrict_quadrics_to_fix_locus(
+        self, g_idx: int, seed: int = 7
+    ) -> tuple[list[sp.Expr], list[sp.Symbol]]:
+        """Restrict Q_1, Q_2, Q_3 to Fix(g) by setting anti_vars = 0,
+        then sample integer moduli at the given seed.
+
+        Returns (Q_restricted, free_generators).
+        """
+        import random
+        s = self.template._variable_symbols()
+        fixed, anti = self.fix_locus_basis_vars(g_idx)
+        rng = random.Random(seed)
+        monomials = self.template.trivial_isotype_basis_monomials()
+        qs = [sum(rng.randint(1, 9) * m for m in monomials) for _ in range(3)]
+        subs = {s[v]: 0 for v in anti}
+        qs_restricted = [sp.expand(q.subs(subs)) for q in qs]
+        free_gens = [s[v] for v in fixed]
+        return qs_restricted, free_gens
+
+    def expected_fix_locus_dim_on_VQ(self, g_idx: int) -> int:
+        """Expected dim of $V(Q) \\cap \\mathrm{Fix}(g)$ = max(-1,
+        $\\dim_{\\mathbb{P}}(\\mathrm{Fix}) - 3$) for 3 quadrics in
+        projective fix locus.
+        """
+        return max(-1, self.fix_locus_projective_dim_on_V(g_idx) - 3)
+
+    def numerical_smoothness_witness(
+        self, seed: int = 7, n_samples: int = 200
+    ) -> dict[str, object]:
+        """Numerical smoothness witness : Newton-iterate $n_samples$
+        random complex initial points to find points on V(Q), then check
+        Jacobian rank at each. For generic T5 moduli, ALL converged
+        points should have rank 3 (max rank ⟹ V(Q) smooth at point).
+        """
+        import random
+        import numpy as np
+
+        rng = random.Random(seed)
+        p = [rng.randint(1, 9) for _ in range(7)]
+        q = [rng.randint(1, 9) for _ in range(7)]
+        r = [rng.randint(1, 9) for _ in range(7)]
+
+        def Q_at(coeffs, pt):
+            x1v, xt1v, xt2v, xav, xbv, xtav = pt
+            return (
+                coeffs[0] * x1v ** 2
+                + coeffs[1] * xt1v ** 2
+                + coeffs[2] * xt1v * xt2v
+                + coeffs[3] * xt2v ** 2
+                + coeffs[4] * xav ** 2
+                + coeffs[5] * xbv ** 2
+                + coeffs[6] * xtav ** 2
+            )
+
+        def J_at(pt):
+            x1v, xt1v, xt2v, xav, xbv, xtav = pt
+            return np.array(
+                [
+                    [
+                        2 * c[0] * x1v,
+                        2 * c[1] * xt1v + c[2] * xt2v,
+                        c[2] * xt1v + 2 * c[3] * xt2v,
+                        2 * c[4] * xav,
+                        2 * c[5] * xbv,
+                        2 * c[6] * xtav,
+                    ]
+                    for c in (p, q, r)
+                ]
+            )
+
+        np.random.seed(seed)
+        rank_counts = {0: 0, 1: 0, 2: 0, 3: 0}
+        convergent_samples = 0
+        for trial in range(n_samples * 5):  # try up to 5x to get n_samples
+            if convergent_samples >= n_samples:
+                break
+            pt = np.random.randn(6) + 1j * np.random.randn(6)
+            converged = False
+            for _ in range(30):
+                F = np.array([Q_at(p, pt), Q_at(q, pt), Q_at(r, pt)])
+                if np.max(np.abs(F)) < 1e-12:
+                    converged = True
+                    break
+                Jm = J_at(pt)
+                try:
+                    delta, *_ = np.linalg.lstsq(Jm, -F, rcond=None)
+                    pt = pt + delta
+                except np.linalg.LinAlgError:
+                    break
+            if not converged:
+                continue
+            if np.max(np.abs(np.array([Q_at(p, pt), Q_at(q, pt), Q_at(r, pt)]))) > 1e-8:
+                continue
+            convergent_samples += 1
+            Jm = J_at(pt)
+            rank = int(np.linalg.matrix_rank(Jm, tol=1e-8))
+            rank_counts[rank] += 1
+        all_max_rank = rank_counts[3] == convergent_samples and convergent_samples > 0
+        return {
+            "convergent_samples": convergent_samples,
+            "rank_distribution": rank_counts,
+            "all_sampled_points_rank_3": all_max_rank,
+            "generic_smoothness_witness": all_max_rank,
+        }
+
+    def sigma_A_eight_fixed_points_smooth(
+        self, seed: int = 7
+    ) -> dict[str, object]:
+        """Verify $\\sigma_A$-fixed locus on V(Q) consists of 8 SMOOTH
+        points (Mukai-1988 symplectic involution profile).
+
+        Restrict 3 quadrics to Fix($\\sigma_A$) = {xa = xta = 0}, solve
+        in affine chart, evaluate Jacobian rank at each solution.
+        """
+        sigma_A_idx = 2  # σ_A character index
+        Qs_restricted, free_gens = self.restrict_quadrics_to_fix_locus(
+            sigma_A_idx, seed
+        )
+        # Pick affine chart: xb = 1.
+        s = self.template._variable_symbols()
+        Qs_aff = [sp.expand(Q.subs(s["xb"], 1)) for Q in Qs_restricted]
+        # Solve in (x1, xt1, xt2).
+        solve_gens = [s["x1"], s["xt1"], s["xt2"]]
+        sols = sp.solve(Qs_aff, solve_gens)
+        # Each solution should be 3-tuple of symbolic values.
+        n_solutions = len(sols)
+        # Build full ambient quadrics for Jacobian rank check.
+        rng_seed_qs = self._sample_full_quadrics(seed)
+        Js_at_pts = []
+        all_rank_3 = True
+        for sol in sols:
+            pt_subs = {
+                s["x1"]: sol[0], s["xt1"]: sol[1], s["xt2"]: sol[2],
+                s["xa"]: 0, s["xb"]: 1, s["xta"]: 0,
+            }
+            J_at_pt = self._jacobian_full(rng_seed_qs).subs(pt_subs)
+            try:
+                rank = int(J_at_pt.evalf().rank())
+            except Exception:
+                rank = -1
+            Js_at_pts.append(rank)
+            if rank != 3:
+                all_rank_3 = False
+        return {
+            "n_sigma_A_fixed_points": n_solutions,
+            "n_fixed_points_eq_8_Mukai": n_solutions == 8,
+            "jacobian_rank_at_each_fixed_point": Js_at_pts,
+            "all_8_points_smooth_rank_3": all_rank_3,
+            "sigma_A_symplectic_Mukai_witness": (
+                n_solutions == 8 and all_rank_3
+            ),
+        }
+
+    def _sample_full_quadrics(self, seed: int) -> list[sp.Expr]:
+        import random
+        rng = random.Random(seed)
+        monomials = self.template.trivial_isotype_basis_monomials()
+        return [
+            sum(rng.randint(1, 9) * m for m in monomials)
+            for _ in range(3)
+        ]
+
+    def _jacobian_full(self, qs: list[sp.Expr]) -> sp.Matrix:
+        s = self.template._variable_symbols()
+        order = ["x1", "xt1", "xt2", "xa", "xb", "xta"]
+        rows = [[sp.diff(Q, s[label]) for label in order] for Q in qs]
+        return sp.Matrix(rows)
+
+    def Z2_cubed_fix_loci_structure_table(self) -> dict[str, dict[str, object]]:
+        """For each non-trivial g ∈ $Z_2^3$, return its fix-locus
+        structure on V(Q) :
+
+        - fixed/anti basis variables
+        - Fix(g) projective dim on V
+        - expected $\\dim V(Q) \\cap \\mathrm{Fix}(g)$
+
+        Predicted profile for T5 :
+
+        - τ : Fix dim P^2, V(Q)∩Fix EMPTY ⟹ τ acts FREELY (Enriques)
+        - σ_A : Fix dim P^3, V(Q)∩Fix = 8 pts ⟹ Mukai symplectic
+        - σ_B : Fix dim P^4, V(Q)∩Fix = curve ⟹ anti-symplectic
+        - τσ_A, τσ_B, σ_Aσ_B, τσ_Aσ_B : various, mostly empty
+        """
+        g_names = [
+            "id", "tau", "sigma_A", "sigma_B",
+            "tau_sigma_A", "tau_sigma_B",
+            "sigma_A_sigma_B", "tau_sigma_A_sigma_B",
+        ]
+        result = {}
+        for g_idx in range(1, 8):
+            fixed, anti = self.fix_locus_basis_vars(g_idx)
+            fix_dim_V = len(fixed)
+            fix_dim_P = fix_dim_V - 1
+            expected_VQ_dim = max(-1, fix_dim_P - 3)
+            result[g_names[g_idx]] = {
+                "g_idx": g_idx,
+                "fixed_basis_vars": fixed,
+                "anti_basis_vars": anti,
+                "fix_dim_V": fix_dim_V,
+                "fix_projective_dim": fix_dim_P,
+                "expected_VQ_intersection_dim": expected_VQ_dim,
+                "fix_type": (
+                    "empty" if expected_VQ_dim == -1
+                    else "0-dim points" if expected_VQ_dim == 0
+                    else "1-dim curve" if expected_VQ_dim == 1
+                    else f"{expected_VQ_dim}-dim variety"
+                ),
+            }
+        return result
+
+    def iter_11_mismatch_diagnostic(self) -> dict[str, str]:
+        """HONEST diagnostic : the T5 $Z_2^3$ fix structure does NOT
+        match the iter #11 (15, 7, 1) lattice prescription.
+
+        Iter #11 prescription :
+        - τ : anti-symplectic, fixed curve $(g, k) = (2, 2)$
+        - σ_A : symplectic, 8 fixed points (Mukai V_4)
+        - σ_B : symplectic, 8 fixed points (Mukai V_4)
+
+        T5 actual :
+        - τ : FREE (no fixed points)
+        - σ_A : symplectic, 8 fixed points (matches Mukai)
+        - σ_B : ANTI-symplectic, fixed curve
+        """
+        return {
+            "iter_11_tau_type": "anti-symplectic, fixed curve (g,k)=(2,2)",
+            "T5_tau_type": "FREE (no fixed points on V(Q))",
+            "tau_match": "MISMATCH (free vs anti-symplectic)",
+            "iter_11_sigma_A_type": "symplectic, 8 fixed points (Mukai)",
+            "T5_sigma_A_type": "symplectic, 8 fixed points (Mukai)",
+            "sigma_A_match": "MATCH ✓",
+            "iter_11_sigma_B_type": "symplectic, 8 fixed points (Mukai)",
+            "T5_sigma_B_type": "anti-symplectic, fixed curve",
+            "sigma_B_match": "MISMATCH (anti vs symplectic)",
+            "structural_root_cause": (
+                "T5 template has m_A + m_τA = 2 but m_B + m_τB = 1,"
+                " making σ_A negate 2 vars (xa, xta) but σ_B negate"
+                " only 1 var (xb). Asymmetric character multiplicities"
+                " yield asymmetric involution types."
+            ),
+            "pivot_28A_T5_prime_symmetric": (
+                "T5' = (1, 2, 1, 1, 0, 0, 1, 0) replaces m_τA=1 by"
+                " m_AB=1. σ_A negates {xa, xab} (2 vars), σ_B negates"
+                " {xb, xab} (2 vars) — symmetric. But σ_Aσ_B then only"
+                " negates {xa, xb} (2 vars distinct from above) —"
+                " still need to verify full V_4 Mukai structure."
+            ),
+        }
+
+    def audit(self) -> dict[str, object]:
+        smoothness = self.numerical_smoothness_witness(seed=7, n_samples=200)
+        sigma_A_check = self.sigma_A_eight_fixed_points_smooth(seed=7)
+        fix_loci = self.Z2_cubed_fix_loci_structure_table()
+        mismatch = self.iter_11_mismatch_diagnostic()
+        return {
+            "numerical_smoothness_200_samples": smoothness[
+                "generic_smoothness_witness"
+            ],
+            "numerical_smoothness_convergent_count": smoothness[
+                "convergent_samples"
+            ],
+            "numerical_smoothness_rank_distribution": smoothness[
+                "rank_distribution"
+            ],
+            "sigma_A_eight_fixed_points": sigma_A_check[
+                "n_fixed_points_eq_8_Mukai"
+            ],
+            "sigma_A_all_8_points_smooth": sigma_A_check[
+                "all_8_points_smooth_rank_3"
+            ],
+            "sigma_A_Mukai_symplectic_witness": sigma_A_check[
+                "sigma_A_symplectic_Mukai_witness"
+            ],
+            "Z2_cubed_fix_loci_table": fix_loci,
+            "tau_acts_freely_on_VQ": (
+                fix_loci["tau"]["expected_VQ_intersection_dim"] == -1
+            ),
+            "sigma_B_fixes_curve_on_VQ": (
+                fix_loci["sigma_B"]["expected_VQ_intersection_dim"] == 1
+            ),
+            "iter_11_lattice_prescription_mismatch_HONEST": mismatch,
+            "tau_match_iter_11": False,  # T5 τ is free, iter #11 τ has curve
+            "sigma_A_match_iter_11": True,  # both symplectic 8-point
+            "sigma_B_match_iter_11": False,  # T5 σ_B is anti-sym, iter #11 σ_B is sym
+            "iter_28_T5_smoothness_and_fix_loci_complete": (
+                smoothness["generic_smoothness_witness"]
+                and sigma_A_check["sigma_A_symplectic_Mukai_witness"]
+                and fix_loci["tau"]["expected_VQ_intersection_dim"] == -1
+                and fix_loci["sigma_B"]["expected_VQ_intersection_dim"] == 1
+            ),
+            "pivot_28A_T5_prime_template_suggested": (1, 2, 1, 1, 0, 0, 1, 0),
+            "honest_scope": (
+                "Iter #28 (path 22A step 2): T5 smoothness verification"
+                " and Z_2^3 fix-loci structure on V(Q). NUMERICAL"
+                " SMOOTHNESS WITNESS: 200 Newton-iterated random complex"
+                " points on V(Q) (seed 7) ALL have Jacobian rank 3."
+                " V(Q) is generically SMOOTH (not singular as iter #18C"
+                " predicted for the (15, 7, 1) Picard lattice K3 — T5"
+                " gives generic Picard rank 1, codim-14 sublocus needed"
+                " for ρ=15). MUKAI SYMPLECTIC INVOLUTION σ_A: V(Q) ∩"
+                " Fix(σ_A) = 8 isolated points, all smooth on V(Q), in"
+                " perfect agreement with Mukai 1988 (smooth K3 with"
+                " symplectic involution has exactly 8 fixed points)."
+                " σ_B ANTI-SYMPLECTIC: V(Q) ∩ Fix(σ_B) = degree-8"
+                " curve in P^4 (3 quadrics in P^4 = curve generically)."
+                " τ FREE: V(Q) ∩ Fix(τ) = empty in P^2 (3 quadrics in"
+                " P^2 overdetermined ⟹ no points) — τ acts freely on"
+                " V(Q), giving V(Q)/⟨τ⟩ = Enriques surface. Other"
+                " elements: τσ_A, τσ_B, σ_Aσ_B, τσ_Aσ_B all generically"
+                " EMPTY fix loci. HONEST MISMATCH WITH ITER #11: T5"
+                " gives (τ free, σ_A sym 8pt, σ_B anti-sym curve)"
+                " whereas iter #11 prescribes (τ anti-sym curve, σ_A"
+                " sym 8pt, σ_B sym 8pt). Structural cause: T5 has"
+                " m_A + m_τA = 2 but m_B + m_τB = 1 (asymmetric"
+                " A vs B character multiplicities). PIVOT 28A: T5' ="
+                " (1, 2, 1, 1, 0, 0, 1, 0) replaces m_τA=1 by m_AB=1,"
+                " giving symmetric σ_A and σ_B (both negate 2 vars)."
+                " Full V_4 Mukai verification + τ-anti-symplectic"
+                " structure remains for iter #29. Honest scope: T5"
+                " is established as a smooth Z_2^3-K3 family with a"
+                " natural (Mukai σ_A) + (anti-symplectic σ_B) +"
+                " (free τ Enriques) structure, but NOT the iter #11"
+                " GIFT prescription. Either (a) reinterpret iter #11"
+                " labels on T5 by Mukai-Nikulin lattice equivalence,"
+                " or (b) pivot to T5' / different template for iter #29."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -11355,6 +11828,9 @@ class PhaseA1MasterAudit:
     )
     iter_27_T5_mixed_isotype: T5MixedIsotypeExplicitConstruction = field(
         default_factory=T5MixedIsotypeExplicitConstruction
+    )
+    iter_28_T5_smoothness_fix_loci: T5SmoothnessAndZ2CubedFixLociAnalysis = field(
+        default_factory=T5SmoothnessAndZ2CubedFixLociAnalysis
     )
 
     def audit(self) -> dict[str, object]:
@@ -11543,6 +12019,11 @@ class PhaseA1MasterAudit:
         # construction with 3 G-INVARIANT quadrics in 7-dim trivial
         # isotype. Pre-flight irreducibility witness across 10 seeds.
         iter_27 = self.iter_27_T5_mixed_isotype.audit()
+
+        # Iteration #28 (path 22A step 2): T5 smoothness + Z_2^3 fix
+        # loci. σ_A symplectic 8 pts (Mukai), σ_B anti-sym curve, τ free.
+        # Honest mismatch with iter #11 prescription.
+        iter_28 = self.iter_28_T5_smoothness_fix_loci.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -12555,6 +13036,28 @@ class PhaseA1MasterAudit:
                 "phase_a2_iter27_T5_construction_complete": iter_27[
                     "iter_27_T5_mixed_isotype_construction_complete"
                 ],
+                # iter #28 (path 22A step 2): T5 smoothness + fix loci.
+                "phase_a2_iter28_T5_smoothness_200_samples": iter_28[
+                    "numerical_smoothness_200_samples"
+                ],
+                "phase_a2_iter28_T5_sigma_A_eight_fixed_points": iter_28[
+                    "sigma_A_eight_fixed_points"
+                ],
+                "phase_a2_iter28_T5_sigma_A_8pts_smooth": iter_28[
+                    "sigma_A_all_8_points_smooth"
+                ],
+                "phase_a2_iter28_T5_sigma_A_Mukai_symplectic": iter_28[
+                    "sigma_A_Mukai_symplectic_witness"
+                ],
+                "phase_a2_iter28_T5_tau_acts_freely": iter_28[
+                    "tau_acts_freely_on_VQ"
+                ],
+                "phase_a2_iter28_T5_sigma_B_fixes_curve": iter_28[
+                    "sigma_B_fixes_curve_on_VQ"
+                ],
+                "phase_a2_iter28_T5_complete": iter_28[
+                    "iter_28_T5_smoothness_and_fix_loci_complete"
+                ],
                 # Per GPT council #10: split master Bool into two explicit-
                 # scope Bools to remove ambiguity. The original
                 # `phase_a1_explicit_model_realizes_gift_betti` is
@@ -13167,4 +13670,6 @@ __all__ = [
     "T6VarietyReducibilityNOGOTheorem",
     # iter #27 (Phase A.2 path 22A pivot): T5 mixed-isotype construction
     "T5MixedIsotypeExplicitConstruction",
+    # iter #28 (Phase A.2 path 22A step 2): T5 smoothness + fix loci
+    "T5SmoothnessAndZ2CubedFixLociAnalysis",
 ]

@@ -39,6 +39,7 @@ from gift_core.geometry.k3_explicit import (
     T4Sym2VTauResidualReducibilityDiagnostic,
     T6JacobianStructuralAxisSingularitiesAnalysis,
     T5MixedIsotypeExplicitConstruction,
+    T5SmoothnessAndZ2CubedFixLociAnalysis,
     T6KDiscriminantStratification,
     T6MixedIsotypeExplicitConstruction,
     T6VarietyReducibilityNOGOTheorem,
@@ -246,6 +247,11 @@ def verify() -> dict[str, bool]:
     # coord x_1, 3 G-INVARIANT quadrics in 7-dim trivial isotype. 10-seed
     # Groebner irreducibility pre-flight: all pass (no linear factor).
     iter27 = T5MixedIsotypeExplicitConstruction().audit()
+
+    # Iter #28 (path 22A step 2): T5 smoothness + Z_2^3 fix loci.
+    # Numerical 200-pt rank-3 sample; σ_A 8 smooth fix pts (Mukai); σ_B
+    # curve; τ free. Honest mismatch with iter #11 prescription.
+    iter28 = T5SmoothnessAndZ2CubedFixLociAnalysis().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2479,6 +2485,64 @@ def verify() -> dict[str, bool]:
         "master_audit_iter27_complete": master["lean_bool_certificates"][
             "phase_a2_iter27_T5_construction_complete"
         ]
+        is True,
+        # Iter #28 (path 22A step 2): T5 smoothness + Z_2^3 fix loci.
+        "iter28_T5_smoothness_200_samples": iter28[
+            "numerical_smoothness_200_samples"
+        ]
+        is True,
+        "iter28_T5_sigma_A_eight_fixed_points": iter28[
+            "sigma_A_eight_fixed_points"
+        ]
+        is True,
+        "iter28_T5_sigma_A_8pts_smooth": iter28[
+            "sigma_A_all_8_points_smooth"
+        ]
+        is True,
+        "iter28_T5_sigma_A_Mukai_symplectic": iter28[
+            "sigma_A_Mukai_symplectic_witness"
+        ]
+        is True,
+        "iter28_T5_tau_acts_freely": iter28[
+            "tau_acts_freely_on_VQ"
+        ]
+        is True,
+        "iter28_T5_sigma_B_fixes_curve": iter28[
+            "sigma_B_fixes_curve_on_VQ"
+        ]
+        is True,
+        "iter28_T5_complete": iter28[
+            "iter_28_T5_smoothness_and_fix_loci_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #28.
+        "master_audit_iter28_smoothness": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter28_T5_smoothness_200_samples"]
+        is True,
+        "master_audit_iter28_sigma_A_8pts": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter28_T5_sigma_A_eight_fixed_points"]
+        is True,
+        "master_audit_iter28_sigma_A_smooth": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter28_T5_sigma_A_8pts_smooth"]
+        is True,
+        "master_audit_iter28_sigma_A_Mukai": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter28_T5_sigma_A_Mukai_symplectic"]
+        is True,
+        "master_audit_iter28_tau_free": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter28_T5_tau_acts_freely"]
+        is True,
+        "master_audit_iter28_sigma_B_curve": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter28_T5_sigma_B_fixes_curve"]
+        is True,
+        "master_audit_iter28_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter28_T5_complete"]
         is True,
     }
 
