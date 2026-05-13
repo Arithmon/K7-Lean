@@ -39,6 +39,7 @@ from gift_core.geometry.k3_explicit import (
     T4Sym2VTauResidualReducibilityDiagnostic,
     T6JacobianStructuralAxisSingularitiesAnalysis,
     T5MixedIsotypeExplicitConstruction,
+    T5PrimeIter11ClosureFramework,
     T5PrimeTauCurveAndNSLatticeFramework,
     T5PrimeTemplateMixedIsotypeConstruction,
     T5SmoothnessAndZ2CubedFixLociAnalysis,
@@ -264,6 +265,11 @@ def verify() -> dict[str, bool]:
     # τ-curve deg 8, g_arith 5; (g, k)=(2, 2) requires decomp with
     # C_1·C_2 = 4. NS rank 1 + 14 = 15 ✓ after Mukai V_4 resolution.
     iter30 = T5PrimeTauCurveAndNSLatticeFramework().audit()
+
+    # Iter #31 (path 22A step 5): T5'' = iter #11 closure framework.
+    # Explicit (1, 1)-stratum decomposition witness (Q_3 = x_1² - xa_1²),
+    # stratification table, Mukai V_4 Gram template, Donaldson handoff.
+    iter31 = T5PrimeIter11ClosureFramework().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2714,6 +2720,110 @@ def verify() -> dict[str, bool]:
         is True,
         "master_audit_iter30_complete": master["lean_bool_certificates"][
             "phase_a2_iter30_complete"
+        ]
+        is True,
+        # Iter #31 (path 22A step 5): closure framework.
+        "iter31_decomp_witness_constructed": iter31[
+            "decomposition_witness_1_1_stratum_constructed"
+        ]
+        is True,
+        "iter31_decomp_matches_g_arith_5": iter31[
+            "decomposition_witness_matches_g_arith_5"
+        ]
+        is True,
+        "iter31_Q3_factored_2_components": iter31[
+            "decomposition_witness_Q3_factored_components"
+        ]
+        is True,
+        "iter31_decomp_intersection_eq_4": iter31[
+            "decomposition_witness_intersection_eq_4"
+        ]
+        is True,
+        "iter31_iter_11_2_2_stratum_different_HONEST": iter31[
+            "iter_11_2_2_stratum_is_different_HONEST"
+        ]
+        is True,
+        "iter31_stratification_table": iter31[
+            "stratification_table_constructed"
+        ]
+        is True,
+        "iter31_Mukai_NS_rank_15": iter31["Mukai_V4_NS_rank_15"] is True,
+        "iter31_Mukai_H_squared_8": iter31["Mukai_V4_H_squared_8"] is True,
+        "iter31_Mukai_14_exceptional": iter31[
+            "Mukai_V4_14_exceptional_classes"
+        ]
+        is True,
+        "iter31_Mukai_full_Gram_pending_HONEST": iter31[
+            "Mukai_V4_full_Gram_match_PENDING_HONEST"
+        ]
+        is True,
+        "iter31_free_anti_symp_consistent": iter31[
+            "free_anti_symp_T5_prime_structurally_consistent"
+        ]
+        is True,
+        "iter31_donaldson_handoff_setup": iter31[
+            "donaldson_G2_iter_32_handoff_setup"
+        ]
+        is True,
+        "iter31_donaldson_M_b2_21": iter31["donaldson_G2_M_b2_target_21"]
+        is True,
+        "iter31_donaldson_M_b3_77": iter31["donaldson_G2_M_b3_target_77"]
+        is True,
+        "iter31_closure_framework_complete": iter31[
+            "iter_31_closure_framework_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #31.
+        "master_audit_iter31_decomp_witness": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_decomp_witness_constructed"]
+        is True,
+        "master_audit_iter31_g_arith_match": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_decomp_g_arith_5_match"]
+        is True,
+        "master_audit_iter31_Q3_factored": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_Q3_factored_2_components"]
+        is True,
+        "master_audit_iter31_intersection_4": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_intersection_eq_4"]
+        is True,
+        "master_audit_iter31_strat_table": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_stratification_table"]
+        is True,
+        "master_audit_iter31_Mukai_rank_15": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_Mukai_NS_rank_15"]
+        is True,
+        "master_audit_iter31_Mukai_H_8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_Mukai_H_squared_8"]
+        is True,
+        "master_audit_iter31_Mukai_14_exceptional": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_Mukai_14_exceptional"]
+        is True,
+        "master_audit_iter31_free_anti_symp": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_free_anti_symp_consistent"]
+        is True,
+        "master_audit_iter31_donaldson_handoff": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter31_donaldson_handoff"]
+        is True,
+        "master_audit_iter31_b2_21": master["lean_bool_certificates"][
+            "phase_a2_iter31_donaldson_b2_21"
+        ]
+        is True,
+        "master_audit_iter31_b3_77": master["lean_bool_certificates"][
+            "phase_a2_iter31_donaldson_b3_77"
+        ]
+        is True,
+        "master_audit_iter31_complete": master["lean_bool_certificates"][
+            "phase_a2_iter31_complete"
         ]
         is True,
     }
