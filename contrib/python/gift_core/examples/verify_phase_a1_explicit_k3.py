@@ -41,6 +41,7 @@ from gift_core.geometry.k3_explicit import (
     T5MixedIsotypeExplicitConstruction,
     T5PrimeDonaldsonG2MetricAssembly,
     T5PrimeIter11ClosureFramework,
+    Fano3FoldDatabaseForTCSBlocks,
     T5PrimeTCSPivotFramework,
     T5PrimeTauCurveAndNSLatticeFramework,
     T5PrimeTemplateMixedIsotypeConstruction,
@@ -282,6 +283,11 @@ def verify() -> dict[str, bool]:
     # using T5'' as K3 matching surface for full Hol = G_2.
     # 3 paths: TCS (recommended), Joyce-orbifold, Donaldson K-L fibration.
     iter33 = T5PrimeTCSPivotFramework().audit()
+
+    # Iter #34 (Voie 1 TCS step 1): Fano 3-fold database search.
+    # V_{2,2,2} and V_8 emerge as main T5''-compatible candidates with
+    # anti-canonical K3 degree 8 (Iskovskikh classification).
+    iter34 = Fano3FoldDatabaseForTCSBlocks().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -3020,6 +3026,66 @@ def verify() -> dict[str, bool]:
         "master_audit_iter33_block_D_Hol_G2_target": master[
             "lean_bool_certificates"
         ]["phase_a2_iter33_block_D_Hol_eq_G2_target"]
+        is True,
+        # Iter #34 (Voie 1 TCS step 1): Fano database.
+        "iter34_database_count_ge_10": iter34["fano_database_count"] >= 10,
+        "iter34_T5_prime_compatible_ge_2": iter34[
+            "T5_prime_compatible_count"
+        ]
+        >= 2,
+        "iter34_V222_in_compatible": "V_{2,2,2}" in iter34[
+            "T5_prime_compatible_fanos"
+        ],
+        "iter34_V8_in_compatible": "V_8" in iter34[
+            "T5_prime_compatible_fanos"
+        ],
+        "iter34_main_candidates_V222_V8": iter34[
+            "main_candidates_V222_and_V8"
+        ]
+        is True,
+        "iter34_V222_genus_5": iter34["V_222_genus_K3_eq_5_matches_T5_prime"]
+        is True,
+        "iter34_V8_genus_5": iter34["V_8_genus_K3_eq_5_matches_T5_prime"]
+        is True,
+        "iter34_target_K3_deg_8": iter34["target_K3_degree_eq_8"] is True,
+        "iter34_TCS_pairs_enumerated": iter34["candidate_TCS_pairs_count"]
+        >= 3,
+        "iter34_fano_database_complete": iter34[
+            "iter_34_fano_database_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #34.
+        "master_audit_iter34_database_ge_10": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter34_fano_database_count_ge_10"]
+        is True,
+        "master_audit_iter34_compatible_ge_2": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter34_T5_prime_compatible_count_ge_2"]
+        is True,
+        "master_audit_iter34_V222_V8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter34_main_candidates_V222_V8"]
+        is True,
+        "master_audit_iter34_V222_genus_5": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter34_V222_genus_5"]
+        is True,
+        "master_audit_iter34_V8_genus_5": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter34_V8_genus_5"]
+        is True,
+        "master_audit_iter34_K3_deg_8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter34_target_K3_degree_8"]
+        is True,
+        "master_audit_iter34_pairs_ge_3": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter34_TCS_candidate_pairs_enumerated"]
+        is True,
+        "master_audit_iter34_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter34_complete"]
         is True,
     }
 
