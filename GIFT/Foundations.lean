@@ -59,6 +59,8 @@ import GIFT.Foundations.JoyceKarigiannisConstruction
 import GIFT.Foundations.PhaseA2Obstruction
 -- G_2 TCS lattice certificate: Prop 6.1 primitive embedding, Prop 6.3 Kovalev matching, §4.1 sign table
 import GIFT.Foundations.G2TCSLatticeCertificate
+-- G_2 Donaldson link cohomology: b_3 = 1 + b_1(Sigma_2(L)) formula + (21, 77) target match
+import GIFT.Foundations.G2DonaldsonLinkCohomology
 -- Metric gap closure: typed analytic/torsion-free status and promotion gates
 import GIFT.Foundations.MetricGapClosure
 -- Metric candidate search: finite symbolic search for block Betti signatures
