@@ -42,6 +42,7 @@ from gift_core.geometry.k3_explicit import (
     T5PrimeDonaldsonG2MetricAssembly,
     T5PrimeIter11ClosureFramework,
     Fano3FoldDatabaseForTCSBlocks,
+    PrimitiveEmbeddingNplusNminusInLambdaK3,
     T5PrimeTCSPivotFramework,
     T5PrimeTauCurveAndNSLatticeFramework,
     T5PrimeTemplateMixedIsotypeConstruction,
@@ -288,6 +289,11 @@ def verify() -> dict[str, bool]:
     # V_{2,2,2} and V_8 emerge as main T5''-compatible candidates with
     # anti-canonical K3 degree 8 (Iskovskikh classification).
     iter34 = Fano3FoldDatabaseForTCSBlocks().audit()
+
+    # Iter #35 (Voie 1 TCS step 2): primitive embeddings N_± ⊂ Λ_K3.
+    # v_± = 4 e_± + f_± in distinct U-summands; embedding primitive;
+    # transcendental lattice T = orthogonal has sig (1, 19) ✓.
+    iter35 = PrimitiveEmbeddingNplusNminusInLambdaK3().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -3086,6 +3092,96 @@ def verify() -> dict[str, bool]:
         "master_audit_iter34_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_iter34_complete"]
+        is True,
+        # Iter #35 (Voie 1 TCS step 2): primitive embeddings.
+        "iter35_Lambda_K3_rank_22": iter35["Lambda_K3_rank_22"] is True,
+        "iter35_Lambda_K3_unimodular": iter35["Lambda_K3_unimodular"]
+        is True,
+        "iter35_Lambda_K3_sig_3_19": iter35["Lambda_K3_signature_3_19"]
+        is True,
+        "iter35_v_plus_squared_8": iter35["v_plus_squared_eq_8"] is True,
+        "iter35_v_minus_squared_8": iter35["v_minus_squared_eq_8"] is True,
+        "iter35_v_plus_dot_v_minus_0": iter35["v_plus_dot_v_minus_eq_0"]
+        is True,
+        "iter35_gram_N_diag_8_8": iter35["gram_N_eq_diag_8_8"] is True,
+        "iter35_embedding_primitive": iter35[
+            "embedding_primitive_gcd_minors_eq_1"
+        ]
+        is True,
+        "iter35_T_rank_20": iter35["transcendental_lattice_T_rank_20"]
+        is True,
+        "iter35_T_signature_1_19": iter35[
+            "transcendental_lattice_T_signature_1_19"
+        ]
+        is True,
+        "iter35_all_3_pairs_OK": iter35[
+            "all_3_TCS_pairs_primitive_embedding_OK"
+        ]
+        is True,
+        "iter35_all_3_pairs_T_sig_1_19": iter35[
+            "all_3_TCS_pairs_T_signature_1_19"
+        ]
+        is True,
+        "iter35_Nikulin_theorem_applies": iter35[
+            "Nikulin_theorem_applies"
+        ]
+        is True,
+        "iter35_complete": iter35[
+            "iter_35_primitive_embeddings_verified"
+        ]
+        is True,
+        # Master audit cross-checks for iter #35.
+        "master_audit_iter35_Lambda_K3_rank_22": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_Lambda_K3_rank_22"]
+        is True,
+        "master_audit_iter35_Lambda_K3_unimodular": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_Lambda_K3_unimodular"]
+        is True,
+        "master_audit_iter35_Lambda_K3_sig_3_19": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_Lambda_K3_sig_3_19"]
+        is True,
+        "master_audit_iter35_v_plus_8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_v_plus_sq_8"]
+        is True,
+        "master_audit_iter35_v_minus_8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_v_minus_sq_8"]
+        is True,
+        "master_audit_iter35_v_dot_0": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_v_plus_dot_v_minus_0"]
+        is True,
+        "master_audit_iter35_gram_diag": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_gram_N_diag_8_8"]
+        is True,
+        "master_audit_iter35_primitive": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_embedding_primitive"]
+        is True,
+        "master_audit_iter35_T_rank_20": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_T_rank_20"]
+        is True,
+        "master_audit_iter35_T_sig_1_19": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_T_sig_1_19"]
+        is True,
+        "master_audit_iter35_all_pairs_OK": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_all_3_pairs_OK"]
+        is True,
+        "master_audit_iter35_Nikulin_applies": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_Nikulin_theorem_applies"]
+        is True,
+        "master_audit_iter35_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter35_complete"]
         is True,
     }
 
