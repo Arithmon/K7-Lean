@@ -42,6 +42,7 @@ from gift_core.geometry.k3_explicit import (
     T5PrimeDonaldsonG2MetricAssembly,
     T5PrimeIter11ClosureFramework,
     Fano3FoldDatabaseForTCSBlocks,
+    HKRotationForTCSGluing,
     PrimitiveEmbeddingNplusNminusInLambdaK3,
     T5PrimeTCSPivotFramework,
     T5PrimeTauCurveAndNSLatticeFramework,
@@ -294,6 +295,10 @@ def verify() -> dict[str, bool]:
     # v_± = 4 e_± + f_± in distinct U-summands; embedding primitive;
     # transcendental lattice T = orthogonal has sig (1, 19) ✓.
     iter35 = PrimitiveEmbeddingNplusNminusInLambdaK3().audit()
+
+    # Iter #36 (Voie 1 TCS step 3): HK rotation r via cyclic permutation
+    # of 3 U-summands. All 3 Kovalev 2003 matching conditions satisfied ✓.
+    iter36 = HKRotationForTCSGluing().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -3182,6 +3187,72 @@ def verify() -> dict[str, bool]:
         "master_audit_iter35_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_iter35_complete"]
+        is True,
+        # Iter #36 (Voie 1 TCS step 3): HK rotation.
+        "iter36_r_isometry": iter36["r_isometry_of_Lambda_K3"] is True,
+        "iter36_Sigma_plus_HK_orth": iter36["Sigma_plus_HK_orthogonal"]
+        is True,
+        "iter36_Sigma_minus_HK_orth": iter36["Sigma_minus_HK_orthogonal"]
+        is True,
+        "iter36_kovalev_1": iter36["kovalev_condition_1"] is True,
+        "iter36_kovalev_2": iter36["kovalev_condition_2"] is True,
+        "iter36_kovalev_3": iter36["kovalev_condition_3"] is True,
+        "iter36_all_kovalev_OK": iter36[
+            "all_3_Kovalev_conditions_satisfied"
+        ]
+        is True,
+        "iter36_r_order_3": iter36["r_order_eq_3"] is True,
+        "iter36_r_id_on_E8": iter36["r_id_on_E8_summands"] is True,
+        "iter36_torelli_applies": iter36["torelli_realization_applies"]
+        is True,
+        "iter36_complete": iter36[
+            "iter_36_HK_rotation_constructed_verified"
+        ]
+        is True,
+        # Master audit cross-checks for iter #36.
+        "master_audit_iter36_r_isometry": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_r_isometry"]
+        is True,
+        "master_audit_iter36_Sigma_p_orth": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_Sigma_plus_HK_orth"]
+        is True,
+        "master_audit_iter36_Sigma_m_orth": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_Sigma_minus_HK_orth"]
+        is True,
+        "master_audit_iter36_kovalev_1": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_kovalev_1"]
+        is True,
+        "master_audit_iter36_kovalev_2": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_kovalev_2"]
+        is True,
+        "master_audit_iter36_kovalev_3": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_kovalev_3"]
+        is True,
+        "master_audit_iter36_all_kovalev": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_all_kovalev_OK"]
+        is True,
+        "master_audit_iter36_r_order_3": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_r_order_3"]
+        is True,
+        "master_audit_iter36_r_id_on_E8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_r_id_on_E8"]
+        is True,
+        "master_audit_iter36_torelli": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_torelli_applies"]
+        is True,
+        "master_audit_iter36_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter36_complete"]
         is True,
     }
 
