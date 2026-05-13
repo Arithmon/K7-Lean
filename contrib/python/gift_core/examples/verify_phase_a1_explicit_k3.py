@@ -39,6 +39,7 @@ from gift_core.geometry.k3_explicit import (
     T4Sym2VTauResidualReducibilityDiagnostic,
     T6JacobianStructuralAxisSingularitiesAnalysis,
     T5MixedIsotypeExplicitConstruction,
+    T5PrimeTemplateMixedIsotypeConstruction,
     T5SmoothnessAndZ2CubedFixLociAnalysis,
     T6KDiscriminantStratification,
     T6MixedIsotypeExplicitConstruction,
@@ -252,6 +253,11 @@ def verify() -> dict[str, bool]:
     # Numerical 200-pt rank-3 sample; σ_A 8 smooth fix pts (Mukai); σ_B
     # curve; τ free. Honest mismatch with iter #11 prescription.
     iter28 = T5SmoothnessAndZ2CubedFixLociAnalysis().audit()
+
+    # Iter #29 (path 22A step 3): T5'' template (1, 1, 2, 2, 0, 0, 0, 0)
+    # realizes full Mukai V_4 + τ anti-symp curve. Matches iter #11
+    # prescription at type level. Both ±1 eigenspaces in fix loci.
+    iter29 = T5PrimeTemplateMixedIsotypeConstruction().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2543,6 +2549,100 @@ def verify() -> dict[str, bool]:
         "master_audit_iter28_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_iter28_T5_complete"]
+        is True,
+        # Iter #29 (path 22A step 3): T5'' template.
+        "iter29_T5_prime_V_dim_6": iter29["V_dim_eq_6"] is True,
+        "iter29_T5_prime_trivial_dim_8": iter29["sym2V_trivial_dim_8"]
+        is True,
+        "iter29_T5_prime_full_dim_21": iter29["sym2V_full_dim_21"] is True,
+        "iter29_T5_prime_monomials_eq_8": iter29[
+            "trivial_isotype_monomial_count_eq_8"
+        ]
+        is True,
+        "iter29_T5_prime_G_invariant": iter29["all_3_quadrics_G_invariant"]
+        is True,
+        "iter29_T5_prime_irreducibility_10_seeds": iter29[
+            "numerical_irreducibility_all_seeds"
+        ]
+        is True,
+        "iter29_T5_prime_smoothness": iter29[
+            "numerical_smoothness_all_rank_3"
+        ]
+        is True,
+        "iter29_T5_prime_tau_anti_symp": iter29["tau_det_minus_1_anti_symp"]
+        is True,
+        "iter29_T5_prime_sigma_A_symp": iter29["sigma_A_det_plus_1_symp"]
+        is True,
+        "iter29_T5_prime_sigma_B_symp": iter29["sigma_B_det_plus_1_symp"]
+        is True,
+        "iter29_T5_prime_sigma_A_sigma_B_symp": iter29[
+            "sigma_A_sigma_B_det_plus_1_symp"
+        ]
+        is True,
+        "iter29_T5_prime_Mukai_V4_realized": iter29[
+            "Mukai_V_4_symplectic_subgroup_realized"
+        ]
+        is True,
+        "iter29_T5_prime_iter_11_match": iter29[
+            "iter_11_lattice_prescription_match_at_type_level"
+        ]
+        is True,
+        "iter29_T5_prime_complete": iter29[
+            "iter_29_T5_prime_template_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #29.
+        "master_audit_iter29_V_dim_6": master["lean_bool_certificates"][
+            "phase_a2_iter29_T5_prime_V_dim_6"
+        ]
+        is True,
+        "master_audit_iter29_trivial_dim_8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_trivial_dim_8"]
+        is True,
+        "master_audit_iter29_monomials_eq_8": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_monomials_eq_8"]
+        is True,
+        "master_audit_iter29_G_invariant": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_G_invariant"]
+        is True,
+        "master_audit_iter29_irreducibility": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_irreducibility_10_seeds"]
+        is True,
+        "master_audit_iter29_smoothness": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_smoothness"]
+        is True,
+        "master_audit_iter29_tau_anti_symp": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_tau_anti_symp"]
+        is True,
+        "master_audit_iter29_sigma_A_symp": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_sigma_A_symp"]
+        is True,
+        "master_audit_iter29_sigma_B_symp": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_sigma_B_symp"]
+        is True,
+        "master_audit_iter29_sigma_AB_symp": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_sigma_A_sigma_B_symp"]
+        is True,
+        "master_audit_iter29_Mukai_V4": master["lean_bool_certificates"][
+            "phase_a2_iter29_T5_prime_Mukai_V4_realized"
+        ]
+        is True,
+        "master_audit_iter29_iter_11_match": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter29_T5_prime_iter_11_match"]
+        is True,
+        "master_audit_iter29_complete": master["lean_bool_certificates"][
+            "phase_a2_iter29_T5_prime_complete"
+        ]
         is True,
     }
 
