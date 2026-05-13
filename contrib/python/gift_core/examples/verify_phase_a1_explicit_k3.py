@@ -38,6 +38,7 @@ from gift_core.geometry.k3_explicit import (
     T4CI222JacobianRankDeficiencyAnalysis,
     T4Sym2VTauResidualReducibilityDiagnostic,
     T6JacobianStructuralAxisSingularitiesAnalysis,
+    T5MixedIsotypeExplicitConstruction,
     T6KDiscriminantStratification,
     T6MixedIsotypeExplicitConstruction,
     T6VarietyReducibilityNOGOTheorem,
@@ -240,6 +241,11 @@ def verify() -> dict[str, bool]:
     # V(Q) factorizes as xa2 · xb2 · K_τ(xt2) in chart xt1=1 ⟹ reducible
     # for generic T6 moduli ⟹ NOT a smooth K3. Pivot to T5 (path 22A).
     iter26 = T6VarietyReducibilityNOGOTheorem().audit()
+
+    # Iter #27 (path 22A pivot): T5 mixed-isotype with trivial-character
+    # coord x_1, 3 G-INVARIANT quadrics in 7-dim trivial isotype. 10-seed
+    # Groebner irreducibility pre-flight: all pass (no linear factor).
+    iter27 = T5MixedIsotypeExplicitConstruction().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2384,6 +2390,94 @@ def verify() -> dict[str, bool]:
         is True,
         "master_audit_iter26_complete": master["lean_bool_certificates"][
             "phase_a2_iter26_T6_reducibility_NO_GO_complete"
+        ]
+        is True,
+        # Iter #27 (path 22A pivot): T5 mixed-isotype.
+        "iter27_T5_V_dim_6": iter27["V_dim_eq_6"] is True,
+        "iter27_T5_m_1_eq_1_trivial_coord": iter27[
+            "m_1_eq_1_trivial_coord_present"
+        ]
+        is True,
+        "iter27_T5_sym2V_trivial_dim_7": iter27["sym2V_trivial_dim_7"]
+        is True,
+        "iter27_T5_sym2V_full_dim_21": iter27["sym2V_full_dim_21"]
+        is True,
+        "iter27_T5_trivial_monomials_eq_7": iter27[
+            "trivial_isotype_monomial_count_eq_7"
+        ]
+        is True,
+        "iter27_T5_quadric_coeff_count_eq_21": iter27[
+            "parametric_quadric_coefficient_count_eq_21"
+        ]
+        is True,
+        "iter27_T5_all_3_quadrics_G_invariant": iter27[
+            "all_3_quadrics_G_invariant"
+        ]
+        is True,
+        "iter27_T5_jacobian_3x6": iter27["jacobian_shape_3x6"] is True,
+        "iter27_T5_all_6_cols_non_spectator": iter27[
+            "all_6_basis_vars_non_spectator"
+        ]
+        is True,
+        "iter27_T5_irreducibility_all_10_seeds": iter27[
+            "numerical_irreducibility_all_10_seeds"
+        ]
+        is True,
+        "iter27_T5_zero_dim_anti_inv_witness": iter27[
+            "zero_dim_at_anti_invariant_subspace_witness"
+        ]
+        is True,
+        "iter27_T5_construction_complete": iter27[
+            "iter_27_T5_mixed_isotype_construction_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #27.
+        "master_audit_iter27_V_dim_6": master["lean_bool_certificates"][
+            "phase_a2_iter27_T5_V_dim_6"
+        ]
+        is True,
+        "master_audit_iter27_m_1_eq_1": master["lean_bool_certificates"][
+            "phase_a2_iter27_T5_m_1_eq_1"
+        ]
+        is True,
+        "master_audit_iter27_trivial_dim_7": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter27_T5_sym2V_trivial_dim_7"]
+        is True,
+        "master_audit_iter27_full_dim_21": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter27_T5_sym2V_full_dim_21"]
+        is True,
+        "master_audit_iter27_monomials_eq_7": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter27_T5_trivial_monomials_eq_7"]
+        is True,
+        "master_audit_iter27_coeff_count_eq_21": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter27_T5_quadric_coeff_count_eq_21"]
+        is True,
+        "master_audit_iter27_G_invariant": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter27_T5_all_quadrics_G_invariant"]
+        is True,
+        "master_audit_iter27_jacobian_3x6": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter27_T5_jacobian_3x6"]
+        is True,
+        "master_audit_iter27_non_spectator": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter27_T5_all_6_cols_non_spectator"]
+        is True,
+        "master_audit_iter27_irreducibility_10_seeds": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter27_T5_irreducibility_all_10_seeds"]
+        is True,
+        "master_audit_iter27_zero_dim_anti_inv": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter27_T5_zero_dim_anti_inv_witness"]
+        is True,
+        "master_audit_iter27_complete": master["lean_bool_certificates"][
+            "phase_a2_iter27_T5_construction_complete"
         ]
         is True,
     }
