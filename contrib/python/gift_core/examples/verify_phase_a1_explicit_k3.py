@@ -45,6 +45,7 @@ from gift_core.geometry.k3_explicit import (
     HKRotationForTCSGluing,
     PrimitiveEmbeddingNplusNminusInLambdaK3,
     T5PrimeTCSPivotFramework,
+    TCSTopologyAndFundamentalGroup,
     T5PrimeTauCurveAndNSLatticeFramework,
     T5PrimeTemplateMixedIsotypeConstruction,
     T5SmoothnessAndZ2CubedFixLociAnalysis,
@@ -299,6 +300,11 @@ def verify() -> dict[str, bool]:
     # Iter #36 (Voie 1 TCS step 3): HK rotation r via cyclic permutation
     # of 3 U-summands. All 3 Kovalev 2003 matching conditions satisfied ✓.
     iter36 = HKRotationForTCSGluing().audit()
+
+    # Iter #37 (Voie 1 TCS step 4): TCS topology. π_1(M) = 1 by Kovalev
+    # 2003 ⟹ HOLONOMY GAP CLOSED. (b_2, b_3) = (21, 77) match requires
+    # higher Picard Fano (iter #38+).
+    iter37 = TCSTopologyAndFundamentalGroup().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -3253,6 +3259,79 @@ def verify() -> dict[str, bool]:
         "master_audit_iter36_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_iter36_complete"]
+        is True,
+        # Iter #37 (Voie 1 TCS step 4): TCS topology, π_1 = 1.
+        "iter37_pi_1_simply_connected": iter37[
+            "pi_1_M_simply_connected_or_finite"
+        ]
+        is True,
+        "iter37_HOLONOMY_GAP_CLOSED": iter37[
+            "holonomy_gap_for_Hol_eq_G2_CLOSED"
+        ]
+        is True,
+        "iter37_Kovalev_2003_applies": iter37[
+            "Kovalev_2003_Thm_1_6_applies"
+        ]
+        is True,
+        "iter37_Kollar_1996_Fano_sc": iter37[
+            "Kollar_1996_Fano_simply_connected"
+        ]
+        is True,
+        "iter37_K3_sc": iter37["K3_simply_connected"] is True,
+        "iter37_b2_b3_formulas": iter37[
+            "b2_b3_formulas_Kovalev_CHN_P_available"
+        ]
+        is True,
+        "iter37_V222_NO_match_21_77_HONEST": iter37[
+            "vanilla_V222_pair_does_NOT_match_21_77_HONEST"
+        ]
+        is True,
+        "iter37_routes_to_21_77": iter37["routes_to_21_77_documented"]
+        is True,
+        "iter37_next_iter_38_focus": iter37[
+            "next_iter_38_focus_higher_Picard_or_extra_TCS"
+        ]
+        is True,
+        "iter37_complete": iter37[
+            "iter_37_TCS_topology_framework_complete"
+        ]
+        is True,
+        # Master audit cross-checks for iter #37.
+        "master_audit_iter37_pi_1_sc": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter37_pi_1_M_simply_connected"]
+        is True,
+        "master_audit_iter37_GAP_CLOSED": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter37_HOLONOMY_GAP_CLOSED"]
+        is True,
+        "master_audit_iter37_Kovalev": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter37_Kovalev_2003_Thm_applies"]
+        is True,
+        "master_audit_iter37_Kollar": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter37_Kollar_1996_Fano_sc"]
+        is True,
+        "master_audit_iter37_K3_sc": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter37_K3_simply_connected"]
+        is True,
+        "master_audit_iter37_formulas": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter37_b2_b3_formulas_available"]
+        is True,
+        "master_audit_iter37_routes": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter37_routes_to_21_77_documented"]
+        is True,
+        "master_audit_iter37_focus_38": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter37_next_iter_38_focus"]
+        is True,
+        "master_audit_iter37_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter37_complete"]
         is True,
     }
 
