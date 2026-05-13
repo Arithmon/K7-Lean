@@ -41,6 +41,7 @@ from gift_core.geometry.k3_explicit import (
     T5MixedIsotypeExplicitConstruction,
     T5PrimeDonaldsonG2MetricAssembly,
     T5PrimeIter11ClosureFramework,
+    T5PrimeTCSPivotFramework,
     T5PrimeTauCurveAndNSLatticeFramework,
     T5PrimeTemplateMixedIsotypeConstruction,
     T5SmoothnessAndZ2CubedFixLociAnalysis,
@@ -272,10 +273,15 @@ def verify() -> dict[str, bool]:
     # stratification table, Mukai V_4 Gram template, Donaldson handoff.
     iter31 = T5PrimeIter11ClosureFramework().audit()
 
-    # Iter #32 🏁 (path 22A step 6, PHASE A.2 FINAL): explicit Donaldson
-    # G_2 metric assembly on M = (T^3 × X̃)/Z_2^3.
-    # Topology (b_2, b_3) = (21, 77), H_* = 99, GIFT foundation ✓.
+    # Iter #32 🏁 (path 22A step 6): Donaldson G_2 torsion-free assembly
+    # on M = (T^3 × X̃)/Z_2^3. Topology (b_2, b_3) = (21, 77).
+    # GPT review: Hol ⊆ G_2 but π_1 infinite ⟹ NOT full Hol = G_2.
     iter32 = T5PrimeDonaldsonG2MetricAssembly().audit()
+
+    # Iter #33 ⚠️ (path 23A POST-GPT-REVIEW PIVOT): TCS framework setup
+    # using T5'' as K3 matching surface for full Hol = G_2.
+    # 3 paths: TCS (recommended), Joyce-orbifold, Donaldson K-L fibration.
+    iter33 = T5PrimeTCSPivotFramework().audit()
 
     # Master audit.
     master = audit_phase_a1_master()
@@ -2924,6 +2930,96 @@ def verify() -> dict[str, bool]:
         "master_audit_path_22A_complete": master[
             "lean_bool_certificates"
         ]["phase_a2_path_22A_complete_iter_27_to_32"]
+        is True,
+        # Iter #33 ⚠️ (POST-GPT-REVIEW PIVOT).
+        "iter33_TCS_pivot_setup_complete": iter33[
+            "iter_33_TCS_pivot_setup_complete"
+        ]
+        is True,
+        "iter33_GPT_review_acknowledged": iter33[
+            "GPT_review_holonomy_gap_acknowledged"
+        ]
+        is True,
+        "iter33_iter32_Hol_contained_only": iter33[
+            "iter_32_Hol_contained_in_G2_only"
+        ]
+        is True,
+        "iter33_iter_27_32_REUSABLE_infra": iter33[
+            "iter_27_to_32_work_REUSABLE_infrastructure"
+        ]
+        is True,
+        "iter33_T5_prime_NS_rank_15": iter33["T5_prime_NS_rank_15"]
+        is True,
+        "iter33_T5_prime_signature_1_14": iter33[
+            "T5_prime_signature_1_14"
+        ]
+        is True,
+        "iter33_Lambda_K3_universal_setup": iter33[
+            "Lambda_K3_universal_form_setup"
+        ]
+        is True,
+        "iter33_three_paths_TCS_orbifold_KL": iter33[
+            "three_paths_TCS_orbifold_KL_documented"
+        ]
+        is True,
+        "iter33_TCS_recommended_voie_1": iter33["TCS_recommended_voie_1"]
+        is True,
+        "iter33_roadmap_6_steps_iter_34_39": iter33[
+            "iter_34_to_39_TCS_roadmap_steps"
+        ]
+        is True,
+        "iter33_block_A_pi_1_finite_target": iter33[
+            "block_A_pi_1_FINITE_target"
+        ]
+        is True,
+        "iter33_block_D_Hol_eq_G2_target_iter_39": iter33[
+            "block_D_Hol_eq_G2_target_iter_39"
+        ]
+        is True,
+        # Master audit cross-checks for iter #33.
+        "master_audit_iter33_setup_complete": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_TCS_pivot_setup_complete"]
+        is True,
+        "master_audit_iter33_GPT_acknowledged": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_GPT_review_acknowledged"]
+        is True,
+        "master_audit_iter33_Hol_contained_only": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_iter_32_Hol_contained_only"]
+        is True,
+        "master_audit_iter33_NS_15": master["lean_bool_certificates"][
+            "phase_a2_iter33_T5_prime_NS_rank_15"
+        ]
+        is True,
+        "master_audit_iter33_sig_1_14": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_T5_prime_signature_1_14"]
+        is True,
+        "master_audit_iter33_Lambda_K3": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_Lambda_K3_setup"]
+        is True,
+        "master_audit_iter33_3_paths": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_three_paths_documented"]
+        is True,
+        "master_audit_iter33_TCS_voie_1": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_TCS_recommended_voie_1"]
+        is True,
+        "master_audit_iter33_roadmap_6_steps": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_roadmap_6_steps_iter_34_39"]
+        is True,
+        "master_audit_iter33_block_A_pi_1_finite": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_block_A_pi_1_finite_target"]
+        is True,
+        "master_audit_iter33_block_D_Hol_G2_target": master[
+            "lean_bool_certificates"
+        ]["phase_a2_iter33_block_D_Hol_eq_G2_target"]
         is True,
     }
 

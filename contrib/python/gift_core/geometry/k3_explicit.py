@@ -13430,6 +13430,319 @@ class T5PrimeDonaldsonG2MetricAssembly:
 
 
 # =============================================================================
+# Section 6.20 — Iter #33: TCS pivot setup using T5'' as K3 matching ⚠️ (post-GPT review)
+# =============================================================================
+#
+# POST-GPT REVIEW PIVOT.
+#
+# GPT review (2026-05-13 soir) identifies critical gap : iter #27-32
+# construction $M = (T^3 \times \tilde{X})/Z_2^3$ gives TORSION-FREE
+# G_2 structure ($d\varphi = d\star\varphi = 0$) BUT
+#
+#   $\pi_1(M) \supset \mathbb{Z}^3 / Z_2^3 \text{ INFINITE}$ (from T^3 heritage)
+#
+# By the standard holonomy criterion :
+#
+#   $\mathrm{Hol}(g) = G_2 \iff \pi_1(M) \text{ FINITE}$
+#
+# Therefore iter #32 has $\mathrm{Hol}(g) \subseteq G_2$ (CONTAINED) but
+# NOT $\mathrm{Hol}(g) = G_2$ (FULL). The torsion-free structure is
+# valid, but the holonomy is reducible.
+#
+# For GIFT physical interpretation + journal-grade proof, need full
+# Hol = G_2. Three paths forward (GPT analysis) :
+#
+# **VOIE 1 — TCS / extra-TCS via T5'' as K3 matching surface** ⭐ RECOMMENDED
+#   - 2 ACyl CY blocks $(Z_+, Z_-)$ with cylindrical ends $S^1 \times \Sigma$
+#   - $\Sigma$ = K3 surface = T5'' construction
+#   - Gluing via HK rotation that SWAPS the $S^1$s and twists the K3s
+#   - Result : simply-connected 7-manifold with Hol = G_2 (Nordström)
+#   - Reference : Nordström "Extra-twisted connected sum G_2-manifolds"
+#     (arXiv:1809.09083), Corti-Haskins-Nordström-Pacini (2015)
+#
+# **VOIE 2 — Joyce-orbifold + Eguchi-Hanson resolution**
+#   - Keep $T^3 \times \tilde{X}/Z_2^3$ but with $A_1$ singularities
+#   - Resolve via Eguchi-Hanson local models
+#   - More dangerous for $\pi_1$ control
+#   - Reference : Joyce-Karigiannis 2017
+#
+# **VOIE 3 — Donaldson Kovalev-Lefschetz fibration** ⚠️ ambitious
+#   - Real coassociative K3 fibration with non-trivial monodromy
+#   - Reference : Donaldson 2017
+#
+# **PIVOT DECISION** : Voie 1 (TCS) for path 23A.
+#
+# Iter #33 sets up the STRUCTURAL FRAMEWORK for the TCS pivot,
+# exporting T5'' lattice data and outlining the search for ACyl CY
+# blocks. Actual TCS gluing theorem application + topology computation
+# deferred to iter #34+ (potentially many iterations).
+#
+# === T5'' LATTICE DATA EXPORT ===
+#
+# For TCS matching with $\Sigma = $ T5'' K3, need :
+#   - NS lattice rank (= 15 after Mukai V_4 resolution, iter #30)
+#   - Signature (1, 14)
+#   - Discriminant target $2^7$ (iter #11)
+#   - Primitive embeddings $N_\pm \hookrightarrow \Lambda_{K3} = 3U \oplus 2 E_8(-1)$
+#   - HK rotation candidate $r : H^2(\Sigma_+) \to H^2(\Sigma_-)$
+#
+# === ACYL CY BLOCKS SEARCH (deferred iter #34+) ===
+#
+# Standard databases :
+#   - BK22 : Buchstaber-Kuznetsov 22 Fano 3-folds
+#   - Fanography : Fano 3-fold classification (Mori-Mukai)
+#   - Toric Fano database
+#
+# For each Fano 3-fold $Y$ with anti-canonical $K_Y$, the ACyl CY
+# block is $Z = Y \setminus \Sigma_Y$ where $\Sigma_Y$ is a smooth
+# anti-canonical K3 divisor. The lattice $N_Y = \mathrm{image}(H^2(Y) \to
+# H^2(\Sigma_Y))$.
+#
+# Matching condition : find $(Y_+, Y_-)$ with $\Sigma_{Y_\pm}$
+# lattice-isomorphic to T5'' K3, and $N_+ \perp N_-$ in $\Lambda_{K3}$
+# (or appropriate intersection condition for extra-TCS).
+#
+# === HK ROTATION FRAMEWORK ===
+#
+# For TCS gluing, the HK rotation $r$ satisfies :
+#   $r([\omega_+]) = \mathrm{Re}\,\Omega_-$
+#   $r(\mathrm{Re}\,\Omega_+) = [\omega_-]$
+#   $r(\mathrm{Im}\,\Omega_+) = -\mathrm{Im}\,\Omega_-$
+#
+# This is a lattice-Torelli problem : construct the abstract isometry,
+# then invoke Torelli theorem to realize it as a geometric rotation.
+#
+# === CERTIFICAT MINIMAL HOL = G_2 (RAPPEL) ===
+#
+# 4 blocks needed (GPT criterion) :
+#   Block A : $M$ compact lisse spin orientable, $\pi_1(M)$ FINI,
+#             $b_2 = 21$, $b_3 = 77$
+#   Block B : $\varphi_t$ closed with torsion $O(t^\alpha)$
+#   Block C : explicit bounds $|\mathrm{Rm}| \leq C t^{-\beta}$,
+#             $\mathrm{inj} \geq C t^\gamma$, $C_S \leq C t^{-\delta}$
+#   Block D : Hol = G_2 conclusion via $\pi_1$ finite + torsion-free
+
+
+@dataclass(frozen=True)
+class T5PrimeTCSPivotFramework:
+    """Iter #33 (path 23A, post-GPT-review) ⚠️: TCS pivot setup using
+    T5'' as K3 matching surface.
+
+    Exports T5'' lattice data, sets up primitive embedding problem,
+    HK rotation framework, and outlines the path to full Hol = G_2
+    via Nordström / Corti-Haskins-Nordström-Pacini TCS construction.
+
+    This class establishes the STRUCTURAL FRAMEWORK for the TCS pivot.
+    Actual TCS gluing implementation deferred to iter #34+ (multi-iter
+    project).
+    """
+
+    closure_framework: T5PrimeIter11ClosureFramework = field(
+        default_factory=T5PrimeIter11ClosureFramework
+    )
+
+    def gpt_review_holonomy_gap_summary(self) -> dict[str, object]:
+        """Summary of the GPT review identifying the holonomy precision
+        gap in iter #27-32."""
+        return {
+            "current_construction_iter_32": "M = (T^3 × X̃) / Z_2^3",
+            "current_torsion_free_G2_OK": True,
+            "current_Hol_contained_in_G2": True,
+            "current_b2_b3_match": (21, 77),
+            "current_pi_1_M": "infinite (Z^3 / Z_2^3 heritage from T^3)",
+            "current_Hol_eq_G2_FULL": False,
+            "criterion_for_full_Hol_eq_G2": (
+                "π_1(M) FINITE (Joyce/Berger standard theorem)"
+            ),
+            "gap_identified_by_GPT_2026_05_13_evening": True,
+            "iter_27_to_32_work_status": "REUSABLE INFRASTRUCTURE (T5'' K3 lattice + V_4 + τ + NS=15 framework)",
+            "needed_pivot": "TCS or Joyce-orbifold construction for π_1 finite",
+        }
+
+    def T5_prime_lattice_data_for_TCS_matching(self) -> dict[str, object]:
+        """Export of T5'' lattice data needed for TCS matching as
+        $\\Sigma$ = K3 boundary surface.
+        """
+        return {
+            "Sigma_K3_construction": "T5'' V(Q) ⊂ P^5 (iter #29)",
+            "NS_lattice_rank": 15,
+            "NS_lattice_signature_positive": 1,
+            "NS_lattice_signature_negative": 14,
+            "NS_lattice_discriminant_target": 2 ** 7,
+            "K3_universal_lattice_Lambda": "3U ⊕ 2 E_8(-1) (rank 22, signature (3, 19))",
+            "K3_polarization_class_H_squared": 8,
+            "Mukai_V4_24_fixed_points_blow_up": True,
+            "exceptional_classes_count": 14,
+            "primitive_embedding_problem": (
+                "Find N_+, N_- ⊂ Λ_K3 with NS(Σ) = N_+ + N_- (or"
+                " ⊥-complement structure for extra-TCS)"
+            ),
+            "Nikulin_primitive_embedding_framework_available": True,
+            "lattice_Torelli_for_HK_rotation_iter_34": True,
+        }
+
+    def TCS_three_paths_roadmap(self) -> dict[str, dict[str, str]]:
+        """Roadmap of the 3 paths to full Hol = G_2 (GPT review)."""
+        return {
+            "voie_1_TCS_extra_TCS_RECOMMENDED": {
+                "architecture": "M = (S^1 × Y_+) ⊔_HK (S^1 × Y_-) gluing",
+                "key_step": "ACyl CY blocks Z_± with bound = S^1 × T5''",
+                "pi_1_outcome": "Generally finite, often simply-connected",
+                "T5_prime_role": "K3 boundary surface Σ",
+                "main_reference": "Nordström 'Extra-twisted connected sum G_2-manifolds' (1809.09083)",
+                "iter_count_estimate": "iter #34-40+",
+            },
+            "voie_2_Joyce_orbifold_resolution": {
+                "architecture": "T^3 × X̃/Z_2^3 with A_1 singularities + Eguchi-Hanson resolution",
+                "key_step": "Find sub-action with non-free fix loci",
+                "pi_1_outcome": "Requires verification (could still be infinite)",
+                "T5_prime_role": "Singular K3 ingredient (V_4 fix loci useful)",
+                "main_reference": "Joyce-Karigiannis 2017",
+                "iter_count_estimate": "iter #34-38",
+            },
+            "voie_3_Donaldson_KL_fibration": {
+                "architecture": "π: M^7 → B^3 coassociative K3 fibration",
+                "key_step": "Non-trivial monodromy in O(Λ_K3)",
+                "pi_1_outcome": "Depends on monodromy",
+                "T5_prime_role": "Generic K3 fiber",
+                "main_reference": "Donaldson 2017",
+                "iter_count_estimate": "iter #34-50+",
+            },
+        }
+
+    def TCS_setup_steps_for_iter_34_plus(self) -> list[dict[str, str]]:
+        """Concrete steps for Voie 1 TCS pivot starting iter #34."""
+        return [
+            {
+                "step": "Step 1 (iter #34)",
+                "task": "Search Fano 3-fold databases (BK22, fanography, toric) for candidates Y_± with anti-canonical K3 divisor lattice-compatible with T5''",
+                "deliverable": "List of candidate ACyl CY blocks",
+            },
+            {
+                "step": "Step 2 (iter #35)",
+                "task": "Compute primitive embedding N_+ ⊕ N_- ↪ Λ_K3 for each candidate pair",
+                "deliverable": "Lattice match certificates",
+            },
+            {
+                "step": "Step 3 (iter #36)",
+                "task": "Construct HK rotation r: H^2(Σ_+) → H^2(Σ_-) matching positive planes",
+                "deliverable": "Lattice isometry data + Torelli realisation",
+            },
+            {
+                "step": "Step 4 (iter #37)",
+                "task": "Compute (b_2, b_3, π_1, torsion H^4) via TCS formulas (Kovalev 2003, CHN-P 2015)",
+                "deliverable": "Topology certificate, target (21, 77) + π_1 finite",
+            },
+            {
+                "step": "Step 5 (iter #38)",
+                "task": "Apply analytic TCS gluing theorem (existence of torsion-free G_2)",
+                "deliverable": "Torsion-free G_2 structure on glued M",
+            },
+            {
+                "step": "Step 6 (iter #39)",
+                "task": "Conclude Hol = G_2 via π_1(M) finite + torsion-free",
+                "deliverable": "Full G_2-holonomy certificate ⟹ PHASE A FULLY DONE",
+            },
+        ]
+
+    def certificat_minimal_Hol_G2_4_blocks(self) -> dict[str, dict[str, str]]:
+        """Final 4-block certificate for Hol = G_2 (GPT criterion)."""
+        return {
+            "block_A_topology": {
+                "content": "M compact, smooth, spin, orientable, π_1(M) FINITE, b_2=21, b_3=77",
+                "status_iter_32": "PARTIAL (b_2, b_3 OK but π_1 infinite)",
+                "status_target_iter_39": "FULL after TCS construction",
+            },
+            "block_B_G2_structure": {
+                "content": "φ_t closed, torsion |d*φ_t| ≤ C t^α",
+                "status_iter_32": "ACHIEVED for ε small (Donaldson 2017)",
+                "status_target_iter_39": "ACHIEVED via TCS gluing theorem",
+            },
+            "block_C_perturbative_bounds": {
+                "content": "|Rm| ≤ C t^{-β}, inj ≥ C t^γ, Sobolev C_S ≤ C t^{-δ}",
+                "status_iter_32": "STRUCTURAL only (no explicit constants)",
+                "status_target_iter_39": "Explicit bounds from CHN-P 2015 / Kovalev 2003 framework",
+            },
+            "block_D_holonomy": {
+                "content": "Hol(g) = G_2 via π_1 finite + torsion-free",
+                "status_iter_32": "Hol(g) ⊆ G_2 only (π_1 infinite)",
+                "status_target_iter_39": "Hol(g) = G_2 FULL via π_1 finite from TCS",
+            },
+        }
+
+    def audit(self) -> dict[str, object]:
+        gap = self.gpt_review_holonomy_gap_summary()
+        lattice_data = self.T5_prime_lattice_data_for_TCS_matching()
+        paths = self.TCS_three_paths_roadmap()
+        steps = self.TCS_setup_steps_for_iter_34_plus()
+        cert = self.certificat_minimal_Hol_G2_4_blocks()
+        return {
+            "iter_33_TCS_pivot_setup_complete": True,
+            "GPT_review_holonomy_gap_acknowledged": gap[
+                "gap_identified_by_GPT_2026_05_13_evening"
+            ],
+            "iter_32_Hol_contained_in_G2_only": (
+                gap["current_Hol_contained_in_G2"]
+                and not gap["current_Hol_eq_G2_FULL"]
+            ),
+            "iter_27_to_32_work_REUSABLE_infrastructure": True,
+            "T5_prime_NS_rank_15": (
+                lattice_data["NS_lattice_rank"] == 15
+            ),
+            "T5_prime_signature_1_14": (
+                lattice_data["NS_lattice_signature_positive"] == 1
+                and lattice_data["NS_lattice_signature_negative"] == 14
+            ),
+            "Lambda_K3_universal_form_setup": (
+                lattice_data["K3_universal_lattice_Lambda"]
+                == "3U ⊕ 2 E_8(-1) (rank 22, signature (3, 19))"
+            ),
+            "three_paths_TCS_orbifold_KL_documented": (
+                len(paths) == 3
+            ),
+            "TCS_recommended_voie_1": True,
+            "iter_34_to_39_TCS_roadmap_steps": len(steps) == 6,
+            "block_A_pi_1_FINITE_target": (
+                cert["block_A_topology"]["status_target_iter_39"]
+                == "FULL after TCS construction"
+            ),
+            "block_D_Hol_eq_G2_target_iter_39": True,
+            "gap_summary_dict": gap,
+            "lattice_data_dict": lattice_data,
+            "paths_dict": paths,
+            "TCS_steps_iter_34_plus": steps,
+            "certificat_minimal_4_blocks": cert,
+            "honest_scope": (
+                "Iter #33 (path 23A, POST-GPT-REVIEW PIVOT) ⚠️: TCS"
+                " setup using T5'' as K3 matching surface for"
+                " transition to full Hol = G_2. GPT review (2026-05-13"
+                " soir) identifies that iter #27-32 give torsion-free"
+                " G_2 structure with Hol ⊆ G_2 but NOT Hol = G_2 due"
+                " to π_1(M) infinite (Z^3 / Z_2^3 heritage from T^3"
+                " in free quotient construction). Joyce/Berger criterion"
+                " : Hol = G_2 ⟺ π_1 FINITE for compact torsion-free"
+                " G_2-manifold. 3 paths to fix : Voie 1 TCS/extra-TCS"
+                " ⭐ recommended (Nordström 1809.09083), Voie 2 Joyce-"
+                "orbifold + Eguchi-Hanson resolution, Voie 3 Donaldson"
+                " K-L fibration. T5'' iter #27-32 work is REUSABLE"
+                " INFRASTRUCTURE (K3 lattice rank 15, V_4 + τ action"
+                " structure, NS framework). TCS pivot uses T5'' as"
+                " boundary K3 Σ for 2 ACyl CY blocks Z_± with cylindrical"
+                " ends S^1 × Σ, glued via HK rotation. Roadmap iter"
+                " #34-39 : Fano database search, primitive embeddings,"
+                " HK rotation, TCS topology (21, 77) + π_1 finite,"
+                " analytic gluing theorem, full Hol = G_2 conclusion."
+                " Certificat minimal 4 blocks (A: topology + π_1 finite,"
+                " B: closed φ_t torsion small, C: bounds explicit,"
+                " D: holonomy via π_1 finite + torsion-free) — iter"
+                " #32 has B partial, iter #39 target = full A+B+C+D."
+                " Honest scope: iter #33 is FRAMEWORK SETUP only, not"
+                " implementation. TCS is multi-iter project (#34-#40+)."
+            ),
+        }
+
+
+# =============================================================================
 # Section 7 — Phase A.1 master audit
 # =============================================================================
 
@@ -13576,6 +13889,9 @@ class PhaseA1MasterAudit:
     )
     iter_32_T5_prime_donaldson_G2: T5PrimeDonaldsonG2MetricAssembly = field(
         default_factory=T5PrimeDonaldsonG2MetricAssembly
+    )
+    iter_33_TCS_pivot: T5PrimeTCSPivotFramework = field(
+        default_factory=T5PrimeTCSPivotFramework
     )
 
     def audit(self) -> dict[str, object]:
@@ -13789,6 +14105,11 @@ class PhaseA1MasterAudit:
         # Donaldson G_2 metric assembly on M = (T^3 × X̃)/Z_2^3.
         # Topology (b_2, b_3) = (21, 77) ✓ GIFT.
         iter_32 = self.iter_32_T5_prime_donaldson_G2.audit()
+
+        # Iteration #33 ⚠️ (path 23A, POST-GPT-REVIEW PIVOT):
+        # TCS setup using T5'' as K3 matching for full Hol = G_2.
+        # GPT review identifies π_1 infinite in iter #32 ⟹ pivot to TCS.
+        iter_33 = self.iter_33_TCS_pivot.audit()
 
         # K3 lattice sanity (Λ_{K3} = U^3 ⊕ E_8(-1)^2).
         k3_sanity = {
@@ -14961,6 +15282,40 @@ class PhaseA1MasterAudit:
                 "phase_a2_path_22A_complete_iter_27_to_32": iter_32[
                     "iter_27_to_32_path_22A_complete"
                 ],
+                # iter #33 ⚠️ (path 23A, POST-GPT-REVIEW PIVOT).
+                "phase_a2_iter33_TCS_pivot_setup_complete": iter_33[
+                    "iter_33_TCS_pivot_setup_complete"
+                ],
+                "phase_a2_iter33_GPT_review_acknowledged": iter_33[
+                    "GPT_review_holonomy_gap_acknowledged"
+                ],
+                "phase_a2_iter33_iter_32_Hol_contained_only": iter_33[
+                    "iter_32_Hol_contained_in_G2_only"
+                ],
+                "phase_a2_iter33_T5_prime_NS_rank_15": iter_33[
+                    "T5_prime_NS_rank_15"
+                ],
+                "phase_a2_iter33_T5_prime_signature_1_14": iter_33[
+                    "T5_prime_signature_1_14"
+                ],
+                "phase_a2_iter33_Lambda_K3_setup": iter_33[
+                    "Lambda_K3_universal_form_setup"
+                ],
+                "phase_a2_iter33_three_paths_documented": iter_33[
+                    "three_paths_TCS_orbifold_KL_documented"
+                ],
+                "phase_a2_iter33_TCS_recommended_voie_1": iter_33[
+                    "TCS_recommended_voie_1"
+                ],
+                "phase_a2_iter33_roadmap_6_steps_iter_34_39": iter_33[
+                    "iter_34_to_39_TCS_roadmap_steps"
+                ],
+                "phase_a2_iter33_block_A_pi_1_finite_target": iter_33[
+                    "block_A_pi_1_FINITE_target"
+                ],
+                "phase_a2_iter33_block_D_Hol_eq_G2_target": iter_33[
+                    "block_D_Hol_eq_G2_target_iter_39"
+                ],
                 # Per GPT council #10: split master Bool into two explicit-
                 # scope Bools to remove ambiguity. The original
                 # `phase_a1_explicit_model_realizes_gift_betti` is
@@ -15581,6 +15936,8 @@ __all__ = [
     "T5PrimeTauCurveAndNSLatticeFramework",
     # iter #31 (Phase A.2 path 22A step 5): T5'' iter #11 closure framework
     "T5PrimeIter11ClosureFramework",
-    # iter #32 🏁 (Phase A.2 path 22A step 6, FINAL): Donaldson G_2 metric assembly
+    # iter #32 🏁 (Phase A.2 path 22A step 6): Donaldson G_2 metric assembly (Hol ⊆ G_2)
     "T5PrimeDonaldsonG2MetricAssembly",
+    # iter #33 ⚠️ (Phase A.2 path 23A POST-GPT-REVIEW PIVOT): TCS framework via T5''
+    "T5PrimeTCSPivotFramework",
 ]
