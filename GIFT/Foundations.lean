@@ -57,6 +57,8 @@ import GIFT.Foundations.IntervalCertificates
 import GIFT.Foundations.JoyceKarigiannisConstruction
 -- Phase A.2 iter #19 obstruction ledger: rank-7 T_X obstruction + three re-entry paths
 import GIFT.Foundations.PhaseA2Obstruction
+-- G_2 TCS lattice certificate: Prop 6.1 primitive embedding, Prop 6.3 Kovalev matching, §4.1 sign table
+import GIFT.Foundations.G2TCSLatticeCertificate
 -- Metric gap closure: typed analytic/torsion-free status and promotion gates
 import GIFT.Foundations.MetricGapClosure
 -- Metric candidate search: finite symbolic search for block Betti signatures
