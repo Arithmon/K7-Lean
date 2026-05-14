@@ -61,6 +61,8 @@ import GIFT.Foundations.PhaseA2Obstruction
 import GIFT.Foundations.G2TCSLatticeCertificate
 -- G_2 Donaldson link cohomology: b_3 = 1 + b_1(Sigma_2(L)) formula + (21, 77) target match
 import GIFT.Foundations.G2DonaldsonLinkCohomology
+-- Phase 4 itér 4.4.2 basis change + Phase A.2 iter #31 (c) Mukai V_4 Gram closure
+import GIFT.Foundations.G2IrrepLatticeCertificate
 -- Metric gap closure: typed analytic/torsion-free status and promotion gates
 import GIFT.Foundations.MetricGapClosure
 -- Metric candidate search: finite symbolic search for block Betti signatures
