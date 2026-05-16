@@ -5,6 +5,36 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.21] - 2026-05-17
+
+### Summary
+
+**K3 $\mathbb{Z}_2^3$-isotype Lefschetz certificate — $H^2(K3)=22$ decomposition machine-checked.**
+
+New module `GIFT/Foundations/K3IsotypeLefschetzCertificate.lean` formalises,
+as pure `Int` arithmetic verified by `native_decide`, the topological-Lefschetz
+$\mathbb{Z}_2^3$-isotype decomposition of $H^2(K3)$ for the equivariant K3
+surface $\widetilde X = V(Q_1,Q_2,Q_3)\subset\mathbb{P}^5$.
+
+- Fixed-locus Euler characteristics via complete-intersection adjunction:
+  genus-5 curves ($|S|\in\{1,5\}$, $\chi=-8$), 8 points ($|S|\in\{2,4\}$,
+  $\chi=8$), empty ($|S|=3$), the K3 itself ($\chi=24$).
+- Trace identity $\mathrm{tr}(g\mid H^2)=\chi(\mathrm{Fix}\,g)-2 =
+  [22,-10,6,6,-2,-2,6,-10]$.
+- The eight character multiplicities $[2,8,2,2,2,2,0,4]$ (sum $22$),
+  self-dual count $3$ ($\omega_I\in\chi_{000}$, $\omega_J,\omega_K\in\chi_{100}$),
+  anti-self-dual profile $[1,6,2,2,2,2,0,4]$ (sum $19$),
+  and $\dim H^2(K3)^{V_4}=m_{000}+m_{100}=10$.
+- Composite Boolean `k3IsotypeLefschetzCertificate` discharged by
+  `native_decide`. Independently re-verified by an external formal-reasoning
+  audit. Wired into `Foundations.lean` after `G2IrrepLatticeCertificate`.
+
+The rank-15 Néron–Severi lattice $H\oplus E_7(-1)\oplus A_1(-1)^6$ remains a
+separate algebraic-geometric datum (not carried by any single isotype block,
+$10<15$); this module certifies only the Lefschetz-derived isotype arithmetic.
+
+`lake build GIFT.Foundations`: passes, 0 sorry, 0 added axiom.
+
 ## [3.4.20] - 2026-05-10
 
 ### Summary
