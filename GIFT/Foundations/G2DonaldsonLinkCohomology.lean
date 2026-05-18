@@ -164,6 +164,69 @@ theorem b3_trefoil_not_77 : b3Donaldson .trefoil ≠ 77 := by
 theorem b3_unlink_100_not_77 : b3Donaldson (.unlink 100) ≠ 77 := by
   native_decide
 
+/-! ## Discriminant-family characterisation
+
+The discriminant links `L` that realise the GIFT target are *exactly*
+those with `cocycleDim L = 77` (equivalently `b_1(Sigma_2(L)) = 76`).
+This characterises the full admissible family — of which the 77-unlink
+is the minimal representative — and subsumes any explicit
+unlink-plus-units parametrisation. Companion: the private-repo note
+`phase_i2_discriminant_family.md` (Pillar I.2). The underlying Leray /
+double-branched-cover derivation remains a definition here (research-
+level Mathlib formalisation, not attempted); this section certifies the
+combinatorial characterisation on top of it. -/
+
+/-- `L` realises the GIFT target `(b_2, b_3) = (21, 77)`. -/
+def realisesTarget (L : LinkType) : Bool :=
+  decide (b2Donaldson = 21 ∧ b3Donaldson L = 77)
+
+/-- **Characterisation (general, all `LinkType`).** A discriminant link
+realises `(21, 77)` iff its cocycle dimension is exactly 77. Proved by
+`omega` (not `native_decide`): `LinkType` is infinite, so this is a
+genuine universally-quantified statement, not a finite check. -/
+theorem realises_iff_cocycleDim_77 (L : LinkType) :
+    realisesTarget L = true ↔ cocycleDim L = 77 := by
+  unfold realisesTarget
+  simp only [decide_eq_true_eq]
+  unfold b2Donaldson b3Donaldson b1Sigma2
+  omega
+
+/-- The minimal representative: the 77-component unlink realises it. -/
+theorem realises_unlink_77 : realisesTarget (.unlink 77) = true := by
+  native_decide
+
+/-- Family witness: 75-unlink ⊔ Hopf ⊔ trefoil (each unit piece has
+cocycleDim 1, total 75 + 1 + 1 = 77). -/
+theorem realises_unlink75_hopf_trefoil :
+    realisesTarget (.disjoint [.unlink 75, .hopf, .trefoil]) = true := by
+  native_decide
+
+/-- Family witness: 74-unlink ⊔ Hopf ⊔ Hopf ⊔ trefoil (74 + 1+1+1). -/
+theorem realises_unlink74_three_units :
+    realisesTarget (.disjoint [.unlink 74, .hopf, .hopf, .trefoil]) = true := by
+  native_decide
+
+/-- Off-family: the 76-unlink does NOT realise the target
+(cocycleDim 76 ≠ 77). -/
+theorem not_realises_unlink_76 : realisesTarget (.unlink 76) = false := by
+  native_decide
+
+/-- Off-family: 77-unlink ⊔ Hopf overshoots (cocycleDim 78 ≠ 77). -/
+theorem not_realises_unlink77_hopf :
+    realisesTarget (.disjoint [.unlink 77, .hopf]) = false := by
+  native_decide
+
+/-- Aggregate Bool for the discriminant-family characterisation. -/
+def realisesTargetCharacterisation : Bool :=
+  realisesTarget (.unlink 77) &&
+  realisesTarget (.disjoint [.unlink 75, .hopf, .trefoil]) &&
+  realisesTarget (.disjoint [.unlink 74, .hopf, .hopf, .trefoil]) &&
+  (!realisesTarget (.unlink 76)) &&
+  (!realisesTarget (.disjoint [.unlink 77, .hopf]))
+
+theorem realises_target_characterisation_holds :
+    realisesTargetCharacterisation = true := by native_decide
+
 /-! ## Composite certificate -/
 
 set_option linter.dupNamespace false in

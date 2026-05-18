@@ -5,6 +5,34 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.22] - 2026-05-18
+
+### Summary
+
+**Donaldson discriminant-family characterisation — general `LinkType` theorem.**
+
+Extends `GIFT/Foundations/G2DonaldsonLinkCohomology.lean` with the
+discriminant-family characterisation: a discriminant link `L` realises the
+GIFT target $(b_2, b_3) = (21, 77)$ **iff** $\mathrm{cocycleDim}(L) = 77$
+(equivalently $b_1(\Sigma_2(L)) = 76$).
+
+- `realisesTarget : LinkType → Bool` (decide-based).
+- `realises_iff_cocycleDim_77` — the **general** equivalence over all
+  `LinkType`, proved by `omega` (not `native_decide`): `LinkType` is
+  infinite, so this is a genuine universally-quantified statement, not a
+  finite check. This characterises the *complete* admissible family and
+  subsumes any explicit unlink-plus-units parametrisation.
+- Family witnesses (`native_decide`): 77-unlink; 75-unlink ⊔ Hopf ⊔
+  trefoil; 74-unlink ⊔ Hopf ⊔ Hopf ⊔ trefoil. Off-family: 76-unlink and
+  77-unlink ⊔ Hopf.
+- Aggregate `realisesTargetCharacterisation` discharged by `native_decide`.
+
+The underlying Leray / double-branched-cover derivation remains a
+definition (research-level Mathlib formalisation, explicitly not
+attempted); this section certifies the combinatorial characterisation on
+top of it. `lake build GIFT.Foundations`: 2531 jobs, 0 sorry, 0 added
+axiom.
+
 ## [3.4.21] - 2026-05-17
 
 ### Summary
