@@ -5,6 +5,35 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.23] - 2026-05-19
+
+### Summary
+
+**Closed-form K3 CY-residual witness — interval-certified, δ forfait eliminated.**
+
+Adds `GIFT/Foundations/K3ClosedFormWitness.lean` (wired in
+`GIFT/Foundations.lean`): a `native_decide` certificate that the explicit
+667-parameter closed-form Kähler metric on the Z₂³-equivariant K3
+(D.9b order-3, completeness item II.1) has a certified residual
+
+  Var(log R) ≤ ε₃ = 1309 / 10⁷ ≈ 1.309·10⁻⁴ < 10⁻³
+
+on the frozen seed-fixed 4000-point test sample (safety ×7.6), with the
+order-2 truncation ε₂ ≈ 0.384 showing φ₃ is structurally essential.
+
+- `cy_order3_below_target`, `cy_order3_margin`, `cy_order3_safety_margin`
+  (+ sharp ×7.6), `cy_order3_tighter_than_order2`,
+  `cy_order2_trunc_far_above_target`, `fwd_inflation_below_residual`.
+- `ClosedFormCertificate` structure + `k3_closed_form_witness_certificate`
+  master (all `native_decide`).
+- **Provenance upgrade**: the bound is now interval-rigorous with the
+  NS-1b forfait δ = 10⁻⁹ **eliminated** — the per-point detGᵢ/|Ω|²ᵢ are
+  forward-interval-certified on Krawczyk-certified exact K3 points
+  (full N=4000 run; the δ-free bound is bit-identical to NS-1b). The
+  remaining whole-K3 global bound is mapped, off the critical path.
+
+`lake build GIFT.Foundations`: 2532 jobs, 0 sorry, 0 added axiom.
+
 ## [3.4.22] - 2026-05-18
 
 ### Summary

@@ -61,6 +61,9 @@ import GIFT.Foundations.G2DonaldsonLinkCohomology
 import GIFT.Foundations.G2IrrepLatticeCertificate
 -- K3 Z_2^3-isotype decomposition of H^2(K3)=22 via topological Lefschetz (SD 3 / ASD 19)
 import GIFT.Foundations.K3IsotypeLefschetzCertificate
+-- Closed-form K3 CY residual witness (D.9b order-3 / II.1), interval-certified;
+-- δ=1e-9 forfait eliminated (NS-1c (i): Krawczyk points + forward metric)
+import GIFT.Foundations.K3ClosedFormWitness
 -- Metric gap closure: typed analytic/torsion-free status and promotion gates
 import GIFT.Foundations.MetricGapClosure
 -- Donaldson K3/coassociative fibration route for b2=21
