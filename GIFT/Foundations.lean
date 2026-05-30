@@ -69,6 +69,9 @@ import GIFT.Foundations.K3ClosedFormWitness
 -- Per-box rational enclosures + Lean-recomputed envelope variance bound
 -- (Plan A P0 2026-05-30) ; trust boundary narrowed to mpmath.iv enclosures only
 import GIFT.Foundations.K3ClosedFormBoxEnclosures
+-- Per-box per-component Krawczyk-Rump strict-containment K(X) ⊊ int(X)
+-- (Plan A P1 2026-05-30) ; 4000 × 7 × 2 = 28000 strict integer inequalities
+import GIFT.Foundations.K3KrawczykContainment
 -- Metric gap closure: typed analytic/torsion-free status and promotion gates
 import GIFT.Foundations.MetricGapClosure
 -- Donaldson K3/coassociative fibration route for b2=21
