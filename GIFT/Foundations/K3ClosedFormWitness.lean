@@ -1,72 +1,94 @@
 /-
   GIFT Foundations: Lean certificate for the closed-form K3 CY-metric
-  residual (Phase D.9b order-3 / completeness item II.1, certified via III.3).
+  residual (Phase D.9b order-3 / completeness item II.1).
 
-  The Z_2^3-equivariant K3 surface X-tilde = V(Q_1,Q_2,Q_3) ⊂ P^5 carries an
+  The Z_2^3-equivariant K3 surface X = V(Q_1,Q_2,Q_3) ⊂ P^5 carries an
   explicit closed-form Kähler ansatz
 
       K = log ρ + φ_2 + φ_3 ,   667 real parameters
           (10 ρ-block  +  97 deg-2  +  560 deg-3),
 
   frozen as the reproducible witness `k3_closedform_witness_v1.npz`
-  (NS-1a, byte-faithful re-run of phase_d9b_order3_refine.py, basis SHA
-  4a3a7d5f5a22a2f2…).  The quality functional is
+  (byte-faithful re-run of phase_d9b_order3_refine.py).  The quality
+  functional is
 
-      R = detG · |Ω|² ,    Var(log R) over the K3 sample ,
+      R = detG · |Ω|² ,
 
   where detG is the determinant of the induced 2×2 tangent metric and |Ω|²
-  the holomorphic-volume normalisation.  A perfect Ricci-flat metric gives
-  Var(log R) = 0; the closed-form residual measures the deviation.
+  the holomorphic-volume normalisation; a perfect Ricci-flat metric gives
+  log R constant on X, so Var(log R) measures the residual deviation.
 
   CERTIFIED BOUNDS (ℕ num/den, all `native_decide`):
 
-      order-3 (full witness) :  ε₃ = 1309    / 10⁷ ≈ 1.309·10⁻⁴
-      order-2 (φ₃ ≡ 0)       :  ε₂ = 3842771 / 10⁷ ≈ 0.384
+      box-local order-3 (r=10⁻⁸, full witness) : ε₃' = 1321/10⁷ ≈ 1.321·10⁻⁴
+      order-2 (φ₃ ≡ 0)                          : ε₂   = 3842771/10⁷ ≈ 0.384
 
-  on n_valid = 4000 independent (seed-fixed) test K3 points.  Target II.1 is
-  ε < 10⁻³.
+  on n_valid = 4000 Krawczyk-certified boxes B_n of radius r = 10⁻⁸ on the
+  QR-free coordinates.  Target II.1 is ε < 10⁻³ (safety ×7.57).
 
-  PROVENANCE — interval-arithmetic certified, δ ELIMINATED
-  -------------------------------------------------------
-  NS-1b first bounded Var(log R) ≤ ε₃ propagating each per-point detGᵢ/|Ω|²ᵢ
-  through a rigorous `mpmath.iv` log+variance aggregation, but bracketing the
-  per-point metric values by a forfait relative tolerance δ = 10⁻⁹ (the sole
-  documented numerical assumption).
+  PROVENANCE — Plan A box-local (2026-05-30)
+  ------------------------------------------
+  The bound was first stated as a pointwise sample variance at r = 10⁻¹²
+  Krawczyk boxes (essentially the centres):  Var(log R(p_n)) ≤ 1309/10⁷.
+  The IA-review-1 (5 reviewers, 2026-05-30) flagged this as a sample
+  statistic rather than a theorem on the underlying object.  Plan A widens
+  the certified boxes from r = 10⁻¹² (quasi-pointwise, ×10³ above float
+  noise) to r = 10⁻⁸ (six orders above float-double precision), re-running
+  the SAME forward-interval pipeline (Krawczyk–Rump points + 200-bit
+  `mpmath.iv` metric with the frame-invariant identity
+  detG = det(BᴴHB)/det(BᴴB) ;  rank-1 Hessian projection cached).
 
-  NS-1c residual lourd (i) — DONE 2026-05-19 — eliminates δ:
+  On the widened boxes the forward enclosure of log R on each B_n is the
+  interval [L_n^lo, L_n^hi] ; the certified variance bound holds uniformly
+  in the enclosure :  Var_{1 ≤ n ≤ 4000}(ℓ_n) ≤ ε₃'  for any choice
+  ℓ_n ∈ [L_n^lo, L_n^hi], including ℓ_n = log R(z) at any z ∈ B_n ⊂ X
+  (qualitative shift from "values at points" to "uniform bounds on
+  opens").
 
-    · Script 1 (Krawczyk-Rump, phase_iii3_interval_points_pilot.py): every
-      witness K3 point is enclosed in a box rigorously certified to contain
-      an EXACT zero of the 3 Vandermonde quadrics + norm (contraction
-      margin ×10¹⁰, r = 10⁻¹²).
+  P0 (2026-05-30, "bulletproof") — Lean RE-COMPUTES the variance
+  aggregate.  Rather than trusting a pre-digested scalar bound emitted by
+  Python's interval-arithmetic variance routine, the auto-generated
+  module `K3ClosedFormBoxEnclosures` carries the 4000 per-box rational
+  enclosures `(L_n^lo, L_n^hi)` as `Int` literals (common denominator
+  D = 10¹⁰, outward-rounded from the `mpmath.iv` enclosure) together
+  with a single rational centring constant c, and proves the envelope
+  inequality
 
-    · Script 2 (phase_iii3_interval_metric_pilot.py): the closed-form metric
-      (667 terms) is re-evaluated in FORWARD interval arithmetic on those
-      certified boxes — no SVD (frame-invariant identity
-      detG = det(BᴴHB)/det(BᴴB), kernel basis by QR-pivot, rank-1
-      Hessians projected), full N = 4000 run, 4000/4000 certified, every
-      float witness value inside the computed interval.
+      Var(ℓ) ≤ (1/(N-1)) Σ_n max((L_n^lo - c)², (L_n^hi - c)²) ≤ ε₃'
 
-  The δ-free certified bound is bit-identical: ε₃ = 1309/10⁷.  The forfait δ
-  was conservative (real forward inflation ~6·10⁻⁸ ≪ residual); its
-  elimination does not move the bound.  detGᵢ/|Ω|²ᵢ are now rigorous forward
-  intervals on EXACT Krawczyk-certified K3 points, not δ-bracketed floats.
+  by `native_decide` on the integer aggregate (minimiser inequality, no
+  interval-arithmetic library to formalise — see
+  `K3ClosedFormBoxEnclosures.variance_envelope_bound`).  The Lean-
+  recomputed envelope bound is ε₃' = 1321/10⁷ ≈ 1.321·10⁻⁴, slightly
+  TIGHTER than the 1331/10⁷ obtained from Python's interval-mean
+  propagation (the envelope chooses an optimal c close to the mean of
+  midpoints and avoids the interval-mean dependency overhead).  Safety
+  factor ×7.57 under the 10⁻³ target (vs ×7.51 for the Python-emitted
+  bound).  Trust boundary after P0 : Python is trusted only for the
+  per-box `mpmath.iv` interval enclosures of log R ; all variance
+  aggregation is Lean-`native_decide` on rationals.
+
+  Scope.  ε₃' < 10⁻³ does NOT promote to a bound over the whole compact
+  K3 (the 4000 boxes cover ≪ 1 of the K3 volume); that promotion is a
+  global-positivity (Positivstellensatz/SOS) problem mapped in §9 of the
+  flagship paper.  Research-level, off the present critical path.
 
   **Numerically verified** — private/canonical/results/
-    phase_iii3_interval_residual.json (ε₃, ε₂ aggregation, interval-rigorous)
-    phase_iii3_interval_metric_pilot.json (δ-free forward metric, N=4000)
-  **Why bracketed**: ε₃/ε₂ are the interval-rigorous Var upper endpoints at
-  the frozen explicit 667-param witness on the fixed-seed test sample.
-  **Elimination path (remaining, mapped)**: residual lourd (ii) — promote
-  "Var over the 4000-point frozen sample" to "Var over the whole K3"
-  (optimiser + concentration argument). Research-level, off the critical
-  path; explicitly out of scope here.
+    phase_iii3_interval_metric_box_local_r1e-8.json   (Plan A production,
+       N=4000, 4000/4000 certified, all float-in, var ∈ [1.288e-4, 1.331e-4])
+    phase_iii3_interval_metric_pilot.json             (NS-1c (i) pointwise
+       baseline at r=10⁻¹², 1309/10⁷ — superseded by box-local)
+    phase_iii3_interval_residual.json                 (NS-1b δ-bracketed
+       baseline, historical)
+  **Why bracketed**: ε₃'/ε₂ are the interval-rigorous Var upper endpoints
+  at the frozen explicit 667-param witness on the fixed Krawczyk boxes.
 
   All theorems are ℕ arithmetic, verifiable by `native_decide`; no new axiom.
   Pattern: GIFT.Foundations.NewtonKantorovich.
 -/
 
 import GIFT.Core
+import GIFT.Foundations.K3ClosedFormBoxEnclosures
 
 namespace GIFT.Foundations.K3ClosedFormWitness
 
@@ -87,20 +109,36 @@ def n_valid : ℕ := 4000
 
 /-! ### Certified residual bounds (interval-rigorous, δ-eliminated) -/
 
-/-- order-3 closed-form CY residual upper bound numerator.
-    Var(log R) ≤ ε₃ = 1309 / 10⁷ ≈ 1.309·10⁻⁴.
+/-- Box-local order-3 closed-form CY residual upper bound numerator
+    (P0 Lean-recomputed envelope bound).
+    Var_{1≤n≤4000}(ℓ_n) ≤ ε₃' = 1321 / 10⁷ ≈ 1.321·10⁻⁴,
+    uniformly in the choice ℓ_n ∈ [L_n^lo, L_n^hi] of the forward-interval
+    enclosure of log R over each Krawczyk-certified box B_n of radius 10⁻⁸,
+    recomputed in Lean from the 4000 per-box rational endpoints by
+    `K3ClosedFormBoxEnclosures.variance_envelope_bound`.
 
 **Numerically verified**
-Verified: phase_iii3_interval_residual.py + phase_iii3_interval_metric_pilot.py
-(δ-free forward interval metric on Krawczyk-certified K3 points, N=4000).
-**Why bracketed**: interval-rigorous Var upper endpoint at the frozen
-explicit 667-param witness on the fixed-seed test sample.
-**Elimination path**: residual lourd (ii) — whole-K3 global bound
-(optimiser + concentration), research-level, mapped. -/
-def eps3_num : ℕ := 1309
+Verified: phase_iii3_emit_lean_box_enclosures.py (Plan A P0 production at
+r=10⁻⁸, N=4000, 4000/4000 Krawczyk-certified, all float-in,
+envelope bound S/((N-1)D²) ≈ 1.320·10⁻⁴ tidied to 1321/10⁷).
+**Why bracketed**: interval-rigorous Var upper endpoint, recomputed in
+Lean from the 4000 per-box rational enclosures (no scalar dependency on
+Python's interval-mean propagation).
+**Elimination path**: whole-K3 global bound (constraint-aware
+Positivstellensatz/SOS), research-level, mapped. -/
+def eps3_num : ℕ := 1321
 
 /-- order-3 residual bound denominator = 10⁷. -/
 def eps3_den : ℕ := 10000000
+
+/-- Krawczyk box radius numerator (r = 1 / 10⁸). -/
+def krawczyk_radius_num : ℕ := 1
+
+/-- Krawczyk box radius denominator. The 4000 boxes B_n have half-width
+    10⁻⁸ on each QR-free real coordinate (5 frozen by QR-pivot), six orders
+    above float-double precision and four orders above the previous
+    pointwise baseline r = 10⁻¹². -/
+def krawczyk_radius_den : ℕ := 100000000
 
 /-- order-2 truncation (φ₃ ≡ 0) residual numerator.
     ε₂ = 3842771 / 10⁷ ≈ 0.384.  Truncating φ₃ from a ρ+φ₂+φ₃ co-optimised
@@ -133,9 +171,24 @@ theorem cy_order3_margin : eps3_num * 10000 < 2 * eps3_den := by native_decide
 theorem cy_order3_safety_margin :
     target_num * eps3_den > 7 * eps3_num * target_den := by native_decide
 
-/-- Sharper safety: target / ε₃ > 7.6  (×10 cross-multiplied). -/
+/-- Sharper safety: target / ε₃' > 7.5  (×10 cross-multiplied; P0 Lean-
+    recomputed ratio ≈ 7.57 at r = 10⁻⁸; the previous Python-emitted bound
+    1331/10⁷ gave ≈ 7.51, the original pointwise baseline 1309/10⁷ at
+    r = 10⁻¹² gave ≈ 7.64). -/
 theorem cy_order3_safety_margin_sharp :
-    10 * target_num * eps3_den > 76 * eps3_num * target_den := by native_decide
+    10 * target_num * eps3_den > 75 * eps3_num * target_den := by native_decide
+
+/-- Krawczyk radius is well-formed (0 < 1/10⁸ < 1). -/
+theorem krawczyk_radius_positive :
+    0 < krawczyk_radius_num ∧ krawczyk_radius_num < krawczyk_radius_den := by
+  native_decide
+
+/-- The ε₃' exposed here is exactly the β bound proved by P0 (Lean-recomputed
+    envelope variance, `K3ClosedFormBoxEnclosures.variance_envelope_bound`). -/
+theorem eps3_agrees_with_p0_envelope :
+    (eps3_num : Int) = GIFT.Foundations.K3ClosedFormBoxEnclosures.beta_num ∧
+    (eps3_den : Int) = GIFT.Foundations.K3ClosedFormBoxEnclosures.beta_den := by
+  refine ⟨?_, ?_⟩ <;> rfl
 
 /-- φ₃ is essential: the order-3 bound is far tighter than the order-2
     truncation (ε₃ ≪ ε₂, fraction comparison, same denominator). -/
@@ -146,16 +199,6 @@ theorem cy_order3_tighter_than_order2 :
     target (ε₂ > 100·10⁻³ = 0.1). -/
 theorem cy_order2_trunc_far_above_target :
     eps2_num * target_den > 100 * target_num * eps2_den := by native_decide
-
-/-- δ eliminated: the forward-interval metric inflation (~6·10⁻⁸ relative,
-    worst of N=4000) is far below the certified residual itself; encoded as
-    6 / 10⁸ < ε₃ (the bound is insensitive to dropping the δ=10⁻⁹ forfait,
-    which it bit-identically reproduces). -/
-def fwd_infl_num : ℕ := 6
-def fwd_infl_den : ℕ := 100000000
-
-theorem fwd_inflation_below_residual :
-    fwd_infl_num * eps3_den < eps3_num * fwd_infl_den := by native_decide
 
 /-! ### Aggregate certificate -/
 
@@ -178,11 +221,12 @@ structure ClosedFormCertificate where
   /-- φ₃ essential: ε₃ ≪ ε₂ -/
   phi3_essential : e3_num * e2_den < e2_num * e3_den
 
-/-- The GIFT closed-form K3 witness certificate. -/
+/-- The GIFT closed-form K3 witness certificate (Plan A P0 Lean-
+    recomputed, r = 10⁻⁸). -/
 def k3_closed_form_witness : ClosedFormCertificate where
   params := 667
   valid := 4000
-  e3_num := 1309
+  e3_num := 1321
   e3_den := 10000000
   e2_num := 3842771
   e2_den := 10000000
@@ -195,7 +239,7 @@ theorem k3_closed_form_witness_params :
 theorem k3_closed_form_witness_valid :
     k3_closed_form_witness.valid = 4000 := rfl
 
-/-- Master certificate: every structural fact at once (δ-free). -/
+/-- Master certificate: every structural fact at once (box-local r = 10⁻⁸). -/
 theorem k3_closed_form_witness_certificate :
     (n_rho + n_phi2 + n_phi3 = n_params) ∧
     (eps3_num * target_den < target_num * eps3_den) ∧
@@ -203,17 +247,20 @@ theorem k3_closed_form_witness_certificate :
     (target_num * eps3_den > 7 * eps3_num * target_den) ∧
     (eps3_num * eps2_den < eps2_num * eps3_den) ∧
     (eps2_num * target_den > 100 * target_num * eps2_den) ∧
-    (fwd_infl_num * eps3_den < eps3_num * fwd_infl_den) := by
+    (0 < krawczyk_radius_num ∧ krawczyk_radius_num < krawczyk_radius_den) := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 /-- Human-readable status. -/
 def k3ClosedFormWitnessStatus : String :=
-  "Closed-form K3 CY residual (D.9b order-3, 667 params, N=4000): " ++
-  "Var(log R) ≤ ε₃ = 1309/10⁷ ≈ 1.309e-4 < 1e-3 (II.1 met, safety ×7.6); " ++
-  "order-2 trunc ε₂ ≈ 0.384 (φ₃ essential); interval-rigorous, " ++
-  "δ=1e-9 forfait ELIMINATED via Krawczyk-certified points + forward " ++
-  "interval metric (NS-1c (i)); residual lourd (ii) whole-K3 bound mapped."
+  "Closed-form K3 CY residual (D.9b order-3, 667 params, N=4000 boxes): " ++
+  "Var(ℓ_n) ≤ ε₃' = 1321/10⁷ ≈ 1.321e-4 < 1e-3 (II.1 met, safety ×7.57) " ++
+  "uniformly in ℓ_n ∈ [L_n^lo, L_n^hi] (forward-interval enclosure of " ++
+  "log R on each Krawczyk-certified box B_n of radius r = 10⁻⁸); " ++
+  "Plan A box-local (2026-05-30) + P0 Lean recomputes the envelope " ++
+  "aggregate from the 4000 per-box rational endpoints (see " ++
+  "K3ClosedFormBoxEnclosures.variance_envelope_bound); order-2 trunc " ++
+  "ε₂ ≈ 0.384 (φ₃ essential)."
 
 theorem k3ClosedFormWitnessStatus_nonempty :
     k3ClosedFormWitnessStatus.length > 0 := by native_decide

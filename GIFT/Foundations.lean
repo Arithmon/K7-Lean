@@ -63,9 +63,12 @@ import GIFT.Foundations.G2IrrepLatticeCertificate
 import GIFT.Foundations.K3IsotypeLefschetzCertificate
 -- Exact Vandermonde smoothness of X=V(Q1,Q2,Q3): 20 nonzero 3×3 minors + 2×2 minors (§3.3)
 import GIFT.Foundations.K3VandermondeSmoothness
--- Closed-form K3 CY residual witness (D.9b order-3 / II.1), interval-certified;
--- δ=1e-9 forfait eliminated (NS-1c (i): Krawczyk points + forward metric)
+-- Closed-form K3 CY residual witness (D.9b order-3 / II.1), interval-certified
+-- box-local at r=10⁻⁸ (Plan A 2026-05-30) ; ε₃' = 1321/10⁷ < 10⁻³ safety ×7.57.
 import GIFT.Foundations.K3ClosedFormWitness
+-- Per-box rational enclosures + Lean-recomputed envelope variance bound
+-- (Plan A P0 2026-05-30) ; trust boundary narrowed to mpmath.iv enclosures only
+import GIFT.Foundations.K3ClosedFormBoxEnclosures
 -- Metric gap closure: typed analytic/torsion-free status and promotion gates
 import GIFT.Foundations.MetricGapClosure
 -- Donaldson K3/coassociative fibration route for b2=21
