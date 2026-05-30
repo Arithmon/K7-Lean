@@ -61,6 +61,8 @@ import GIFT.Foundations.G2DonaldsonLinkCohomology
 import GIFT.Foundations.G2IrrepLatticeCertificate
 -- K3 Z_2^3-isotype decomposition of H^2(K3)=22 via topological Lefschetz (SD 3 / ASD 19)
 import GIFT.Foundations.K3IsotypeLefschetzCertificate
+-- Exact Vandermonde smoothness of X=V(Q1,Q2,Q3): 20 nonzero 3×3 minors + 2×2 minors (§3.3)
+import GIFT.Foundations.K3VandermondeSmoothness
 -- Closed-form K3 CY residual witness (D.9b order-3 / II.1), interval-certified;
 -- δ=1e-9 forfait eliminated (NS-1c (i): Krawczyk points + forward metric)
 import GIFT.Foundations.K3ClosedFormWitness
