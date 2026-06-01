@@ -5,6 +5,35 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.24] - 2026-06-01
+
+### Summary
+
+**Academic-terminology cleanup of the K3 closed-form witness modules.**
+No mathematical change, no behavioural change. Internal planning labels
+("Plan A", "P0", "P1", "bulletproof", IA-review references) are removed
+from module docstrings and from one theorem name, so that what ships
+through `lean --doc` / `doc-gen` is purely the mathematical content.
+
+- `K3ClosedFormWitness.lean` : header docstring rewritten (no more
+  "Phase D.9b / completeness item II.1", "Plan A box-local
+  (2026-05-30)", "IA-review-1", "P0 (2026-05-30, 'bulletproof')",
+  "Trust boundary after P0") ; inline docstrings on `eps3_num`,
+  `cy_order3_safety_margin_sharp`, `k3_closed_form_witness` cleaned ;
+  status string rewritten. **Theorem rename:**
+  `eps3_agrees_with_p0_envelope` → `eps3_agrees_with_variance_envelope`
+  (same statement, same `rfl` proof).
+- `K3ClosedFormBoxEnclosures.lean` : header docstring and the
+  `variance_envelope_bound` theorem docstring cleaned.
+- `K3KrawczykContainment.lean` : header docstring and the
+  `krawczyk_containment_all` theorem docstring cleaned.
+
+`lake build GIFT.Foundations`: 2535/2535, 0 sorry, 0 added axiom.
+
+A broader audit of the rest of `core/GIFT/` for residual internal
+labels is tracked off-tree as a TODO; this release only touches the
+three K3 modules cited by the companion paper.
+
 ## [3.4.23] - 2026-05-19
 
 ### Summary
