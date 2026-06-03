@@ -592,7 +592,7 @@ abbrev another_theorem := GIFT.SomeModule.another_theorem
 - `DifferentialForms` (Hodge duality, form decompositions)
 - `ImplicitFunction` (IFT conditions)
 - `G2CrossProduct` (fano_lines, epsilon, cross product)
-- Relations submodules (ExceptionalGroups, BaseDecomposition, etc.)
+- Relations submodules (ExceptionalGroups, ExceptionalChain, etc.)
 
 ### 10. Explicit Vector Definitions in EuclideanSpace
 

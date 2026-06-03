@@ -1,7 +1,7 @@
 # GIFT Framework Status
 
-**Version**: 3.4.25
-**Date**: 2026-06-02
+**Version**: 3.4.26
+**Date**: 2026-06-03
 **Proof Systems**: Lean 4 (v4.29.0 + Mathlib v4.29.0)
 
 ---

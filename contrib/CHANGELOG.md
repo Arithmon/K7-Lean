@@ -5,6 +5,34 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.26] - 2026-06-03
+
+### Summary
+
+**Removal of competing post-hoc expressions for κ_T⁻¹ = 61.** The torsion
+coupling κ_T⁻¹ is now carried by its single canonical topological definition
+κ_T⁻¹ = b₃ − dim(G₂) − p₂ = 77 − 14 − 2 = 61, already used by the master
+certificate. Three modules that offered alternative, numerology-style
+derivations of the same integer (and unrelated base-13 / "Structure A/B" /
+T_61 relations) are deleted. No mathematical change to any prediction, no
+behavioural change, no new axioms — the master certificate `certified`
+(56 conjuncts) is unchanged.
+
+- **Removed** `GIFT/Relations/YukawaDuality.lean` (Structure A/B duality,
+  2·5·6+1 = 61), `GIFT/Relations/BaseDecomposition.lean` (dim F₄ + N_gen² = 61,
+  base-13 digit relations) and `GIFT/Relations/MassFactorization.lean`
+  (T_61 configuration space, 3·19·61, Lucas/von-Staudt relations).
+- `GIFT/Relations/ExceptionalChain.lean` : the two `m_τ/m_e = (fund_E₇+1)·61`
+  relations now reference `Core.kappa_T_den` instead of the deleted
+  `MassFactorization.kappa_T_inv` (same value, same `native_decide`).
+- `GIFT/Certificate/Predictions.lean` : dropped the three imports/opens and
+  the `base_decomposition` / `extended_decomposition` / `mass_factorization`
+  abbrevs (none were part of the `certified` master theorem).
+- `GIFT.lean` : dropped the `MassFactorization` import. `contrib/CLAUDE.md` :
+  doc list tidied.
+- `lake build` : 8391/8391, 0 sorry, 15 axioms across 4 files (unchanged),
+  143 `.lean` files (146 − 3 removed). Lean toolchain v4.29.0.
+
 ## [3.4.25] - 2026-06-02
 
 ### Summary

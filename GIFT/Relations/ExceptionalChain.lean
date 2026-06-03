@@ -4,7 +4,6 @@ Released under MIT license.
 -/
 import GIFT.Core
 import GIFT.Relations
-import GIFT.Relations.MassFactorization
 
 /-!
 # Exceptional Chain Relations (v1.7.0)
@@ -29,7 +28,6 @@ establishes the E6-E7-E8 exceptional chain pattern.
 namespace GIFT.Relations.ExceptionalChain
 
 open GIFT.Core GIFT.Relations
-open GIFT.Relations.MassFactorization
 
 -- Note: prime_6, prime_8, prime_11 come from GIFT.Core
 
@@ -70,7 +68,7 @@ theorem dim_E7_decomposition : b3 + rank_E8 * dim_K7 = 133 := by native_decide
 -- =============================================================================
 
 /-- RELATION 69: m_tau/m_e = 57 x 61 = 3477 -/
-theorem mass_ratio_from_E7 : m_tau_m_e = (dim_fund_E7 + 1) * kappa_T_inv := by native_decide
+theorem mass_ratio_from_E7 : m_tau_m_e = (dim_fund_E7 + 1) * kappa_T_den := by native_decide
 
 theorem mass_ratio_57_61 : 57 * 61 = 3477 := by native_decide
 
@@ -127,7 +125,7 @@ def U1_dim : Nat := dim_U1
 
 /-- RELATION 73: (56 + 1) x 61 = 3477 (U(1) interpretation) -/
 theorem mass_ratio_U1_interpretation :
-    (dim_fund_E7 + dim_U1) * kappa_T_inv = m_tau_m_e := by native_decide
+    (dim_fund_E7 + dim_U1) * kappa_T_den = m_tau_m_e := by native_decide
 
 theorem U1_contribution : dim_U1 = 1 := rfl
 
@@ -216,7 +214,7 @@ theorem all_exceptional_chain_relations_certified :
     -- Relation 68: dim(E7) = b3 + rank(E8) x dim(K7)
     (dim_E7 = b3 + rank_E8 * dim_K7) ∧
     -- Relation 69: m_tau/m_e = (fund_E7 + 1) x kappa_T^-1
-    (m_tau_m_e = (dim_fund_E7 + 1) * kappa_T_inv) ∧
+    (m_tau_m_e = (dim_fund_E7 + 1) * kappa_T_den) ∧
     -- Relation 70: fund_E7 = rank(E8) x dim(K7)
     (dim_fund_E7 = rank_E8 * dim_K7) ∧
     -- Relation 71: dim(E6) base-7 palindrome
@@ -224,7 +222,7 @@ theorem all_exceptional_chain_relations_certified :
     -- Relation 72: dim(E8) = rank(E8) x prime(11)
     (dim_E8 = rank_E8 * prime_11) ∧
     -- Relation 73: m_tau/m_e with U(1) interpretation
-    ((dim_fund_E7 + dim_U1) * kappa_T_inv = m_tau_m_e) ∧
+    ((dim_fund_E7 + dim_U1) * kappa_T_den = m_tau_m_e) ∧
     -- Relation 74: dim(E6) = b3 + 1
     (b3 + 1 = dim_E6) ∧
     -- Relation 75: Exceptional chain

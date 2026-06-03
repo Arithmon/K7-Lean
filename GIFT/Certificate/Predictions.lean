@@ -4,12 +4,9 @@ import GIFT.Relations.GaugeSector
 import GIFT.Relations.NeutrinoSector
 import GIFT.Relations.LeptonSector
 import GIFT.Relations.Cosmology
-import GIFT.Relations.YukawaDuality
 import GIFT.Relations.IrrationalSector
 import GIFT.Relations.GoldenRatio
 import GIFT.Relations.ExceptionalGroups
-import GIFT.Relations.BaseDecomposition
-import GIFT.Relations.MassFactorization
 import GIFT.Relations.ExceptionalChain
 import GIFT.Relations.Structural
 import GIFT.Relations.QuarkSector
@@ -48,11 +45,8 @@ namespace GIFT.Certificate.Predictions
 open GIFT.Core GIFT.Relations
 open GIFT.Relations.GaugeSector GIFT.Relations.NeutrinoSector
 open GIFT.Relations.LeptonSector GIFT.Relations.Cosmology
-open GIFT.Relations.YukawaDuality
 open GIFT.Relations.IrrationalSector GIFT.Relations.GoldenRatio
 open GIFT.Relations.ExceptionalGroups
-open GIFT.Relations.BaseDecomposition
-open GIFT.Relations.MassFactorization
 open GIFT.Relations.ExceptionalChain
 open GIFT.Relations.Structural
 open GIFT.Relations.QuarkSector
@@ -69,15 +63,6 @@ open GIFT.Observables
 
 /-- Exceptional groups: alpha_s^2, F₄, delta_penta, Jordan, Weyl(E₈) -/
 abbrev exceptional_groups := GIFT.Relations.ExceptionalGroups.all_5_exceptional_groups_certified
-
-/-- Base decomposition: kappa_T, b₂/b₃/H* decompositions -/
-abbrev base_decomposition := GIFT.Relations.BaseDecomposition.all_6_base_decomposition_certified
-
-/-- Extended decomposition (10 relations) -/
-abbrev extended_decomposition := GIFT.Relations.BaseDecomposition.all_10_decomposition_certified
-
-/-- Mass factorization: 3477, Von Staudt, T_61, Triade 9-18-34 -/
-abbrev mass_factorization := GIFT.Relations.MassFactorization.all_mass_factorization_relations_certified
 
 /-- Exceptional chain: tau_num, E₇, E₆, E₈ chain relations -/
 abbrev exceptional_chain := GIFT.Relations.ExceptionalChain.all_exceptional_chain_relations_certified
