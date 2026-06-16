@@ -3,7 +3,7 @@
 --
 -- Key results:
 -- - m_τ/m_e = (b₃ - b₂) × (κ_T⁻¹ + 1) + Weyl = 56 × 62 + 5 = 3477
--- - m_μ/m_e = 27^φ ≈ 206.77
+-- - m_μ/m_e = 27^φ ≈ 207.01 (experimental 206.77)
 -- - y_τ = 1/(b₂ + b₃) = 1/98
 --
 -- These formulas connect lepton masses to K7 topology.
@@ -87,7 +87,7 @@ theorem m_tau_m_e_factor_interpretation :
 ## Muon-Electron Mass Ratio: m_μ/m_e ≈ 27^φ
 
 m_μ/m_e = 206.768... (experimental)
-27^φ ≈ 206.77 (theoretical)
+27^φ ≈ 207.01 (theoretical)
 
 The base 27 = dim(J₃(O)) is the Jordan algebra dimension.
 The exponent φ is the golden ratio.
