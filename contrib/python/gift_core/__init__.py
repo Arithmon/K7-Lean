@@ -1,44 +1,8 @@
-"""
-GIFT Core - Formally Verified Mathematical Constants.
-
-All values proven in Lean 4.
-460+ certified relations, 4 published axioms, modular certificate structure.
-
-v3.4.26 Features:
-- Certificate Modularization: Foundations / Predictions / Spectral pillars
-- Spectral Theory: algebraic ratio dim(G₂)/H* = 14/99, TCS bounds, Yang-Mills connection
-- Computed Spectrum: Q₂₂ signature (3,19), SD/ASD gap >2000×
-- Spectral Democracy: SD spread <2%, coupling ratio <1.02
-- G₂ Geometry: Axiom-free Hodge star, ψ=⋆φ proven
-- E8 Roots: 240 vectors in R^8 with full operations
-- Fano Plane: Octonion multiplication and G₂ cross product
-
-Quick Start:
-    from gift_core import *
-    print(SIN2_THETA_W)   # Fraction(3, 13)
-    print(B2, B3, H_STAR) # 21, 77, 99 (all DERIVED!)
-
-    # Verify all relations
-    from gift_core import verify
-    verify()  # True
-
-    # E8 root system
-    from gift_core.roots import E8_ROOTS, E8_SIMPLE_ROOTS
-    print(len(E8_ROOTS))  # 240
-
-    # Fano plane / G2 cross product
-    from gift_core.fano import cross_product, FANO_LINES
-
-    # Visualization (requires matplotlib)
-    from gift_core.visualize import plot_fano, plot_e8_projection
-"""
+"""GIFT Core - formally verified mathematical constants (proven in Lean 4)."""
 
 from gift_core._version import __version__
 
-# =============================================================================
-# CONSTANTS (v3.2 restructured package)
-# =============================================================================
-
+# Constants
 from gift_core.constants import (
     # === ALGEBRA ===
     DIM_E8, RANK_E8, DIM_E8xE8,
@@ -105,10 +69,6 @@ from gift_core.constants import (
     IMPEDANCE,
 )
 
-# =============================================================================
-# NEW MODULES (v3.2)
-# =============================================================================
-
 # E8 Root System (actual vectors in R^8)
 from gift_core.roots import (
     E8_ROOTS, D8_ROOTS, HALF_INTEGER_ROOTS,
@@ -149,18 +109,12 @@ from gift_core.numerical_observations import (
     tau_powers, transcendental_relations, mass_relations,
 )
 
-# =============================================================================
-# LEGACY COMPATIBILITY
-# =============================================================================
-
 # Backward compatibility aliases
 from gift_core.constants.physics import (
     SIN2_THETA_W as WEINBERG_ANGLE,
 )
 
-# =============================================================================
-# OPTIONAL MODULES
-# =============================================================================
+# Optional modules
 
 # Visualization (requires matplotlib)
 MATPLOTLIB_AVAILABLE = False
@@ -198,10 +152,7 @@ except ImportError:
     TORSION_BOUND = JOYCE_THRESHOLD = None
     verify_joyce_bounds = None
 
-# =============================================================================
-# __all__ - Public API
-# =============================================================================
-
+# Public API
 __all__ = [
     # Version
     '__version__',

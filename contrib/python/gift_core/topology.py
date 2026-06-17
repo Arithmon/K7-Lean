@@ -1,6 +1,4 @@
-"""
-Topological structures used in GIFT.
-"""
+"""Topological structures used in GIFT."""
 from dataclasses import dataclass
 from gift_core.constants import (
     DIM_K7, B2, B3, DIM_G2, DIM_E8, RANK_E8
@@ -19,18 +17,12 @@ class ManifoldK7:
 
     @property
     def euler_characteristic(self) -> int:
-        """chi(K7) = 0 for compact oriented odd-dimensional manifolds.
-        By Poincare duality: b_k = b_{7-k}, so the alternating sum vanishes:
-        chi = b0 - b1 + b2 - b3 + b4 - b5 + b6 - b7
-            = 1 - 0 + 21 - 77 + 77 - 21 + 0 - 1 = 0
-        """
+        """chi(K7) = 0 (compact oriented odd-dimensional manifold, by Poincare duality)."""
         return 0
 
     @property
     def two_b2(self) -> int:
-        """Structural invariant 2*b2 = 42. Often appears in physical observables.
-        NOTE: This is NOT chi(K7) despite being labeled that way in some older code.
-        """
+        """Structural invariant 2*b2 = 42 (NOT chi(K7), despite older naming)."""
         return 2 * self.b2
 
     @property

@@ -17,7 +17,6 @@ from gift_core.geometry.donaldson import (
     solve_rotating_coframe_profile,
     solve_signed_radial_profile,
 )
-from gift_core.geometry.k3_explicit import audit_phase_a2_route
 
 
 def main() -> None:
@@ -33,7 +32,6 @@ def main() -> None:
     parser.add_argument("--pl-wirtinger", action="store_true", help="print the PL-compatible non-abelian Fano Wirtinger candidate")
     parser.add_argument("--identify-fano-incidence", action="store_true", help="audit the abstract Fano incidence graph relators")
     parser.add_argument("--audit-spatial-embeddings", action="store_true", help="audit Option 6 spatial embedding candidates")
-    parser.add_argument("--phase-a2-route", action="store_true", help="audit the current Phase A.2 Model B route")
     parser.add_argument("--fano-meridian", action="store_true", help="calibrate active HK rotation to a Fano SO(3) meridian holonomy")
     parser.add_argument("--meridian-index", type=int, default=0)
     parser.add_argument("--nu-degree", type=int, default=4)
@@ -44,8 +42,6 @@ def main() -> None:
         payload = FanoIncidenceGraphIdentifier().audit()
     elif args.audit_spatial_embeddings:
         payload = audit_spatial_embedding_candidates()
-    elif args.phase_a2_route:
-        payload = audit_phase_a2_route()
     elif args.pl_wirtinger:
         payload = FanoPLWirtingerCandidate().audit()
     elif args.realize_fano_coframe:

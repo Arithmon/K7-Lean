@@ -28,7 +28,7 @@ GIFT explores whether Standard Model dimensionless parameters may be topological
 
 ```
 gift-framework/core/
-├── GIFT/           # Lean 4 formal proofs (143 files, 460+ relations, 15 axioms)
+├── GIFT/           # Lean 4 formal proofs (144 files, 460+ relations, 15 axioms)
 ├── GIFTTest/       # Lean test files
 ├── contrib/        # Python package, blueprint, homepage
 └── lakefile.lean   # Lake build configuration

@@ -6,7 +6,6 @@ This directory contains documentation for the GIFT Core formal verification proj
 
 - **[USAGE.md](USAGE.md)** - Getting started guide, examples, and module usage
 - **[GIFT_STATUS.md](GIFT_STATUS.md)** - Current verification status and relation counts
-- **[PHASE_A_2_MODEL_B_ROUTE.md](PHASE_A_2_MODEL_B_ROUTE.md)** - Current Phase A.2 Model B route and blocker
 
 ## Quick Links
 

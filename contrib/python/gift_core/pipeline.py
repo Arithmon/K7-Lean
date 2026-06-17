@@ -1,31 +1,4 @@
-"""Pipeline orchestrator for G₂ metric computation.
-
-Usage:
-    from gift_core.pipeline import Pipeline
-    from gift_core.geometry.tcs import QUINTIC, CI_2_2_2
-
-    # GIFT's K₇
-    p = Pipeline.k7()
-    print(p.manifold.summary())
-    print(p.spectral_gap.summary())
-    print(p.certification.summary())
-
-    # Extract all observables
-    obs = p.extract_observables()
-    print(obs['couplings']['sin2_theta_w'])
-
-    # Validate against experiment
-    report = p.validate()
-    print(report['mean_deviation_percent'])
-
-    # Custom manifold
-    p = Pipeline(
-        m1=BuildingBlock("MyBlock1", b2=12, b3=45),
-        m2=BuildingBlock("MyBlock2", b2=8, b3=30),
-    )
-    p.load_metric("my_metric.json")
-    p.certify()
-"""
+"""Pipeline orchestrator for G₂ metric computation."""
 
 from dataclasses import dataclass, field
 from typing import Optional, Dict, List, Any
@@ -36,7 +9,7 @@ from .geometry.holonomy import G2Structure
 from .geometry.certification import NKCertification
 from .spectral.gap import SpectralGap
 
-# --- Optional imports with graceful fallback ---
+# Optional imports with graceful fallback
 
 try:
     from .physics.coupling_constants import GaugeCouplings, GIFT_COUPLINGS
@@ -125,13 +98,6 @@ class Pipeline:
                                 ) -> "Pipeline":
         """Certify any approximate G₂ metric via Newton-Kantorovich.
 
-        This is the general-purpose entry point for pure mathematics:
-        given ANY approximate torsion-free G₂ metric with measured
-        bounds, determine whether a true torsion-free metric exists
-        nearby and compute rigorous error estimates.
-
-        No physics required — this is differential geometry only.
-
         Args:
             manifold: The TCS manifold (topology only)
             torsion_norm: Measured ||T(phi)||_C0 of the approximate metric
@@ -141,19 +107,6 @@ class Pipeline:
 
         Returns:
             Pipeline with certification status.
-
-        Example:
-            # Certify a hypothetical metric on Quintic + CI(2,4)
-            p = Pipeline.from_approximate_metric(
-                manifold=TCSManifold.from_pair("Quintic", "CI(2,4)"),
-                torsion_norm=1e-3,
-                spectral_gap=0.08,
-                lipschitz=0.05,
-            )
-            if p.certification.is_certified:
-                print(f"Certified! Safety margin: {p.certification.safety_margin:.1f}x")
-            else:
-                print(f"Failed: h={p.certification.h:.4f} >= 0.5")
         """
         p = cls.__new__(cls)
         p.manifold = manifold
@@ -185,10 +138,6 @@ class Pipeline:
         if self.spectral_gap:
             result["spectral"] = self.spectral_gap.summary()
         return result
-
-    # ------------------------------------------------------------------
-    # Observable extraction
-    # ------------------------------------------------------------------
 
     def extract_observables(self) -> Dict[str, Any]:
         """Extract all physical observables from the pipeline state.
@@ -308,10 +257,6 @@ class Pipeline:
 
         return obs
 
-    # ------------------------------------------------------------------
-    # Validation report
-    # ------------------------------------------------------------------
-
     def validate(self) -> Dict[str, Any]:
         """Generate a validation report comparing predictions to experiment.
 
@@ -369,10 +314,6 @@ class Pipeline:
             'mean_deviation_percent': mean_dev,
             'comparisons': comparisons,
         }
-
-    # ------------------------------------------------------------------
-    # Display
-    # ------------------------------------------------------------------
 
     def __repr__(self) -> str:
         parts = ["Pipeline("]

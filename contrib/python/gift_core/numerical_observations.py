@@ -1,12 +1,4 @@
-"""
-GIFT v3.3 Numerical Observations.
-
-This module documents numerical coincidences that are NOT formally proven
-but exhibit precision beyond random expectation. These are observations,
-not theorems.
-
-All deviations are computed and can be verified programmatically.
-"""
+"""GIFT numerical coincidences (observations, NOT formally proven theorems)."""
 
 import math
 from fractions import Fraction
@@ -53,17 +45,8 @@ def compute_deviation(computed: float, target: float) -> float:
     return abs(computed - target) / abs(target) * 100
 
 
-# =============================================================================
-# TAU POWER RELATIONS
-# =============================================================================
-
 def tau_powers() -> list[NumericalObservation]:
-    """
-    Powers of tau exhibit near-integer or structured values.
-
-    These are NOT exact relations - they are numerical observations
-    with small but nonzero deviations.
-    """
+    """Powers of tau with near-integer/structured values (approximate, not exact)."""
     tau = float(TAU)
     observations = []
 
@@ -122,17 +105,8 @@ def tau_powers() -> list[NumericalObservation]:
     return observations
 
 
-# =============================================================================
-# TRANSCENDENTAL CONNECTIONS
-# =============================================================================
-
 def transcendental_relations() -> list[NumericalObservation]:
-    """
-    Relations involving transcendental constants (gamma, pi, e).
-
-    These lack theoretical derivation and should be treated as
-    curious coincidences pending further investigation.
-    """
+    """Relations involving transcendental constants (gamma, pi, e); no derivation."""
     tau = float(TAU)
     observations = []
 
@@ -165,17 +139,8 @@ def transcendental_relations() -> list[NumericalObservation]:
     return observations
 
 
-# =============================================================================
-# MASS RELATIONS (APPROXIMATE)
-# =============================================================================
-
 def mass_relations() -> list[NumericalObservation]:
-    """
-    Mass predictions from tau (approximate).
-
-    These are phenomenological observations, not predictions.
-    Experimental values from PDG 2024.
-    """
+    """Approximate mass relations from tau (phenomenological; experiment from PDG 2024)."""
     tau = float(TAU)
     observations = []
 
@@ -221,17 +186,8 @@ def mass_relations() -> list[NumericalObservation]:
     return observations
 
 
-# =============================================================================
-# MAIN VERIFICATION FUNCTION
-# =============================================================================
-
 def verify_all_observations() -> dict[str, list[NumericalObservation]]:
-    """
-    Compute and return all numerical observations.
-
-    Returns:
-        Dictionary with categories as keys and lists of observations as values.
-    """
+    """Return all numerical observations, keyed by category."""
     return {
         "tau_powers": tau_powers(),
         "transcendental": transcendental_relations(),
@@ -256,12 +212,7 @@ def print_all_observations() -> None:
 
 
 def get_summary() -> dict:
-    """
-    Get a summary of all observations.
-
-    Returns:
-        Dictionary with observation names as keys and deviation percentages as values.
-    """
+    """Return a summary dict keyed by observation name."""
     all_obs = verify_all_observations()
     summary = {}
 

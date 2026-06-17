@@ -1,19 +1,4 @@
-"""
-GIFT Visualization Module (Optional).
-
-Provides visualizations for:
-- Fano plane
-- E8 root system projections
-- Dynkin diagrams
-- Relation dependency graph
-
-Requires: pip install matplotlib numpy
-
-Usage:
-    from gift_core.visualize import plot_fano, plot_e8_projection
-    plot_fano()
-    plot_e8_projection()
-"""
+"""GIFT visualizations (optional). Requires: pip install matplotlib numpy."""
 from typing import Optional, Tuple, List
 import math
 
@@ -51,29 +36,13 @@ def _check_numpy():
         )
 
 
-# =============================================================================
-# FANO PLANE VISUALIZATION
-# =============================================================================
-
 def plot_fano(
     figsize: Tuple[float, float] = (8, 8),
     show_labels: bool = True,
     title: str = "Fano Plane - Octonion Structure",
     save_path: Optional[str] = None
 ):
-    """
-    Plot the Fano plane with 7 points and 7 lines.
-
-    The Fano plane encodes octonion multiplication:
-    - 7 points = 7 imaginary units e₁, ..., e₇
-    - 7 lines = multiplication rules
-
-    Args:
-        figsize: Figure size (width, height)
-        show_labels: Whether to show point labels
-        title: Plot title
-        save_path: If provided, save figure to this path
-    """
+    """Plot the Fano plane (7 points, 7 lines). save_path saves the figure if given."""
     _check_matplotlib()
 
     fig, ax = plt.subplots(1, 1, figsize=figsize)
@@ -152,10 +121,6 @@ def plot_fano(
     return fig, ax
 
 
-# =============================================================================
-# E8 ROOT SYSTEM PROJECTION
-# =============================================================================
-
 def plot_e8_projection(
     projection: str = "random",
     figsize: Tuple[float, float] = (10, 10),
@@ -164,16 +129,11 @@ def plot_e8_projection(
     title: str = "E8 Root System (2D Projection)",
     save_path: Optional[str] = None
 ):
-    """
-    Plot a 2D projection of the 240 E8 roots.
+    """Plot a 2D projection of the 240 E8 roots.
 
     Args:
-        projection: Type of projection ("random", "pca", or "fixed")
-        figsize: Figure size
-        point_size: Size of points
-        alpha: Transparency
-        title: Plot title
-        save_path: If provided, save figure to this path
+        projection: Projection type ("random", "pca", or "fixed").
+        save_path: If provided, save figure to this path.
     """
     _check_matplotlib()
     _check_numpy()
@@ -240,23 +200,12 @@ def plot_e8_projection(
     return fig, ax
 
 
-# =============================================================================
-# DYNKIN DIAGRAM
-# =============================================================================
-
 def plot_dynkin_e8(
     figsize: Tuple[float, float] = (12, 4),
     title: str = "E8 Dynkin Diagram",
     save_path: Optional[str] = None
 ):
-    """
-    Plot the E8 Dynkin diagram.
-
-    E8 has 8 nodes with the characteristic forked structure:
-        1 - 2 - 3 - 4 - 5 - 6 - 7
-                    |
-                    8
-    """
+    """Plot the E8 Dynkin diagram (8 nodes, forked structure)."""
     _check_matplotlib()
 
     fig, ax = plt.subplots(1, 1, figsize=figsize)
@@ -310,18 +259,12 @@ def plot_dynkin_e8(
     return fig, ax
 
 
-# =============================================================================
-# GIFT CONSTANTS BAR CHART
-# =============================================================================
-
 def plot_gift_constants(
     figsize: Tuple[float, float] = (12, 6),
     title: str = "GIFT Framework Constants",
     save_path: Optional[str] = None
 ):
-    """
-    Plot a bar chart of key GIFT constants.
-    """
+    """Plot a bar chart of key GIFT constants."""
     _check_matplotlib()
 
     from .constants import (
@@ -368,17 +311,8 @@ def plot_gift_constants(
     return fig, ax
 
 
-# =============================================================================
-# SUMMARY FUNCTION
-# =============================================================================
-
 def plot_all(save_dir: Optional[str] = None):
-    """
-    Generate all standard GIFT visualizations.
-
-    Args:
-        save_dir: If provided, save all figures to this directory
-    """
+    """Generate all standard GIFT visualizations. save_dir saves all figures if given."""
     _check_matplotlib()
 
     import os
