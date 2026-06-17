@@ -77,7 +77,7 @@ theorem m_mu_m_e_from_Jordan : dim_J3O = 27 := rfl
 /-- 27 = 3³ (perfect cube) -/
 theorem dim_J3O_cube : 27 = 3 * 3 * 3 := by native_decide
 
-/-- 27^φ ≈ 206.77 where φ ≈ 1.618 (golden ratio)
+/-- 27^φ ≈ 207.01 where φ ≈ 1.618 (golden ratio)
     We certify the base, the exponent structure involves φ = (1+√5)/2 -/
 theorem m_mu_m_e_exponent_structure :
     -- The golden ratio φ satisfies φ² = φ + 1

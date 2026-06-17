@@ -103,7 +103,7 @@ def n_kk_states_below_20 : ℕ := 22671
 Source: k7_spectrum_unified_results.json -/
 def n_fiber_channels : ℕ := 57578
 
-/-- KK state count exceeds 1000 (the P3 target) -/
+/-- KK state count exceeds 1000 -/
 theorem n_states_large : n_kk_states_below_20 > 1000 := by native_decide
 
 /-- KK state count exceeds 10,000 (far exceeds target) -/

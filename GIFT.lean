@@ -1,6 +1,6 @@
 -- GIFT: Geometric Integration of Fundamental Topologies
 -- Main entry point for Lean 4 formalization
--- Version: 3.4.12 (213 certificate conjuncts, 4 published axioms + 22 interval-cert axioms)
+-- Version: 3.4.26 (33 published relations, 15 axioms = 4 prediction-chain + 11 K3 interval-cert, 0 sorry)
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- CORE & RELATIONS
