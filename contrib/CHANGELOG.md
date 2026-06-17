@@ -5,6 +5,60 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.27] - 2026-06-17
+
+### Summary
+
+**K3 explicit-model module removed from public package; Koide R1c
+machine-falsified; observables.json reconciliation; doc cleanups.**
+No new axioms, no behavioural change in the certificate. The release
+consolidates research-only code into the canonical workspace and
+records the new Koide assembly certificate.
+
+### Removed (public API)
+- `gift_core.geometry.k3_explicit` (18 451 lines) — direct Donaldson-metric
+  computation for the K3 quartic. Research-only, not part of the certified
+  exports. Moved to canonical workspace.
+- `gift_core.examples.verify_phase_a1_explicit_k3` /
+  `verify_phase_a2_route` — sibling verification drivers. Moved alongside.
+- `contrib/docs/PHASE_A_2_MODEL_B_ROUTE.md` — companion design note.
+
+### Added
+- `GIFT/Relations/KoideAssembly.lean` — 12 theorems, 0 sorry. Assembles
+  Q_Koide from the certified GIFT mass formulas (27^φ, 3477), proves
+  the algebraic reduction `Q < 2/3 ⟺ a²+b²+1 < 4a+4b+4ab`, an enclosure
+  `0.665 < Q_gift < 0.668`, and the **strict** `koideQ_gift < 2/3` via
+  a transcendental chain (Taylor degree-6 → log3 > 1.0986 → 27^φ > 206.9
+  → nlinarith). Side-quest R1c (Koide-from-masses) machine-falsified.
+- `contrib/dev_history.md` — archived per-version sprint logs
+  (v3.0–v3.3.32) extracted from `contrib/CLAUDE.md`.
+
+### Changed
+- `contrib/CLAUDE.md` reduced to current conventions only (1 393 lines
+  → ~180); historical content preserved verbatim in `dev_history.md`.
+- `GIFT.lean` header comment: version 3.4.12 → 3.4.27, axiom/relation
+  counts refreshed.
+- `GIFT/Relations/LeptonSector.lean`,
+  `GIFT/Foundations/GoldenRatioPowers.lean`,
+  `GIFT/Hierarchy/AbsoluteMasses.lean` — fix `27^φ ≈ 206.77`
+  (experimental value mislabelled as prediction) → `≈ 207.01`
+  (actual GIFT prediction).
+- `GIFT/Spectral/ComputedWeylLaw.lean` — drop internal "P3 target" jargon.
+- `observables.json` (in `private/`): six exp-target reconciliations to
+  primary sources (sin²θ₁₃ NuFIT 6.1, σ₈ Planck VI, A_Wolf PDG main fit,
+  m_W/m_Z, m_s/m_d band, m_c/m_s scale-consistent). Type-I headline
+  0.92% → 0.99%, global 1.24% → 1.28%. `gift_value` + Lean/giftpy
+  unchanged (no exp values are used in any proof).
+- Homepage / docs headline numbers refreshed to canonical (NuFIT 6.1,
+  v3.4.27, Arithmon-program banner).
+
+### Stats
+- `lake build`: 8 392 / 8 392, exit 0
+- Sorry: 0
+- Axioms: 15 across 4 files (4 prediction-chain + 11 K3 interval-cert) — unchanged
+- `.lean` files: 144 (143 + 1 new `KoideAssembly`)
+- Lean toolchain: `leanprover/lean4:v4.29.0`
+
 ## [3.4.26] - 2026-06-03
 
 ### Summary
