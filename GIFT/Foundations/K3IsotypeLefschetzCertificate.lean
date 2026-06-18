@@ -58,6 +58,19 @@
   SEPARATE algebraic-geometric datum; it is NOT carried by any single
   isotype block (dim H^2^{V_4} = m_000 + m_100 = 10 < 15). This module
   certifies only the Lefschetz-derived isotype arithmetic.
+
+  NOTE (audit 1a8d87f2, 2026-06-18): sigma_A and sigma_B above are the
+  AMBIENT symplectic involutions of the Mukai V_4 acting on
+  X-tilde = V(Q_1, Q_2, Q_3) ⊂ P^5 by diagonal sign flips (parity 2
+  ⟹ symplectic, Mukai 1988). They are DISTINCT from the abstract
+  lattice isometry "sigma_A_phase_d8 = (+P, -D, -Q)" on NS constructed
+  in canonical/notes/phase_d8_tau_sigmaA_explicit.md, which is a
+  non-symplectic proxy (E_8(-2) root-free obstruction). The Lefschetz
+  isotype arithmetic certified here uses sigma_A_ambient only, via its
+  topological fixed-locus contribution. No identification between
+  sigma_A_ambient and sigma_A_phase_d8 is needed or asserted by this
+  module. See canonical/notes/sigma_A_sympl_vs_lattice_reconciliation_2026_06_18.md
+  for the full upstream reconciliation.
 -/
 
 import GIFT.Core
