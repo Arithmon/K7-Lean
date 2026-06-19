@@ -5,6 +5,34 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.28] - 2026-06-19
+
+### Summary
+
+**`b₂`-side rigidity companion to `realises_iff_cocycleDim_77` in the Donaldson
+link-cohomology module.** The module already characterised `b₃ = 77` purely by
+the discriminant link's cocycle dimension (`realises_iff_cocycleDim_77`), while
+`b₂ = 21` entered only as the bare definition `b2Donaldson := 21` (cited to
+Donaldson 2017 §4.1). This release adds the matching `b₂` characterisation: for
+a reflection monodromy with vanishing-cycle span of rank `spanRank` in the
+rank-22 K3 lattice, `b₂ = 22 − spanRank`, and `b₂ = 21 ↔ spanRank = 1` — i.e.
+the GIFT value `b₂ = 21` *forces* uniform monodromy (a single reflection
+`ρ = s_{α₁}`), it does not merely assume it. Together the two theorems show the
+two Betti numbers are governed by independent data (`b₂` by the span rank,
+`b₃` by the link cocycle dimension). No new axioms, no `sorry`, no behavioural
+change; the geometric identity `dim Fix = 22 − spanRank` remains a definition
+(research-level lattice/reflection formalisation, not attempted here), the
+arithmetic consequence is certified on top of it.
+
+- **Added** to `GIFT/Foundations/G2DonaldsonLinkCohomology.lean`:
+  `b2FromSpanRank` (def), `b2FromSpanRank_uniform`, `b2_eq_21_iff_uniform_monodromy`
+  (the rigidity bi-conditional, by `omega`), `b2_nonuniform_ne_21`. New section
+  "Rigidity of `b₂`: uniform monodromy is forced".
+- Cross-checked by exact computation in the private repo
+  (`axis2_sub_q2_monodromy_rigidity.py`: `dim Fix = n − rank(span)` on
+  `3U ⊕ 2 E₈(-1)` rank 22 and on the rank-15 polarisation lattice).
+- Axiom count unchanged (15), zero `sorry`, build green.
+
 ## [3.4.27] - 2026-06-17
 
 ### Summary

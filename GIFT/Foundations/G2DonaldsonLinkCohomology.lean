@@ -227,6 +227,56 @@ def realisesTargetCharacterisation : Bool :=
 theorem realises_target_characterisation_holds :
     realisesTargetCharacterisation = true := by native_decide
 
+/-! ## Rigidity of `b₂`: uniform monodromy is forced
+
+Companion to `realises_iff_cocycleDim_77` on the `b₂` side. The monodromy
+group `⟨s_{α₁}, …, s_{α_k}⟩` acts on `H²(K3;ℤ) = Λ_K3` (rank 22) by
+reflections in the vanishing-cycle `(-2)`-classes `α_i`. Its invariant
+subspace is `⋂ α_i^⊥ = (span{α_i})^⊥`, of dimension `22 − rank(span{α_i})`.
+Hence, writing `spanRank := rank(span{α_i})`,
+
+  `b₂ = dim H²(K3)^{monodromy} = 22 − spanRank`.
+
+The geometric identity `dim Fix = 22 − spanRank` is not formalised here (it
+needs the lattice / reflection layer, just as `b2Donaldson` is itself a
+definition cited to Donaldson 2017 §4.1); we certify only the arithmetic
+*consequence* on top of it. That consequence is a **rigidity**: `b₂ = 21` is
+equivalent to `spanRank = 1`, i.e. all vanishing cycles parallel to a single
+`(-2)`-class — *uniform monodromy* `ρ = s_{α₁}` (the assumption already stated
+in this module's header). So the value `b₂ = 21` does not merely *use* uniform
+monodromy, it *forces* it; any non-uniform reflection monodromy
+(`spanRank ≥ 2`) gives `b₂ ≤ 20 ≠ 21`. Together with
+`realises_iff_cocycleDim_77` this shows the two Betti numbers are governed by
+*independent* data: `b₂` by the rank of the vanishing-cycle span, `b₃` by the
+link's cocycle dimension. Exact cross-check (private repo):
+`axis2_sub_q2_monodromy_rigidity.py` verifies `dim Fix = n − rank(span)` on
+`3U ⊕ 2 E₈(-1)` (rank 22) and on the rank-15 polarisation lattice. -/
+
+/-- `b₂(M) = 22 − spanRank`, where `spanRank` is the rank of the span of the
+monodromy vanishing-cycle `(-2)`-classes in `Λ_K3` (rank 22). At
+`spanRank = 1` (uniform monodromy) this is the `b2Donaldson = 21` value. -/
+def b2FromSpanRank (spanRank : Nat) : Nat := 22 - spanRank
+
+/-- At `spanRank = 1` the span-rank formula reproduces `b2Donaldson`. -/
+theorem b2FromSpanRank_uniform : b2FromSpanRank 1 = b2Donaldson := by
+  native_decide
+
+/-- **Rigidity (b₂ side).** `b₂ = 21` iff the monodromy span has rank 1, i.e.
+the monodromy is uniform (a single reflection `s_{α₁}`). Proved by `omega`
+(the bi-conditional holds for every `Nat spanRank`; geometrically
+`1 ≤ spanRank ≤ 22`). The `b₂` companion to `realises_iff_cocycleDim_77`. -/
+theorem b2_eq_21_iff_uniform_monodromy (spanRank : Nat) :
+    b2FromSpanRank spanRank = 21 ↔ spanRank = 1 := by
+  unfold b2FromSpanRank
+  omega
+
+/-- Non-uniform reflection monodromy (`spanRank ≥ 2`) cannot realise
+`b₂ = 21`. -/
+theorem b2_nonuniform_ne_21 (spanRank : Nat) (h : 2 ≤ spanRank) :
+    b2FromSpanRank spanRank ≠ 21 := by
+  unfold b2FromSpanRank
+  omega
+
 /-! ## Composite certificate -/
 
 set_option linter.dupNamespace false in
