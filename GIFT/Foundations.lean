@@ -82,6 +82,8 @@ import GIFT.Foundations.K3AutomorphismPackage
 import GIFT.Foundations.K7NuBar
 -- Donaldson direct Option 5: global base geometry audit status ledger
 import GIFT.Foundations.DonaldsonGlobalBaseAudit
+-- Collar re-summation certificate: |C(3/2,k)| absolute series = 3 + indicial parity K_ind(-1)=K_ind(+1)=4/3
+import GIFT.Foundations.CollarResummationCertificate
 
 namespace GIFT.Foundations
 

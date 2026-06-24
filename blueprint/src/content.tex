@@ -1206,6 +1206,75 @@ confirming sensitivity to ansatz quality.
     and $\delta_{K3}^{\mathrm{cert}} < \varepsilon_0 = 0.1$ (Joyce threshold).
 \end{theorem}
 
+\section{Collar Re-summation and Indicial Parity}\label{sec:collar_resummation}
+
+Weighted-analysis estimates for the collar region of the K3-fibered $\Gtwo$ metric
+involve the binomial expansion of $(w - \rho)^{3/2}$ in the fiber coordinate, whose
+order-$k$ coefficient is the generalized binomial coefficient
+$\binom{3/2}{k} = \tfrac{3}{2}(\tfrac{3}{2} - 1)\cdots(\tfrac{3}{2} - k + 1)/k!$.
+Two purely analytic facts control how the per-order bounds aggregate: the absolute
+series sums to exactly $3$ (the collar/bulk erosion factor), and the indicial
+constant is invariant under the weight reflection $\beta \mapsto -\beta$. Both are
+machine-checked below, the first by an elementary telescoping route that avoids
+Abel's theorem.
+
+\begin{definition}[Generalized binomial coefficient]\label{def:C32}
+    \lean{GIFT.Foundations.CollarResummation.C32}
+    \leanok
+    $\mathrm{C32}(k) = \binom{3/2}{k}
+    = \bigl(\textstyle\prod_{i<k} (3/2 - i)\bigr) / k!$.
+\end{definition}
+
+\begin{lemma}[Alternating telescope]\label{lem:collar_telescope}
+    \lean{GIFT.Foundations.CollarResummation.telescope}
+    \leanok
+    \uses{def:C32}
+    For all $n$, $\sum_{k=0}^{n} (-1)^k \binom{3/2}{k} = (-1)^n \binom{1/2}{n}$.
+    Combined with $|\binom{1/2}{n}| \leq 1/(2n-1)$, this is the elementary engine
+    for the two main results, used in place of any boundary-limit theorem.
+\end{lemma}
+
+\begin{theorem}[Absolute re-summation $\sum |\binom{3/2}{k}| = 3$]\label{thm:collar_resum}
+    \lean{GIFT.Foundations.CollarResummation.collar_resummation}
+    \leanok
+    \uses{def:C32, lem:collar_telescope}
+    The absolute generalized-binomial series is summable with
+    $\sum_{k \geq 0} |\binom{3/2}{k}| = 3$: the collar bound erodes the bulk bound
+    by exactly the factor $3$, independently of the adiabatic parameter.
+\end{theorem}
+
+\begin{theorem}[Total absolute sum]\label{thm:tsum_C32}
+    \lean{GIFT.Foundations.CollarResummation.tsum_abs_C32}
+    \leanok
+    \uses{thm:collar_resum}
+    $\sum'_{k} |\binom{3/2}{k}| = 3$.
+\end{theorem}
+
+\begin{theorem}[Alternating value without Abel]\label{thm:alt_binomial}
+    \lean{GIFT.Foundations.CollarResummation.alternating_binomial_at_neg_one}
+    \leanok
+    \uses{def:C32, lem:collar_telescope}
+    $\sum_{k \geq 0} (-1)^k \binom{3/2}{k} = 0$, i.e. the binomial series of
+    $(1+x)^{3/2}$ evaluated at $x = -1$, obtained here without any boundary-limit
+    theorem.
+\end{theorem}
+
+\begin{definition}[Indicial polynomial]\label{def:Pind}
+    \lean{GIFT.Foundations.CollarResummation.Pind}
+    \leanok
+    $P_m(\beta) = \beta^2 - m^2$.
+\end{definition}
+
+\begin{theorem}[Indicial parity $K_{\mathrm{ind}}(-1) = K_{\mathrm{ind}}(+1) = 4/3$]\label{thm:indicial_parity}
+    \lean{GIFT.Foundations.CollarResummation.K_ind_neg_one_eq}
+    \leanok
+    \uses{def:Pind}
+    Since $P_m$ is even in $\beta$, the indicial constant
+    $K_{\mathrm{ind}}(\beta) = 1/|P_{1/2}(\beta)|$ satisfies
+    $K_{\mathrm{ind}}(-1) = K_{\mathrm{ind}}(+1) = 4/3$: the weighted-Schauder
+    constant carries verbatim across the $\beta = +1$ and $\beta = -1$ weights.
+\end{theorem}
+
 % =============================================================================
 \chapter{TCS Spectral Bounds}\label{chap:tcs}
 % =============================================================================

@@ -115,6 +115,13 @@ GIFT.Foundations.K3NewtonKantorovich.ci222_k3_lap_passes
 GIFT.Foundations.K3NewtonKantorovich.ci222_k3_jac_passes
 GIFT.Foundations.K3NewtonKantorovich.ci222_k3_jac_k2_fails
 GIFT.Foundations.K3NewtonKantorovich.ci222_k3_nk_certificate_valid
+GIFT.Foundations.CollarResummation.C32
+GIFT.Foundations.CollarResummation.telescope
+GIFT.Foundations.CollarResummation.collar_resummation
+GIFT.Foundations.CollarResummation.tsum_abs_C32
+GIFT.Foundations.CollarResummation.alternating_binomial_at_neg_one
+GIFT.Foundations.CollarResummation.Pind
+GIFT.Foundations.CollarResummation.K_ind_neg_one_eq
 GIFT.Spectral.NeckGeometry.TCSManifold
 GIFT.Spectral.NeckGeometry.TCSHypotheses
 GIFT.Spectral.TCSBounds.c₁

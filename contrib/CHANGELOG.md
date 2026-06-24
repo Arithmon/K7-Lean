@@ -5,6 +5,37 @@ All notable changes to GIFT Core will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.29] - 2026-06-24
+
+### Summary
+
+**New machine-checked certificate: collar re-summation and indicial parity.**
+A new `sorry`-free module `GIFT/Foundations/CollarResummationCertificate.lean`
+formalizes two self-contained analytic identities used in the weighted estimates
+for the collar region of the K3-fibered G₂ metric:
+
+- **Absolute re-summation** `∑_{k≥0} |C(3/2,k)| = 3` (`collar_resummation`,
+  `tsum_abs_C32`) — the collar/bulk erosion factor — proved by an elementary
+  telescoping route `∑_{k=0}^n (-1)^k C(3/2,k) = (-1)^n C(1/2,n)` combined with
+  the decay bound `|C(1/2,n)| ≤ 1/(2n-1)`, avoiding Abel's theorem.
+- **Alternating value** `∑_{k≥0} (-1)^k C(3/2,k) = 0`
+  (`alternating_binomial_at_neg_one`), the binomial series of `(1+x)^{3/2}` at
+  `x = -1`, obtained without any boundary-limit theorem.
+- **Indicial parity** `K_ind(-1) = K_ind(+1) = 4/3` (`K_ind_neg_one_eq`): the
+  indicial polynomial `P_m(β) = β² − m²` is even in `β`.
+
+### Details
+
+- **Added** `GIFT/Foundations/CollarResummationCertificate.lean`
+  (namespace `GIFT.Foundations.CollarResummation`); imported by
+  `GIFT/Foundations.lean`. Axioms: `[propext, Classical.choice, Quot.sound]`
+  only (no new GIFT axioms).
+- **Blueprint**: new section "Collar Re-summation and Indicial Parity" in
+  `blueprint/src/content.tex` with seven `\lean{}`-tagged declarations; matching
+  entries added to `blueprint/lean_decls`. Blueprint sync check passes.
+- No change to any prediction, the published axiom count, or the master
+  certificates.
+
 ## [3.4.28] - 2026-06-19
 
 ### Summary

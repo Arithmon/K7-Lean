@@ -5,7 +5,7 @@
 
 Part of the **[Arithmon program](https://github.com/arithmon)** — the hypothesis that the constants of nature are counts.
 
-Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **15 axioms** (4 logical on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), all theorems proven in **Lean 4** (8391 build jobs).
+Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **15 axioms** (4 logical on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), all theorems proven in **Lean 4** (8394 build jobs).
 
 ## Structure
 
@@ -81,4 +81,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.4.28*
+*GIFT Core v3.4.29*
