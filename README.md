@@ -1,5 +1,23 @@
 # GIFT Core
 
+> ### This repository is moving
+>
+> **`gift-framework/core` → [`Arithmon/K7-Lean`](https://github.com/Arithmon/K7-Lean)**
+>
+> The K₇ framework's certified Lean 4 core joins the [Arithmon](https://github.com/Arithmon)
+> organisation alongside [K7](https://github.com/Arithmon/K7) (the framework, formerly
+> `gift-framework/GIFT`), Atlas, Program, Lean and Sieve. Not to be confused with
+> [Arithmon/Lean](https://github.com/Arithmon/Lean), the Sieve/Q5 methodology layer:
+> this repository is the framework's formal core, formerly known as "GIFT Core".
+>
+> **Nothing you cite will break.** The published papers (immutable PDFs on Zenodo) cite
+> `github.com/gift-framework/core` dozens of times. GitHub redirects the old URLs (web
+> *and* `git clone` / `fetch` / `push`), and those redirects are load-bearing
+> infrastructure, so the old path will never be reused. Release tags and the
+> pre-registration pointer (`v3.4.29`, `667c8b9`) are unaffected.
+
+---
+
 [![Formal Verification](https://github.com/gift-framework/core/actions/workflows/verify.yml/badge.svg)](https://github.com/gift-framework/core/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 

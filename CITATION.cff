@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+title: "K7-Lean (formerly GIFT Core)"
+message: >-
+  If you use this formalization, please cite the repository with its release
+  tag. The framework itself has a concept DOI; see the identifiers below.
+type: software
+authors:
+  - family-names: "de La Fournière"
+    given-names: "Brieuc"
+repository-code: "https://github.com/Arithmon/K7-Lean"
+abstract: >-
+  Certified mathematical identities of the K7 framework (E8xE8 gauge theory
+  on a G2-holonomy manifold with Betti numbers (21, 77)): 460+ relations,
+  15 stated axioms, 0 sorry, proven in Lean 4. Formerly published as
+  gift-framework/core ("GIFT Core"); GIFT remains the name of the framework's
+  founding phase. Not to be confused with Arithmon/Lean, the Sieve/Q5
+  methodology layer of the Arithmon program. Framework repository:
+  https://github.com/Arithmon/K7
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.16891489
+    description: >-
+      Concept DOI of the K7 framework (companion repository Arithmon/K7).
+      Resolves to the latest framework version.
+keywords:
+  - Lean 4
+  - formal verification
+  - G2 holonomy
+  - E8xE8
+  - interval arithmetic
+  - K3 surface
+license: MIT
