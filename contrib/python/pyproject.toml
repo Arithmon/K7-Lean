@@ -30,10 +30,10 @@ requires-python = ">=3.9"
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/gift-framework/core"
+Homepage = "https://github.com/Arithmon/K7-Lean"
 Documentation = "https://github.com/gift-framework/GIFT"
-Repository = "https://github.com/gift-framework/core"
-"Lean Proofs" = "https://github.com/gift-framework/core/tree/main/GIFT"
+Repository = "https://github.com/Arithmon/K7-Lean"
+"Lean Proofs" = "https://github.com/Arithmon/K7-Lean/tree/main/GIFT"
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0", "pytest-cov", "black", "ruff"]

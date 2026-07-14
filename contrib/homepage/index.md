@@ -27,7 +27,7 @@ GIFT explores whether Standard Model dimensionless parameters may be topological
 ## Repository Structure
 
 ```
-gift-framework/core/
+Arithmon/K7-Lean/
 ├── GIFT/           # Lean 4 formal proofs (144 files, 460+ relations, 15 axioms)
 ├── GIFTTest/       # Lean test files
 ├── contrib/        # Python package, blueprint, homepage
@@ -38,7 +38,7 @@ gift-framework/core/
 
 ```bash
 # Clone the repository
-git clone https://github.com/gift-framework/core.git
+git clone https://github.com/Arithmon/K7-Lean.git
 cd core
 
 # Build Lean proofs
@@ -50,7 +50,7 @@ pip install giftpy
 
 ## Links
 
-* [GitHub Repository](https://github.com/gift-framework/core)
+* [GitHub Repository](https://github.com/Arithmon/K7-Lean)
 * [Lean Zulip](https://leanprover.zulipchat.com/) - Lean community chat
 
 ---

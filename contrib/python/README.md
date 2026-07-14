@@ -2,7 +2,7 @@
 
 Python package for the GIFT framework — formally verified mathematical constants (Lean 4).
 
-All constants are certified by zero-sorry Lean 4 proofs in the [GIFT core repository](https://github.com/gift-framework/core).
+All constants are certified by zero-sorry Lean 4 proofs in the [GIFT core repository](https://github.com/Arithmon/K7-Lean).
 
 ## Installation
 

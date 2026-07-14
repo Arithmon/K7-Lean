@@ -25,7 +25,7 @@ See **Terminology Standards** section below for complete reference.
 ## Project Structure
 
 ```
-gift-framework/core/
+Arithmon/K7-Lean/
 ├── GIFT.lean               # Main entry point (root-level, Lean 4 standard)
 ├── GIFT/                   # Lean 4 formal proofs (140 files)
 │   ├── Core.lean           # Source of truth for constants

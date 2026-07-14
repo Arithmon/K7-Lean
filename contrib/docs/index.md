@@ -9,7 +9,7 @@ This directory contains documentation for the GIFT Core formal verification proj
 
 ## Quick Links
 
-- [GitHub Repository](https://github.com/gift-framework/core)
+- [GitHub Repository](https://github.com/Arithmon/K7-Lean)
 - [Blueprint (web)](../../blueprint/)
 - [API Documentation](../../blueprint/docs/)
 
