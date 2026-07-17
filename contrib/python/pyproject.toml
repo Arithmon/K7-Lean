@@ -31,7 +31,7 @@ dependencies = []
 
 [project.urls]
 Homepage = "https://github.com/Arithmon/K7-Lean"
-Documentation = "https://github.com/gift-framework/GIFT"
+Documentation = "https://github.com/Arithmon/K7"
 Repository = "https://github.com/Arithmon/K7-Lean"
 "Lean Proofs" = "https://github.com/Arithmon/K7-Lean/tree/main/GIFT"
 

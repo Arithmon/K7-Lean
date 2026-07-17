@@ -3,8 +3,8 @@
 title: "GIFT: Geometric Information Field Theory"
 description: "Formal verification of G2 holonomy framework - 460+ machine-verified relations - founding framework of the Arithmon program"
 baseurl: "/core"
-url: "https://gift-framework.github.io"
-github_username: gift-framework
+url: "https://arithmon.github.io"
+github_username: Arithmon
 repository: Arithmon/K7-Lean
 
 # Build settings

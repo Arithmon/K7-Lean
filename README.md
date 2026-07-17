@@ -91,11 +91,11 @@ lake build
 
 For extended observables, publications, and detailed analysis:
 
-**[gift-framework/GIFT](https://github.com/gift-framework/GIFT)**
+**[Arithmon/K7](https://github.com/Arithmon/K7)**
 
 ---
 
-> **GIFT is the founding framework of the [Arithmon program](https://github.com/arithmon).**
+> **K₇ (formerly GIFT) is the founding framework of the [Arithmon program](https://github.com/arithmon).**
 
 [Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
 
