@@ -2,7 +2,7 @@
 
 title: "GIFT: Geometric Information Field Theory"
 description: "Formal verification of G2 holonomy framework - 460+ machine-verified relations - founding framework of the Arithmon program"
-baseurl: "/core"
+baseurl: "/K7-Lean"
 url: "https://arithmon.github.io"
 github_username: Arithmon
 repository: Arithmon/K7-Lean
