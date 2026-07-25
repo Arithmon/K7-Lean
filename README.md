@@ -32,9 +32,9 @@ GIFT/                           # Lean 4 formalization (root library)
 ├── Core.lean                   # Constants (dim_E8, b2, b3, H*, ...)
 ├── Certificate/                # Modular certificate system
 │   ├── Core.lean               # Master: Foundations ∧ Predictions ∧ Spectral
-│   ├── Foundations.lean        # E₈, G₂, octonions, K₇, Joyce, NK cert (34 conjuncts)
+│   ├── Foundations.lean        # E₈, G₂, octonions, K₇, Joyce, NK cert (39 conjuncts)
 │   ├── Predictions.lean        # 33+ relations, ~50 observables (56 conjuncts)
-│   └── Spectral.lean           # Mass gap, TCS, computed spectrum, Weyl law (37 conjuncts)
+│   └── Spectral.lean           # Mass gap, TCS, computed spectrum, Weyl law (45 conjuncts)
 ├── Foundations/                 # Mathematical foundations (23 files)
 │   ├── RootSystems.lean        # E₈ roots in ℝ⁸ (240 vectors)
 │   ├── E8Lattice.lean          # E₈ lattice, Weyl reflection
