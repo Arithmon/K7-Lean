@@ -1,6 +1,6 @@
-# GIFT Core Documentation
+# K₇-Lean Documentation
 
-This directory contains documentation for the GIFT Core formal verification project.
+This directory contains documentation for the K₇-Lean formal verification project.
 
 ## Contents
 

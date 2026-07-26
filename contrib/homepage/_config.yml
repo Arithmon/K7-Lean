@@ -1,6 +1,6 @@
-# GIFT Blueprint - Jekyll Configuration
+# K₇-Lean blueprint - Jekyll configuration
 
-title: "GIFT: Geometric Information Field Theory"
+title: "K₇-Lean: the certified formal core"
 description: "Formal verification of G2 holonomy framework - 460+ machine-verified relations - founding framework of the Arithmon program"
 baseurl: "/K7-Lean"
 url: "https://arithmon.github.io"

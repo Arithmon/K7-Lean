@@ -1,10 +1,10 @@
-# GIFT Core
+# K₇-Lean
 
-> ### This repository is moving
+> ### This repository has moved
 >
 > **`gift-framework/core` → [`Arithmon/K7-Lean`](https://github.com/Arithmon/K7-Lean)**
 >
-> The K₇ framework's certified Lean 4 core joins the [Arithmon](https://github.com/Arithmon)
+> The K₇ framework's certified Lean 4 core has joined the [Arithmon](https://github.com/Arithmon)
 > organisation alongside [K7](https://github.com/Arithmon/K7) (the framework, formerly
 > `gift-framework/GIFT`), Atlas, Program, Lean and Sieve. Not to be confused with
 > [Arithmon/Lean](https://github.com/Arithmon/Lean), the Sieve/Q5 methodology layer:
@@ -21,9 +21,9 @@
 [![Formal Verification](https://github.com/Arithmon/K7-Lean/actions/workflows/verify.yml/badge.svg)](https://github.com/Arithmon/K7-Lean/actions/workflows/verify.yml)
 [![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Part of the **[Arithmon program](https://github.com/arithmon)** — the hypothesis that the constants of nature are counts.
+Part of the **[Arithmon program](https://github.com/arithmon)** -- the hypothesis that the constants of nature are counts.
 
-Formally verified mathematical relations from the GIFT framework. 460+ certified relations, **15 axioms** (4 logical on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), all theorems proven in **Lean 4** (8394 build jobs).
+Formally verified mathematical relations from the K₇ framework. 460+ certified relations, **15 axioms** (4 logical on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), all theorems proven in **Lean 4** (8394 build jobs).
 
 ## Structure
 
@@ -99,4 +99,4 @@ For extended observables, publications, and detailed analysis:
 
 [Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
 
-*GIFT Core v3.4.29*
+*K₇-Lean v3.4.29*

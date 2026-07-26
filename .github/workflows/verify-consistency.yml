@@ -21,7 +21,7 @@ jobs:
           ERRORS=0
 
           # Check README
-          if ! grep -q "GIFT Core v${VERSION}" README.md; then
+          if ! grep -qF "K₇-Lean v${VERSION}" README.md; then
             echo "::error::README.md version mismatch (expected v${VERSION})"
             ERRORS=$((ERRORS+1))
           fi

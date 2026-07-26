@@ -2,11 +2,11 @@
 usemathjax: true
 ---
 
-# GIFT: Geometric Information Field Theory
+# K₇-Lean: the certified formal core
 
 Part of the **[Arithmon program](https://github.com/arithmon)** - the hypothesis that the constants of nature are counts.
 
-GIFT explores whether Standard Model dimensionless parameters may be topological invariants of an E₈ × E₈ gauge theory compactified on a G₂-holonomy manifold K₇, with **zero free parameters**. The parameter-free core is **33 exact relations** among topological integers, machine-checked in Lean 4: **460+ certified relations**, **15 axioms** (4 on the prediction chain + 11 interval-arithmetic K3 certificates), **0 `sorry`**. *Precision (secondary):* 0.99% mean deviation on the 33 Type-I relations (NuFIT 6.1 / PDG 2024 / Planck 2018).
+The K₇ framework explores whether Standard Model dimensionless parameters may be topological invariants of an E₈ × E₈ gauge theory compactified on a G₂-holonomy manifold K₇, with **zero free parameters**. The parameter-free core is **33 exact relations** among topological integers, machine-checked in Lean 4: **460+ certified relations**, **15 axioms** (4 on the prediction chain + 11 interval-arithmetic K3 certificates), **0 `sorry`**. *Precision (secondary):* 0.99% mean deviation on the 33 Type-I relations (NuFIT 6.1 / PDG 2024 / Planck 2018).
 
 ## Quick Links
 
@@ -39,7 +39,7 @@ Arithmon/K7-Lean/
 ```bash
 # Clone the repository
 git clone https://github.com/Arithmon/K7-Lean.git
-cd core
+cd K7-Lean
 
 # Build Lean proofs
 lake build
@@ -55,4 +55,4 @@ pip install giftpy
 
 ---
 
-> **GIFT is the founding framework of the [Arithmon program](https://github.com/arithmon).**
+> **K₇ (formerly GIFT) is the founding framework of the [Arithmon program](https://github.com/arithmon).**

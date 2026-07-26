@@ -12,7 +12,7 @@ GIFT (Geometric Information Field Theory) expresses Standard Model dimensionless
 
 *Precision (secondary):* **0.99% mean deviation** on the 33 Type-I relations; **95 observables** total, **66 with experimental data** (NuFIT 6.1 / PDG 2024 / Planck 2018 / CODATA 2022).
 
-GIFT is the founding framework of the [Arithmon program](https://github.com/arithmon), the hypothesis that the constants of nature are counts.
+K₇ (formerly GIFT) is the founding framework of the [Arithmon program](https://github.com/arithmon), the hypothesis that the constants of nature are counts.
 
 ---
 
