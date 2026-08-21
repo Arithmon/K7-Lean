@@ -84,6 +84,9 @@ import GIFT.Foundations.K7NuBar
 import GIFT.Foundations.DonaldsonGlobalBaseAudit
 -- Collar re-summation certificate: |C(3/2,k)| absolute series = 3 + indicial parity K_ind(-1)=K_ind(+1)=4/3
 import GIFT.Foundations.CollarResummationCertificate
+-- Contraction-majorant architecture (T1): joint-channel bracket, block oracle,
+-- bound-direction calculus (certify vs refute), degenerate 3x3 spectrum, fork trichotomy
+import GIFT.Foundations.ContractionMajorant
 
 namespace GIFT.Foundations
 
