@@ -1,6 +1,54 @@
 /-
-  GIFT Foundations: Lean certificate for the closed-form K3 Calabi-Yau
-  residual on the Z_2^3-equivariant K3 surface X = V(Q_1, Q_2, Q_3) ⊂ P^5.
+  GIFT Foundations: Lean-recomputed variance envelope for a frozen
+  closed-form ansatz on the Z_2^3-equivariant K3 surface
+  X = V(Q_1, Q_2, Q_3) ⊂ P^5.
+
+  ============================================================================
+  SCOPE CORRECTION (2026-08-22) — READ BEFORE CITING
+  ============================================================================
+
+  The theorems in this file are ARITHMETIC and remain valid: they are
+  `native_decide` statements about integers and about the aggregate of the
+  4000 serialized rational endpoints.  What is RETRACTED is the geometric
+  IDENTIFICATION of the enclosed quantity.
+
+  The frozen witness `k3_closedform_witness_v1.npz` was fitted and evaluated
+  with the contraction `V† H V`, which is NOT the holomorphic pullback of the
+  ambient (1,1) form to X; the correct pullback is `Vᵀ H V̄`.  The convention
+  was retracted on 2026-07-13 (private repo:
+  `canonical/results/retracted/RETRACTED.json`, field
+  `required_future_metric_convention = holomorphic_pullback_VT`), and the
+  defect was then measured directly on THIS witness on 2026-07-19 (private
+  repo: `canonical/results/kimi_k3_667_convention_test.json`, verdict
+  "DÉFAUT DE CONVENTION CONFIRMÉ"):
+
+    Var(log R) over all 4000 points, code convention  : 1.309e-4
+        (this is the quantity the bound ε₃' = 1321/10⁷ encloses)
+    on the 3478 points positive-definite in BOTH conventions:
+        code convention                               : 1.445e-4
+        correct pullback                              : 5.315e-1  (×3677)
+    log det_code − log det_true : mean 0.534, std 0.730
+    positive-definite census    : 4000 (code) vs 3478 (correct pullback)
+
+  Consequently:
+
+  * ε₃' bounds an AUXILIARY quantity, not the Calabi–Yau residual of a Kähler
+    metric on X.  The `cy_*` names below are HISTORICAL and must not be read
+    as a Calabi–Yau claim.
+  * No claim is made that the frozen 667-parameter ansatz is close to
+    Ricci-flat.  In the correct convention it is not: 5.3e-1 is not a small
+    residual, and 522 of the 4000 points do not even carry a positive-definite
+    form.
+  * UNAFFECTED, and still standing: the Krawczyk–Rump certification that each
+    box contains an exact common zero of (Q₁,Q₂,Q₃,‖Z‖²−1) — a statement about
+    the SURFACE X, independent of any metric convention (see
+    `K3KrawczykContainment`) — and the exactness of the variance-envelope
+    recomputation from the serialized rational endpoints.
+
+  The active metric datum is now the degree-3 witness v2
+  (`holomorphic_pullback_VT`, gauge det M = 1), frozen 2026-07-16.  It is NOT
+  certified by this module.
+
 
   The surface carries an explicit closed-form Kähler ansatz
 
@@ -12,9 +60,12 @@
 
       R = detG · |Ω|² ,
 
-  where detG is the determinant of the induced 2×2 tangent metric and |Ω|²
-  the holomorphic-volume normalisation; a perfect Ricci-flat metric gives
-  log R constant on X, so Var(log R) measures the residual deviation.
+  where detG was INTENDED to be the determinant of the induced 2×2 tangent
+  metric and |Ω|² the holomorphic-volume normalisation.  Under that intent a
+  perfect Ricci-flat metric would give log R constant on X.  As actually
+  computed here, detG uses the retracted contraction `V† H V` (see the SCOPE
+  CORRECTION above): log R is therefore an auxiliary quantity, and its
+  variance does NOT measure a Ricci-flat residual.
 
   CERTIFIED BOUNDS (ℕ num/den, all `native_decide`):
 
