@@ -46,8 +46,8 @@ run_cmd do
     `GIFT.Certificate.gift_master_certificate,
     `GIFT.Relations.KoideAssembly.koideQ_gift_lt_two_thirds] do
     checkAxioms decl allowed
-  let mut count := 0
-  let mut nativeCount := 0
+  let mut count : Nat := 0
+  let mut nativeCount : Nat := 0
   for (name, info) in env.constants.toList do
     let inLibrary := name.toString.startsWith "GIFT." || name.toString.startsWith "_private.GIFT."
     if inLibrary then
