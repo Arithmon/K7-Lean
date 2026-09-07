@@ -9,15 +9,21 @@ bound, a statement found to say less than it appears to.
 
 Org-wide rules (what helps, what does not, house style) are in the
 [organization CONTRIBUTING](https://github.com/arithmon/.github/blob/main/CONTRIBUTING.md).
-This file covers the four procedures this repository owns.
+This file covers the procedures this repository owns.
+
+Use standard mathematical names that describe the actual Lean type. Keep docstrings
+for hypotheses, conventions and proof ideas; put research histories in accompanying
+documents. Existing public names may be kept as compatibility aliases.
+
+Routine builds use the committed lockfile. Run `lake update` only during an
+intentional dependency migration and commit the updated manifest.
 
 ## Build before you open anything
 
-Continuous integration runs `lake build` and then refuses any occurrence of
-`sorry` in the Lean sources. A branch that does not build is not reviewable,
+Continuous integration runs `lake build` and audits transitive axiom dependencies and rejects proof holes. A branch that does not build is not reviewable,
 and the policy is not negotiated per pull request.
 
-1. `lake update && lake exe cache get && lake build` must succeed locally.
+1. `lake exe cache get && lake build && lake build Verification` must succeed locally.
 2. No `sorry`, and no axiom introduced to avoid one. An incomplete proof is
    better opened as an issue than merged behind a placeholder.
 3. Mathlib is the default source of standard results. Restating one locally

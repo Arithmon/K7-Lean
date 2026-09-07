@@ -51,7 +51,7 @@ theorem sin2_theta_W_den_eq : sin2_theta_W_den = 91 := rfl
 theorem sin2_theta_W_fraction : sin2_theta_W_num * 91 = 21 * sin2_theta_W_den := rfl
 
 /-- GCD(21, 91) = 7, so simplified form is 3/13 -/
-theorem sin2_theta_W_gcd : Nat.gcd 21 91 = 7 := by native_decide
+theorem sin2_theta_W_gcd : Nat.gcd 21 91 = 7 := by decide
 
 /-- sin²θ_W simplified: 21/91 = 3/13 (cross-multiply check) -/
 theorem sin2_theta_W_simplified : 21 * 13 = 3 * 91 := rfl
@@ -64,7 +64,7 @@ def sin2_theta_W_den_simp : ℕ := 13
 
 theorem sin2_theta_W_simp : sin2_theta_W_num / Nat.gcd 21 91 = sin2_theta_W_num_simp ∧
                             sin2_theta_W_den / Nat.gcd 21 91 = sin2_theta_W_den_simp := by
-  constructor <;> native_decide
+  constructor <;> decide
 
 /-!
 ## Koide Ratio: Q = 2/3
@@ -83,7 +83,7 @@ theorem Q_Koide_num_eq : Q_Koide_num = 14 := rfl
 theorem Q_Koide_den_eq : Q_Koide_den = 21 := rfl
 
 /-- GCD(14, 21) = 7 -/
-theorem Q_Koide_gcd : Nat.gcd 14 21 = 7 := by native_decide
+theorem Q_Koide_gcd : Nat.gcd 14 21 = 7 := by decide
 
 /-- Q = 14/21 = 2/3 (cross-multiply check) -/
 theorem Q_Koide_simplified : 14 * 3 = 2 * 21 := rfl
@@ -152,7 +152,7 @@ theorem kappa_T_inv_eq : kappa_T_inv = 61 := rfl
 theorem kappa_T_inv_formula : kappa_T_inv = BettiNumbers.fund_E7 + Octonions.imaginary_count - 2 := rfl
 
 /-- 61 is prime! -/
-theorem kappa_T_inv_prime : Nat.Prime 61 := by native_decide
+theorem kappa_T_inv_prime : Nat.Prime 61 := by decide
 
 /-!
 ## γ_GIFT (Master Ratio)
@@ -181,7 +181,7 @@ theorem gamma_denominator_eq : gamma_denominator = 884 := rfl
 theorem gamma_denominator_formula : gamma_denominator = 10 * G2.dim_G2 + 3 * dim_E8 := rfl
 
 /-- GCD(511, 884) = 1 (already in lowest terms) -/
-theorem gamma_irreducible : Nat.gcd 511 884 = 1 := by native_decide
+theorem gamma_irreducible : Nat.gcd 511 884 = 1 := by decide
 
 /-!
 ## Additional GIFT Ratios
@@ -194,7 +194,7 @@ theorem alpha_strong_num : BettiNumbers.H_star - BettiNumbers.b2 = 78 := rfl
 theorem alpha_strong_E6 : BettiNumbers.H_star - BettiNumbers.b2 = G2.dim_E6 := rfl
 
 /-- Dark matter ratio: b₂/rank(E₈) = 21/8 (in lowest terms) -/
-theorem dark_matter_gcd : Nat.gcd BettiNumbers.b2 rank_E8 = 1 := by native_decide
+theorem dark_matter_gcd : Nat.gcd BettiNumbers.b2 rank_E8 = 1 := by decide
 
 /-!
 ## Complete Derivation Chain

@@ -75,8 +75,8 @@ consistency_check() {
 
     local ERRORS=0
 
-    if ! grep -q "GIFT Core v${VERSION}" README.md; then
-        red "  ✗ README.md does NOT contain 'GIFT Core v${VERSION}'"
+    if ! grep -q "K₇-Lean v${VERSION}" README.md; then
+        red "  ✗ README.md does NOT contain 'K₇-Lean v${VERSION}'"
         ERRORS=$((ERRORS+1))
     else
         echo "  ✓ README.md mentions v${VERSION}"
@@ -107,18 +107,7 @@ consistency_check() {
 #    Mirrors verify-consistency.yml step "Check no sorry in Lean files"
 # ----------------------------------------------------------------------
 sorry_check() {
-    # Match the workflow's filter logic exactly
-    local hits
-    hits=$(grep -rn "sorry" GIFT/ GIFTTest/ --include="*.lean" 2>/dev/null \
-            | grep -v "^.*:.*--.*sorry" \
-            | grep -v "REMOVED\|eliminated\|no.*sorry\|zero.*sorry\|all goals closed" || true)
-    if [ -n "$hits" ]; then
-        red "  Found 'sorry' in:"
-        echo "$hits" | sed 's/^/    /'
-        return 1
-    fi
-    echo "  ✓ Zero sorry across $(find GIFT/ -name '*.lean' 2>/dev/null | wc -l) Lean files"
-    return 0
+    python3 scripts/proof_inventory.py --check
 }
 
 # ----------------------------------------------------------------------
@@ -161,8 +150,7 @@ blueprint_check() {
 lake_build_check() {
     yellow "  ⚠ Running 'lake build'. This can take several minutes and"
     yellow "    may stress your laptop. Press Ctrl+C now to abort."
-    sleep 3
-    lake build
+    lake build && lake build Verification
     return $?
 }
 

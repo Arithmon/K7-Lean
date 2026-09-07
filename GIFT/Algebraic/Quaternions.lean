@@ -38,11 +38,11 @@ instance K4_DecidableRel : DecidableRel K4.Adj := fun v w =>
   else isTrue h
 
 /-- K₄ has 6 edges = C(4,2) -/
-theorem K4_card_edges : K4.edgeFinset.card = 6 := by native_decide
+theorem K4_card_edges : K4.edgeFinset.card = 6 := by decide
 
 /-- Each vertex of K₄ has degree 3 -/
 theorem K4_degree (v : Fin 4) : K4.degree v = 3 := by
-  fin_cases v <;> native_decide
+  fin_cases v <;> decide
 
 /-!
 ## Quaternion Dimension Constants
@@ -93,13 +93,13 @@ Perfect matchings in K₄:
 -/
 
 /-- K₄ has C(4,2) = 6 edges -/
-theorem K4_edges_eq_choose : K4.edgeFinset.card = Nat.choose 4 2 := by native_decide
+theorem K4_edges_eq_choose : K4.edgeFinset.card = Nat.choose 4 2 := by decide
 
 /-- C(4,2) = 6 -/
-theorem choose_4_2 : Nat.choose 4 2 = 6 := by native_decide
+theorem choose_4_2 : Nat.choose 4 2 = 6 := by decide
 
 /-- 6 edges, 3 pairs of opposite edges = 3 imaginary units -/
-theorem K4_opposite_pairs : Nat.choose 4 2 / 2 = imaginary_count := by native_decide
+theorem K4_opposite_pairs : Nat.choose 4 2 / 2 = imaginary_count := by decide
 
 /-- Each imaginary corresponds to a pair of opposite edges -/
 theorem matching_count : 3 = imaginary_count := rfl

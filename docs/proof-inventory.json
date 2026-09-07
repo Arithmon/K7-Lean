@@ -1,0 +1,6007 @@
+{
+  "lean_files": 150,
+  "axiom_declarations": [
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 43,
+      "name": "det_g_at_half"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 46,
+      "name": "K3_eigenvalue_0"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 47,
+      "name": "K3_eigenvalue_1"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 48,
+      "name": "K3_eigenvalue_2"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 49,
+      "name": "K3_eigenvalue_3"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 86,
+      "name": "det_g_at_half_bracketed"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 111,
+      "name": "K3_eigenvalue_0_bracketed"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 116,
+      "name": "K3_eigenvalue_1_bracketed"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 121,
+      "name": "K3_eigenvalue_2_bracketed"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 126,
+      "name": "K3_eigenvalue_3_bracketed"
+    },
+    {
+      "file": "GIFT/Foundations/IntervalCertificates.lean",
+      "line": 451,
+      "name": "PSLQ_null_in_TCS_basis"
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 119,
+      "name": "cheeger_inequality"
+    },
+    {
+      "file": "GIFT/Spectral/LiteratureAxioms.lean",
+      "line": 171,
+      "name": "literature_package"
+    },
+    {
+      "file": "GIFT/Spectral/TCSBounds.lean",
+      "line": 160,
+      "name": "spectral_upper_bound"
+    },
+    {
+      "file": "GIFT/Spectral/TCSBounds.lean",
+      "line": 211,
+      "name": "neck_dominates"
+    }
+  ],
+  "native_decide": [
+    {
+      "file": "GIFT/Algebraic/G2Bform.lean",
+      "line": 34
+    },
+    {
+      "file": "GIFT/Algebraic/G2Rank.lean",
+      "line": 78
+    },
+    {
+      "file": "GIFT/Algebraic/G2Rank.lean",
+      "line": 80
+    },
+    {
+      "file": "GIFT/Algebraic/G2Rank.lean",
+      "line": 93
+    },
+    {
+      "file": "GIFT/Algebraic/G2Rank.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Algebraic/G2Rank.lean",
+      "line": 105
+    },
+    {
+      "file": "GIFT/Algebraic/G2Rank.lean",
+      "line": 118
+    },
+    {
+      "file": "GIFT/Algebraic/G2Rank.lean",
+      "line": 288
+    },
+    {
+      "file": "GIFT/Algebraic/G2ThreeForm.lean",
+      "line": 119
+    },
+    {
+      "file": "GIFT/Algebraic/G2ThreeForm.lean",
+      "line": 125
+    },
+    {
+      "file": "GIFT/Algebraic/G2ThreeForm.lean",
+      "line": 128
+    },
+    {
+      "file": "GIFT/Algebraic/G2ThreeForm.lean",
+      "line": 134
+    },
+    {
+      "file": "GIFT/Algebraic/G2ThreeForm.lean",
+      "line": 377
+    },
+    {
+      "file": "GIFT/Algebraic/G2ThreeForm.lean",
+      "line": 412
+    },
+    {
+      "file": "GIFT/Algebraic/G2ThreeForm.lean",
+      "line": 531
+    },
+    {
+      "file": "GIFT/Algebraic/G2ThreeForm.lean",
+      "line": 696
+    },
+    {
+      "file": "GIFT/Algebraic/G2ThreeForm.lean",
+      "line": 717
+    },
+    {
+      "file": "GIFT/Algebraic/GeometricSaturation.lean",
+      "line": 40
+    },
+    {
+      "file": "GIFT/Algebraic/GeometricSaturation.lean",
+      "line": 45
+    },
+    {
+      "file": "GIFT/Algebraic/GeometricSaturation.lean",
+      "line": 50
+    },
+    {
+      "file": "GIFT/Algebraic/GeometricSaturation.lean",
+      "line": 65
+    },
+    {
+      "file": "GIFT/Algebraic/GeometricSaturation.lean",
+      "line": 72
+    },
+    {
+      "file": "GIFT/Algebraic/GeometricSaturation.lean",
+      "line": 86
+    },
+    {
+      "file": "GIFT/Algebraic/GeometricSaturation.lean",
+      "line": 107
+    },
+    {
+      "file": "GIFT/Algebraic/Octonions.lean",
+      "line": 120
+    },
+    {
+      "file": "GIFT/Algebraic/Octonions.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Algebraic/Octonions.lean",
+      "line": 167
+    },
+    {
+      "file": "GIFT/Algebraic/Octonions.lean",
+      "line": 240
+    },
+    {
+      "file": "GIFT/Certificate/Foundations.lean",
+      "line": 644
+    },
+    {
+      "file": "GIFT/Certificate/Predictions.lean",
+      "line": 368
+    },
+    {
+      "file": "GIFT/Certificate/Predictions.lean",
+      "line": 453
+    },
+    {
+      "file": "GIFT/Certificate/Predictions.lean",
+      "line": 469
+    },
+    {
+      "file": "GIFT/Certificate/Predictions.lean",
+      "line": 488
+    },
+    {
+      "file": "GIFT/Certificate/Predictions.lean",
+      "line": 504
+    },
+    {
+      "file": "GIFT/Certificate/Predictions.lean",
+      "line": 515
+    },
+    {
+      "file": "GIFT/Certificate/Spectral.lean",
+      "line": 554
+    },
+    {
+      "file": "GIFT/DifferentialForms.lean",
+      "line": 58
+    },
+    {
+      "file": "GIFT/DifferentialForms.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/DifferentialForms.lean",
+      "line": 81
+    },
+    {
+      "file": "GIFT/DifferentialForms.lean",
+      "line": 97
+    },
+    {
+      "file": "GIFT/DifferentialForms.lean",
+      "line": 132
+    },
+    {
+      "file": "GIFT/DifferentialForms.lean",
+      "line": 136
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 52
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 55
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 61
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 64
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 67
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 100
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 103
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 106
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 109
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 144
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 148
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 152
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 190
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 225
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 231
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 259
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 262
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 265
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 268
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 271
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 301
+    },
+    {
+      "file": "GIFT/Foundations/AmbroseSinger.lean",
+      "line": 335
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/AnalyticalFoundations.lean",
+      "line": 64
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/AnalyticalFoundations.lean",
+      "line": 66
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/E8Lattice.lean",
+      "line": 725
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/E8Lattice.lean",
+      "line": 735
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/E8Lattice.lean",
+      "line": 744
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/E8Lattice.lean",
+      "line": 757
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/ExteriorAlgebra.lean",
+      "line": 100
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/ExteriorAlgebra.lean",
+      "line": 103
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/ExteriorAlgebra.lean",
+      "line": 106
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/ExteriorAlgebra.lean",
+      "line": 109
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/ExteriorAlgebra.lean",
+      "line": 119
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/ExteriorAlgebra.lean",
+      "line": 122
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/ExteriorAlgebra.lean",
+      "line": 131
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/ExteriorAlgebra.lean",
+      "line": 134
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/DifferentialForms.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/DifferentialForms.lean",
+      "line": 153
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/DifferentialForms.lean",
+      "line": 156
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/DifferentialForms.lean",
+      "line": 159
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/DifferentialForms.lean",
+      "line": 168
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/DifferentialForms.lean",
+      "line": 171
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/G2FormsBridge.lean",
+      "line": 117
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/G2FormsBridge.lean",
+      "line": 214
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/G2FormsBridge.lean",
+      "line": 217
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/G2FormsBridge.lean",
+      "line": 245
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/G2Structure.lean",
+      "line": 133
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/G2Structure.lean",
+      "line": 136
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/HodgeStar.lean",
+      "line": 40
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/HodgeStar.lean",
+      "line": 43
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/HodgeStar.lean",
+      "line": 57
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/HodgeStar.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/HodgeStar.lean",
+      "line": 67
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2Forms/HodgeStar.lean",
+      "line": 74
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/G2TensorForm.lean",
+      "line": 167
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/HarmonicForms.lean",
+      "line": 290
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/HodgeTheory.lean",
+      "line": 122
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 77
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 80
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 91
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 131
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 139
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 160
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 168
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 197
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 200
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 217
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/K7Orthonormality.lean",
+      "line": 250
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/WedgeProduct.lean",
+      "line": 77
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/WedgeProduct.lean",
+      "line": 80
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/WedgeProduct.lean",
+      "line": 83
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/WedgeProduct.lean",
+      "line": 86
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/WedgeProduct.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/WedgeProduct.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/WedgeProduct.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/WedgeProduct.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Foundations/Analysis/WedgeProduct.lean",
+      "line": 114
+    },
+    {
+      "file": "GIFT/Foundations/AnalyticalMetric.lean",
+      "line": 131
+    },
+    {
+      "file": "GIFT/Foundations/AnalyticalMetric.lean",
+      "line": 134
+    },
+    {
+      "file": "GIFT/Foundations/AnalyticalMetric.lean",
+      "line": 238
+    },
+    {
+      "file": "GIFT/Foundations/AnalyticalMetric.lean",
+      "line": 244
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 75
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 112
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 115
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 139
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 142
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 164
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 169
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 174
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 203
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 210
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 244
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 248
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 252
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 256
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 276
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 279
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 282
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 285
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 288
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 291
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 313
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 316
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 319
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 322
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 353
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 356
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 359
+    },
+    {
+      "file": "GIFT/Foundations/ConformalRigidity.lean",
+      "line": 387
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 39
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 82
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 88
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 184
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 220
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 245
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 325
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 359
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 413
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 426
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 516
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 528
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 577
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 619
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 677
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 762
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 800
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 854
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 877
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 878
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 879
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 880
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 881
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 882
+    },
+    {
+      "file": "GIFT/Foundations/DonaldsonCoassociativeFibration.lean",
+      "line": 926
+    },
+    {
+      "file": "GIFT/Foundations/E8Lattice.lean",
+      "line": 592
+    },
+    {
+      "file": "GIFT/Foundations/E8Lattice.lean",
+      "line": 596
+    },
+    {
+      "file": "GIFT/Foundations/E8Mathlib.lean",
+      "line": 44
+    },
+    {
+      "file": "GIFT/Foundations/E8Mathlib.lean",
+      "line": 65
+    },
+    {
+      "file": "GIFT/Foundations/E8Mathlib.lean",
+      "line": 82
+    },
+    {
+      "file": "GIFT/Foundations/E8Mathlib.lean",
+      "line": 105
+    },
+    {
+      "file": "GIFT/Foundations/E8Mathlib.lean",
+      "line": 146
+    },
+    {
+      "file": "GIFT/Foundations/E8Mathlib.lean",
+      "line": 151
+    },
+    {
+      "file": "GIFT/Foundations/E8Mathlib.lean",
+      "line": 189
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 64
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 76
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 81
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 85
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 105
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 114
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 117
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 121
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 179
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 206
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 209
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 215
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 218
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 241
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 244
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 276
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 305
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 321
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 324
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 328
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 332
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 335
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 364
+    },
+    {
+      "file": "GIFT/Foundations/ExplicitG2Metric.lean",
+      "line": 398
+    },
+    {
+      "file": "GIFT/Foundations/G2CrossProduct.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Foundations/G2CrossProduct.lean",
+      "line": 115
+    },
+    {
+      "file": "GIFT/Foundations/G2CrossProduct.lean",
+      "line": 220
+    },
+    {
+      "file": "GIFT/Foundations/G2CrossProduct.lean",
+      "line": 225
+    },
+    {
+      "file": "GIFT/Foundations/G2CrossProduct.lean",
+      "line": 230
+    },
+    {
+      "file": "GIFT/Foundations/G2CrossProduct.lean",
+      "line": 235
+    },
+    {
+      "file": "GIFT/Foundations/G2CrossProduct.lean",
+      "line": 259
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 125
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 132
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 139
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 143
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 144
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 145
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 146
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 147
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 149
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 156
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 159
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 162
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 165
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 196
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 202
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 207
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 212
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 217
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 228
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 262
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 315
+    },
+    {
+      "file": "GIFT/Foundations/G2DonaldsonLinkCohomology.lean",
+      "line": 322
+    },
+    {
+      "file": "GIFT/Foundations/G2Holonomy.lean",
+      "line": 70
+    },
+    {
+      "file": "GIFT/Foundations/G2Holonomy.lean",
+      "line": 76
+    },
+    {
+      "file": "GIFT/Foundations/G2Holonomy.lean",
+      "line": 124
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 53
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 56
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 86
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 88
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 110
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 124
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 130
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 148
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 157
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 159
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 164
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 166
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 185
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 192
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 211
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 218
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 223
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 227
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 288
+    },
+    {
+      "file": "GIFT/Foundations/G2IrrepLatticeCertificate.lean",
+      "line": 296
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 71
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 75
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 79
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 83
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 87
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 91
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 107
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 109
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 110
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 117
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 165
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 168
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 171
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 174
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 177
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 220
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 284
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 287
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 290
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 293
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 296
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 299
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 302
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 309
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 317
+    },
+    {
+      "file": "GIFT/Foundations/G2TCSLatticeCertificate.lean",
+      "line": 343
+    },
+    {
+      "file": "GIFT/Foundations/GoldenRatioPowers.lean",
+      "line": 185
+    },
+    {
+      "file": "GIFT/Foundations/GoldenRatioPowers.lean",
+      "line": 302
+    },
+    {
+      "file": "GIFT/Foundations/GoldenRatioPowers.lean",
+      "line": 305
+    },
+    {
+      "file": "GIFT/Foundations/GraphTheory.lean",
+      "line": 56
+    },
+    {
+      "file": "GIFT/Foundations/GraphTheory.lean",
+      "line": 61
+    },
+    {
+      "file": "GIFT/Foundations/GraphTheory.lean",
+      "line": 83
+    },
+    {
+      "file": "GIFT/Foundations/GraphTheory.lean",
+      "line": 91
+    },
+    {
+      "file": "GIFT/Foundations/GraphTheory.lean",
+      "line": 115
+    },
+    {
+      "file": "GIFT/Foundations/GraphTheory.lean",
+      "line": 118
+    },
+    {
+      "file": "GIFT/Foundations/K3AutomorphismPackage.lean",
+      "line": 96
+    },
+    {
+      "file": "GIFT/Foundations/K3AutomorphismPackage.lean",
+      "line": 152
+    },
+    {
+      "file": "GIFT/Foundations/K3AutomorphismPackage.lean",
+      "line": 221
+    },
+    {
+      "file": "GIFT/Foundations/K3AutomorphismPackage.lean",
+      "line": 270
+    },
+    {
+      "file": "GIFT/Foundations/K3AutomorphismPackage.lean",
+      "line": 275
+    },
+    {
+      "file": "GIFT/Foundations/K3AutomorphismPackage.lean",
+      "line": 328
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormBoxEnclosures.lean",
+      "line": 4148
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormBoxEnclosures.lean",
+      "line": 4152
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormBoxEnclosures.lean",
+      "line": 4160
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 149
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 208
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 211
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 216
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 223
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 228
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 241
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 246
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 278
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 279
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 297
+    },
+    {
+      "file": "GIFT/Foundations/K3ClosedFormWitness.lean",
+      "line": 311
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 75
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 79
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 115
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 122
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 181
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 184
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 190
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 202
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 237
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 249
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 252
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 304
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 307
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 310
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 313
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 316
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 326
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 329
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 333
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 337
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 341
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 370
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 373
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 395
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 398
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 404
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 407
+    },
+    {
+      "file": "GIFT/Foundations/K3HarmonicCorrection.lean",
+      "line": 445
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 92
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 114
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 122
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 125
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 143
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 147
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 151
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 164
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 167
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 173
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 179
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 198
+    },
+    {
+      "file": "GIFT/Foundations/K3IsotypeLefschetzCertificate.lean",
+      "line": 205
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4675
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4676
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4677
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4678
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4679
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4680
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4681
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4682
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4683
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4684
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4685
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4686
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4687
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4688
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4689
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4690
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4691
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4692
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4693
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4694
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4695
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4696
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4697
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4698
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4699
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4700
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4701
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4702
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4703
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4704
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4705
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4706
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4707
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4708
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4709
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4710
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4711
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4712
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4713
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4714
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4715
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4716
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4717
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4718
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4719
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4720
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4721
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4722
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4723
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4724
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4725
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4726
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4727
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4728
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4729
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4730
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4731
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4732
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4733
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4734
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4735
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4736
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4737
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4738
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4739
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4740
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4741
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4742
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4743
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4744
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4745
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4746
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4747
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4748
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4749
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4750
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4751
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4752
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4753
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4754
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4755
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4756
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4757
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4758
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4759
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4760
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4761
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4762
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4763
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4764
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4765
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4766
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4767
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4768
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4769
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4770
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4771
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4772
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4773
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4774
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4775
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4776
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4777
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4778
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4779
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4780
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4781
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4782
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4783
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4784
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4785
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4786
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4787
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4788
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4789
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4790
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4791
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4792
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4793
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4794
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4795
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4796
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4797
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4798
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4799
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4800
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4801
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4802
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4803
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4804
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4805
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4806
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4807
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4808
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4809
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4810
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4811
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4812
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4813
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4814
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4815
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4816
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4817
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4818
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4819
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4820
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4821
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4822
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4823
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4824
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4825
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4826
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4827
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4828
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4829
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4830
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4831
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4832
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4833
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4834
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4835
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4836
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4837
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4838
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4839
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4840
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4841
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4842
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4843
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4844
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4845
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4846
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4847
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4848
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4849
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4850
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4851
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4852
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4853
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4854
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4855
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4856
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4857
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4858
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4859
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4860
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4861
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4862
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4863
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4864
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4865
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4866
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4867
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4868
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4869
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4870
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4871
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4872
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4873
+    },
+    {
+      "file": "GIFT/Foundations/K3KrawczykContainment.lean",
+      "line": 4874
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 96
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 133
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 142
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 181
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 185
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 207
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 272
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 278
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 284
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 288
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 312
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 320
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 325
+    },
+    {
+      "file": "GIFT/Foundations/K3NewtonKantorovich.lean",
+      "line": 350
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 55
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 66
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 89
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 94
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 101
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 133
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 139
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 157
+    },
+    {
+      "file": "GIFT/Foundations/K3VandermondeSmoothness.lean",
+      "line": 164
+    },
+    {
+      "file": "GIFT/Foundations/K7NuBar.lean",
+      "line": 54
+    },
+    {
+      "file": "GIFT/Foundations/K7NuBar.lean",
+      "line": 96
+    },
+    {
+      "file": "GIFT/Foundations/K7NuBar.lean",
+      "line": 129
+    },
+    {
+      "file": "GIFT/Foundations/K7NuBar.lean",
+      "line": 185
+    },
+    {
+      "file": "GIFT/Foundations/K7NuBar.lean",
+      "line": 198
+    },
+    {
+      "file": "GIFT/Foundations/K7NuBar.lean",
+      "line": 234
+    },
+    {
+      "file": "GIFT/Foundations/K7NuBar.lean",
+      "line": 280
+    },
+    {
+      "file": "GIFT/Foundations/K7NuBar.lean",
+      "line": 320
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 68
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 72
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 75
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 78
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 100
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 103
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 106
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 144
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 147
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 153
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 188
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 191
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 219
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 227
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 238
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 244
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 286
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 291
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 306
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 310
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 315
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 320
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 325
+    },
+    {
+      "file": "GIFT/Foundations/MetricEigenvalues.lean",
+      "line": 391
+    },
+    {
+      "file": "GIFT/Foundations/MetricGapClosure.lean",
+      "line": 64
+    },
+    {
+      "file": "GIFT/Foundations/MetricGapClosure.lean",
+      "line": 103
+    },
+    {
+      "file": "GIFT/Foundations/MetricGapClosure.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Foundations/MetricGapClosure.lean",
+      "line": 178
+    },
+    {
+      "file": "GIFT/Foundations/MetricGapClosure.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 105
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 165
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 168
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 171
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 174
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 205
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 218
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 245
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 248
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 280
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 285
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 349
+    },
+    {
+      "file": "GIFT/Foundations/NewtonKantorovich.lean",
+      "line": 399
+    },
+    {
+      "file": "GIFT/Foundations/OctonionBridge.lean",
+      "line": 202
+    },
+    {
+      "file": "GIFT/Foundations/OctonionBridge.lean",
+      "line": 228
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 47
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 51
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 54
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 57
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 61
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 65
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 68
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 71
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 91
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 98
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 101
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 104
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 132
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 135
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 139
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 144
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 147
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 151
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 154
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 158
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 162
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 186
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 191
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 195
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 200
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 227
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 231
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 234
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 237
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 240
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 243
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 261
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 265
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 269
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 273
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 276
+    },
+    {
+      "file": "GIFT/Foundations/PoincareDuality.lean",
+      "line": 300
+    },
+    {
+      "file": "GIFT/Foundations/RootSystems.lean",
+      "line": 42
+    },
+    {
+      "file": "GIFT/Foundations/RootSystems.lean",
+      "line": 48
+    },
+    {
+      "file": "GIFT/Foundations/RootSystems.lean",
+      "line": 209
+    },
+    {
+      "file": "GIFT/Foundations/RootSystems.lean",
+      "line": 225
+    },
+    {
+      "file": "GIFT/Foundations/RootSystems.lean",
+      "line": 389
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 71
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 74
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 91
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 97
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 133
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 136
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 139
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 144
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 149
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 175
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 178
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 186
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 190
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 214
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 217
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 220
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 230
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 261
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 264
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 267
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 270
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 273
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 276
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 288
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 292
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 315
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 318
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 321
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 324
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 327
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 341
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 344
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 347
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 350
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 359
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 381
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 384
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 392
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 397
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 402
+    },
+    {
+      "file": "GIFT/Foundations/SpectralScaling.lean",
+      "line": 434
+    },
+    {
+      "file": "GIFT/Foundations/TCSConstruction.lean",
+      "line": 231
+    },
+    {
+      "file": "GIFT/Foundations/TCSConstruction.lean",
+      "line": 232
+    },
+    {
+      "file": "GIFT/Foundations/TCSConstruction.lean",
+      "line": 235
+    },
+    {
+      "file": "GIFT/Foundations/TCSConstruction.lean",
+      "line": 238
+    },
+    {
+      "file": "GIFT/Foundations/TCSConstruction.lean",
+      "line": 253
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 52
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 55
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 59
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 90
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 93
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 106
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 109
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 134
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 143
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 149
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 153
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 156
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 159
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 163
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 188
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 192
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 195
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 198
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 224
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 227
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 230
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 233
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 262
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 278
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 283
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 287
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 307
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 310
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 314
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 319
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 342
+    },
+    {
+      "file": "GIFT/Foundations/TCSPiecewiseMetric.lean",
+      "line": 372
+    },
+    {
+      "file": "GIFT/Geometry/DifferentialFormsR7.lean",
+      "line": 226
+    },
+    {
+      "file": "GIFT/Geometry/DifferentialFormsR7.lean",
+      "line": 229
+    },
+    {
+      "file": "GIFT/Geometry/DifferentialFormsR7.lean",
+      "line": 243
+    },
+    {
+      "file": "GIFT/Geometry/DifferentialFormsR7.lean",
+      "line": 243
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 219
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 222
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 225
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 228
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 231
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 234
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 237
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 240
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 249
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 252
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 255
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 278
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 278
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 278
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 279
+    },
+    {
+      "file": "GIFT/Geometry/Exterior.lean",
+      "line": 279
+    },
+    {
+      "file": "GIFT/Geometry/HodgeStarR7.lean",
+      "line": 39
+    },
+    {
+      "file": "GIFT/Geometry/HodgeStarR7.lean",
+      "line": 46
+    },
+    {
+      "file": "GIFT/Geometry/HodgeStarR7.lean",
+      "line": 49
+    },
+    {
+      "file": "GIFT/Geometry.lean",
+      "line": 81
+    },
+    {
+      "file": "GIFT/Geometry.lean",
+      "line": 81
+    },
+    {
+      "file": "GIFT/Geometry.lean",
+      "line": 81
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 31
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 36
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 44
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 47
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 54
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 58
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 66
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 70
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 73
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 117
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 129
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 134
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 140
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 153
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 160
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 178
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 181
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 184
+    },
+    {
+      "file": "GIFT/Hierarchy/AbsoluteMasses.lean",
+      "line": 207
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 68
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 71
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 74
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 122
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 132
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 142
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 213
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 218
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 223
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 228
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 233
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 238
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 243
+    },
+    {
+      "file": "GIFT/Hierarchy/AssociativeVolumes.lean",
+      "line": 289
+    },
+    {
+      "file": "GIFT/Hierarchy/DimensionalGap.lean",
+      "line": 40
+    },
+    {
+      "file": "GIFT/Hierarchy/DimensionalGap.lean",
+      "line": 89
+    },
+    {
+      "file": "GIFT/Hierarchy/DimensionalGap.lean",
+      "line": 90
+    },
+    {
+      "file": "GIFT/Hierarchy/DimensionalGap.lean",
+      "line": 208
+    },
+    {
+      "file": "GIFT/Hierarchy/DimensionalGap.lean",
+      "line": 209
+    },
+    {
+      "file": "GIFT/Hierarchy/DimensionalGap.lean",
+      "line": 245
+    },
+    {
+      "file": "GIFT/Hierarchy/DimensionalGap.lean",
+      "line": 248
+    },
+    {
+      "file": "GIFT/Hierarchy/DimensionalGap.lean",
+      "line": 252
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 63
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 86
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 89
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 105
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 116
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 116
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 116
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 116
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 131
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 134
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 140
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 143
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 160
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 163
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 181
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 184
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 201
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 204
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 207
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 210
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 213
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 216
+    },
+    {
+      "file": "GIFT/Hierarchy/E6Cascade.lean",
+      "line": 221
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 53
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 57
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 92
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 130
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 133
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 177
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 180
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 183
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 187
+    },
+    {
+      "file": "GIFT/Hierarchy/GaugeBundleData.lean",
+      "line": 231
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 67
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 71
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 81
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 104
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 114
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 133
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 141
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 158
+    },
+    {
+      "file": "GIFT/Hierarchy/TCSGaugeBreaking.lean",
+      "line": 224
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 36
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 39
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 88
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 91
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 109
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 116
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 119
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 168
+    },
+    {
+      "file": "GIFT/Hierarchy/VacuumStructure.lean",
+      "line": 171
+    },
+    {
+      "file": "GIFT/ImplicitFunction.lean",
+      "line": 52
+    },
+    {
+      "file": "GIFT/ImplicitFunction.lean",
+      "line": 60
+    },
+    {
+      "file": "GIFT/ImplicitFunction.lean",
+      "line": 92
+    },
+    {
+      "file": "GIFT/ImplicitFunction.lean",
+      "line": 103
+    },
+    {
+      "file": "GIFT/ImplicitFunction.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/ImplicitFunction.lean",
+      "line": 118
+    },
+    {
+      "file": "GIFT/ImplicitFunction.lean",
+      "line": 135
+    },
+    {
+      "file": "GIFT/ImplicitFunction.lean",
+      "line": 151
+    },
+    {
+      "file": "GIFT/IntervalArithmetic.lean",
+      "line": 60
+    },
+    {
+      "file": "GIFT/IntervalArithmetic.lean",
+      "line": 64
+    },
+    {
+      "file": "GIFT/IntervalArithmetic.lean",
+      "line": 68
+    },
+    {
+      "file": "GIFT/IntervalArithmetic.lean",
+      "line": 74
+    },
+    {
+      "file": "GIFT/IntervalArithmetic.lean",
+      "line": 86
+    },
+    {
+      "file": "GIFT/IntervalArithmetic.lean",
+      "line": 87
+    },
+    {
+      "file": "GIFT/IntervalArithmetic.lean",
+      "line": 88
+    },
+    {
+      "file": "GIFT/IntervalArithmetic.lean",
+      "line": 92
+    },
+    {
+      "file": "GIFT/IntervalArithmetic.lean",
+      "line": 96
+    },
+    {
+      "file": "GIFT/Joyce.lean",
+      "line": 74
+    },
+    {
+      "file": "GIFT/Joyce.lean",
+      "line": 78
+    },
+    {
+      "file": "GIFT/Joyce.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Joyce.lean",
+      "line": 101
+    },
+    {
+      "file": "GIFT/Joyce.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Joyce.lean",
+      "line": 123
+    },
+    {
+      "file": "GIFT/Joyce.lean",
+      "line": 142
+    },
+    {
+      "file": "GIFT/Joyce.lean",
+      "line": 156
+    },
+    {
+      "file": "GIFT/Observables/BosonMasses.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Observables/BosonMasses.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Predictions/CP/DeltaCPNuBarConjecture.lean",
+      "line": 52
+    },
+    {
+      "file": "GIFT/Predictions/CP/DeltaCPNuBarConjecture.lean",
+      "line": 63
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 63
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 66
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 69
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 72
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 75
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 78
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 81
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 86
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Relations/CompactificationCorrection.lean",
+      "line": 124
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 47
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 59
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 72
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 85
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 88
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 91
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 94
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 98
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 113
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 120
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 148
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 173
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 173
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 173
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 176
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 176
+    },
+    {
+      "file": "GIFT/Relations/Cosmology.lean",
+      "line": 176
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 42
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 44
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 51
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 53
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 64
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 71
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 73
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 75
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 82
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 84
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 101
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 112
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 114
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 128
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 140
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 143
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 153
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 156
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 163
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 164
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 165
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 179
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 185
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 193
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 196
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 199
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 202
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalChain.lean",
+      "line": 233
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 30
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 33
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 36
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 41
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 53
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 56
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 61
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 65
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 68
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 73
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 76
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 79
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 87
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 93
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 96
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 110
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 113
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 117
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 121
+    },
+    {
+      "file": "GIFT/Relations/ExceptionalGroups.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 61
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 64
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 67
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 70
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 73
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 76
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 79
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 82
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 85
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 88
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 91
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 94
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 97
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 100
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 122
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 129
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 136
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 139
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 158
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 161
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 186
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 189
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 192
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 225
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 235
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 250
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 262
+    },
+    {
+      "file": "GIFT/Relations/FanoSelectionPrinciple.lean",
+      "line": 277
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 43
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 47
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 50
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 84
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 112
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 115
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 140
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 143
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 149
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 152
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 176
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 179
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 185
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 188
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 195
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 201
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 204
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 227
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 230
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 233
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 236
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 240
+    },
+    {
+      "file": "GIFT/Relations/G2MetricProperties.lean",
+      "line": 295
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 24
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 27
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 30
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 33
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 36
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 48
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 59
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 76
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 83
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 86
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 93
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 106
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 118
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 126
+    },
+    {
+      "file": "GIFT/Relations/GaugeSector.lean",
+      "line": 130
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 24
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 39
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 46
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 53
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 60
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 63
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 78
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 91
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 100
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 119
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 142
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 149
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 159
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 167
+    },
+    {
+      "file": "GIFT/Relations/GoldenRatio.lean",
+      "line": 189
+    },
+    {
+      "file": "GIFT/Relations/IrrationalSector.lean",
+      "line": 26
+    },
+    {
+      "file": "GIFT/Relations/IrrationalSector.lean",
+      "line": 30
+    },
+    {
+      "file": "GIFT/Relations/IrrationalSector.lean",
+      "line": 46
+    },
+    {
+      "file": "GIFT/Relations/IrrationalSector.lean",
+      "line": 60
+    },
+    {
+      "file": "GIFT/Relations/IrrationalSector.lean",
+      "line": 64
+    },
+    {
+      "file": "GIFT/Relations/IrrationalSector.lean",
+      "line": 78
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 38
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 43
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 50
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 71
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 77
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 93
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 114
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 140
+    },
+    {
+      "file": "GIFT/Relations/LandauerDarkEnergy.lean",
+      "line": 162
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 27
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 30
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 33
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 42
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 50
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 53
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 78
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 101
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 105
+    },
+    {
+      "file": "GIFT/Relations/LeptonSector.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 23
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 30
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 43
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 55
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 88
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 105
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 116
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 125
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 129
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 139
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 147
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 158
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 183
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 183
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 184
+    },
+    {
+      "file": "GIFT/Relations/OverDetermination.lean",
+      "line": 300
+    },
+    {
+      "file": "GIFT/Relations/QuarkSector.lean",
+      "line": 17
+    },
+    {
+      "file": "GIFT/Relations/QuarkSector.lean",
+      "line": 20
+    },
+    {
+      "file": "GIFT/Relations/QuarkSector.lean",
+      "line": 23
+    },
+    {
+      "file": "GIFT/Relations/QuarkSector.lean",
+      "line": 32
+    },
+    {
+      "file": "GIFT/Relations/QuarkSector.lean",
+      "line": 43
+    },
+    {
+      "file": "GIFT/Relations/QuarkSector.lean",
+      "line": 53
+    },
+    {
+      "file": "GIFT/Relations/QuarkSector.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/Relations/QuarkSector.lean",
+      "line": 65
+    },
+    {
+      "file": "GIFT/Relations/QuarkSector.lean",
+      "line": 82
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 34
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 41
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 46
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 51
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 56
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 81
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 87
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 104
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 110
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 122
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 136
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 141
+    },
+    {
+      "file": "GIFT/Relations/SO16Relations.lean",
+      "line": 164
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 66
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 71
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 101
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 106
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 141
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 146
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 151
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 193
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 242
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 248
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 253
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 258
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 284
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 17
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 22
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 32
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 46
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 49
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 52
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 59
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 70
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 83
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 86
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 100
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 106
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 113
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 118
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 130
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 133
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 140
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 143
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 146
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 149
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 156
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 159
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 162
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 165
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 168
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 171
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 195
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 198
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 201
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 204
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 211
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 238
+    },
+    {
+      "file": "GIFT/Relations/Structural.lean",
+      "line": 260
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 45
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 55
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 59
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 69
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 73
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 83
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 88
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 94
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 104
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 109
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 112
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 116
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 134
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 144
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 147
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Relations/TauBounds.lean",
+      "line": 153
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 58
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 61
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 64
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 67
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 70
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 73
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 76
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 79
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 136
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 142
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 145
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 148
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 151
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 154
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 157
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 169
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 179
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 185
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 188
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 191
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 205
+    },
+    {
+      "file": "GIFT/Relations/V33Additions.lean",
+      "line": 227
+    },
+    {
+      "file": "GIFT/Relations.lean",
+      "line": 11
+    },
+    {
+      "file": "GIFT/Relations.lean",
+      "line": 14
+    },
+    {
+      "file": "GIFT/Relations.lean",
+      "line": 33
+    },
+    {
+      "file": "GIFT/Relations.lean",
+      "line": 41
+    },
+    {
+      "file": "GIFT/Relations.lean",
+      "line": 44
+    },
+    {
+      "file": "GIFT/Sobolev.lean",
+      "line": 39
+    },
+    {
+      "file": "GIFT/Sobolev.lean",
+      "line": 47
+    },
+    {
+      "file": "GIFT/Sobolev.lean",
+      "line": 51
+    },
+    {
+      "file": "GIFT/Sobolev.lean",
+      "line": 56
+    },
+    {
+      "file": "GIFT/Sobolev.lean",
+      "line": 73
+    },
+    {
+      "file": "GIFT/Sobolev.lean",
+      "line": 84
+    },
+    {
+      "file": "GIFT/Sobolev.lean",
+      "line": 89
+    },
+    {
+      "file": "GIFT/Sobolev.lean",
+      "line": 103
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 84
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 87
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 90
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 98
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 101
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 107
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 110
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 123
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 129
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 138
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 143
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 162
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 167
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 174
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 179
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 193
+    },
+    {
+      "file": "GIFT/Spectral/AnalyticalMassGap.lean",
+      "line": 198
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 158
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 167
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 172
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 187
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 192
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 201
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 206
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 223
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 228
+    },
+    {
+      "file": "GIFT/Spectral/CheegerInequality.lean",
+      "line": 247
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 51
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 54
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 57
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 60
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 105
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 136
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 141
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 144
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 176
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 183
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 200
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 208
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 243
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 248
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 254
+    },
+    {
+      "file": "GIFT/Spectral/ComputedSpectrum.lean",
+      "line": 297
+    },
+    {
+      "file": "GIFT/Spectral/ComputedWeylLaw.lean",
+      "line": 69
+    },
+    {
+      "file": "GIFT/Spectral/ComputedWeylLaw.lean",
+      "line": 73
+    },
+    {
+      "file": "GIFT/Spectral/ComputedWeylLaw.lean",
+      "line": 77
+    },
+    {
+      "file": "GIFT/Spectral/ComputedWeylLaw.lean",
+      "line": 107
+    },
+    {
+      "file": "GIFT/Spectral/ComputedWeylLaw.lean",
+      "line": 110
+    },
+    {
+      "file": "GIFT/Spectral/ComputedWeylLaw.lean",
+      "line": 113
+    },
+    {
+      "file": "GIFT/Spectral/ComputedWeylLaw.lean",
+      "line": 141
+    },
+    {
+      "file": "GIFT/Spectral/ComputedWeylLaw.lean",
+      "line": 144
+    },
+    {
+      "file": "GIFT/Spectral/ComputedWeylLaw.lean",
+      "line": 174
+    },
+    {
+      "file": "GIFT/Spectral/ComputedYukawa.lean",
+      "line": 107
+    },
+    {
+      "file": "GIFT/Spectral/ComputedYukawa.lean",
+      "line": 113
+    },
+    {
+      "file": "GIFT/Spectral/ComputedYukawa.lean",
+      "line": 120
+    },
+    {
+      "file": "GIFT/Spectral/ComputedYukawa.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Spectral/ComputedYukawa.lean",
+      "line": 156
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 56
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 61
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 66
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 114
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 140
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 143
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 146
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 149
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 153
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 162
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 169
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 201
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 224
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 228
+    },
+    {
+      "file": "GIFT/Spectral/KKSpectralBridge.lean",
+      "line": 253
+    },
+    {
+      "file": "GIFT/Spectral/LiteratureAxioms.lean",
+      "line": 236
+    },
+    {
+      "file": "GIFT/Spectral/LiteratureAxioms.lean",
+      "line": 241
+    },
+    {
+      "file": "GIFT/Spectral/LiteratureAxioms.lean",
+      "line": 260
+    },
+    {
+      "file": "GIFT/Spectral/LiteratureAxioms.lean",
+      "line": 261
+    },
+    {
+      "file": "GIFT/Spectral/LiteratureAxioms.lean",
+      "line": 262
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 85
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 90
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 98
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 102
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 105
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 113
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 122
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 127
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 133
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 145
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 155
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 163
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 178
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 182
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 187
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 205
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 211
+    },
+    {
+      "file": "GIFT/Spectral/MassGapRatio.lean",
+      "line": 236
+    },
+    {
+      "file": "GIFT/Spectral/NeckGeometry.lean",
+      "line": 263
+    },
+    {
+      "file": "GIFT/Spectral/NeckGeometry.lean",
+      "line": 268
+    },
+    {
+      "file": "GIFT/Spectral/NeckGeometry.lean",
+      "line": 291
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 47
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 50
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 55
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 62
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 65
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 68
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 72
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 75
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 79
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 82
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 85
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 92
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 98
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 101
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 104
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 114
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 120
+    },
+    {
+      "file": "GIFT/Spectral/OctonionMassGap.lean",
+      "line": 145
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 84
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 100
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 103
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 106
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 111
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 118
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 121
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 126
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 137
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 141
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 150
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 154
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 158
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 181
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 185
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 193
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 197
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 231
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 232
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 233
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 234
+    },
+    {
+      "file": "GIFT/Spectral/PhysicalSpectralGap.lean",
+      "line": 235
+    },
+    {
+      "file": "GIFT/Spectral/RefinedSpectralBounds.lean",
+      "line": 363
+    },
+    {
+      "file": "GIFT/Spectral/RefinedSpectralBounds.lean",
+      "line": 372
+    },
+    {
+      "file": "GIFT/Spectral/RefinedSpectralBounds.lean",
+      "line": 388
+    },
+    {
+      "file": "GIFT/Spectral/SelectionPrinciple.lean",
+      "line": 329
+    },
+    {
+      "file": "GIFT/Spectral/SelectionPrinciple.lean",
+      "line": 394
+    },
+    {
+      "file": "GIFT/Spectral/SpectralDemocracy.lean",
+      "line": 72
+    },
+    {
+      "file": "GIFT/Spectral/SpectralDemocracy.lean",
+      "line": 78
+    },
+    {
+      "file": "GIFT/Spectral/SpectralDemocracy.lean",
+      "line": 81
+    },
+    {
+      "file": "GIFT/Spectral/SpectralDemocracy.lean",
+      "line": 86
+    },
+    {
+      "file": "GIFT/Spectral/SpectralDemocracy.lean",
+      "line": 95
+    },
+    {
+      "file": "GIFT/Spectral/SpectralDemocracy.lean",
+      "line": 99
+    },
+    {
+      "file": "GIFT/Spectral/SpectralDemocracy.lean",
+      "line": 116
+    },
+    {
+      "file": "GIFT/Spectral/SpectralDemocracy.lean",
+      "line": 119
+    },
+    {
+      "file": "GIFT/Spectral/SpectralDemocracy.lean",
+      "line": 149
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 63
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 67
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 104
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 107
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 158
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 161
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 165
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 169
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 203
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 209
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 231
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 234
+    },
+    {
+      "file": "GIFT/Spectral/SpectralInvariants.lean",
+      "line": 270
+    },
+    {
+      "file": "GIFT/Spectral/TCSBounds.lean",
+      "line": 309
+    },
+    {
+      "file": "GIFT/Spectral/TCSBounds.lean",
+      "line": 317
+    },
+    {
+      "file": "GIFT/Spectral/TCSBounds.lean",
+      "line": 335
+    },
+    {
+      "file": "GIFT/Spectral/TCSBounds.lean",
+      "line": 357
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 104
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 108
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 113
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 141
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 156
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 160
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 202
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 203
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 204
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 205
+    },
+    {
+      "file": "GIFT/Spectral/UniversalLaw.lean",
+      "line": 206
+    },
+    {
+      "file": "GIFT/Spectral/YangMills.lean",
+      "line": 280
+    },
+    {
+      "file": "GIFT/Spectral/YangMills.lean",
+      "line": 303
+    },
+    {
+      "file": "GIFT/Spectral/YangMills.lean",
+      "line": 314
+    },
+    {
+      "file": "GIFT/Spectral/YangMills.lean",
+      "line": 337
+    }
+  ],
+  "holes": []
+}

@@ -1,13 +1,3 @@
--- GIFT Foundations Analysis Aggregator
--- Bundles all Analysis submodules for convenient import
---
--- Usage:
---   import GIFT.Foundations.Analysis
--- instead of:
---   import GIFT.Foundations.Analysis.InnerProductSpace
---   import GIFT.Foundations.Analysis.ExteriorAlgebra
---   ...etc (8 imports)
-
 import GIFT.Foundations.Analysis.InnerProductSpace
 import GIFT.Foundations.Analysis.ExteriorAlgebra
 import GIFT.Foundations.Analysis.E8Lattice
@@ -18,56 +8,5 @@ import GIFT.Foundations.Analysis.G2TensorForm
 import GIFT.Foundations.Analysis.JoyceAnalytic
 import GIFT.Foundations.Analysis.AnalyticalFoundations
 import GIFT.Foundations.Analysis.K7Orthonormality
-
-namespace GIFT.Foundations.Analysis
-
-/-!
-# Analysis Module Overview
-
-This module collects advanced analytical foundations for GIFT:
-
-## Inner Product Spaces (InnerProductSpace.lean)
-- ℝ⁷ and ℝ⁸ inner product formalization
-- Norm and orthogonality
-
-## Exterior Algebra (ExteriorAlgebra.lean)
-- Λᵏ(V) construction
-- Wedge product properties
-
-## E₈ Lattice (E8Lattice.lean)
-- Lattice vectors and closure
-- Weyl reflections
-
-## Wedge Product (WedgeProduct.lean)
-- Concrete wedge computations
-- Basis elements
-
-## Hodge Theory (HodgeTheory.lean)
-- Hodge star operator *
-- Harmonic forms ker(Δ)
-
-## Harmonic Forms (HarmonicForms.lean)
-- H^k(M) spaces
-- Hodge decomposition
-
-## G₂ Tensor Form (G2TensorForm.lean)
-- Associative 3-form φ₀
-- G₂ structure on ℝ⁷
-
-## Joyce Analytic (JoyceAnalytic.lean)
-- Analytic framework for Joyce theorem
-- Perturbation estimates
-
-## Analytical Foundations (AnalyticalFoundations.lean)
-- Master certificate for Sobolev, Elliptic, IFT
-- PINN bounds verification
-
-## K7 Orthonormality (K7Orthonormality.lean)
-- L2 Gram matrices for harmonic 2-forms and 3-forms
-- Positive definiteness, condition bounds, Gram-Schmidt
--/
-
--- Note: This module bundles imports only. Access definitions via their
--- original namespaces, e.g., GIFT.Foundations.Analysis.HodgeTheory.*
-
-end GIFT.Foundations.Analysis
+import GIFT.Foundations.Analysis.Sobolev.Box
+import GIFT.Foundations.Analysis.SmoothFamily

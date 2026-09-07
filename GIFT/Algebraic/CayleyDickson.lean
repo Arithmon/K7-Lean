@@ -126,21 +126,21 @@ This decomposes the 21 = C(7,2) pairs of octonion imaginaries.
 -/
 
 /-- C(3,2) = 3 : pairs within ℍ imaginaries -/
-theorem pairs_in_H : Nat.choose 3 2 = 3 := by native_decide
+theorem pairs_in_H : Nat.choose 3 2 = 3 := by decide
 
 /-- C(4,2) = 6 : pairs within new imaginaries -/
-theorem pairs_in_new : Nat.choose 4 2 = 6 := by native_decide
+theorem pairs_in_new : Nat.choose 4 2 = 6 := by decide
 
 /-- 3 × 4 = 12 : mixed pairs (one from ℍ, one new) -/
 theorem mixed_pairs : 3 * 4 = 12 := rfl
 
 /-- Total: 3 + 6 + 12 = 21 = b₂ -/
 theorem pairs_decomposition :
-    Nat.choose 3 2 + Nat.choose 4 2 + 3 * 4 = 21 := by native_decide
+    Nat.choose 3 2 + Nat.choose 4 2 + 3 * 4 = 21 := by decide
 
 /-- This equals C(7,2) -/
 theorem pairs_total :
-    Nat.choose 3 2 + Nat.choose 4 2 + 3 * 4 = Nat.choose 7 2 := by native_decide
+    Nat.choose 3 2 + Nat.choose 4 2 + 3 * 4 = Nat.choose 7 2 := by decide
 
 /-!
 ## Quaternion Subalgebras in 𝕆
