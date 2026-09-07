@@ -52,10 +52,5 @@ jobs:
       - name: Check blueprint sync
         run: ./scripts/check_blueprint_sync.sh
 
-      - name: Check no sorry in Lean files
-        run: |
-          if grep -rn "sorry" GIFT/ GIFTTest/ --include="*.lean" | grep -v "^.*:.*--.*sorry" | grep -v "REMOVED\|eliminated\|no.*sorry\|zero.*sorry\|all goals closed"; then
-            echo "::error::Found 'sorry' in Lean files"
-            exit 1
-          fi
-          echo "✓ Zero sorry"
+      - name: Check proof inventory
+        run: python3 scripts/proof_inventory.py --check

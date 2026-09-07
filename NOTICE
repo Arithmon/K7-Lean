@@ -1,0 +1,14 @@
+The following files are adapted from anthropics/fermats-last-theorem:
+
+  GIFT/Foundations/Analysis/Sobolev/Box.lean
+  GIFT/Foundations/Analysis/SmoothFamily.lean
+
+Copyright 2026 Anthropic, PBC. Licensed under Apache License 2.0.
+Upstream commit: aa2d8b34692b16c70f699536de0d8e75b9a3e9ef
+Upstream paths:
+  P2M/Sol/S_Sobolev_exists_forall_norm_le_mul_sum_sqrt_integral_norm_iteratedFDeriv_sq_of_contDiff_box.lean
+  P2M/Sol/S_ContDiff_exists_forall_norm_iteratedDeriv_slice_le_of_isCompact.lean
+
+Changes: removed pipeline utility imports and namespaces, restored mathematical
+names, and adapted to the pinned Mathlib version. See LICENSES/Apache-2.0.txt.
+Mathlib and Lean are obtained as build dependencies under their own licenses.

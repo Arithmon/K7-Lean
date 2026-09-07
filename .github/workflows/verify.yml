@@ -2,40 +2,51 @@ name: Formal Verification
 
 on:
   push:
-    branches: [main]
-    paths: ['GIFT/**', 'GIFTTest/**', 'lakefile.lean', 'lean-toolchain']
+    branches: [main, codex/lean-modernization]
   pull_request:
     branches: [main]
   workflow_dispatch:
   workflow_call:
 
+concurrency:
+  group: lean-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lean:
     name: Lean 4 Verification
     runs-on: ubuntu-latest
+    env:
+      LEAN_NUM_THREADS: 2
     steps:
       - uses: actions/checkout@v4
-
       - name: Install elan
         run: |
-          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-
-      - name: Cache .lake
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Cache dependencies
         uses: actions/cache@v4
         with:
           path: .lake
-          key: lean-${{ hashFiles('lakefile.lean') }}
-
-      - name: Build
+          key: lean-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lakefile.lean', 'lake-manifest.json') }}
+      - name: Source checks
         run: |
-          lake update
-          lake exe cache get || true
+          python3 scripts/test_proof_inventory.py
+          python3 scripts/proof_inventory.py --check --write docs/proof-inventory.json
+          python3 scripts/update_verification_imports.py --check
+          git diff --exit-code -- docs/proof-inventory.json
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Build and audit proof dependencies
+        run: |
+          set -o pipefail
           lake build
-
-      - name: Verify zero sorry
-        run: |
-          if grep -r "sorry" GIFT/ GIFTTest/ --include="*.lean"; then
-            echo "ERROR: Found sorry!"
-            exit 1
-          fi
+          lake build Verification | tee axiom-audit.log
+          git diff --exit-code -- lake-manifest.json
+      - name: Upload verification log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: axiom-audit
+          path: axiom-audit.log
+          if-no-files-found: ignore

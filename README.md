@@ -1,102 +1,79 @@
 # K₇-Lean
 
-> ### This repository has moved
->
-> **`gift-framework/core` → [`Arithmon/K7-Lean`](https://github.com/Arithmon/K7-Lean)**
->
-> The K₇ framework's certified Lean 4 core has joined the [Arithmon](https://github.com/Arithmon)
-> organisation alongside [K7](https://github.com/Arithmon/K7) (the framework, formerly
-> `gift-framework/GIFT`), Atlas, Program, Lean and Sieve. Not to be confused with
-> [Arithmon/Lean](https://github.com/Arithmon/Lean), the Sieve/Q5 methodology layer:
-> this repository is the framework's formal core, formerly known as "GIFT Core".
->
-> **Nothing you cite will break.** The published papers (immutable PDFs on Zenodo) cite
-> `github.com/gift-framework/core` dozens of times. GitHub redirects the old URLs (web
-> *and* `git clone` / `fetch` / `push`), and those redirects are load-bearing
-> infrastructure, so the old path will never be reused. Release tags and the
-> pre-registration pointer (`v3.4.29`, `667c8b9`) are unaffected.
-
----
-
 [![Formal Verification](https://github.com/Arithmon/K7-Lean/actions/workflows/verify.yml/badge.svg)](https://github.com/Arithmon/K7-Lean/actions/workflows/verify.yml)
-[![PyPI](https://img.shields.io/pypi/v/giftpy)](https://pypi.org/project/giftpy/)
 
-Part of the **[Arithmon program](https://github.com/arithmon)** -- the hypothesis that the constants of nature are counts.
+Lean 4 formalizations of algebraic identities, finite-dimensional models, numerical
+inequalities and conditional geometric statements associated with the
+[Arithmon K₇ framework](https://github.com/Arithmon/K7).
 
-Formally verified mathematical relations from the K₇ framework. 460+ certified relations, **15 axioms** (4 logical on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), all theorems proven in **Lean 4** (8394 build jobs).
+The Lean statements specify the scope of each result. In particular, arithmetic
+conditions on Sobolev indices are not embedding theorems, and the constant
+three-form model on ℝ⁷ is not a construction of a compact manifold with G₂ holonomy.
+Physical interpretations of the numerical relations are outside the formal proofs.
 
-## Structure
+## Build and verify
 
-```
-GIFT/                           # Lean 4 formalization (root library)
-├── Core.lean                   # Constants (dim_E8, b2, b3, H*, ...)
-├── Certificate/                # Modular certificate system
-│   ├── Core.lean               # Master: Foundations ∧ Predictions ∧ Spectral
-│   ├── Foundations.lean        # E₈, G₂, octonions, K₇, Joyce, NK cert (39 conjuncts)
-│   ├── Predictions.lean        # 33+ relations, ~50 observables (56 conjuncts)
-│   └── Spectral.lean           # Mass gap, TCS, computed spectrum, Weyl law (45 conjuncts)
-├── Foundations/                 # Mathematical foundations (23 files)
-│   ├── RootSystems.lean        # E₈ roots in ℝ⁸ (240 vectors)
-│   ├── E8Lattice.lean          # E₈ lattice, Weyl reflection
-│   ├── G2CrossProduct.lean     # 7D cross product, Fano plane
-│   ├── ExplicitG2Metric.lean   # 169-param Chebyshev-Cholesky
-│   ├── NewtonKantorovich.lean  # NK cert: h < 0.5, decomposed
-│   ├── NumericalBounds.lean    # Taylor series bounds (axiom-free)
-│   └── Analysis/               # G₂ forms, Hodge theory, Sobolev
-├── Geometry/                   # Axiom-free DG infrastructure
-│   ├── HodgeStarR7.lean        # ⋆, ψ=⋆φ PROVEN, TorsionFree
-│   └── HodgeStarCompute.lean   # Explicit Hodge star (Levi-Civita)
-├── Spectral/                   # Spectral gap theory (17 files)
-│   ├── PhysicalSpectralGap.lean # dim(G₂)−h = 13 algebraic (zero axioms)
-│   ├── ComputedSpectrum.lean   # Q22 sig, SD/ASD gap, B-test
-│   └── CheegerInequality.lean  # Cheeger-Buser bounds
-├── Algebraic/                  # Octonion/G₂ algebraic foundations
-│   └── G2ThreeForm.lean        # φ₀ 3-form, G₂=Stab(φ₀), g₂=ker(L_φ₀), dim=14
-├── Relations/                  # Physical predictions (22 files)
-├── Observables/                # PMNS, CKM, quark masses, cosmology
-├── Hierarchy/                  # Dimensional gap, absolute masses
+Install [elan](https://github.com/leanprover/elan), then run:
 
-GIFTTest/                       # Lean test files
-
-blueprint/                      # Leanblueprint dependency graph
-
-contrib/                        # Non-Lean assets
-├── python/                     # Python package (giftpy on PyPI)
-│   └── gift_core/              # Certified constants export
-├── homepage/                   # GitHub Pages / Jekyll site
-└── docs/                       # Extended documentation
-```
-
-## Quick Start
-
-```bash
-pip install giftpy
-```
-
-```python
-from gift_core import *
-
-print(SIN2_THETA_W)   # Fraction(3, 13)
-print(GAMMA_GIFT)     # Fraction(511, 884)
-print(TAU)            # Fraction(3472, 891)
-```
-
-## Building Proofs
-
-```bash
+```sh
+git clone https://github.com/Arithmon/K7-Lean.git
+cd K7-Lean
+lake exe cache get
 lake build
+python3 scripts/proof_inventory.py --check
+lake build Verification
 ```
 
-## Documentation
+Lean, Mathlib and doc-gen4 target **4.33.1**. Exact dependency revisions are recorded
+in `lake-manifest.json`. Routine builds use that lockfile; `lake update` is reserved
+for deliberate dependency updates. Migration validation is recorded in
+[docs/modernization.md](docs/modernization.md).
 
-For extended observables, publications, and detailed analysis:
+## Reading the library
 
-**[Arithmon/K7](https://github.com/Arithmon/K7)**
+| Directory | Contents |
+| --- | --- |
+| `GIFT/Algebraic/` | Octonions, explicit G₂ tensors and finite matrix identities |
+| `GIFT/Foundations/` | Root systems, numerical inequalities and geometric models |
+| `GIFT/Foundations/Analysis/` | Analysis lemmas and arithmetic interfaces |
+| `GIFT/Geometry/` | Coordinate calculations with differential forms |
+| `GIFT/Spectral/` | Spectral models and statements with explicit project assumptions |
+| `GIFT/Relations/`, `GIFT/Observables/` | Relations among the framework's declared constants |
+| `GIFT/Certificate/` | Conjunctions of exported statements |
+| `Verification/` | Transitive axiom audit and checks for the analysis lemmas |
+| `blueprint/` | Mathematical exposition and declaration references |
+| `contrib/` | Python package, website and historical documentation |
 
----
+Start with [the proof guide](docs/proof-guide.md) and consult the exact theorem types
+before interpreting a module title. The `GIFT` namespace and historical aliases are
+retained so existing imports and published references continue to resolve.
 
-> **K₇ (formerly GIFT) is the founding framework of the [Arithmon program](https://github.com/arithmon).**
+## Proof dependencies
 
-[Changelog](contrib/CHANGELOG.md) | [MIT License](LICENSE)
+The current library declares **15 axioms**: five unspecified real quantities, six
+assumptions in the numerical-certificate module, and four assumptions in the spectral
+modules. This count is a source inventory, not a measure of mathematical completeness.
+Bundling assumptions into a structure does not discharge them.
+
+The library also uses `native_decide` for finite computations. These proofs have a
+different trust boundary from proofs reduced entirely by the kernel. The generated
+[source inventory](docs/proof-inventory.json) lists occurrences. The Lean audit
+reports transitive dependencies of exported certificates and fails on `sorryAx` or
+unlisted axioms; stricter checks require only Lean's standard axioms for the new
+analysis lemmas and elementary index conditions.
+
+See [the dependency policy](docs/proof-guide.md#dependency-policy) for the distinction
+between kernel axioms, project assumptions, and native computation.
+
+## Related artifacts and attribution
+
+- [K₇ framework](https://github.com/Arithmon/K7): accompanying mathematical exposition.
+- [Python package](contrib/python/README.md): optional export of numerical constants.
+- [Contribution guide](CONTRIBUTING.md) and [changelog](contrib/CHANGELOG.md).
+- [MIT license](LICENSE); adapted analysis proofs retain their
+  [Apache-2.0 license](LICENSES/Apache-2.0.txt) and [attribution](NOTICE).
+
+Former repository: `gift-framework/core`. Existing release tags and the
+pre-registration reference `v3.4.29` / `667c8b9` are retained.
 
 *K₇-Lean v3.4.29*
