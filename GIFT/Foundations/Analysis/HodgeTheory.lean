@@ -88,7 +88,7 @@ def IsHarmonic {M : Type*} {hd : HodgeData M} (lap : HodgeLaplacian M hd)
 opaque K7 : Type
 
 /-- Betti numbers of K7 -/
-def b (k : ℕ) : ℕ :=
+abbrev b (k : ℕ) : ℕ :=
   match k with
   | 0 => 1
   | 1 => 0

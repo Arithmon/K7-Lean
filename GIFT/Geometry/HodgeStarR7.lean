@@ -67,19 +67,19 @@ def star4 (η : DiffForm 4) : DiffForm 3 :=
 /-- star3 is linear -/
 theorem star3_linear (a : ℝ) (ω η : DiffForm 3) :
     star3 (a • ω + η) = a • star3 ω + star3 η := by
-  unfold star3 constDiffForm
   ext p i
-  simp only [smul_coeffs, add_coeffs, hodgeStar3to4]
-  simp only [add_coeffs, smul_coeffs]
+  show sign3 (complement4to3 i) * (a * ω.coeffs 0 (complement4to3 i) + η.coeffs 0 (complement4to3 i))
+    = a * (sign3 (complement4to3 i) * ω.coeffs 0 (complement4to3 i))
+      + sign3 (complement4to3 i) * η.coeffs 0 (complement4to3 i)
   ring
 
 /-- star4 is linear -/
 theorem star4_linear (a : ℝ) (ω η : DiffForm 4) :
     star4 (a • ω + η) = a • star4 ω + star4 η := by
-  unfold star4 constDiffForm
   ext p i
-  simp only [smul_coeffs, add_coeffs, hodgeStar4to3]
-  simp only [add_coeffs, smul_coeffs]
+  show sign4 (complement3to4 i) * (a * ω.coeffs 0 (complement3to4 i) + η.coeffs 0 (complement3to4 i))
+    = a * (sign4 (complement3to4 i) * ω.coeffs 0 (complement3to4 i))
+      + sign4 (complement3to4 i) * η.coeffs 0 (complement3to4 i)
   ring
 
 /-- ⋆⋆ = id on constant 3-forms (coefficient level) -/

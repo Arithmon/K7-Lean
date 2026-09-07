@@ -139,8 +139,8 @@ private theorem k7_ortho {n : ℕ} (i j : Fin n) :
 noncomputable def K7_analysis_data : K7AnalysisData where
   hodge := k7_hodge
   laplacian := k7_lap
-  omega2 := fun i (j : Fin (b 2)) => if i = j then 1 else 0
-  omega3 := fun i (j : Fin (b 3)) => if i = j then 1 else 0
+  omega2 := fun i j => if i = j then 1 else 0
+  omega3 := fun i j => if i = j then 1 else 0
   omega2_harmonic := fun _ => funext fun _ => rfl
   omega3_harmonic := fun _ => funext fun _ => rfl
   omega2_orthonormal := fun i j => by
