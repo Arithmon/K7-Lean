@@ -1,9 +1,9 @@
+import GIFT.Core
+
 /-!
 Finite index data and arithmetic for regularity orders. No elliptic operator,
 regularity estimate, or identification of these data with a geometric operator is proved here.
 -/
-
-import GIFT.Core
 
 namespace GIFT.Foundations.Analysis.Elliptic
 

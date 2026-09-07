@@ -365,7 +365,7 @@ theorem R7_inner_eq_sum (u v : R7) : @inner ℝ R7 _ u v = ∑ i : Fin 7, u i * 
   rw [PiLp.inner_apply]
   congr 1
   funext i
-  simp only [inner, conj_trivial, RCLike.re_to_real, mul_comm]
+  simp only [inner, star_trivial, RCLike.re_to_real, mul_comm]
 
 /-- Lagrange identity for 7D cross product (FULLY PROVEN)
     |u × v|² = |u|²|v|² - ⟨u,v⟩²

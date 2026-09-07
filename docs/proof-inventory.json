@@ -79,46 +79,6 @@
   ],
   "native_decide": [
     {
-      "file": "GIFT/Algebraic/BettiNumbers.lean",
-      "line": 43
-    },
-    {
-      "file": "GIFT/Algebraic/BettiNumbers.lean",
-      "line": 153
-    },
-    {
-      "file": "GIFT/Algebraic/BettiNumbers.lean",
-      "line": 158
-    },
-    {
-      "file": "GIFT/Algebraic/BettiNumbers.lean",
-      "line": 183
-    },
-    {
-      "file": "GIFT/Algebraic/CayleyDickson.lean",
-      "line": 129
-    },
-    {
-      "file": "GIFT/Algebraic/CayleyDickson.lean",
-      "line": 132
-    },
-    {
-      "file": "GIFT/Algebraic/CayleyDickson.lean",
-      "line": 139
-    },
-    {
-      "file": "GIFT/Algebraic/CayleyDickson.lean",
-      "line": 143
-    },
-    {
-      "file": "GIFT/Algebraic/G2.lean",
-      "line": 86
-    },
-    {
-      "file": "GIFT/Algebraic/G2.lean",
-      "line": 95
-    },
-    {
       "file": "GIFT/Algebraic/G2Bform.lean",
       "line": 34
     },
@@ -187,30 +147,6 @@
       "line": 717
     },
     {
-      "file": "GIFT/Algebraic/GIFTConstants.lean",
-      "line": 54
-    },
-    {
-      "file": "GIFT/Algebraic/GIFTConstants.lean",
-      "line": 67
-    },
-    {
-      "file": "GIFT/Algebraic/GIFTConstants.lean",
-      "line": 86
-    },
-    {
-      "file": "GIFT/Algebraic/GIFTConstants.lean",
-      "line": 155
-    },
-    {
-      "file": "GIFT/Algebraic/GIFTConstants.lean",
-      "line": 184
-    },
-    {
-      "file": "GIFT/Algebraic/GIFTConstants.lean",
-      "line": 197
-    },
-    {
       "file": "GIFT/Algebraic/GeometricSaturation.lean",
       "line": 40
     },
@@ -253,66 +189,6 @@
     {
       "file": "GIFT/Algebraic/Octonions.lean",
       "line": 240
-    },
-    {
-      "file": "GIFT/Algebraic/Quaternions.lean",
-      "line": 41
-    },
-    {
-      "file": "GIFT/Algebraic/Quaternions.lean",
-      "line": 45
-    },
-    {
-      "file": "GIFT/Algebraic/Quaternions.lean",
-      "line": 96
-    },
-    {
-      "file": "GIFT/Algebraic/Quaternions.lean",
-      "line": 99
-    },
-    {
-      "file": "GIFT/Algebraic/Quaternions.lean",
-      "line": 102
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 31
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 34
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 37
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 52
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 72
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 91
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 107
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 113
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 118
-    },
-    {
-      "file": "GIFT/Algebraic/SO16Decomposition.lean",
-      "line": 131
     },
     {
       "file": "GIFT/Certificate/Foundations.lean",

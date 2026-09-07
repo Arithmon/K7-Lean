@@ -28,13 +28,13 @@ dim(SO(n)) = n(n-1)/2
 def dim_SO (n : ℕ) : ℕ := n * (n - 1) / 2
 
 /-- SO(16) has dimension 120 -/
-theorem dim_SO16 : dim_SO 16 = 120 := by native_decide
+theorem dim_SO16 : dim_SO 16 = 120 := by decide
 
 /-- SO(7) has dimension 21 -/
-theorem dim_SO7 : dim_SO 7 = 21 := by native_decide
+theorem dim_SO7 : dim_SO 7 = 21 := by decide
 
 /-- SO(8) has dimension 28 -/
-theorem dim_SO8 : dim_SO 8 = 28 := by native_decide
+theorem dim_SO8 : dim_SO 8 = 28 := by decide
 
 /-!
 ## Spinor Representations
@@ -49,7 +49,7 @@ def spinor_SO16 : ℕ := 128
 theorem spinor_SO16_eq : spinor_SO16 = 128 := rfl
 
 /-- Spinor dimension from octonions: 2^|Im(O)| = 2^7 = 128 -/
-theorem spinor_from_octonions : (2 : ℕ) ^ imaginary_count = 128 := by native_decide
+theorem spinor_from_octonions : (2 : ℕ) ^ imaginary_count = 128 := by decide
 
 /-!
 ## Geometric Part: Topology of K₇
@@ -69,7 +69,7 @@ def geometric_part : ℕ := b2 + b3 + G2.dim_G2 + rank_E8
 /-- Geometric part equals dim(SO(16)) = 120 -/
 theorem geometric_is_SO16 : geometric_part = 120 := by
   unfold geometric_part b2 b3 G2.dim_G2 rank_E8
-  native_decide
+  decide
 
 /-- Geometric part equals dim(SO(16)) directly -/
 theorem geometric_eq_dim_SO16 : geometric_part = dim_SO 16 := by
@@ -88,7 +88,7 @@ def spinorial_part : ℕ := 2 ^ imaginary_count
 /-- Spinorial part equals 128 -/
 theorem spinorial_is_128 : spinorial_part = 128 := by
   unfold spinorial_part imaginary_count
-  native_decide
+  decide
 
 /-- Spinorial part equals SO(16) spinor -/
 theorem spinorial_eq_spinor_SO16 : spinorial_part = spinor_SO16 := by
@@ -104,18 +104,18 @@ dim(E₈) = 248 = 120 + 128 = geometric + spinorial
 theorem E8_SO16_decomposition :
     dim_E8 = geometric_part + spinorial_part := by
   unfold dim_E8 geometric_part spinorial_part
-  native_decide
+  decide
 
 /-- Alternative: dim(E₈) = dim(SO(16)) + spinor(SO(16)) -/
 theorem E8_equals_SO16_plus_spinor :
     dim_E8 = dim_SO 16 + spinor_SO16 := by
   unfold dim_E8 dim_SO spinor_SO16
-  native_decide
+  decide
 
 /-- Physical interpretation: geometry → gauge bosons, octonions → fermions -/
 theorem gauge_fermion_split :
     dim_E8 = (b2 + b3 + G2.dim_G2 + rank_E8) + 2^imaginary_count := by
-  native_decide
+  decide
 
 /-!
 ## Detailed Component Breakdown
@@ -128,7 +128,7 @@ theorem geometric_breakdown : 21 + 77 + 14 + 8 = 120 := rfl
 theorem total_breakdown : 120 + 128 = 248 := rfl
 
 /-- The split preserves E₈ dimension -/
-theorem split_preserves_dim : dim_SO 16 + spinor_SO16 = 248 := by native_decide
+theorem split_preserves_dim : dim_SO 16 + spinor_SO16 = 248 := by decide
 
 /-!
 ## Summary

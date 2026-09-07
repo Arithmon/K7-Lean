@@ -1,13 +1,13 @@
-/-!
-Arithmetic threshold conditions and the constant form model on real seven-space.
-This module does not prove Joyce's perturbation theorem or existence on a compact K7.
--/
-
 import GIFT.Foundations.Analysis.HodgeTheory
 import GIFT.Foundations.Analysis.G2Forms.All
 import GIFT.Foundations.Analysis.Sobolev.Basic
 import GIFT.Foundations.Analysis.Elliptic.Basic
 import GIFT.Foundations.Analysis.IFT.Basic
+
+/-!
+Arithmetic threshold conditions and the constant form model on real seven-space.
+This module does not prove Joyce's perturbation theorem or existence on a compact K7.
+-/
 
 namespace GIFT.Foundations.Analysis.JoyceAnalytic
 

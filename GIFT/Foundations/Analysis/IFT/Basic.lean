@@ -1,9 +1,9 @@
+import GIFT.Core
+
 /-!
 Rational threshold data retained from the historical numerical model.
 The inequalities do not certify a geometric torsion norm or prove an implicit function theorem.
 -/
-
-import GIFT.Core
 
 namespace GIFT.Foundations.Analysis.IFT
 

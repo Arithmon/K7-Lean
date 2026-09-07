@@ -1,9 +1,9 @@
+import GIFT.Core
+
 /-!
 Numerical Sobolev index conditions. These statements concern natural numbers;
 they do not construct Sobolev spaces or prove a continuous embedding.
 -/
-
-import GIFT.Core
 
 namespace GIFT.Foundations.Analysis.Sobolev
 

@@ -3,6 +3,7 @@ import GIFT.Foundations.Analysis.SmoothFamily
 import GIFT.Foundations.Analysis.Sobolev.Basic
 import GIFT.Foundations.Analysis.Elliptic.Basic
 import GIFT.Foundations.Analysis.IFT.Basic
+import GIFT.Algebraic.GIFTConstants
 import Verification.Policy
 
 open Verification in
@@ -12,5 +13,8 @@ run_cmd do
     `ContDiff.exists_forall_norm_iteratedDeriv_slice_le_of_isCompact,
     `GIFT.Foundations.Analysis.Sobolev.sobolev_conditions_certified,
     `GIFT.Foundations.Analysis.Elliptic.elliptic_certified,
-    `GIFT.Foundations.Analysis.IFT.ift_certified] do
+    `GIFT.Foundations.Analysis.IFT.ift_certified,
+    `GIFT.Algebraic.BettiNumbers.b2_eq,
+    `GIFT.Algebraic.G2.omega3_total,
+    `GIFT.Algebraic.GIFTConstants.kappa_T_inv_prime] do
     checkAxioms decl standardAxioms

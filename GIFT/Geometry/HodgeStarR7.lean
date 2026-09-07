@@ -70,6 +70,7 @@ theorem star3_linear (a : ℝ) (ω η : DiffForm 3) :
   unfold star3 constDiffForm
   ext p i
   simp only [smul_coeffs, add_coeffs, hodgeStar3to4]
+  simp only [add_coeffs, smul_coeffs]
   ring
 
 /-- star4 is linear -/
@@ -78,6 +79,7 @@ theorem star4_linear (a : ℝ) (ω η : DiffForm 4) :
   unfold star4 constDiffForm
   ext p i
   simp only [smul_coeffs, add_coeffs, hodgeStar4to3]
+  simp only [add_coeffs, smul_coeffs]
   ring
 
 /-- ⋆⋆ = id on constant 3-forms (coefficient level) -/
