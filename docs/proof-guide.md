@@ -53,17 +53,19 @@ conditions. No claim of independent-kernel replay is made.
 
 ## Remaining mathematical work
 
-The interval module leaves five real quantities unspecified and assumes six
+The interval module leaves five real quantities unspecified and assumes five
 properties. A genuine elimination needs definitions of the corresponding metric
 quantities and proofs relating exact enclosures to those definitions. Checking
 an integer aggregate of externally supplied endpoints does not prove that the
 endpoints enclose the intended geometric quantity.
 
-The spectral literature package needs a statement-by-statement review. Its
+The spectral literature package needs a statement-by-statement review. Its legacy
 `torsion_free_correction` field only asserts the existence of two positive real
-numbers. Its historical citation contains a placeholder DOI. The source's
-`K3_S1` Betti table is also not a proof of the cohomology of a product. These
-items must not be advertised as a formalization of the cited geometric results.
+numbers; the public theorem of that name now proves this elementary statement
+without using the package. Neither declaration formalizes Joyce's correction
+theorem. The historical citation contains a placeholder DOI. The source's `K3_S1`
+Betti table is also not a proof of the cohomology of a product. These items must
+not be advertised as a formalization of the cited geometric results.
 
 The Chebyshev U completeness lemma from FLT has not been imported: no current
 result here requires it. A Chebyshev–Cholesky error estimate needs approximation

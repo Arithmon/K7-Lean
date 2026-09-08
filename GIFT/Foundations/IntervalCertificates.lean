@@ -447,9 +447,12 @@ beyond the null-search summary is asserted.
     Exact PSLQ on R_REF is therefore structurally futile — the target
     values depend on the specific point in G₂ moduli space.
     Sources: canonical/results/phase3a_universality_perturb.json,
-             canonical/notes/phase3a_universality_verdict.md. -/
-axiom PSLQ_null_in_TCS_basis :
-  True  -- placeholder; no formal content beyond the statement above
+             canonical/notes/phase3a_universality_verdict.md.
+
+    The formal statement below is only `True`: its proof does not replay or
+    certify any of the external searches summarized here. -/
+theorem PSLQ_null_in_TCS_basis : True :=
+  True.intro
 
 /-!
 ## Master certificate

@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-GIFT (Geometric Information Field Theory) expresses Standard Model dimensionless parameters as topological invariants of an E8×E8 gauge theory compactified on a G2-holonomy manifold K7 with Betti numbers (b2, b3) = (21, 77). **Zero free parameters.** The parameter-free core is **33 exact relations** among topological integers, each individually correct-or-wrong and none tunable, machine-checked in **Lean 4**: **460+ certified relations**, **15 axioms** (4 on the main prediction chain + 11 interval-arithmetic certificates for the K3 block of g*), **0 `sorry`**.
+GIFT (Geometric Information Field Theory) expresses Standard Model dimensionless parameters as topological invariants of an E8×E8 gauge theory compactified on a G2-holonomy manifold K7 with Betti numbers (b2, b3) = (21, 77). **Zero free parameters.** The parameter-free core is **33 exact relations** among topological integers, each individually correct-or-wrong and none tunable, machine-checked in **Lean 4**: **460+ certified relations**, **14 axioms** (4 spectral assumptions + 5 opaque K3 quantities + 5 bracket assumptions), **0 `sorry`**.
 
 *Precision (secondary):* **0.99% mean deviation** on the 33 Type-I relations; **95 observables** total, **66 with experimental data** (NuFIT 6.1 / PDG 2024 / Planck 2018 / CODATA 2022).
 
@@ -149,4 +149,6 @@ GIFT bridges three active research programs:
 
 ---
 
-*Updated: 2026-06-05 — headline reframed rigor-first (0 free parameters · 15 axioms 4+11 · 0 sorry · 33 exact relations; precision secondary) per CANONICAL_NUMBERS.*
+*Status snapshot: 2026-06-24. Axiom count refreshed 2026-09-08 after removing
+the vacuous PSLQ axiom (14 axioms = 4 spectral + 5 opaque quantities + 5 bracket
+assumptions); other historical contents above are unchanged.*

@@ -52,18 +52,13 @@
       "name": "K3_eigenvalue_3_bracketed"
     },
     {
-      "file": "GIFT/Foundations/IntervalCertificates.lean",
-      "line": 451,
-      "name": "PSLQ_null_in_TCS_basis"
-    },
-    {
       "file": "GIFT/Spectral/CheegerInequality.lean",
       "line": 119,
       "name": "cheeger_inequality"
     },
     {
       "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 171,
+      "line": 180,
       "name": "literature_package"
     },
     {
@@ -5540,23 +5535,23 @@
     },
     {
       "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 236
+      "line": 245
     },
     {
       "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 241
+      "line": 250
     },
     {
       "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 260
+      "line": 269
     },
     {
       "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 261
+      "line": 270
     },
     {
       "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 262
+      "line": 271
     },
     {
       "file": "GIFT/Spectral/MassGapRatio.lean",
