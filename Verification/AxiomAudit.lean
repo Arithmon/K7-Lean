@@ -19,8 +19,7 @@ def projectAxioms : Array Name := #[
   `GIFT.Foundations.IntervalCertificates.K3_eigenvalue_0_bracketed,
   `GIFT.Foundations.IntervalCertificates.K3_eigenvalue_1_bracketed,
   `GIFT.Foundations.IntervalCertificates.K3_eigenvalue_2_bracketed,
-  `GIFT.Foundations.IntervalCertificates.K3_eigenvalue_3_bracketed,
-  `GIFT.Foundations.IntervalCertificates.PSLQ_null_in_TCS_basis]
+  `GIFT.Foundations.IntervalCertificates.K3_eigenvalue_3_bracketed]
 
 -- Legacy native computations are permitted here, but not in AnalysisChecks.
 def nativeAxioms : Array Name := #[`Lean.ofReduceBool, `Lean.ofReduceNat, `Lean.trustCompiler]
@@ -30,6 +29,12 @@ def isNativeEvaluationAxiom (name : Name) : Bool :=
   nativeAxioms.contains name ||
     (name.toString.splitOn "._native.native_decide.ax").length > 1 ||
     (name.toString.splitOn "._native.bv_decide.ax").length > 1
+
+run_cmd do
+  for decl in #[
+    `GIFT.Foundations.IntervalCertificates.PSLQ_null_in_TCS_basis,
+    `GIFT.Spectral.LiteratureAxioms.torsion_free_correction] do
+    checkAxioms decl standardAxioms
 
 run_cmd do
   let allowed := standardAxioms ++ projectAxioms

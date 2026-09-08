@@ -50,7 +50,7 @@ retained so existing imports and published references continue to resolve.
 
 ## Proof dependencies
 
-The current library declares **15 axioms**: five unspecified real quantities, six
+The current library declares **14 axioms**: five unspecified real quantities, five
 assumptions in the numerical-certificate module, and four assumptions in the spectral
 modules. This count is a source inventory, not a measure of mathematical completeness.
 Bundling assumptions into a structure does not discharge them.

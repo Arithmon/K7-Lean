@@ -6,7 +6,7 @@ usemathjax: true
 
 Part of the **[Arithmon program](https://github.com/arithmon)** - the hypothesis that the constants of nature are counts.
 
-The K₇ framework explores whether Standard Model dimensionless parameters may be topological invariants of an E₈ × E₈ gauge theory compactified on a G₂-holonomy manifold K₇, with **zero free parameters**. The parameter-free core is **33 exact relations** among topological integers, machine-checked in Lean 4: **460+ certified relations**, **15 axioms** (4 on the prediction chain + 11 interval-arithmetic K3 certificates), **0 `sorry`**. *Precision (secondary):* 0.99% mean deviation on the 33 Type-I relations (NuFIT 6.1 / PDG 2024 / Planck 2018).
+The K₇ framework explores whether Standard Model dimensionless parameters may be topological invariants of an E₈ × E₈ gauge theory compactified on a G₂-holonomy manifold K₇, with **zero free parameters**. The parameter-free core is **33 exact relations** among topological integers, machine-checked in Lean 4: **460+ certified relations**, **14 axioms** (4 spectral assumptions + 5 opaque K3 quantities + 5 bracket assumptions), **0 `sorry`**. *Precision (secondary):* 0.99% mean deviation on the 33 Type-I relations (NuFIT 6.1 / PDG 2024 / Planck 2018).
 
 ## Quick Links
 
@@ -28,7 +28,7 @@ The K₇ framework explores whether Standard Model dimensionless parameters may 
 
 ```
 Arithmon/K7-Lean/
-├── GIFT/           # Lean 4 formal proofs (144 files, 460+ relations, 15 axioms)
+├── GIFT/           # Lean 4 proof modules (150 library sources total, 460+ relations, 14 axioms)
 ├── GIFTTest/       # Lean test files
 ├── contrib/        # Python package, blueprint, homepage
 └── lakefile.lean   # Lake build configuration

@@ -239,7 +239,7 @@ abbrev lit_cgn_no_small := GIFT.Spectral.LiteratureAxioms.cgn_no_small_eigenvalu
 /-- CGN Cheeger lower bound -/
 abbrev lit_cgn_cheeger := GIFT.Spectral.LiteratureAxioms.cgn_cheeger_lower_bound
 
-/-- Torsion-free correction -/
+/-- Historical name; formally, existence of two positive real numbers -/
 abbrev lit_torsion_free := GIFT.Spectral.LiteratureAxioms.torsion_free_correction
 
 /-- GIFT prediction structure -/

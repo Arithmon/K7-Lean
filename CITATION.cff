@@ -11,7 +11,7 @@ repository-code: "https://github.com/Arithmon/K7-Lean"
 abstract: >-
   Certified mathematical identities of the K7 framework (E8xE8 gauge theory
   on a G2-holonomy manifold with Betti numbers (21, 77)): 460+ relations,
-  15 stated axioms, 0 sorry, proven in Lean 4. Formerly published as
+  14 stated axioms, 0 sorry, proven in Lean 4. Formerly published as
   gift-framework/core ("GIFT Core"); GIFT remains the name of the framework's
   founding phase. Not to be confused with Arithmon/Lean, the Sieve/Q5
   methodology layer of the Arithmon program. Framework repository:
