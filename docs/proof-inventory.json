@@ -58,7 +58,7 @@
     },
     {
       "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 180,
+      "line": 200,
       "name": "literature_package"
     },
     {
@@ -5532,26 +5532,6 @@
     {
       "file": "GIFT/Spectral/KKSpectralBridge.lean",
       "line": 253
-    },
-    {
-      "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 245
-    },
-    {
-      "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 250
-    },
-    {
-      "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 269
-    },
-    {
-      "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 270
-    },
-    {
-      "file": "GIFT/Spectral/LiteratureAxioms.lean",
-      "line": 271
     },
     {
       "file": "GIFT/Spectral/MassGapRatio.lean",
