@@ -59,13 +59,20 @@ quantities and proofs relating exact enclosures to those definitions. Checking
 an integer aggregate of externally supplied endpoints does not prove that the
 endpoints enclose the intended geometric quantity.
 
-The spectral literature package needs a statement-by-statement review. Its legacy
-`torsion_free_correction` field only asserts the existence of two positive real
-numbers; the public theorem of that name now proves this elementary statement
-without using the package. Neither declaration formalizes Joyce's correction
-theorem. The historical citation contains a placeholder DOI. The source's `K3_S1`
-Betti table is also not a proof of the cohomology of a product. These items must
-not be advertised as a formalization of the cited geometric results.
+The spectral literature package was reviewed statement by statement on
+2026-09-09 (lot 2). Its legacy `torsion_free_correction` field was removed: nothing
+projected it, and the public theorem of that name proves its elementary statement
+without the package, so the axiom `literature_package` is now strictly weaker. The
+two remaining fields constrain the mass gap only (`λ₁ ∉ (0, c/L)` and
+`λ₁ ≥ C'/L²`); their docstrings now say exactly that. Their attributions could not
+be confirmed: the cited CGN title and DOI placeholder were not found, and the
+Langlais reference resolves to arXiv:2301.03513 rather than a journal article. Both
+are marked UNVERIFIED in the source. Neither declaration formalizes Joyce's
+correction theorem, and the `K3_S1` Betti table is data, not a proof of the
+cohomology of a product. These items must not be advertised as a formalization of
+the cited geometric results. The mathematical review of the two claims themselves
+(is the statement in the literature, with which constants and hypotheses) is still
+open.
 
 The Chebyshev U completeness lemma from FLT has not been imported: no current
 result here requires it. A Chebyshev–Cholesky error estimate needs approximation

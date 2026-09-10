@@ -78,6 +78,18 @@ a precise mathematical review. The new cube estimate is not the dimension-seven
 H⁴ embedding theorem. Historical constants, release tags and Koide comparison
 inputs are unchanged. This branch does not claim a completed compact G₂ construction.
 
+## Follow-up lots
+
+Lot 2 (2026-09-09, branch `claude/k7-lot-2-literature-package`): statement-by-statement
+review of `GIFT/Spectral/LiteratureAxioms.lean`. The dead `torsion_free_correction`
+field of `LiteraturePackage` was removed (nothing projected it), so the axiom
+`literature_package` is strictly weaker; the two remaining fields are documented by
+their exact types (mass gap only); the two spectral citations could not be confirmed
+and are marked UNVERIFIED in the source; the five `native_decide` occurrences of the
+file (rational arithmetic on `14/99`) were replaced by `norm_num` (1481 → 1476).
+Axiom count unchanged at 14. Local check: `lake build`, `lake build Verification`,
+blueprint synchronization and the generated inventory.
+
 ## Migration build history
 
 [Run 34105836451](https://github.com/Arithmon/K7-Lean/actions/runs/34105836451)

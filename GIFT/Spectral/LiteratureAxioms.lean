@@ -9,16 +9,24 @@ formal content; names and citations do not strengthen those statements.
 ## Declaration Classification (v3.3.42)
 
 ### Historical provenance and current status
-The two CGN declarations remain projections from an axiomatic package. The
-historically Joyce-named declaration is now an elementary theorem with a much
-weaker type than the cited geometric result.
+The two CGN-attributed declarations remain projections from an axiomatic
+package. The historically Joyce-named declaration is an elementary theorem with
+a much weaker type than the cited geometric result; the package no longer
+carries a field of that name (lot 2, 2026-09-09).
+
+What the Lean types say, independently of the names:
+- `no_small_eigenvalues`: the mass gap `λ₁` of `K` is not in the open interval
+  `(0, gap_constant / L)`. It is a statement about the first eigenvalue only,
+  not about the absence of every eigenvalue in that interval.
+- `cheeger_lower_bound`: `λ₁ ≥ cheeger_constant / L²`.
+No field mentions a G₂ structure, a torsion-free correction or a Betti number.
 
 | Declaration | Paper | Journal | Year | Status |
 |-------|-------|---------|------|--------|
 | `cgn_no_small_eigenvalues` | Crowley-Goette-Nordström | Inventiones | 2024 | **FUSED** into `literature_package` |
 | `cgn_cheeger_lower_bound` | Crowley-Goette-Nordström | Inventiones | 2024 | **FUSED** into `literature_package` |
-| `torsion_free_correction` | Historical Joyce attribution | — | — | **PROVED** from its current weak type |
-| `literature_package` | CGN claims plus a legacy compatibility field | — | — | **AXIOM** |
+| `torsion_free_correction` | Historical Joyce attribution | — | — | **PROVED** from its current weak type (no longer a package field) |
+| `literature_package` | two CGN-attributed spectral claims | — | — | **AXIOM** |
 
 ## Key Results
 
@@ -34,17 +42,28 @@ weaker type than the cited geometric result.
 
 ## Full References
 
-- Langlais, P. (2024). "Spectral density of TCS manifolds"
-  Commun. Math. Phys., DOI: [pending]
+Citation status (checked 2026-09-09, lot 2): the two spectral references below
+could not be confirmed as written and are kept as historical attributions.
 
-- Crowley, D., Goette, S., & Nordström, J. (2024). "The spectral geometry
-  of twisted connected sum G₂-manifolds"
-  Inventiones Mathematicae, DOI: 10.1007/s00222-024-XXXXX
+- Langlais, T. "Analysis and spectral theory of neck-stretching problems",
+  arXiv:2301.03513 (the density-of-low-eigenvalues results for twisted
+  connected sums are stated there). The former entry "Langlais, P. (2024),
+  Commun. Math. Phys., Theorem 2.7, DOI pending" was not found as a
+  published article; theorem numbering UNVERIFIED.
+
+- Crowley, D., Goette, S., & Nordström, J. — the title "The spectral geometry
+  of twisted connected sum G₂-manifolds" (Inventiones, 2024) and the DOI
+  placeholder `10.1007/s00222-024-XXXXX` were not found. The published CGN
+  papers are "An analytic invariant of G₂ manifolds" (arXiv:1505.02734) and
+  "Extra-twisted connected sum G₂-manifolds" (Ann. Glob. Anal. Geom., 2023,
+  DOI 10.1007/s10455-023-09893-1); neither is a spectral-gap paper.
+  "Proposition 3.16" and "line 3598" are UNVERIFIED pointers.
 
 - Joyce, D.D. (2000). "Compact Manifolds with Special Holonomy"
   Oxford University Press, ISBN: 0-19-850601-5
 
-Version: 2.0.0 (v3.3.42: historical literature axiom consolidation 3 → 1)
+Version: 2.1.0 (lot 2, 2026-09-09: legacy field dropped, types documented,
+citations marked; v3.3.42: historical literature axiom consolidation 3 → 1)
 -/
 
 import GIFT.Core
@@ -136,12 +155,15 @@ theorem K3_S1_density_coeff_3 : density_coefficient_K3S1 3 = 88 := rfl
 
 /-- Bundled data for TCS spectral geometry.
 
-The substantive literature-attributed fields are:
-- CGN Proposition 3.16: no small eigenvalues
-- CGN line 3598: Cheeger-based lower bound
+The two literature-attributed fields are:
+- "no small eigenvalues" (attributed to CGN Prop. 3.16, UNVERIFIED): the mass
+  gap is not in `(0, gap_constant / L)`;
+- Cheeger-type lower bound (attributed to CGN, UNVERIFIED): `λ₁ ≥ C' / L²`.
 
-The final field is retained for compatibility with the structure introduced in
-v3.3.42. Its type does not state Joyce's torsion-free correction theorem.
+The legacy field `torsion_free_correction` (type: two positive reals exist)
+was dropped in lot 2 (2026-09-09): nothing projected it, and the public theorem
+of that name is proved without the package. The axiom is therefore strictly
+weaker than before.
 
 **References:**
 - Crowley, D., Goette, S., & Nordström, J. (2024).
@@ -149,45 +171,44 @@ v3.3.42. Its type does not state Joyce's torsion-free correction theorem.
 - Joyce, D.D. (2000). "Compact Manifolds with Special Holonomy", Oxford UP.
 -/
 structure LiteraturePackage (K : TCSManifold) where
-  /-- CGN Prop. 3.16: gap isolation constant -/
+  /-- Gap isolation constant (attributed to CGN Prop. 3.16, UNVERIFIED) -/
   gap_constant : ℝ
   /-- Gap constant is positive -/
   gap_constant_pos : gap_constant > 0
-  /-- No eigenvalues in (0, c/L) -/
+  /-- The mass gap is not in (0, c/L). This is a statement about `MassGap`
+  only, not about every eigenvalue of the interval. -/
   no_small_eigenvalues : ∀ (hyp : TCSHypotheses K), ∀ ev : ℝ,
     0 < ev → ev < gap_constant / K.neckLength →
     MassGap K.toCompactManifold ≤ ev → False
-  /-- CGN line 3598: Cheeger lower bound constant -/
+  /-- Cheeger-type lower bound constant (attributed to CGN, UNVERIFIED) -/
   cheeger_constant : ℝ
   /-- Cheeger constant is positive -/
   cheeger_constant_pos : cheeger_constant > 0
   /-- C'/(ℓ+r)² ≤ λ₁ -/
   cheeger_lower_bound :
     MassGap K.toCompactManifold ≥ cheeger_constant / K.neckLength ^ 2
-  /-- Legacy compatibility field. Its type only asserts the existence of two
-  positive real numbers; the public theorem below no longer projects it. -/
-  torsion_free_correction : ∀ (k : ℕ), ∃ C δ : ℝ, C > 0 ∧ δ > 0
 
 /-- Literature results hold for any TCS manifold.
 
-**(Literature axiom)** — Contains two literature-attributed spectral claims and
-a legacy field with an elementary positivity type.
+**(Literature axiom)** — Contains exactly two literature-attributed spectral
+claims about the mass gap of a TCS manifold; nothing else.
 
 **Historical axiom consolidation (v3.3.42):** Replaced
 `cgn_no_small_eigenvalues`, `cgn_cheeger_lower_bound` and the former
-`torsion_free_correction` axiom by one package. The last field now remains only
-for structure compatibility; the public theorem of that name is elementary. -/
+`torsion_free_correction` axiom by one package. Lot 2 (2026-09-09) removed the
+last, dead field; the public theorem of that name is elementary. -/
 axiom literature_package (K : TCSManifold) : LiteraturePackage K
 
 -- ============================================================================
 -- BACKWARD-COMPATIBLE DECLARATIONS
 -- ============================================================================
 
-/-- CGN Proposition 3.16: No small eigenvalues except 0.
+/-- The mass gap is not in `(0, c/L)` for some `c > 0` (historical name
+"no small eigenvalues"; the type constrains `MassGap` only).
 
 **Formerly axiom**, now structure projection from LiteraturePackage (v3.3.42).
 
-**Citation:** Crowley, Goette, Nordström (2024), Inventiones Math., Prop. 3.16 -/
+**Attribution (UNVERIFIED):** Crowley, Goette, Nordström, "Prop. 3.16". -/
 theorem cgn_no_small_eigenvalues (K : TCSManifold) (hyp : TCSHypotheses K) :
   ∃ c : ℝ, c > 0 ∧ ∀ ev : ℝ,
     0 < ev → ev < c / K.neckLength →
@@ -195,11 +216,11 @@ theorem cgn_no_small_eigenvalues (K : TCSManifold) (hyp : TCSHypotheses K) :
   let pkg := literature_package K
   ⟨pkg.gap_constant, pkg.gap_constant_pos, pkg.no_small_eigenvalues hyp⟩
 
-/-- Cheeger-based lower bound from CGN (line 3598).
+/-- Cheeger-type lower bound `λ₁ ≥ C' / L²` for some `C' > 0`.
 
 **Formerly axiom**, now structure projection from LiteraturePackage (v3.3.42).
 
-**Citation:** Crowley, Goette, Nordström (2024), Inventiones Math., line 3598 -/
+**Attribution (UNVERIFIED):** Crowley, Goette, Nordström, "line 3598". -/
 theorem cgn_cheeger_lower_bound (K : TCSManifold) :
   ∃ C' : ℝ, C' > 0 ∧
     MassGap K.toCompactManifold ≥ C' / K.neckLength ^ 2 :=
@@ -241,13 +262,12 @@ Then:
 -/
 theorem gift_prediction_structure :
     (14 : ℚ) / 99 = dim_G2 / H_star := by
-  simp only [dim_G2, H_star]
-  native_decide
+  rw [GIFT.Algebraic.G2.dim_G2_eq, GIFT.Algebraic.BettiNumbers.H_star_eq]; norm_num
 
 /-- The prediction 14/99 is consistent with TCS bounds structure -/
 theorem gift_prediction_in_range :
     (1 : ℚ) / 100 < 14 / 99 ∧ (14 : ℚ) / 99 < 1 / 4 := by
-  native_decide
+  norm_num
 
 -- ============================================================================
 -- CERTIFICATE
@@ -266,8 +286,8 @@ theorem literature_axioms_certificate :
     (1 : ℚ) / 100 < 14 / 99 ∧
     (14 : ℚ) / 99 < 1 / 4 := by
   refine ⟨rfl, rfl, rfl, ?_, ?_, ?_⟩
-  · simp only [dim_G2, H_star]; native_decide
-  · native_decide
-  · native_decide
+  · rw [GIFT.Algebraic.G2.dim_G2_eq, GIFT.Algebraic.BettiNumbers.H_star_eq]; norm_num
+  · norm_num
+  · norm_num
 
 end GIFT.Spectral.LiteratureAxioms
