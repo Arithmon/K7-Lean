@@ -6,6 +6,9 @@ Lean 4 formalizations of algebraic identities, finite-dimensional models, numeri
 inequalities and conditional geometric statements associated with the
 [Arithmon K₇ framework](https://github.com/Arithmon/K7).
 
+Part of the **[Arithmon program](https://github.com/arithmon)**, the hypothesis that
+the constants of nature are counts.
+
 The Lean statements specify the scope of each result. In particular, arithmetic
 conditions on Sobolev indices are not embedding theorems, and the constant
 three-form model on ℝ⁷ is not a construction of a compact manifold with G₂ holonomy.
@@ -75,5 +78,7 @@ between kernel axioms, project assumptions, and native computation.
 
 Former repository: `gift-framework/core`. Existing release tags and the
 pre-registration reference `v3.4.29` / `667c8b9` are retained.
+
+<sub>K₇ (formerly GIFT) is the founding framework of the Arithmon program.</sub>
 
 *K₇-Lean v3.4.29*
