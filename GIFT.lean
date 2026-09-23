@@ -1,3 +1,4 @@
+-- K₇-Lean root module. Version: 3.5
 import GIFT.Core
 import GIFT.Relations
 import GIFT.Relations.GaugeSector
