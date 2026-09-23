@@ -1,9 +1,40 @@
 # Changelog
 
-All notable changes to GIFT Core will be documented in this file.
+All notable changes to K₇-Lean (formerly GIFT Core) will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [3.5] - 2026-09-23
+
+### Summary
+
+**Version aligned with the K₇ framework v3.5, and the rename recorded.** The
+framework formerly called GIFT was published as *The K₇ Framework v3.5*
+(Zenodo concept 10.5281/zenodo.16891489, version record 21296168, 2026-07-10);
+this repository, formerly `gift-framework/core` ("GIFT Core"), moved to
+`Arithmon/K7-Lean` in July 2026. GIFT remains the name of the framework's
+founding phase. From this version on, the formal core carries the framework's
+version number. The pre-registration reference `v3.4.29` / `667c8b9` is
+unchanged.
+
+### Details
+
+- **Scope correction** (`836296d`): the certified variance of
+  `K3ClosedFormWitness` / `K3ClosedFormBoxEnclosures` bounds an auxiliary
+  quantity, not a Calabi-Yau residual (K₇ erratum to v3.5, 2026-08-22). The
+  theorems are unchanged; their stated scope is corrected.
+- **Toolchain**: Lean and Mathlib `v4.33.1`, with the scope of the formal
+  results restated module by module (#162).
+- **Axioms 15 → 14**: `PSLQ_null_in_TCS_basis` and vacuous positivity claims
+  discharged (#163). The library declares 14 axioms: 4 prediction-chain
+  assumptions (spectral) and 10 K3 interval certificates.
+- **Spectral literature package** reviewed statement by statement (#164): the
+  unused `torsion_free_correction` field is dropped, so `literature_package`
+  is strictly weaker; two attributions are marked unverified; five
+  `native_decide` occurrences replaced by `norm_num`.
+- **README**: the Arithmon program banner and the canonical footer are
+  restored; `CITATION.cff` describes the 14 axioms.
 
 ## [3.4.29] - 2026-06-24
 

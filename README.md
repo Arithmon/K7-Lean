@@ -81,4 +81,4 @@ pre-registration reference `v3.4.29` / `667c8b9` are retained.
 
 <sub>K₇ (formerly GIFT) is the founding framework of the Arithmon program.</sub>
 
-*K₇-Lean v3.4.29*
+*K₇-Lean v3.5*

@@ -15,4 +15,4 @@ This directory contains documentation for the K₇-Lean formal verification proj
 
 ## Version
 
-GIFT Core v3.4.29
+K₇-Lean v3.5
