@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-02
 Target: `arithmon/oph-mckay-galois-bridge-0` at K7-Lean preregistration SHA `2553ed170d04db8777f84fb2f9ef2b66b386f7fb`
-Comparison baseline: K7 `366f69eb0a5a4fdc53e0ff0337b5c1b671d9b70a`; OPH preregistration SHA `4ae2148a26ce15591adaac78ff408fb2cc32d3a2` (not available as a local Git object during this audit).
+Comparison baselines captured at audit start: K7 `366f69eb0a5a4fdc53e0ff0337b5c1b671d9b70a`; OPH preregistration SHA `4ae2148a26ce15591adaac78ff408fb2cc32d3a2`. The shared K7 checkout later advanced to `de250c5178f1326aa428e45ad0f953320d4d2554`; that later head was not used.
 
 ## Verdict
 
@@ -34,7 +34,7 @@ Mathlib in the pinned local dependency does contain the typed carrier `Matrix.Sp
 
 ## External comparison and trust boundary
 
-No OPH result was used as a premise, no OPH data were copied into Arithmon, and no Koide or physical data were used. The local OPH checkout is at `ed657eb1f98dd0607212baa4b4ca9ed11d181f57`, not at the preregistered commit; the preregistered commit is absent from its local object database. Its local certificate therefore was not used for cross-control or as evidence for this Arithmon verdict.
+No OPH result was used as a premise, no OPH data were copied into Arithmon, and no Koide or physical data were used. The existing OPH checkout remained at `ed657eb1f98dd0607212baa4b4ca9ed11d181f57`. I fetched the preregistered OPH commit `4ae2148a26ce15591adaac78ff408fb2cc32d3a2` from `upstream` and recorded the target producer path `code/a5_closure/sl2f5_mckay_e8_certificate.py` at blob `2938db085477737cab6eb09a3a87f7330c37f473`. The producer contents and generated receipt were not consumed: there is no independent Arithmon group/representation reconstruction to compare against, so the OPH cross-control was **NOT RUN**.
 
 ## Claim adjudication and next route
 
