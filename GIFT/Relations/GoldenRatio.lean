@@ -83,7 +83,9 @@ theorem golden_ratio_sector_certified :
 
 /-- RELATION 201: Legacy McKay-motivated arithmetic shadow.
     This theorem checks two integer equalities only; it does not construct the
-    binary icosahedral group or derive/select phi. See the scope audit in docs. -/
+    binary icosahedral group or derive/select phi. The exact executable
+    representation-theoretic construction and its Galois nonselection result
+    are documented in `docs/mckay_golden_field_certificate.md`. -/
 theorem phi_path_mckay :
     -- E8 Coxeter number = 30 = icosahedron edges
     rank_E8 + dim_G2 + rank_E8 = 30 ∧
