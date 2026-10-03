@@ -38,6 +38,17 @@ def rtext(x):
  if not b:return f(a)
  if not a:return f(b)+"*sqrt(5)"
  return f(a)+("+" if b>0 else "-")+f(abs(b))+"*sqrt(5)"
+def quadratic_minpoly_text(value):
+ a,b=value
+ if b==0:raise ValueError("rational trace has no quadratic field generator")
+ linear=-2*a; constant=a*a-5*b*b
+ if radd(radd(rmul(value,value),rmul((linear,F(0)),value)),(constant,F(0)))!=ZERO:
+  raise ValueError("computed quadratic does not annihilate exact trace")
+ def term(c,var):
+  if not c:return ""
+  body=(var if abs(c)==1 else f"{abs(c)}*{var}") if var else str(abs(c))
+  return ("+" if c>0 else "-")+body
+ return "X^2"+term(linear,"X")+term(constant,"")
 def rint(x,gate):
  if x[1] or x[0].denominator!=1:raise ValueError(f"{gate}: noninteger exact value {rtext(x)}")
  return x[0].numerator
@@ -200,6 +211,8 @@ def verify(raw):
  if rgalois(PHI)!=phi_minus:raise ValueError("sigma(phi) != 1-phi")
  iso=isomorphisms(gi["edges"],AFFINE_E8_EDGES,9)
  isos=isomorphisms(gs["edges"],AFFINE_E8_EDGES,9)
+ if raw["golden_character_field"]["witness_minimal_polynomial"] != quadratic_minpoly_text(w):
+  raise ValueError("producer receipt has an unverified trace minimal polynomial")
  raw_checks={
   "group_order":raw["source_group"]["order"]==len(G),
   "group_center":raw["source_group"]["center_size"]==len(group_center(G)),

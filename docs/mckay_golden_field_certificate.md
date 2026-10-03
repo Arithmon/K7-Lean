@@ -31,15 +31,16 @@ From the repository root:
 python3 -B scripts/mckay_golden_field_certificate.py
 python3 -B scripts/verify_mckay_golden_field_independent.py
 python3 -B -m pytest -q scripts/test_mckay_golden_field_certificate.py
+python3 -B scripts/verify_mckay_golden_field_cross_control.py
 ```
 
 The first script writes the raw producer receipt; the second independently writes the verified reference receipt. The hostile suite includes target-leak, Galois-reuse, reducibility, field-erasure and graph-count-only controls.
 
 ## Pinned external cross-control
 
-After commit `c6f69b502d30f465868e0127c2f2e1d30f5791ed` froze the Arithmon producer and independent replay, the pinned OPH producer at commit `4ae2148a26ce15591adaac78ff408fb2cc32d3a2` (blob `2938db085477737cab6eb09a3a87f7330c37f473`) was executed from that commit's source tree. The exact output schema was `oph.sl2f5_mckay_e8.v1`. The compared structural invariants all agree; see `certificates/oph_mckay_golden_field_cross_control.json` and run `python3 -B scripts/verify_mckay_golden_field_cross_control.py` to check the frozen comparison against the Arithmon receipts.
+After commit `c6f69b502d30f465868e0127c2f2e1d30f5791ed` froze the Arithmon producer and independent replay, the pinned OPH producer at commit `4ae2148a26ce15591adaac78ff408fb2cc32d3a2` (blob `2938db085477737cab6eb09a3a87f7330c37f473`) was executed from that commit's source tree. Its exact output (`oph.sl2f5_mckay_e8.v1`) is preserved at `certificates/external/oph_sl2f5_mckay_e8_4ae2148a.json`, SHA256 `6b2daf8fe387cff880aa50af5edc150fd41cfdb0eb6f03ae3ace082ea79a3b55`. The crossover verifier extracts and checks invariants from these raw bytes; it does not accept copied OPH values from the fixture. See `certificates/oph_mckay_golden_field_cross_control.json` and run `python3 -B scripts/verify_mckay_golden_field_cross_control.py`. At verification on 2026-10-03, OPH main at `d2fb7da3` was confirmed to retain the same producer blob; the comparator stays pinned to `4ae2148a` for the preregistered chronology.
 
-This is independent exact agreement on the listed invariants. It does not produce an explicit isomorphism between Arithmon's quaternion carrier and OPH's `SL(2,F5) carrier, and OPH did not contribute premises to the derivation. The OPH test suite was not run in this workstream.
+This is independent exact agreement on the listed invariants. It does not produce an explicit isomorphism between Arithmon's quaternion carrier and OPH's `SL(2,F5)` carrier, and OPH did not contribute premises to the derivation. The OPH test suite was not run in this workstream.
 
 ## Proof boundary
 

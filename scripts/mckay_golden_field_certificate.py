@@ -62,6 +62,24 @@ def q5(x) -> Q5:
 def frac_text(x: F) -> str:
     return str(x.numerator) if x.denominator == 1 else f"{x.numerator}/{x.denominator}"
 
+def quadratic_minimal_polynomial_text(value: Q5) -> str:
+    """Compute the monic quadratic over Q and verify it vanishes exactly."""
+    if value.b == 0:
+        raise ValueError("a rational trace does not generate Q(sqrt(5))")
+    linear = -2 * value.a
+    constant = value.a * value.a - 5 * value.b * value.b
+    if not (value * value + Q5(linear) * value + Q5(constant)).is_zero():
+        raise ValueError("computed quadratic does not annihilate the exact trace")
+    def term(coefficient: F, variable: str) -> str:
+        if coefficient == 0:
+            return ""
+        sign = "+" if coefficient > 0 else "-"
+        magnitude = abs(coefficient)
+        body = variable if variable and magnitude == 1 else (
+            f"{frac_text(magnitude)}*{variable}" if variable else frac_text(magnitude))
+        return sign + body
+    return "X^2" + term(linear, "X") + term(constant, "")
+
 def sigma_q5(x: Q5) -> Q5: return Q5(x.a, -x.b)
 
 @dataclass(frozen=True)
@@ -423,7 +441,7 @@ def main_certificate() -> dict:
             "same_labeled_graph":fusion==sigma_fusion},
         "golden_character_field":{"all_traces_in_Qsqrt5":True,
             "nonrational_trace_witness":{"quaternion":[v.text() for v in witness],"trace":chi[witness].text()},
-            "field_exactly":"Q(sqrt(5))", "witness_minimal_polynomial":"X^2-X-1"},
+            "field_exactly":"Q(sqrt(5))", "witness_minimal_polynomial":quadratic_minimal_polynomial_text(chi[witness])},
         "sl2f5_cross_identification":{**sl2f5,"explicit_isomorphism":False,
             "status":"separately constructed with matching order and center; explicit isomorphism not proved"},
         "golden_embedding":{"phi":PHI.text(),"psi":sigma_q5(PHI).text(),"sigma_phi_equals_psi":sigma_q5(PHI)==Q5(F(1,2),F(-1,2))},

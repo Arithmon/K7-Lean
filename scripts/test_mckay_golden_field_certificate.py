@@ -130,6 +130,13 @@ class ExactMcKayCertificateTests(unittest.TestCase):
         bad["golden_character_field"]["nonrational_trace_witness"]["trace"]="1/2"
         with self.assertRaises(ValueError):verifier.verify(bad)
 
+    def test_36_witness_minimal_polynomial_is_derived_exactly(self):
+        witness=producer.Q5(F(1,2),F(-1,2))
+        self.assertEqual(producer.quadratic_minimal_polynomial_text(witness),"X^2-X-1")
+        bad=copy.deepcopy(self.raw)
+        bad["golden_character_field"]["witness_minimal_polynomial"]="X^2+X-1"
+        with self.assertRaises(ValueError):verifier.verify(bad)
+
     def test_23_galois_pair_does_not_select_positive_phi(self):
         self.assertNotEqual(self.raw["golden_embedding"]["phi"],self.raw["golden_embedding"]["psi"])
         self.assertTrue(self.raw["golden_embedding"]["sigma_phi_equals_psi"])
