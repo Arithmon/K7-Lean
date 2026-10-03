@@ -3,10 +3,12 @@
 --
 -- The golden ratio φ = (1 + √5)/2 appears in GIFT through:
 -- 1. Fibonacci embedding: F_n in GIFT constants
--- 2. McKay correspondence: Icosahedral symmetry
+-- 2. McKay correspondence: historical motivation only; no McKay theorem
+--    or binary-icosahedral representation theory is formalized here.
 -- 3. G2 spectrum connections
 --
--- This module provides REAL mathematical content about φ.
+-- This module proves real-algebra identities for φ and ψ and finite Fibonacci
+-- identities. It does not prove a McKay-to-φ implication or select an embedding.
 
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Real.Sqrt

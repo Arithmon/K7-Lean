@@ -81,8 +81,11 @@ theorem golden_ratio_sector_certified :
 -- V2.0: THREE INDEPENDENT PHI DERIVATION PATHS (Relations 201-210)
 -- =============================================================================
 
-/-- RELATION 201: Path 1 - McKay Correspondence
-    E8 -> Binary Icosahedral -> Icosahedron -> Golden Ratio -/
+/-- RELATION 201: Legacy McKay-motivated arithmetic shadow.
+    This theorem checks two integer equalities only; it does not construct the
+    binary icosahedral group or derive/select phi. The exact executable
+    representation-theoretic construction and its Galois nonselection result
+    are documented in `docs/mckay_golden_field_certificate.md`. -/
 theorem phi_path_mckay :
     -- E8 Coxeter number = 30 = icosahedron edges
     rank_E8 + dim_G2 + rank_E8 = 30 ∧
@@ -150,7 +153,7 @@ theorem b3_lucas8_ratio :
 
 /-- RELATION 209: Three-path convergence to phi -/
 theorem three_path_phi_convergence :
-    -- Path 1: McKay (Coxeter = 30 = 6 x 5)
+    -- Path 1: arithmetic shadow associated with the McKay motivation
     30 = 6 * Weyl_factor ∧
     -- Path 2: Fibonacci (21/13)
     b2 = 21 ∧ rank_E8 + Weyl_factor = 13 ∧

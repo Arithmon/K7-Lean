@@ -29,6 +29,12 @@ jobs:
         with:
           path: .lake
           key: lean-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lakefile.lean', 'lake-manifest.json') }}
+      - name: Exact McKay certificate and pinned OPH cross-control
+        run: |
+          python3 -B scripts/mckay_golden_field_certificate.py
+          python3 -B scripts/verify_mckay_golden_field_independent.py
+          python3 -B -m unittest scripts.test_mckay_golden_field_certificate scripts.test_mckay_golden_field_cross_control -v
+          python3 -B scripts/verify_mckay_golden_field_cross_control.py
       - name: Source checks
         run: |
           python3 scripts/test_proof_inventory.py
