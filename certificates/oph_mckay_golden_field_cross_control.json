@@ -1,0 +1,109 @@
+{
+  "schema": "arithmon.mckay_golden_field.cross_control.v1",
+  "arithmon_frozen_commit": "c6f69b502d30f465868e0127c2f2e1d30f5791ed",
+  "arithmon_receipt": "certificates/mckay_golden_field_reference.json",
+  "oph": {
+    "repository": "FloatingPragma/observer-patch-holography",
+    "commit": "4ae2148a26ce15591adaac78ff408fb2cc32d3a2",
+    "producer_path": "code/a5_closure/sl2f5_mckay_e8_certificate.py",
+    "producer_blob_sha": "2938db085477737cab6eb09a3a87f7330c37f473",
+    "output_schema": "oph.sl2f5_mckay_e8.v1",
+    "exact_producer_executed": true,
+    "tests_executed": false
+  },
+  "compared_invariants": {
+    "group_order": {
+      "arithmon": 120,
+      "oph": 120,
+      "match": true
+    },
+    "conjugacy_class_count": {
+      "arithmon": 9,
+      "oph": 9,
+      "match": true
+    },
+    "irreducible_dimension_multiset": {
+      "arithmon": [
+        1,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        6
+      ],
+      "oph": [
+        1,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        6
+      ],
+      "match": true
+    },
+    "sum_squared_dimensions": {
+      "arithmon": 120,
+      "oph": 120,
+      "match": true
+    },
+    "faithful_doublet_dimension": {
+      "arithmon": 2,
+      "oph": 2,
+      "match": true
+    },
+    "faithful_irreducible": {
+      "arithmon": true,
+      "oph": true,
+      "match": true
+    },
+    "fusion_edge_count": {
+      "arithmon": 8,
+      "oph": 8,
+      "match": true
+    },
+    "affine_e8": {
+      "arithmon": true,
+      "oph": true,
+      "match": true
+    },
+    "sqrt5_sensitive_character": {
+      "arithmon": true,
+      "oph": true,
+      "match": true
+    },
+    "galois_conjugate_distinct_faithful_doublet": {
+      "arithmon": true,
+      "oph": true,
+      "match": true
+    },
+    "galois_fusion_recomputed": {
+      "arithmon": true,
+      "oph": true,
+      "match": true
+    },
+    "conjugate_affine_e8": {
+      "arithmon": true,
+      "oph": true,
+      "match": true
+    }
+  },
+  "comparison_result": "INDEPENDENT_EXACT_AGREEMENT",
+  "scope_limit": [
+    "The Arithmon construction enumerates the quaternionic H4/600-cell group; the pinned OPH construction starts from SL(2,F5) and its separate bridge.",
+    "This crossover compares independently derived exact structural invariants; it does not supply an explicit group isomorphism between the two carriers.",
+    "OPH data were read only after the Arithmon producer and independent verifier were frozen at the commit above."
+  ],
+  "derivation_firewall": {
+    "oph_used_as_derivation_input": false,
+    "koide_used": false,
+    "experimental_data_used": false,
+    "observable_changed": false,
+    "physical_identification": false
+  }
+}

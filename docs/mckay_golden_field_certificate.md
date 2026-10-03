@@ -35,6 +35,12 @@ python3 -B -m pytest -q scripts/test_mckay_golden_field_certificate.py
 
 The first script writes the raw producer receipt; the second independently writes the verified reference receipt. The hostile suite includes target-leak, Galois-reuse, reducibility, field-erasure and graph-count-only controls.
 
+## Pinned external cross-control
+
+After commit `c6f69b502d30f465868e0127c2f2e1d30f5791ed` froze the Arithmon producer and independent replay, the pinned OPH producer at commit `4ae2148a26ce15591adaac78ff408fb2cc32d3a2` (blob `2938db085477737cab6eb09a3a87f7330c37f473`) was executed from that commit's source tree. The exact output schema was `oph.sl2f5_mckay_e8.v1`. The compared structural invariants all agree; see `certificates/oph_mckay_golden_field_cross_control.json` and run `python3 -B scripts/verify_mckay_golden_field_cross_control.py` to check the frozen comparison against the Arithmon receipts.
+
+This is independent exact agreement on the listed invariants. It does not produce an explicit isomorphism between Arithmon's quaternion carrier and OPH's `SL(2,F5) carrier, and OPH did not contribute premises to the derivation. The OPH test suite was not run in this workstream.
+
 ## Proof boundary
 
 This is an exact executable certificate with an independent replay, not a Lean-native reconstruction of finite representation theory. No OPH data is a derivation input; no Koide, observable, experimental data, physical-particle identification or real-embedding selector is used. The old `phi_path_mckay` proposition remains unchanged and is only an arithmetic shadow; its documentation points here for the actual finite construction. The result establishes the golden character field and the Galois nonselection boundary, not a physical choice of `phi`.
