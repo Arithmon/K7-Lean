@@ -66,7 +66,7 @@ assert E_SERIES_DIFF % 6 == 0, "E-series divisibility check failed"
 # Structural constant 42 = p2*N_gen*dim(K7) = 2*b2 (NOT chi(K7): chi=0 by Poincare duality)
 MAGIC_42 = 42
 N_GEN = 3  # Number of generations (from K4 matchings)
-P2 = 2     # Pontryagin class contribution
+P2 = 2     # binary ratio dim(G2)/dim(K7) (not a Pontryagin class)
 assert MAGIC_42 == P2 * N_GEN * DIM_K7, "Magic 42 GIFT form failed"
 assert MAGIC_42 == 2 * 21, "Magic 42 = 2*b2 check failed"
 

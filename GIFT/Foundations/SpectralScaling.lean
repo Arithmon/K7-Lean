@@ -160,7 +160,7 @@ The selection constant kappa = pi^2/dim(G2). Its rational coefficient is:
   kappa/pi^2 = 1/dim(G2) = 1/14 = 1/(p2 * dim_K7)
 
 This decomposes the holonomy dimension into:
-- p2 = 2: the Pontryagin class (parity structure)
+- p2 = 2: the binary ratio dim(G2)/dim(K7) (not a Pontryagin class)
 - dim_K7 = 7: the manifold dimension (Fano plane structure)
 -/
 
@@ -174,7 +174,8 @@ theorem kappa_rational_value : kappa_rational = 1 / 14 := rfl
 theorem kappa_rational_from_G2 : kappa_rational = 1 / (dim_G2 : ℚ) := by
   unfold kappa_rational; native_decide
 
-/-- dim(G2) decomposes as p2 * dim(K7): the Pontryagin-manifold factorization -/
+/-- dim(G2) decomposes as p2 * dim(K7). (Historical name: p2 is the binary ratio
+    dim(G2)/dim(K7), not a Pontryagin class; p₂(TK₇) ∈ H⁸(K₇) = 0.) -/
 theorem dim_G2_pontryagin_manifold : dim_G2 = p2 * dim_K7 := by native_decide
 
 /-- kappa/pi^2 = 1/(p2 * dim_K7) -/
@@ -288,7 +289,7 @@ theorem subgap_count_eq_N_gen :
   all_goals native_decide
 
 /-- Excited sub-gap modes (excluding zero mode) = 2 = p2.
-    The Pontryagin class counts the number of non-trivial sub-gap modes. -/
+    Numerical identity N_gen - 1 = p2 (p2 is the binary ratio, not a Pontryagin class). -/
 theorem excited_subgap_eq_p2 : N_gen - 1 = p2 := by native_decide
 
 -- =============================================================================
@@ -370,7 +371,7 @@ The GIFT constants H* = 99 and dim(G2) = 14 satisfy the Pell equation:
   99^2 - 50 * 14^2 = 1
 
 The discriminant 50 = 2 * 5^2 = p2 * Weyl^2 connects to:
-- p2 = 2 (Pontryagin class)
+- p2 = 2 (binary ratio dim(G2)/dim(K7) (not a Pontryagin class))
 - Weyl_factor = 5 (from the Weyl group of G2)
 
 The pair (99, 14) is the fundamental (minimal positive) solution

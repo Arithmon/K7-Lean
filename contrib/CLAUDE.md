@@ -398,7 +398,7 @@ theorem E8_lattice_smul (n : ℤ) (v : R8) (hv : v ∈ E8_lattice) : n • v ∈
 | `b2` | 21 | Second Betti number |
 | `b3` | 77 | Third Betti number |
 | `H_star` | 99 | b2 + b3 + 1 |
-| `p2` | 2 | Pontryagin class |
+| `p2` | 2 | binary ratio dim(G2)/dim(K7) (not a Pontryagin class) |
 | `dim_J3O` | 27 | Jordan algebra dim |
 | `Weyl_factor` | 5 | From Weyl group |
 | `D_bulk` | 11 | M-theory dimension |

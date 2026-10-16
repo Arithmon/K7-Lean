@@ -1,7 +1,7 @@
 """
 K7 Manifold Topology Constants.
 
-Betti numbers, Pontryagin class, and derived topological invariants.
+Betti numbers, the binary ratio p2, and derived topological invariants.
 All values proven in Lean 4 (GIFT.Foundations.TCSConstruction).
 """
 from .algebra import DIM_G2, DIM_K7, RANK_E8
@@ -41,7 +41,7 @@ B7 = B0               # = 1
 # =============================================================================
 
 H_STAR = B2 + B3 + 1  # = 99 - Effective cohomological degrees of freedom
-P2 = DIM_G2 // DIM_K7 # = 2 - Pontryagin class contribution
+P2 = DIM_G2 // DIM_K7 # = 2 - binary ratio dim(G2)/dim(K7) (not a Pontryagin class)
 
 # Euler characteristic (alternating sum)
 EULER_K7 = B0 - B1 + B2 - B3 + B4 - B5 + B6 - B7  # = 0

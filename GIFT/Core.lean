@@ -31,7 +31,7 @@ Other modules import `GIFT.Core` and use these definitions.
 ### Physical/Geometric
 - `dim_K7 = 7` — compact manifold dimension
 - `D_bulk = 11` — M-theory bulk dimension
-- `p2 = 2` — Pontryagin class contribution
+- `p2 = 2` — binary ratio dim(G2)/dim(K7) (not a Pontryagin class)
 - `Weyl_factor = 5` — from Weyl group factorization
 
 ## Usage
@@ -143,7 +143,7 @@ def D_bulk : ℕ := 11
 -- TOPOLOGY
 -- =============================================================================
 
-/-- Pontryagin class contribution -/
+/-- p2 = binary ratio dim(G2)/dim(K7) (not a Pontryagin class) -/
 def p2 : ℕ := 2
 
 -- Note: b2, b3, H_star come from Algebraic.BettiNumbers

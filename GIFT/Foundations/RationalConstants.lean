@@ -42,7 +42,7 @@ def dim_E8 : ℚ := 248
 /-- Rank of E8 -/
 def rank_E8 : ℚ := 8
 
-/-- Pontryagin class contribution -/
+/-- p2 = binary ratio dim(G2)/dim(K7) (not a Pontryagin class) -/
 def p2 : ℚ := 2
 
 /-- Weyl factor -/

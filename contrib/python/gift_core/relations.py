@@ -91,7 +91,7 @@ PROVEN_RELATIONS = [
         lean_theorem="H_star_certified"
     ),
     ProvenRelation(
-        name="Pontryagin contribution",
+        name="Binary ratio p2",
         symbol="p2",
         value=2,
         formula="dim(G2)/dim(K7) = 14/7",

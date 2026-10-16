@@ -49,7 +49,7 @@ class GaugeCouplings:
 
     @property
     def p2(self) -> int:
-        """Pontryagin class contribution p2 = dim(G2)/dim(K7) = 2."""
+        """Binary ratio p2 = dim(G2)/dim(K7) = 2 (not a Pontryagin class)."""
         return self.dim_g2 // 7
 
     @property
