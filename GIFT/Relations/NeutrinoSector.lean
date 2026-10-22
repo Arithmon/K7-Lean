@@ -10,8 +10,21 @@ namespace GIFT.Relations.NeutrinoSector
 
 open GIFT.Core GIFT.Relations
 
+/-!
+## Scope note (v3.6 alignment, 2026-10-22)
+
+The PMNS relations of the K₇ paper v3.6 are sin²θ₁₂ = 4/13, sin²θ₂₃ = 6/11 and
+sin²θ₁₃ = 11/496 (`GIFT.Observables.PMNS`), and its δ_CP relation is the integer
+dim(K₇)·dim(G₂) + H* = 197. The older angle formulas in this file (γ = 511/884,
+θ₂₃ = 85/99 rad, θ₁₃ = π/21, the 7/23 and 8/14 ratios) are NOT relations of v3.6.
+They are kept as arithmetic identities; the declarations whose names claimed an
+observable were renamed to neutral arithmetic names (deprecated aliases keep the
+old names compiling). Several of them are mutually incompatible with the paper's
+relations as exact equalities: an instance of vocabulary freedom.
+-/
+
 -- =============================================================================
--- RELATION #15: γ_GIFT
+-- γ_GIFT (legacy parameter; not a relation of v3.6)
 -- γ_GIFT = (2×rank(E₈) + 5×H*)/(10×dim(G₂) + 3×dim(E₈)) = 511/884
 -- =============================================================================
 
@@ -43,40 +56,56 @@ theorem delta_pentagonal_certified : Weyl_sq = 25 := rfl
 theorem delta_denom_from_Weyl : Weyl_factor * Weyl_factor = 25 := by native_decide
 
 -- =============================================================================
--- RELATION #17: θ₂₃ FRACTION
--- θ₂₃ = (rank(E₈) + b₃)/H* = 85/99 rad
+-- (rank(E₈) + b₃)/H* = 85/99 — arithmetic identity, NOT the θ₂₃ relation of v3.6
 -- =============================================================================
 
-/-- θ₂₃ numerator: rank(E₈) + b₃ = 8 + 77 = 85 -/
-def theta_23_num : Nat := rank_E8 + b3
+/-- Arithmetic identity: rank(E₈) + b₃ = 8 + 77 = 85. Not the relation of the paper
+    (which is sin²θ₂₃ = (D_bulk − Weyl)/D_bulk = 6/11); a legacy reading
+    θ₂₃ = 85/99 rad is an instance of vocabulary freedom. Formerly `theta_23_num`. -/
+def rank_E8_plus_b3 : Nat := rank_E8 + b3
 
-theorem theta_23_num_certified : theta_23_num = 85 := rfl
+theorem rank_E8_plus_b3_certified : rank_E8_plus_b3 = 85 := rfl
 
-theorem theta_23_num_from_topology : rank_E8 + b3 = 85 := by native_decide
+theorem rank_E8_plus_b3_from_topology : rank_E8 + b3 = 85 := by native_decide
 
-/-- θ₂₃ denominator: H* = 99 -/
-def theta_23_den : Nat := H_star
+/-- H* = 99 as the denominator of (rank(E₈) + b₃)/H*. Formerly `theta_23_den`. -/
+def rank_E8_plus_b3_over_H_star_den : Nat := H_star
 
-theorem theta_23_den_certified : theta_23_den = 99 := rfl
+theorem rank_E8_plus_b3_over_H_star_den_certified : rank_E8_plus_b3_over_H_star_den = 99 := rfl
 
-/-- θ₂₃ = 85/99 rad -/
-theorem theta_23_certified : theta_23_num = 85 ∧ theta_23_den = 99 := ⟨rfl, rfl⟩
+/-- Arithmetic identity: (rank(E₈) + b₃, H*) = (85, 99). Not the θ₂₃ relation of the
+    paper (sin²θ₂₃ = 6/11). Formerly `theta_23_certified`. -/
+theorem rank_E8_plus_b3_over_H_star_certified :
+    rank_E8_plus_b3 = 85 ∧ rank_E8_plus_b3_over_H_star_den = 99 := ⟨rfl, rfl⟩
+
+@[deprecated rank_E8_plus_b3 (since := "2026-10-22")]
+abbrev theta_23_num : Nat := rank_E8_plus_b3
+@[deprecated rank_E8_plus_b3_over_H_star_den (since := "2026-10-22")]
+abbrev theta_23_den : Nat := rank_E8_plus_b3_over_H_star_den
+@[deprecated (since := "2026-10-22")]
+alias theta_23_num_certified := rank_E8_plus_b3_certified
+@[deprecated (since := "2026-10-22")]
+alias theta_23_num_from_topology := rank_E8_plus_b3_from_topology
+@[deprecated (since := "2026-10-22")]
+alias theta_23_den_certified := rank_E8_plus_b3_over_H_star_den_certified
+@[deprecated (since := "2026-10-22")]
+alias theta_23_certified := rank_E8_plus_b3_over_H_star_certified
 
 -- =============================================================================
--- RELATION #18: θ₁₃ DENOMINATOR
--- θ₁₃ = π/b₂ = π/21, denominator = 21
+-- Legacy θ₁₃ = π/b₂ reading — NOT the θ₁₃ relation of v3.6
+-- (the paper's relation is sin²θ₁₃ = D_bulk/dim(E₈×E₈) = 11/496)
 -- =============================================================================
 
-/-- θ₁₃ denominator: b₂ = 21 -/
-theorem theta_13_denom_certified : b2 = 21 := rfl
+@[deprecated GIFT.Core.b2_value (since := "2026-10-22")]
+alias theta_13_denom_certified := GIFT.Core.b2_value
 
-/-- θ₁₃ = π/21 -/
-theorem theta_13_from_Betti : b2 = 21 := rfl
+@[deprecated GIFT.Core.b2_value (since := "2026-10-22")]
+alias theta_13_from_Betti := GIFT.Core.b2_value
 
 -- =============================================================================
--- RELATION #21: θ₁₂ STRUCTURE
--- θ₁₂ = arctan(√(δ/γ))
--- δ/γ = (2π/25) / (511/884) structure certifiable
+-- Legacy θ₁₂ = arctan(√(δ/γ)) reading — NOT the θ₁₂ relation of v3.6
+-- (the paper's relation is sin²θ₁₂ = (1 + N_gen)/α_sum = 4/13).
+-- The statements below are arithmetic on Weyl² and γ only.
 -- =============================================================================
 
 /-- θ₁₂ involves δ denominator = 25 and γ = 511/884 -/
@@ -94,44 +123,63 @@ theorem theta_12_ratio_den_factor : gamma_GIFT_den = 884 := rfl
 -- V2.0: G2 SIGNATURE IN NEUTRINO PARAMETERS (Relations 221-230)
 -- =============================================================================
 
-/-- RELATION 221: sin^2(theta_12) structure
-    sin^2(theta_12) ~ 0.304
-    Numerator 7 = dim_K7, Denominator 23 = b2 + p2 -/
-def sin2_theta12_num : Nat := dim_K7
-def sin2_theta12_den : Nat := b2 + p2
+/-- Arithmetic identity: dim(K₇) = 7 (numerator of dim(K₇)/(b₂ + p₂) = 7/23).
+    Not the relation of the paper (which is sin²θ₁₂ = (1 + N_gen)/α_sum = 4/13);
+    an instance of vocabulary freedom. Formerly `sin2_theta12_num`. -/
+def K7_over_b2_plus_p2_num : Nat := dim_K7
+/-- b₂ + p₂ = 23 (denominator of 7/23). Formerly `sin2_theta12_den`. -/
+def K7_over_b2_plus_p2_den : Nat := b2 + p2
 
-theorem sin2_theta12_structure :
-    sin2_theta12_num = 7 ∧ sin2_theta12_den = 23 := by
+/-- Arithmetic identity: (dim(K₇), b₂ + p₂) = (7, 23). Not the relation of the paper
+    (which is sin²θ₁₂ = 4/13); an instance of vocabulary freedom.
+    Formerly `sin2_theta12_structure`. -/
+theorem K7_over_b2_plus_p2_values :
+    K7_over_b2_plus_p2_num = 7 ∧ K7_over_b2_plus_p2_den = 23 := by
   constructor <;> native_decide
 
-/-- RELATION 222: sin^2(theta_23) structure
-    sin^2(theta_23) ~ 0.57
-    8/14 = rank_E8 / dim_G2 = 4/7 -/
-def sin2_theta23_num : Nat := rank_E8
-def sin2_theta23_den : Nat := dim_G2
+/-- Arithmetic identity: rank(E₈) = 8 (numerator of rank(E₈)/dim(G₂) = 8/14 = 4/7).
+    Not the relation of the paper (which is sin²θ₂₃ = (D_bulk − Weyl)/D_bulk = 6/11);
+    an instance of vocabulary freedom. Formerly `sin2_theta23_num`. -/
+def rank_E8_over_G2_num : Nat := rank_E8
+/-- dim(G₂) = 14 (denominator of 8/14). Formerly `sin2_theta23_den`. -/
+def rank_E8_over_G2_den : Nat := dim_G2
 
-theorem sin2_theta23_structure :
-    sin2_theta23_num = 8 ∧ sin2_theta23_den = 14 ∧
+/-- Arithmetic identity: rank(E₈)/dim(G₂) = 8/14 = 4/7. Not the relation of the paper
+    (which is sin²θ₂₃ = 6/11); an instance of vocabulary freedom.
+    Formerly `sin2_theta23_structure`. -/
+theorem rank_E8_over_G2_values :
+    rank_E8_over_G2_num = 8 ∧ rank_E8_over_G2_den = 14 ∧
     8 * 7 = 14 * 4 := by
   repeat (first | constructor | native_decide)
 
-/-- RELATION 223: sin^2(theta_13) structure
-    sin^2(theta_13) ~ 0.0218
-    Denominator involves b2 = 21 -/
-theorem sin2_theta13_involves_b2 : b2 = 21 := rfl
+@[deprecated K7_over_b2_plus_p2_num (since := "2026-10-22")]
+abbrev sin2_theta12_num : Nat := K7_over_b2_plus_p2_num
+@[deprecated K7_over_b2_plus_p2_den (since := "2026-10-22")]
+abbrev sin2_theta12_den : Nat := K7_over_b2_plus_p2_den
+@[deprecated (since := "2026-10-22")]
+alias sin2_theta12_structure := K7_over_b2_plus_p2_values
+@[deprecated rank_E8_over_G2_num (since := "2026-10-22")]
+abbrev sin2_theta23_num : Nat := rank_E8_over_G2_num
+@[deprecated rank_E8_over_G2_den (since := "2026-10-22")]
+abbrev sin2_theta23_den : Nat := rank_E8_over_G2_den
+@[deprecated (since := "2026-10-22")]
+alias sin2_theta23_structure := rank_E8_over_G2_values
 
-/-- RELATION 224: delta_CP = 197 degrees
-    197 = dim_K7 * dim_G2 + H* = 7*14 + 99 = 98 + 99 = 197 -/
+/-- Legacy name: the paper's sin²θ₁₃ = 11/496 does not involve b₂. -/
+@[deprecated GIFT.Core.b2_value (since := "2026-10-22")]
+alias sin2_theta13_involves_b2 := GIFT.Core.b2_value
+
+/-- RELATION 224: the integer 197 = dim_K7 * dim_G2 + H* = 7*14 + 99 = 98 + 99.
+    (Reading it as δ_CP in degrees is a dictionary assignment, not stated in Lean.) -/
 theorem delta_CP_gift_v2 : (197 : Nat) = dim_K7 * dim_G2 + H_star := by native_decide
 
 /-- RELATION 225: delta_CP alternative
     197 = dim_E8 - 3 * lambda_H_num = 248 - 51 -/
 theorem delta_CP_from_E8 : (197 : Nat) = dim_E8 - 3 * lambda_H_num := by native_decide
 
-/-- RELATION 226: G2 appears in all PMNS parameters
-    dim_G2 = 14 appears in sin^2(theta_23) denominator
-    dim_K7 = 7 = dim_G2 / 2 appears in sin^2(theta_12) numerator
-    G2 holonomy of K7 manifests in neutrino mixing -/
+/-- RELATION 226: dim_G2 = 14, dim_K7 = 7, dim_G2 = 2 · dim_K7
+    (legacy docstring linked these to the 8/14 and 7/23 ratios above, which are
+    not the PMNS relations of v3.6) -/
 theorem G2_in_PMNS :
     dim_G2 = 14 ∧
     dim_K7 = 7 ∧
@@ -161,11 +209,12 @@ theorem mass_hierarchy_structure :
 -- V2.0: MASTER THEOREM
 -- =============================================================================
 
-/-- All 10 new neutrino sector relations certified -/
+/-- Conjunction of the arithmetic identities of this section. The first two items
+    (7/23, 8/14) are NOT the PMNS relations of v3.6 (sin²θ₁₂ = 4/13, sin²θ₂₃ = 6/11). -/
 theorem all_neutrino_v2_relations_certified :
-    -- sin^2 structures
-    (sin2_theta12_num = 7 ∧ sin2_theta12_den = 23) ∧
-    (sin2_theta23_num = 8 ∧ sin2_theta23_den = 14) ∧
+    -- arithmetic ratios 7/23 and 8/14 (not the paper's PMNS relations)
+    (K7_over_b2_plus_p2_num = 7 ∧ K7_over_b2_plus_p2_den = 23) ∧
+    (rank_E8_over_G2_num = 8 ∧ rank_E8_over_G2_den = 14) ∧
     (b2 = 21) ∧
     -- delta_CP
     (197 = dim_K7 * dim_G2 + H_star) ∧
@@ -179,7 +228,7 @@ theorem all_neutrino_v2_relations_certified :
     (N_gen = 3) ∧
     -- Mass hierarchy
     (H_star = 99) :=
-  ⟨sin2_theta12_structure, ⟨sin2_theta23_structure.1, sin2_theta23_structure.2.1⟩, rfl,
+  ⟨K7_over_b2_plus_p2_values, ⟨rank_E8_over_G2_values.1, rank_E8_over_G2_values.2.1⟩, rfl,
    by native_decide, by native_decide, delta_CP_prime,
    by native_decide, rfl, rfl, rfl⟩
 

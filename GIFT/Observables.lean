@@ -52,7 +52,9 @@ export WeakMixingAngle (sin2_theta_W cos2_theta_W)
 export PMNS (sin2_theta12 sin2_theta23 sin2_theta13)
 export QuarkMasses (m_s_over_m_d m_c_over_m_s m_b_over_m_t m_u_over_m_d)
 export BosonMasses (m_H_over_m_W m_H_over_m_t m_t_over_m_W m_W_over_m_Z)
-export CKM (sin2_theta12_CKM lambda_Wolf A_Wolf sin2_theta23_CKM)
+export CKM (sin_theta12_CKM lambda_Wolf A_Wolf sin_theta23_CKM)
+-- Deprecated names (renamed 2026-10-22), re-exported so downstream code keeps compiling
+export CKM (sin2_theta12_CKM sin2_theta23_CKM)
 export Cosmology (Omega_DM_over_Omega_b Omega_c_over_Omega_Lambda
                   Omega_Lambda_over_Omega_m hubble_h Omega_b_over_Omega_m
                   sigma_8 Y_p)
@@ -102,9 +104,9 @@ theorem boson_masses_certified :
 
 /-- All CKM parameters are certified -/
 theorem ckm_certified :
-    sin2_theta12_CKM = 56 / 248 ∧
+    sin_theta12_CKM = 56 / 248 ∧
     A_Wolf = 83 / 99 ∧
-    sin2_theta23_CKM = 7 / 168 := by
+    sin_theta23_CKM = 7 / 168 := by
   constructor
   · rfl
   constructor <;> rfl

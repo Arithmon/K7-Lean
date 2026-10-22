@@ -24,11 +24,11 @@ def Omega_DM_over_Omega_b : ℚ := 43 / 8
 
 theorem Omega_DM_over_Omega_b_value : Omega_DM_over_Omega_b = 43 / 8 := rfl
 
-/-- Primary: (b0 + chi_K7) / rank_E8 = 43/8. The 42 appears in the universe! -/
+/-- Primary: (b0 + two_b2) / rank_E8 = 43/8. The 42 appears in the universe! -/
 theorem Omega_DM_b_primary :
-    ((b0 : ℚ) + chi_K7) / rank_E8 = Omega_DM_over_Omega_b := by
+    ((b0 : ℚ) + two_b2) / rank_E8 = Omega_DM_over_Omega_b := by
   unfold Omega_DM_over_Omega_b
-  norm_num [b0_certified, chi_K7_certified, rank_E8_certified]
+  norm_num [b0_certified, two_b2_certified, rank_E8_certified]
 
 /-- Omega_c/Omega_Lambda = 65/168. Planck: 0.387. GIFT: 0.3869. Deviation: 0.01% -/
 def Omega_c_over_Omega_Lambda : ℚ := 65 / 168
@@ -79,11 +79,11 @@ def sigma_8 : ℚ := 17 / 21
 
 theorem sigma_8_value : sigma_8 = 17 / 21 := rfl
 
-/-- Primary: (p2 + det_g_den) / chi_K7 = 34/42 = 17/21 -/
+/-- Primary: (p2 + det_g_den) / two_b2 = 34/42 = 17/21 -/
 theorem sigma_8_primary :
-    ((p2 : ℚ) + det_g_den) / chi_K7 = sigma_8 := by
+    ((p2 : ℚ) + det_g_den) / two_b2 = sigma_8 := by
   unfold sigma_8
-  norm_num [p2_certified, det_g_den_certified, chi_K7_certified]
+  norm_num [p2_certified, det_g_den_certified, two_b2_certified]
 
 /-- Y_p = 15/61. Experimental: 0.245. GIFT: 0.2459. Deviation: 0.37% -/
 def Y_p : ℚ := 15 / 61

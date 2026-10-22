@@ -38,16 +38,16 @@ theorem m_c_over_m_s_primary :
   unfold m_c_over_m_s
   norm_num [dim_E8_certified, p2_certified, b2_value]
 
-/-- m_b/m_t = 1/42 = 1/chi(K7). Experimental: 0.024. GIFT: 0.0238. Deviation: 0.79% -/
+/-- m_b/m_t = 1/42 = 1/(2b₂). Experimental: 0.024. GIFT: 0.0238. Deviation: 0.79% -/
 def m_b_over_m_t : ℚ := 1 / 42
 
 theorem m_b_over_m_t_value : m_b_over_m_t = 1 / 42 := rfl
 
-/-- Primary: b0 / chi_K7 = 1/42 -/
+/-- Primary: b0 / two_b2 = 1/42 -/
 theorem m_b_over_m_t_primary :
-    (b0 : ℚ) / chi_K7 = m_b_over_m_t := by
+    (b0 : ℚ) / two_b2 = m_b_over_m_t := by
   unfold m_b_over_m_t
-  norm_num [b0_certified, chi_K7_certified]
+  norm_num [b0_certified, two_b2_certified]
 
 /-- Expression 2: (b0 + N_gen) / PSL27 = 4/168 = 1/42 -/
 theorem m_b_over_m_t_expr2 :
@@ -66,7 +66,9 @@ theorem m_u_over_m_d_primary :
   unfold m_u_over_m_d
   norm_num [b0_certified, dim_E6_certified, PSL27_certified]
 
-/-- The 42 connection: chi_K7 = p2 * N_gen * dim_K7 -/
-theorem chi_K7_is_42 : chi_K7 = 42 := chi_K7_certified
+/-- The 42 connection: two_b2 = 2b₂ = 42 (not an Euler characteristic; χ(K₇) = 0) -/
+theorem two_b2_is_42 : two_b2 = 42 := two_b2_certified
+@[deprecated two_b2_is_42 (since := "2026-10-22")]
+alias chi_K7_is_42 := two_b2_is_42
 
 end GIFT.Observables.QuarkMasses

@@ -18,17 +18,24 @@ theorem koide_certified : dim_G2 * 3 = b2 * 2 := by native_decide
 
 theorem N_gen_certified : N_gen = 3 := rfl
 
-/-- CP violation phase: delta_CP = 7 * dim_G2 + H_star -/
+/-- The integer 7 · dim(G₂) + H* = 197 (dim(K₇) = 7). The unit (degrees) that turns
+it into δ_CP is a dictionary assignment of the paper, not stated in Lean. -/
 def delta_CP : Nat := 7 * dim_G2 + H_star
 
 theorem delta_CP_certified : delta_CP = 197 := rfl
 
-/-- Corrected δ_CP numerator: 197 × 62 = 12214 (with compactification factor) -/
+/-- WITHDRAWN 2026-10-22 (v3.6): numerator 197 × 62 = 12214 of the δ_CP
+"compactification correction" 197 × 62/69. The factor was found post hoc, after a
+data release; the paper has no repair clause. Kept only so that existing code
+compiles; not part of any certificate. -/
 def delta_CP_corrected_num : Nat := delta_CP * (dim_E8 / 4)
 
-/-- Corrected δ_CP denominator: dim(E₈)/4 + dim(K₇) = 69 -/
+/-- WITHDRAWN 2026-10-22 (v3.6): denominator dim(E₈)/4 + dim(K₇) = 69 of the
+withdrawn δ_CP correction. Not part of any certificate. -/
 def delta_CP_corrected_den : Nat := dim_E8 / 4 + dim_K7
 
+/-- WITHDRAWN 2026-10-22 (v3.6): arithmetic of the withdrawn δ_CP correction
+(12214/69). Not part of any certificate. -/
 theorem delta_CP_corrected_certified :
     delta_CP_corrected_num = 12214 ∧ delta_CP_corrected_den = 69 := by native_decide
 

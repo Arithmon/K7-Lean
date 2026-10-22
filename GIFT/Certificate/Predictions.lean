@@ -14,7 +14,6 @@ import GIFT.Relations.SO16Relations
 import GIFT.Relations.LandauerDarkEnergy
 import GIFT.Relations.V33Additions
 import GIFT.Relations.TauBounds
-import GIFT.Relations.CompactificationCorrection
 import GIFT.Relations.G2MetricProperties
 import GIFT.Relations.FanoSelectionPrinciple
 import GIFT.Relations.OverDetermination
@@ -26,8 +25,13 @@ import GIFT.Foundations
 /-!
 # GIFT Certificate: Predictions & Observables
 
-The 33+ published predictions (R1-R20 from papers) plus V5.0 observables.
-All relations are rational arithmetic, formally verified with zero axioms.
+Arithmetic facts about the framework's structural constants, plus V5.0 observables.
+These are arithmetic identities: they do not establish a physical identification,
+the choice of formula, or the mutual consistency of the relations.
+
+The 33 relations of the K₇ paper v3.6 (A01–A33), each tied to its closed form in
+the structural constants, are certified by
+`GIFT.Certificate.RelationsV36.relations_v36_certified` (not by this module).
 
 Categories:
 - Electroweak: sin2 theta_W = 3/13
@@ -54,7 +58,6 @@ open GIFT.Relations.SO16Relations
 open GIFT.Relations.LandauerDarkEnergy
 open GIFT.Relations.V33
 open GIFT.Relations.TauBounds
-open GIFT.Relations.CompactificationCorrection
 open GIFT.Observables
 
 -- ═══════════════════════════════════════════════════════════════════════════════
@@ -70,8 +73,9 @@ abbrev exceptional_chain := GIFT.Relations.ExceptionalChain.all_exceptional_chai
 /-- Structural relations -/
 abbrev structural := GIFT.Relations.Structural.all_structural_relations_certified
 
-/-- Compactification correction: δ_CP = 197 × 62/69 = 12214/69 ≈ 177.01° -/
-abbrev compactification_correction := GIFT.Relations.CompactificationCorrection.certificate_certified
+-- The δ_CP "compactification correction" (197 × 62/69 = 12214/69) was WITHDRAWN on
+-- 2026-10-22 (v3.6) and is no longer part of this certificate. The module
+-- `GIFT.Relations.CompactificationCorrection` still compiles but is not imported here.
 
 /-- Quark sector relations -/
 abbrev quark_sector := GIFT.Relations.QuarkSector.all_quark_sector_relations_certified
@@ -229,16 +233,29 @@ abbrev hierarchy_mass_formula := GIFT.Hierarchy.m_tau_m_e_formula
 -- Combined from all published relations (replaces stacked all_13 -> all_75)
 -- ═══════════════════════════════════════════════════════════════════════════════
 
-/-- GIFT Predictions Certificate: the proposition combining all 33+ published derivations.
+/-- GIFT Predictions Certificate: a conjunction of arithmetic facts about the
+structural constants (integer arithmetic, mostly cross-multiplied or components).
 
 - Electroweak: sin2 theta_W = b₂/(b₃ + dim_G₂) (cross-multiplied)
 - Koide: dim_G₂ x 3 = b₂ x 2
-- N_gen = 3, delta_CP = 197, H* = 99, p₂ = 2
+- N_gen = 3, delta_CP integer 197, H* = 99, p₂ = 2
 - m_tau/m_e = 3477, m_s/m_d = 20
-- E₈xE₈ dimension = 496, tau fraction: 10416/2673
+- E₈xE₈ dimension = 496, tau fraction: 10416/2673 (τ is used by Type II entries
+  of the paper, which are not counted among its 33 relations)
 - Exceptional chain: E₆ = 6 x 13, E₇ = 7 x 19, E₈ = 8 x 31
 - SO(16) decomposition: 248 = 120 + 128
-- Cosmology: Omega_DE = 98/99
+- Cosmology: rational factor 98/99 of Omega_DE
+- Gauge bundle data and associative volumes: numerical records used by Type III
+  (dynamical) entries, not counted among the 33 relations.
+
+Removed on 2026-10-22 (v3.6 alignment): θ₂₃ = 85/99 and γ = 511/884 (not relations
+of v3.6; the paper's θ₂₃ relation is sin²θ₂₃ = 6/11), and the withdrawn δ_CP
+correction 12214/69.
+
+This is NOT a certificate of the paper's relations: see
+`GIFT.Certificate.RelationsV36.relations_v36_certified`. These are arithmetic
+identities; they do not establish physical identification, formula choice, or the
+mutual consistency of the relations.
 -/
 def statement : Prop :=
     -- ═══ CORE TOPOLOGY ═══
@@ -264,22 +281,16 @@ def statement : Prop :=
     (lambda_H_num = 17) ∧
     -- 11. E₈xE₈
     (dim_E8xE8 = 496) ∧
-    -- 12-13. tau fraction
+    -- 12-13. tau fraction (used by Type II entries, not among the 33 relations)
     (Relations.tau_num = 10416) ∧
     (Relations.tau_den = 2673) ∧
 
     -- ═══ TOPOLOGICAL EXTENSIONS ═══
     -- 14. alpha_s denominator
     (dim_G2 - p2 = 12) ∧
-    -- 15. gamma_GIFT
-    (gamma_GIFT_num = 511) ∧
-    (gamma_GIFT_den = 884) ∧
     -- 16. Weyl squared
     (Weyl_sq = 25) ∧
-    -- 17. theta_23
-    (theta_23_num = 85) ∧
-    (theta_23_den = 99) ∧
-    -- 18. theta_13 base
+    -- 18. b₂
     (b2 = 21) ∧
     -- 19. alpha_s squared
     ((dim_G2 - p2) * (dim_G2 - p2) = 144) ∧
@@ -291,7 +302,7 @@ def statement : Prop :=
     -- 22. D_bulk and Weyl_factor
     (D_bulk = 11) ∧
     (Weyl_factor = 5) ∧
-    -- 23. Omega_DE
+    -- 23. Omega_DE rational factor (Ω_DE = ln 2 × 98/99)
     (Omega_DE_num = 98) ∧
     (Omega_DE_den = 99) ∧
     -- 24. alpha inverse
@@ -348,23 +359,14 @@ def statement : Prop :=
      Hierarchy.AssociativeVolumes.vol_sd3_num) ∧
     -- Instanton dV(e-tau) within 20% of ln(3477)
     (Hierarchy.AssociativeVolumes.delta_vol_13_num * 100 >
-     Hierarchy.AssociativeVolumes.ln_tau_e_num * 80) ∧
-
-    -- ═══ COMPACTIFICATION CORRECTION (algebraic_formula / PSLQ residual) ═══
-    -- δ_CP corrected = 12214/69 ≈ 177.01°
-    (Relations.delta_CP_corrected_num = 12214) ∧
-    (Relations.delta_CP_corrected_den = 69) ∧
-    -- Closeness: 12214 = 177 × 69 + 1
-    (CompactificationCorrection.delta_CP_corrected_num =
-     177 * CompactificationCorrection.delta_CP_corrected_den + 1)
+     Hierarchy.AssociativeVolumes.ln_tau_e_num * 80)
 
 theorem certified : statement := by
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
           ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
-          ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_,
-          ?_, ?_, ?_, ?_, ?_, ?_⟩
+          ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals native_decide
 
 -- Backward compatibility alias
@@ -374,11 +376,18 @@ abbrev all_relations_certified := certified
 -- V5.0 EXTENDED OBSERVABLES (rational fractions)
 -- ═══════════════════════════════════════════════════════════════════════════════
 
-/-- V5.0 Extended Observables: ~50 physical observables from topology
+/-- Definitional values of the V5.0 observable constants.
+
+This is a conjunction of DEFINITIONAL values: each conjunct `X = v` concerns a
+declaration whose body is the literal `v` (`def X : ℚ := v`), so every conjunct
+holds by `rfl`. It is NOT a certificate of the relations: it does not tie any
+value to its closed form in the structural constants. For the 33 relations of the
+paper (A01–A33), each tied to its closed form, see
+`GIFT.Certificate.RelationsV36.relations_v36_certified`.
 
 - Electroweak: sin2 theta_W = 3/13
-- PMNS: theta_12, theta_23, theta_13
-- CKM: theta_12, A, theta_23
+- PMNS: sin² theta_12, sin² theta_23, sin² theta_13
+- CKM: sin theta_12, A, sin theta_23
 - Quark masses: m_s/m_d, m_c/m_s, m_b/m_t, m_u/m_d
 - Boson masses: m_H/m_W, m_H/m_t, m_t/m_W
 - Cosmology: Omega_DM/Omega_b, h, sigma_8, Y_p
@@ -401,9 +410,9 @@ theorem observables_certified :
     (Observables.m_H_over_m_t = 8 / 11) ∧
     (Observables.m_t_over_m_W = 139 / 65) ∧
     -- CKM matrix
-    (Observables.sin2_theta12_CKM = 56 / 248) ∧
+    (Observables.sin_theta12_CKM = 56 / 248) ∧
     (Observables.A_Wolf = 83 / 99) ∧
-    (Observables.sin2_theta23_CKM = 7 / 168) ∧
+    (Observables.sin_theta23_CKM = 7 / 168) ∧
     -- Cosmology
     (Observables.Omega_DM_over_Omega_b = 43 / 8) ∧
     (Observables.Omega_c_over_Omega_Lambda = 65 / 168) ∧
@@ -414,25 +423,21 @@ theorem observables_certified :
     (Observables.Y_p = 15 / 61) := by
   repeat (first | constructor | rfl)
 
-/-- The 42 universality: appears in both particle physics and cosmology -/
+/-- The structural constant 42 = 2b₂ in m_b/m_t and Omega_DM/Omega_b.
+42 = 2b₂ is NOT the Euler characteristic of K₇ (χ(K₇) = 0). -/
 theorem the_42_universality :
-    -- In quark physics: m_b/m_t = 1/chi(K₇) = 1/42
-    Observables.m_b_over_m_t = 1 / chi_K7 ∧
-    chi_K7 = 42 ∧
-    -- In cosmology: Omega_DM/Omega_b = (1 + chi(K₇))/rank(E₈) = 43/8
-    Observables.Omega_DM_over_Omega_b = (Core.b0 + chi_K7) / rank_E8 ∧
-    (Core.b0 : Rat) + chi_K7 = 43 ∧
+    -- In quark physics: m_b/m_t = 1/(2b₂) = 1/42
+    Observables.m_b_over_m_t = 1 / two_b2 ∧
+    two_b2 = 42 ∧
+    -- In cosmology: Omega_DM/Omega_b = (1 + 2b₂)/rank(E₈) = 43/8
+    Observables.Omega_DM_over_Omega_b = (Core.b0 + two_b2) / rank_E8 ∧
+    (Core.b0 : Rat) + two_b2 = 43 ∧
     rank_E8 = 8 := by
-  constructor
-  · simp [Observables.QuarkMasses.m_b_over_m_t, chi_K7_certified]
-  constructor
-  · exact chi_K7_certified
-  constructor
-  · simp [Observables.Cosmology.Omega_DM_over_Omega_b, Core.b0, chi_K7_certified, rank_E8_certified]
-    norm_num
-  constructor
-  · simp only [Core.b0, chi_K7_certified]; norm_num
-  · exact rank_E8_certified
+  refine ⟨?_, two_b2_certified, ?_, ?_, rank_E8_certified⟩
+  · rw [two_b2_certified, Observables.QuarkMasses.m_b_over_m_t]; norm_num
+  · rw [two_b2_certified, Observables.Cosmology.Omega_DM_over_Omega_b, Core.b0_certified,
+      rank_E8_certified]; norm_num
+  · rw [two_b2_certified, Core.b0_certified]; norm_num
 
 /-- Fano selection principle certificate -/
 theorem fano_selection_certified :
@@ -447,7 +452,7 @@ theorem fano_selection_certified :
     -- m_W/m_Z = 37/42
     (GIFT.Observables.BosonMasses.m_W_over_m_Z = 37 / 42) ∧
     -- 2b₂ = 42
-    (2 * b2 = chi_K7) ∧
+    (2 * b2 = two_b2) ∧
     -- sin2 theta_W = b₂/(b₃ + dim_G₂)
     ((b2 : Rat) / (b3 + dim_G2) = 3 / 13) := by
   repeat (first | constructor | native_decide | rfl |

@@ -178,11 +178,16 @@ theorem mH_mt_cross_sector :
   unfold gauge_rank
   norm_num [rank_E8_certified, D_bulk_certified]
 
-/-- sin²θ₂₃ = Gauge / Holonomy = 8/14 = 4/7 (corrected formula) -/
-theorem sin2_23_cross_sector :
+/-- Arithmetic identity Gauge / Holonomy = rank_E8/dim_G2 = 8/14 = 4/7. Not the
+    relation of the paper (which is sin²θ₂₃ = (D_bulk − Weyl)/D_bulk = 6/11); an
+    instance of vocabulary freedom. Formerly `sin2_23_cross_sector`. -/
+theorem gauge_over_holonomy_eq_four_sevenths :
     (gauge_rank : ℚ) / hol_dim_G2 = 4 / 7 := by
   unfold gauge_rank hol_dim_G2
   norm_num [rank_E8_certified, Algebraic.G2.dim_G2_eq]
+
+@[deprecated (since := "2026-10-22")]
+alias sin2_23_cross_sector := gauge_over_holonomy_eq_four_sevenths
 
 /-- N_gen = Matter / Matter = 3 (within-sector gives integer) -/
 theorem N_gen_within_sector :
@@ -278,6 +283,7 @@ theorem sector_classification_certified :
     -- Cross-sector observables
     ((gauge_b2 : ℚ) / (matter_b3 + hol_dim_G2) = 3 / 13) ∧
     ((hol_dim_G2 : ℚ) / gauge_b2 = 2 / 3) ∧
+    -- 4/7: arithmetic identity, NOT the paper's sin²θ₂₃ = 6/11
     ((gauge_rank : ℚ) / hol_dim_G2 = 4 / 7) := by
   unfold gauge_b2 gauge_rank gauge_dim matter_b3 matter_N_gen matter_fund_E7
     hol_dim_G2 hol_dim_K7 hol_Weyl

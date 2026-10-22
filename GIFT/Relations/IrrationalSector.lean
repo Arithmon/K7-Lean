@@ -9,44 +9,71 @@ namespace GIFT.Relations.IrrationalSector
 
 open GIFT.Core
 
+/-!
+## Scope note (v3.6 alignment, 2026-10-22)
+
+The legacy readings θ₁₃ = π/b₂ and θ₂₃ = 85/99 rad below are NOT relations of the
+K₇ paper v3.6, whose PMNS relations are sin²θ₁₃ = D_bulk/dim(E₈×E₈) = 11/496 and
+sin²θ₂₃ = (D_bulk − Weyl)/D_bulk = 6/11 (`GIFT.Observables.PMNS`). The statements
+here are arithmetic identities (180/21 = 60/7, rank(E₈) + b₃ = 85, H* = 99); as
+exact values of the same angles they are incompatible with the paper's relations:
+an instance of vocabulary freedom. The declarations whose names claimed an angle
+were renamed to neutral names (deprecated aliases keep the old names compiling).
+-/
+
 -- =============================================================================
--- RELATION: theta_13 = pi/b2 = pi/21
--- Reactor mixing angle from Betti number
+-- 180/b2 = 180/21 = 60/7 (legacy θ₁₃ = π/21 reading; NOT the v3.6 relation)
 -- =============================================================================
 
-/-- theta_13 divisor is b2(K7) = 21 -/
-theorem theta_13_divisor_is_b2 : (21 : Nat) = b2 := rfl
+/-- 21 = b2(K7). Formerly `theta_13_divisor_is_b2`. -/
+theorem twenty_one_is_b2 : (21 : Nat) = b2 := rfl
 
-/-- theta_13 in degrees: 180/21 = 60/7 (rational part) -/
-def theta_13_degrees_num : Nat := 180
-def theta_13_degrees_den : Nat := 21
+/-- 180/21 = 60/7 (rational part). Formerly `theta_13_degrees_num/_den`. -/
+def deg180_over_b2_num : Nat := 180
+def deg180_over_b2_den : Nat := 21
 
 /-- Simplified: 180/21 = 60/7 -/
-theorem theta_13_degrees_simplified :
-    theta_13_degrees_num / 3 = 60 ∧ theta_13_degrees_den / 3 = 7 := by native_decide
+theorem deg180_over_b2_simplified :
+    deg180_over_b2_num / 3 = 60 ∧ deg180_over_b2_den / 3 = 7 := by native_decide
 
-/-- theta_13 rational bounds: 8 < 60/7 < 9 -/
-theorem theta_13_rational_bounds :
+/-- Rational bounds: 8 < 60/7 < 9 -/
+theorem sixty_sevenths_bounds :
     8 * 7 < 60 ∧ 60 < 9 * 7 := by native_decide
 
+@[deprecated (since := "2026-10-22")] alias theta_13_divisor_is_b2 := twenty_one_is_b2
+@[deprecated deg180_over_b2_num (since := "2026-10-22")]
+abbrev theta_13_degrees_num : Nat := deg180_over_b2_num
+@[deprecated deg180_over_b2_den (since := "2026-10-22")]
+abbrev theta_13_degrees_den : Nat := deg180_over_b2_den
+@[deprecated (since := "2026-10-22")]
+alias theta_13_degrees_simplified := deg180_over_b2_simplified
+@[deprecated (since := "2026-10-22")] alias theta_13_rational_bounds := sixty_sevenths_bounds
+
 -- =============================================================================
--- RELATION: theta_23 = 85/99 rad (rational in radians!)
--- Atmospheric mixing angle - fully rational
+-- (rank(E8) + b3)/H* = 85/99 (legacy θ₂₃ = 85/99 rad reading; NOT the v3.6 relation)
 -- =============================================================================
 
-/-- theta_23 numerator -/
-def theta_23_rad_num : Nat := 85
+/-- 85 = rank(E8) + b3. Formerly `theta_23_rad_num`. -/
+def ratio_85_99_num : Nat := 85
 
-/-- theta_23 denominator -/
-def theta_23_rad_den : Nat := 99
+/-- 99 = H*. Formerly `theta_23_rad_den`. -/
+def ratio_85_99_den : Nat := 99
 
-/-- theta_23 = (rank(E8) + b3) / H* = 85/99 -/
-theorem theta_23_from_topology :
-    rank_E8 + b3 = theta_23_rad_num ∧ H_star = theta_23_rad_den := by
+/-- Arithmetic identity (rank(E8) + b3, H*) = (85, 99); not the θ₂₃ relation of the
+    paper (which is sin²θ₂₃ = 6/11). Formerly `theta_23_from_topology`. -/
+theorem ratio_85_99_values :
+    rank_E8 + b3 = ratio_85_99_num ∧ H_star = ratio_85_99_den := by
   constructor <;> native_decide
 
-/-- theta_23 degree conversion factor: 180 (pi cancels) -/
+/-- Degree conversion factor 180 (legacy). -/
 def theta_23_degrees_factor : Nat := 180
+
+@[deprecated ratio_85_99_num (since := "2026-10-22")]
+abbrev theta_23_rad_num : Nat := ratio_85_99_num
+@[deprecated ratio_85_99_den (since := "2026-10-22")]
+abbrev theta_23_rad_den : Nat := ratio_85_99_den
+@[deprecated (since := "2026-10-22")]
+alias theta_23_from_topology := ratio_85_99_values
 
 -- =============================================================================
 -- alpha^-1 COMPLETE (EXACT RATIONAL!)
@@ -67,12 +94,13 @@ theorem alpha_inv_breakdown_ref :
 -- MASTER THEOREM
 -- =============================================================================
 
-/-- All irrational sector relations certified (rational parts) -/
+/-- Conjunction of the arithmetic identities of this module (legacy θ₁₃ = π/21 and
+    θ₂₃ = 85/99 readings, which are NOT relations of v3.6). -/
 theorem irrational_sector_certified :
-    -- theta_13 = pi/21 (divisor)
+    -- 21 = b2 (legacy θ₁₃ = π/21 divisor)
     (21 : Nat) = b2 ∧
     8 * 7 < 60 ∧ 60 < 9 * 7 ∧
-    -- theta_23 rational part
+    -- 85 = rank(E8) + b3, 99 = H* (legacy θ₂₃ = 85/99 reading)
     rank_E8 + b3 = 85 ∧ H_star = 99 := by
   refine ⟨rfl, ?_, ?_, ?_, ?_⟩
   all_goals native_decide

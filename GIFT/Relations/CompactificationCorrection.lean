@@ -1,7 +1,17 @@
 import GIFT.Core
 
 /-!
-# Compactification Correction for δ_CP
+# WITHDRAWN 2026-10-22 (v3.6): Compactification Correction for δ_CP
+
+**This module is withdrawn.** The factor 62/69 below is a post-hoc factor found
+after a data release; the paper (v3.6) has no repair clause, and its δ_CP relation
+is the integer dim(K₇)·dim(G₂) + H* = 197 alone. Nothing in this module is part of
+any certificate (`GIFT.Certificate.*`); it is kept only so that existing code and
+links keep compiling. The text below is the original, historical description.
+
+---
+
+# Compactification Correction for δ_CP (historical)
 
 GIFT v3.3 predicted δ_CP = 7 × dim(G₂) + H* = 197°, matching NuFIT 5.2.
 PSLQ residual analysis (algebraic_formula computation) discovered the relative deviation
@@ -23,7 +33,7 @@ degrees of freedom in the M-theory compactification.
 the algebraic structure; the compactification factor accounts for the fraction
 of degrees of freedom that participate in gauge dynamics.
 
-All proofs are by `native_decide` — zero axioms.
+All proofs are by `native_decide` (they rely on the compiler-trust axiom).
 -/
 
 namespace GIFT.Relations.CompactificationCorrection
@@ -105,7 +115,8 @@ theorem den_pos : delta_CP_corrected_den > 0 := by native_decide
 -- MASTER CERTIFICATE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
-/-- Master certificate for compactification correction (6 conjuncts) -/
+/-- WITHDRAWN 2026-10-22 (v3.6): historical "certificate" of the withdrawn correction.
+    Not part of any certificate in `GIFT.Certificate`. (6 conjuncts) -/
 def certificate : Prop :=
     -- 1. Raw value
     (delta_CP_raw = 197) ∧

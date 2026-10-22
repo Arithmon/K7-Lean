@@ -69,7 +69,7 @@ The corrected formula uses the Fano selection principle:
 Physical interpretation: The ratio involves 2b₂ = 42 (a structural invariant)
 minus the Weyl factor, divided by the structural invariant.
 
-Note: 2b₂ = chi_K7 = 42 (the "42" appearing in multiple contexts).
+Note: 2b₂ = two_b2 = 42 (the "42" appearing in multiple contexts).
 -/
 
 /-- m_W/m_Z = 37/42. Experimental: 0.8815. GIFT: 0.8810. Deviation: 0.06% -/
@@ -83,11 +83,11 @@ theorem m_W_over_m_Z_primary :
   unfold m_W_over_m_Z
   norm_num [b2_value, Weyl_factor_certified]
 
-/-- Expression 2: (chi_K7 - Weyl) / chi_K7 = 37/42 -/
+/-- Expression 2: (two_b2 - Weyl) / two_b2 = 37/42 -/
 theorem m_W_over_m_Z_expr2 :
-    ((chi_K7 : ℚ) - Weyl_factor) / chi_K7 = m_W_over_m_Z := by
+    ((two_b2 : ℚ) - Weyl_factor) / two_b2 = m_W_over_m_Z := by
   unfold m_W_over_m_Z
-  norm_num [chi_K7_certified, Weyl_factor_certified]
+  norm_num [two_b2_certified, Weyl_factor_certified]
 
 /-- Expression 3: Using structural invariant 42 = 2 × 21 -/
 theorem m_W_over_m_Z_expr3 :
@@ -95,10 +95,10 @@ theorem m_W_over_m_Z_expr3 :
   unfold m_W_over_m_Z
   norm_num [Weyl_factor_certified]
 
-/-- Structural identity: 2b₂ = chi_K7 -/
-theorem two_b2_eq_chi : 2 * b2 = chi_K7 := by native_decide
+/-- Structural identity: 2b₂ = two_b2 (the constant formerly named `chi_K7`; not χ(K₇), which is 0) -/
+theorem two_b2_eq_chi : 2 * b2 = two_b2 := by native_decide
 
-/-- The 37 in numerator: chi_K7 - Weyl = 42 - 5 = 37 -/
-theorem m_W_over_m_Z_numerator : chi_K7 - Weyl_factor = 37 := by native_decide
+/-- The 37 in numerator: two_b2 - Weyl = 42 - 5 = 37 -/
+theorem m_W_over_m_Z_numerator : two_b2 - Weyl_factor = 37 := by native_decide
 
 end GIFT.Observables.BosonMasses

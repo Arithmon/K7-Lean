@@ -14,6 +14,7 @@ import GIFT.Algebraic
 import GIFT.Certificate.Core
 import GIFT.Certificate.Foundations
 import GIFT.Certificate.Predictions
+import GIFT.Certificate.RelationsV36
 import GIFT.Certificate.Spectral
 import GIFT.Certificate
 import GIFT.Core
