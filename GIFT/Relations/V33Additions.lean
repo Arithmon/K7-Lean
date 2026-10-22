@@ -1,7 +1,7 @@
 -- GIFT v3.3 Additions
 -- New relations for v3.3 release:
 -- 1. Structural derivation of tau from framework invariants
--- 2. Euler characteristic chi(K7) = 42 with factorization
+-- 2. Structural invariant 2b₂ = 42 with factorization (NOT the Euler characteristic: χ(K₇) = 0)
 -- 3. E-series formula for dim(J3(O)) = 27
 
 import GIFT.Core
@@ -26,12 +26,14 @@ The hierarchy parameter tau = 3472/891 admits a purely geometric derivation:
 This anchors tau to topological and algebraic invariants, establishing it
 as a geometric invariant rather than a free parameter.
 
-## 2. Euler Characteristic
+## 2. The structural invariant 42 = 2b₂
 
-chi(K7) = sum_{i=0}^7 (-1)^i b_i = 1 - 0 + 21 - 77 + 77 - 0 + 21 - 1 = 42
+42 = 2 x b2 = 2 x 21 is NOT the Euler characteristic of K7: for a compact
+oriented odd-dimensional manifold, chi(K7) = sum_{i=0}^7 (-1)^i b_i
+= 1 - 0 + 21 - 77 + 77 - 21 + 0 - 1 = 0 (see `euler_char_K7_is_zero` below).
 
-The factorization 42 = 2 x 3 x 7 = p2 x N_gen x dim(K7) connects the
-Euler characteristic to fundamental GIFT constants.
+The factorization 42 = 2 x 3 x 7 = p2 x N_gen x dim(K7) is an arithmetic
+identity on the structural constant 2b₂.
 
 ## 3. E-Series Jordan Algebra Formula
 

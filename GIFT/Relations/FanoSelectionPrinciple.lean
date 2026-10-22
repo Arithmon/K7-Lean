@@ -124,10 +124,10 @@ theorem weinberg_seven_cancels :
 /-- m_b/m_t = 1/42 = 1/(6×7)
     The 7 appears in denominator only - still Fano-structured -/
 theorem mb_mt_fano_structure :
-    chi_K7 = 6 * 7 ∧ (1 : ℚ) / chi_K7 = 1 / 42 := by
+    two_b2 = 6 * 7 ∧ (1 : ℚ) / two_b2 = 1 / 42 := by
   constructor
   · native_decide
-  · norm_num [chi_K7_certified]
+  · norm_num [two_b2_certified]
 
 /-- m_W/m_Z = 37/42 = 37/(6×7)
     The 37 is NOT divisible by 7 (Fano-independent numerator) -/
@@ -243,7 +243,7 @@ theorem fano_basis_complete :
     dim_K7 = 1 * 7 ∧
     dim_G2 = 2 * 7 ∧
     b2 = 3 * 7 ∧
-    chi_K7 = 6 * 7 ∧
+    two_b2 = 6 * 7 ∧
     dim_fund_E7 = 8 * 7 ∧
     b3 = 11 * 7 ∧
     PSL27 = 24 * 7 := by
@@ -258,7 +258,7 @@ theorem fano_selection_principle :
     -- N_gen: 168/56 = 3 (7 cancels)
     PSL27 / dim_fund_E7 = N_gen ∧
     -- m_b/m_t: 1/42 (7 in denominator)
-    chi_K7 = 42 := by
+    two_b2 = 42 := by
   repeat (first | constructor | native_decide | norm_num [b2_value, b3_value, Algebraic.G2.dim_G2_eq])
 
 /-- All Fano selection relations certified -/

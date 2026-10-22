@@ -1,4 +1,5 @@
 -- Import derived constants from Algebraic modules
+import Batteries.Tactic.Alias
 import GIFT.Algebraic.Octonions
 import GIFT.Algebraic.G2
 import GIFT.Algebraic.BettiNumbers
@@ -217,10 +218,14 @@ def b0 : ℕ := 1
 def alpha_sum : ℕ := rank_E8 + Weyl_factor
 
 /-- Structural invariant 2b₂ = 42 = 2 × 3 × 7 = p₂ × N_gen × dim(K₇).
-    NOTE: This is NOT the Euler characteristic! For compact oriented odd-dimensional
-    manifolds, χ(K₇) = 0 by Poincare duality. The name `chi_K7` is kept for
-    backwards compatibility but represents the structural constant 2b₂. -/
-def chi_K7 : ℕ := 42
+    This is NOT the Euler characteristic: for a compact oriented odd-dimensional
+    manifold, χ(K₇) = 0 by Poincare duality (see `euler_char_K7_alternating_sum`). -/
+abbrev two_b2 : ℕ := 2 * b2
+
+/-- Deprecated name of `two_b2` (42 = 2b₂). The old name suggested an Euler
+    characteristic; χ(K₇) = 0. -/
+@[deprecated two_b2 (since := "2026-10-22")]
+abbrev chi_K7 : ℕ := two_b2
 
 /-- Order of PSL(2,7) = Fano plane symmetry = 168 -/
 def PSL27 : ℕ := 168
@@ -258,7 +263,9 @@ theorem weyl_E8_order_certified : weyl_E8_order = 696729600 := rfl
 -- Extended observables constants
 theorem b0_certified : b0 = 1 := rfl
 theorem alpha_sum_certified : alpha_sum = 13 := rfl
-theorem chi_K7_certified : chi_K7 = 42 := rfl
+theorem two_b2_certified : two_b2 = 42 := rfl
+@[deprecated two_b2_certified (since := "2026-10-22")]
+alias chi_K7_certified := two_b2_certified
 theorem PSL27_certified : PSL27 = 168 := rfl
 theorem det_g_num_certified : det_g_num = 65 := rfl
 theorem det_g_den_certified : det_g_den = 32 := rfl
@@ -267,7 +274,9 @@ theorem dim_fund_E7_certified : dim_fund_E7 = 56 := rfl
 
 -- Key structural identities
 theorem alpha_sum_decomposition : alpha_sum = rank_E8 + Weyl_factor := rfl
-theorem chi_K7_triple_product : chi_K7 = p2 * N_gen * dim_K7 := rfl
+theorem two_b2_triple_product : two_b2 = p2 * N_gen * dim_K7 := rfl
+@[deprecated two_b2_triple_product (since := "2026-10-22")]
+alias chi_K7_triple_product := two_b2_triple_product
 theorem PSL27_factorization : PSL27 = rank_E8 * b2 := rfl
 theorem ninety_one_sum : b3 + dim_G2 = 91 := rfl
 theorem ninety_one_factorization : 91 = dim_K7 * alpha_sum := rfl
@@ -276,10 +285,11 @@ theorem ninety_one_factorization : 91 = dim_K7 * alpha_sum := rfl
 -- V3.3 CLARIFICATION: 42 = 2b₂, NOT χ(K₇)
 -- =============================================================================
 
-/-- The structural invariant 2b₂ = 42. Preferred name over chi_K7. -/
-abbrev two_b2 : ℕ := 2 * b2
+-- `two_b2` (defined above) is the name of the structural invariant 2b₂ = 42.
 
-/-- Structural identity: chi_K7 = 2b₂ (same value, clearer name) -/
+set_option linter.deprecated false in
+/-- Deprecated: `chi_K7` is now an alias of `two_b2`. -/
+@[deprecated "chi_K7 is an alias of two_b2" (since := "2026-10-22")]
 theorem chi_K7_eq_two_b2 : chi_K7 = two_b2 := rfl
 
 /-- The TRUE Euler characteristic of K₇ is 0 (compact oriented odd-dimensional).

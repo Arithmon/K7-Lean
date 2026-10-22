@@ -25,8 +25,8 @@ derivations.
 | 3/13 | sin²θ_W | 19 | N_gen/α_sum, b₂/(b₃+dim_G₂) |
 | 4/13 | sin²θ₁₂_PMNS | 21 | (1+N_gen)/α_sum |
 | 8/11 | m_H/m_t | 16 | rank/D_bulk, fund_E₇/b₃ |
-| 6/11 | sin²θ₂₃_PMNS | 13 | χ/b₃, (D_bulk-Weyl)/D_bulk |
-| 1/42 | m_b/m_t | 12 | 1/χ, N_gen/PSL(2,7) |
+| 6/11 | sin²θ₂₃_PMNS | 13 | 2b₂/b₃, (D_bulk-Weyl)/D_bulk |
+| 1/42 | m_b/m_t | 12 | 1/(2b₂), N_gen/PSL(2,7) |
 
 Total: 113 equivalent expressions for 7 key fractions.
 Random numerology would give ~1 expression per fraction.
@@ -196,37 +196,51 @@ theorem mH_mt_4_expressions :
     dim_fund_E7_certified, b3_value, b2_value])
 
 -- =============================================================================
--- SECTION 5: sin²θ₂₃_PMNS = 4/7 (corrected formula)
+-- SECTION 5: three expressions for 4/7 (arithmetic identities)
 -- =============================================================================
 
 /-!
-## PMNS θ₂₃ = 4/7 (NEW corrected formula from Selection Rules)
+## Three expressions for 4/7
 
-Old formula gave ~20% deviation.
-New formula: sin²θ₂₃ = rank/dim_G₂ = 8/14 = 4/7
-Deviation: 0.63%
+Arithmetic identities. They are NOT the θ₂₃ relation of the paper, which is
+sin²θ₂₃ = (D_bulk − Weyl)/D_bulk = 6/11 (`GIFT.Observables.PMNS.sin2_theta23_primary`);
+4/7 and 6/11 are incompatible as exact values of the same observable: an instance
+of vocabulary freedom. Renamed 2026-10-22 from `sin2_23_*` (deprecated aliases below).
 -/
 
-/-- Expression 1: rank_E8/dim_G2 = 8/14 = 4/7 -/
-theorem sin2_23_rank_G2 : (rank_E8 : ℚ) / dim_G2 = 4 / 7 := by
+/-- Arithmetic identity rank_E8/dim_G2 = 8/14 = 4/7; not the relation of the paper
+    (which is sin²θ₂₃ = 6/11); an instance of vocabulary freedom. -/
+theorem rank_E8_over_dim_G2_eq_four_sevenths : (rank_E8 : ℚ) / dim_G2 = 4 / 7 := by
   norm_num [rank_E8_certified, Algebraic.G2.dim_G2_eq]
 
-/-- Expression 2: 2*p2/dim_K7 = 4/7 -/
-theorem sin2_23_2p2_K7 : (2 * p2 : ℚ) / dim_K7 = 4 / 7 := by
+/-- Arithmetic identity 2·p2/dim_K7 = 4/7; not the relation of the paper
+    (which is sin²θ₂₃ = 6/11); an instance of vocabulary freedom. -/
+theorem two_p2_over_dim_K7_eq_four_sevenths : (2 * p2 : ℚ) / dim_K7 = 4 / 7 := by
   norm_num [p2_certified, dim_K7_certified]
 
-/-- Expression 3: (D_bulk - dim_K7)/D_bulk = 4/11... nope
-    Try: 4/dim_K7 = 4/7 -/
-theorem sin2_23_4_K7 : (4 : ℚ) / dim_K7 = 4 / 7 := by
+/-- Arithmetic identity 4/dim_K7 = 4/7; not the relation of the paper
+    (which is sin²θ₂₃ = 6/11); an instance of vocabulary freedom. -/
+theorem four_over_dim_K7_eq_four_sevenths : (4 : ℚ) / dim_K7 = 4 / 7 := by
   norm_num [dim_K7_certified]
 
-/-- Master: 3 proven expressions for 4/7 -/
-theorem sin2_23_3_expressions :
+@[deprecated (since := "2026-10-22")]
+alias sin2_23_rank_G2 := rank_E8_over_dim_G2_eq_four_sevenths
+@[deprecated (since := "2026-10-22")]
+alias sin2_23_2p2_K7 := two_p2_over_dim_K7_eq_four_sevenths
+@[deprecated (since := "2026-10-22")]
+alias sin2_23_4_K7 := four_over_dim_K7_eq_four_sevenths
+
+/-- Three expressions for 4/7 (arithmetic identities; not the paper's
+    sin²θ₂₃ = 6/11). -/
+theorem four_sevenths_3_expressions :
     (rank_E8 : ℚ) / dim_G2 = 4 / 7 ∧
     (2 * p2 : ℚ) / dim_K7 = 4 / 7 ∧
     (4 : ℚ) / dim_K7 = 4 / 7 := by
   repeat (first | constructor | norm_num [rank_E8_certified, Algebraic.G2.dim_G2_eq,
     p2_certified, dim_K7_certified])
+
+@[deprecated (since := "2026-10-22")]
+alias sin2_23_3_expressions := four_sevenths_3_expressions
 
 -- =============================================================================
 -- SECTION 6: m_b/m_t = 1/42 (12 expressions documented)
@@ -236,9 +250,12 @@ theorem sin2_23_3_expressions :
 ## Bottom/Top Mass Ratio = 1/42
 -/
 
-/-- Expression 1: 1/χ_K7 = 1/42 -/
-theorem mb_mt_chi : (1 : ℚ) / chi_K7 = 1 / 42 := by
-  norm_num [chi_K7_certified]
+/-- Expression 1: 1/(2b₂) = 1/42 (`two_b2` = 2b₂ = 42, not an Euler characteristic) -/
+theorem mb_mt_inv_two_b2 : (1 : ℚ) / two_b2 = 1 / 42 := by
+  norm_num [two_b2_certified]
+
+@[deprecated mb_mt_inv_two_b2 (since := "2026-10-22")]
+alias mb_mt_chi := mb_mt_inv_two_b2
 
 /-- Expression 2: 1/(2*b2) = 1/42 -/
 theorem mb_mt_2b2 : (1 : ℚ) / (2 * b2) = 1 / 42 := by
@@ -252,18 +269,21 @@ theorem mb_mt_6K7 : (1 : ℚ) / (6 * dim_K7) = 1 / 42 := by
 theorem mb_mt_N1_PSL : ((N_gen : ℚ) + 1) / PSL27 = 1 / 42 := by
   norm_num [N_gen_certified, PSL27_certified]
 
-/-- Expression 5: dim_K7/(2*b3) = 7/154... nope, try: 2/(chi_K7 + chi_K7) -/
-theorem mb_mt_2_2chi : (2 : ℚ) / (chi_K7 + chi_K7) = 1 / 42 := by
-  norm_num [chi_K7_certified]
+/-- Expression 5: 2/(2b₂ + 2b₂) = 1/42 -/
+theorem mb_mt_2_over_4b2 : (2 : ℚ) / (two_b2 + two_b2) = 1 / 42 := by
+  norm_num [two_b2_certified]
+
+@[deprecated mb_mt_2_over_4b2 (since := "2026-10-22")]
+alias mb_mt_2_2chi := mb_mt_2_over_4b2
 
 /-- Master: 5 proven expressions for 1/42 -/
 theorem mb_mt_5_expressions :
-    (1 : ℚ) / chi_K7 = 1 / 42 ∧
+    (1 : ℚ) / two_b2 = 1 / 42 ∧
     (1 : ℚ) / (2 * b2) = 1 / 42 ∧
     (1 : ℚ) / (6 * dim_K7) = 1 / 42 ∧
     ((N_gen : ℚ) + 1) / PSL27 = 1 / 42 ∧
-    (2 : ℚ) / (chi_K7 + chi_K7) = 1 / 42 := by
-  repeat (first | constructor | norm_num [chi_K7_certified, b2_value,
+    (2 : ℚ) / (two_b2 + two_b2) = 1 / 42 := by
+  repeat (first | constructor | norm_num [two_b2_certified, b2_value,
     dim_K7_certified, N_gen_certified, PSL27_certified])
 
 -- =============================================================================
@@ -284,14 +304,14 @@ theorem over_determination_certificate :
     -- m_H/m_t = 8/11 (4 expressions)
     ((rank_E8 : ℚ) / D_bulk = 8 / 11) ∧
     ((dim_fund_E7 : ℚ) / b3 = 8 / 11) ∧
-    -- sin²θ₂₃ = 4/7 (3 expressions, corrected)
+    -- 4/7 = rank_E8/dim_G2 (arithmetic; NOT the paper's sin²θ₂₃ = 6/11)
     ((rank_E8 : ℚ) / dim_G2 = 4 / 7) ∧
     -- m_b/m_t = 1/42 (5 expressions)
-    ((1 : ℚ) / chi_K7 = 1 / 42) ∧
+    ((1 : ℚ) / two_b2 = 1 / 42) ∧
     (((N_gen : ℚ) + 1) / PSL27 = 1 / 42) := by
   repeat (first | constructor | norm_num [p2_certified, N_gen_certified, Algebraic.G2.dim_G2_eq,
     b2_value, dim_F4_certified, dim_E6_certified, b3_value, alpha_sum_certified,
-    rank_E8_certified, D_bulk_certified, dim_fund_E7_certified, chi_K7_certified,
+    rank_E8_certified, D_bulk_certified, dim_fund_E7_certified, two_b2_certified,
     PSL27_certified])
 
 /-- Over-determination count: 28 proven, 113 documented -/

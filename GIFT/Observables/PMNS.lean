@@ -37,11 +37,11 @@ theorem sin2_theta23_primary :
   unfold sin2_theta23
   norm_num [D_bulk_certified, Weyl_factor_certified]
 
-/-- Expression 2: chi_K7 / b3 = 42/77 = 6/11 -/
+/-- Expression 2: two_b2 / b3 = 42/77 = 6/11 -/
 theorem sin2_theta23_expr2 :
-    (chi_K7 : ℚ) / b3 = sin2_theta23 := by
+    (two_b2 : ℚ) / b3 = sin2_theta23 := by
   unfold sin2_theta23
-  norm_num [chi_K7_certified, b3_value]
+  norm_num [two_b2_certified, b3_value]
 
 /-- sin^2(theta_13) PMNS = 11/496. Experimental: 0.0220. GIFT: 0.0222. Deviation: 0.81% -/
 def sin2_theta13 : ℚ := 11 / 496

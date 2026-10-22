@@ -33,7 +33,8 @@ def isNativeEvaluationAxiom (name : Name) : Bool :=
 run_cmd do
   for decl in #[
     `GIFT.Foundations.IntervalCertificates.PSLQ_null_in_TCS_basis,
-    `GIFT.Spectral.LiteratureAxioms.torsion_free_correction] do
+    `GIFT.Spectral.LiteratureAxioms.torsion_free_correction,
+    `GIFT.Certificate.RelationsV36.relations_v36_certified] do
     checkAxioms decl standardAxioms
 
 run_cmd do

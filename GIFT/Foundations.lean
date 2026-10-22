@@ -178,9 +178,11 @@ export RootSystems (D8_enumeration D8_card HalfInt_enumeration HalfInt_card
 -- Rational constants
 export RationalConstants (sin2_theta_W sin2_theta_W_simplified
   koide_Q koide_simplified gamma_GIFT gamma_GIFT_value
-  alpha_s alpha_s_value kappa_T kappa_T_value
-  tau_ratio tau_ratio_value Omega_DE Omega_DE_value
+  alpha_s_rational_factor alpha_s_rational_factor_value kappa_T kappa_T_value
+  tau_ratio tau_ratio_value Omega_DE_rational_factor Omega_DE_rational_factor_value
   all_rational_relations_certified)
+-- Deprecated names (renamed 2026-10-22), re-exported so downstream code keeps compiling
+export RationalConstants (alpha_s alpha_s_value Omega_DE Omega_DE_value)
 
 -- Graph theory
 export GraphTheory (K4 K7 K4_edge_count K7_edge_count K7_edges_equals_b2
