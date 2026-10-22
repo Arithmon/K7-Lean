@@ -1,5 +1,5 @@
 {
-  "lean_files": 150,
+  "lean_files": 151,
   "axiom_declarations": [
     {
       "file": "GIFT/Foundations/IntervalCertificates.lean",
@@ -191,27 +191,27 @@
     },
     {
       "file": "GIFT/Certificate/Predictions.lean",
-      "line": 368
+      "line": 370
     },
     {
       "file": "GIFT/Certificate/Predictions.lean",
-      "line": 453
+      "line": 458
     },
     {
       "file": "GIFT/Certificate/Predictions.lean",
-      "line": 469
+      "line": 474
     },
     {
       "file": "GIFT/Certificate/Predictions.lean",
-      "line": 488
+      "line": 493
     },
     {
       "file": "GIFT/Certificate/Predictions.lean",
-      "line": 504
+      "line": 509
     },
     {
       "file": "GIFT/Certificate/Predictions.lean",
-      "line": 515
+      "line": 520
     },
     {
       "file": "GIFT/Certificate/Spectral.lean",
@@ -2887,131 +2887,131 @@
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 178
+      "line": 179
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 182
+      "line": 183
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 186
+      "line": 187
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 190
+      "line": 191
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 214
+      "line": 215
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 217
+      "line": 218
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 220
+      "line": 221
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 230
+      "line": 231
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 261
+      "line": 262
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 264
+      "line": 265
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 267
+      "line": 268
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 270
+      "line": 271
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 273
+      "line": 274
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 276
+      "line": 277
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 288
+      "line": 289
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 292
+      "line": 293
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 315
+      "line": 316
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 318
+      "line": 319
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 321
+      "line": 322
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 324
+      "line": 325
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 327
+      "line": 328
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 341
+      "line": 342
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 344
+      "line": 345
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 347
+      "line": 348
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 350
+      "line": 351
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 359
+      "line": 360
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 381
+      "line": 382
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 384
+      "line": 385
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 392
+      "line": 393
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 397
+      "line": 398
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 402
+      "line": 403
     },
     {
       "file": "GIFT/Foundations/SpectralScaling.lean",
-      "line": 434
+      "line": 435
     },
     {
       "file": "GIFT/Foundations/TCSConstruction.lean",
@@ -3835,51 +3835,51 @@
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 63
+      "line": 73
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 66
+      "line": 76
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 69
+      "line": 79
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 72
+      "line": 82
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 75
+      "line": 85
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 78
+      "line": 88
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 81
+      "line": 91
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 86
+      "line": 96
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 95
+      "line": 105
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 99
+      "line": 109
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 102
+      "line": 112
     },
     {
       "file": "GIFT/Relations/CompactificationCorrection.lean",
-      "line": 124
+      "line": 135
     },
     {
       "file": "GIFT/Relations/Cosmology.lean",
@@ -4543,27 +4543,27 @@
     },
     {
       "file": "GIFT/Relations/IrrationalSector.lean",
-      "line": 26
+      "line": 37
     },
     {
       "file": "GIFT/Relations/IrrationalSector.lean",
-      "line": 30
+      "line": 41
     },
     {
       "file": "GIFT/Relations/IrrationalSector.lean",
-      "line": 46
+      "line": 66
     },
     {
       "file": "GIFT/Relations/IrrationalSector.lean",
-      "line": 60
+      "line": 87
     },
     {
       "file": "GIFT/Relations/IrrationalSector.lean",
-      "line": 64
+      "line": 91
     },
     {
       "file": "GIFT/Relations/IrrationalSector.lean",
-      "line": 78
+      "line": 106
     },
     {
       "file": "GIFT/Relations/LandauerDarkEnergy.lean",
@@ -4655,11 +4655,7 @@
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 23
-    },
-    {
-      "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 30
+      "line": 36
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
@@ -4667,55 +4663,59 @@
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 55
+      "line": 56
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 88
+      "line": 69
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 105
+      "line": 117
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 116
+      "line": 138
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 125
+      "line": 153
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 129
+      "line": 174
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 139
+      "line": 178
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 147
+      "line": 187
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 158
+      "line": 195
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 183
+      "line": 206
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 183
+      "line": 232
     },
     {
       "file": "GIFT/Relations/NeutrinoSector.lean",
-      "line": 184
+      "line": 232
+    },
+    {
+      "file": "GIFT/Relations/NeutrinoSector.lean",
+      "line": 233
     },
     {
       "file": "GIFT/Relations/OverDetermination.lean",
-      "line": 300
+      "line": 320
     },
     {
       "file": "GIFT/Relations/QuarkSector.lean",
@@ -4843,15 +4843,11 @@
     },
     {
       "file": "GIFT/Relations/SectorClassification.lean",
-      "line": 193
+      "line": 198
     },
     {
       "file": "GIFT/Relations/SectorClassification.lean",
-      "line": 242
-    },
-    {
-      "file": "GIFT/Relations/SectorClassification.lean",
-      "line": 248
+      "line": 247
     },
     {
       "file": "GIFT/Relations/SectorClassification.lean",
@@ -4863,7 +4859,11 @@
     },
     {
       "file": "GIFT/Relations/SectorClassification.lean",
-      "line": 284
+      "line": 263
+    },
+    {
+      "file": "GIFT/Relations/SectorClassification.lean",
+      "line": 290
     },
     {
       "file": "GIFT/Relations/Structural.lean",
@@ -5079,99 +5079,99 @@
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 58
+      "line": 60
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 61
+      "line": 63
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 64
+      "line": 66
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 67
+      "line": 69
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 70
+      "line": 72
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 73
+      "line": 75
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 76
+      "line": 78
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 79
+      "line": 81
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 95
+      "line": 97
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 136
+      "line": 138
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 142
+      "line": 144
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 145
+      "line": 147
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 148
+      "line": 150
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 151
+      "line": 153
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 154
+      "line": 156
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 157
+      "line": 159
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 169
+      "line": 171
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 179
+      "line": 181
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 182
+      "line": 184
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 185
+      "line": 187
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 188
+      "line": 190
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 191
+      "line": 193
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 205
+      "line": 207
     },
     {
       "file": "GIFT/Relations/V33Additions.lean",
-      "line": 227
+      "line": 229
     },
     {
       "file": "GIFT/Relations.lean",
@@ -5183,15 +5183,15 @@
     },
     {
       "file": "GIFT/Relations.lean",
-      "line": 33
+      "line": 40
     },
     {
       "file": "GIFT/Relations.lean",
-      "line": 41
+      "line": 48
     },
     {
       "file": "GIFT/Relations.lean",
-      "line": 44
+      "line": 51
     },
     {
       "file": "GIFT/Sobolev.lean",
