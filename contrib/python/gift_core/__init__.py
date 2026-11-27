@@ -15,7 +15,7 @@ from gift_core.constants import (
     E6_CHAIN, E7_CHAIN, E8_CHAIN,
     EXCEPTIONAL_CHAIN, JORDAN_TRACELESS, DELTA_PENTA,
 
-    # === TOPOLOGY (TCS v3.2) ===
+    # === TOPOLOGY ===
     M1_B2, M1_B3, M1_EULER,  # Quintic building block
     M2_B2, M2_B3, M2_EULER,  # CI building block
     B0, B1, B2, B3, B4, B5, B6, B7,  # Betti numbers (DERIVED!)
@@ -101,6 +101,11 @@ from gift_core.relations import (
     PROVEN_RELATIONS, get_relation, ProvenRelation,
 )
 
+# The 33 relations of the K7 paper v3.6 (A01 ... A33)
+from gift_core.relations_v36 import (
+    RELATIONS_V36, get_relation_v36, RelationV36,
+)
+
 # V3.3 Numerical Observations (approximate relations)
 from gift_core.numerical_observations import (
     verify_all_observations as verify_numerical_observations,
@@ -164,7 +169,7 @@ __all__ = [
     'DIM_F4', 'DIM_E6', 'DIM_E7', 'DIM_FUND_E7',
     'DIM_J3O', 'DIM_SU3', 'DIM_SU2', 'DIM_U1', 'DIM_SM_GAUGE',
 
-    # === TOPOLOGY (TCS v3.2) ===
+    # === TOPOLOGY ===
     'M1_B2', 'M1_B3', 'M2_B2', 'M2_B3',  # Building blocks
     'B2', 'B3', 'H_STAR', 'P2', 'D_BULK',
 
@@ -213,6 +218,7 @@ __all__ = [
 
     # === RELATIONS ===
     'PROVEN_RELATIONS', 'get_relation', 'ProvenRelation',
+    'RELATIONS_V36', 'get_relation_v36', 'RelationV36',
 
     # === VISUALIZATION (optional) ===
     'MATPLOTLIB_AVAILABLE',

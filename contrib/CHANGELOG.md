@@ -28,6 +28,20 @@ relations state, and nothing about their physical reading.
   class (comments, docstrings, blueprint).
 - No proof changes in the version bump itself: the root module header, the
   README and the documentation carry the version number 3.6.
+- **`giftpy` aligned with the paper**: the Python package gains
+  `gift_core.relations_v36`, the 33 relations A01 to A33 computed from the
+  package's constants; `scripts/test_relations_v36.py` (run in CI) reads the
+  statements of `GIFT/Certificate/RelationsV36.lean` and fails if the package
+  disagrees. `SIN2_THETA_12_PMNS`, `SIN2_THETA_23_PMNS`, `SIN2_THETA_13_PMNS`
+  are added (4/13, 6/11, 11/496).
+- **TCS wording in `giftpy`**: the package no longer describes K₇ as a twisted
+  connected sum or its Betti numbers as derived from one. The splittings
+  11 + 10 and 40 + 37 are described as arithmetic witnesses, as the Lean module
+  `TCSConstruction` already does. `ManifoldK7.construction` changes value
+  accordingly.
+- **Legacy names**: `THETA_23` (85/99 rad), `THETA_13_DENOM` and the 13
+  `PROVEN_RELATIONS` are kept for compatibility and marked as predating
+  version 3.6. No name is removed.
 
 ## [3.5] - 2026-09-23
 

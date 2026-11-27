@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
-"""TCS manifold scan — crash test of GIFT pipeline across building blocks.
+"""TCS Betti-pair scan — arithmetic exercise across building-block labels.
 
-Scans all pairwise combinations of CHNP building blocks and compares
-their topological predictions to experiment. Demonstrates that K₇
-(Quintic + CI(2,2,2)) is the unique optimal choice.
+Scans all pairwise sums of the Betti data of some CHNP building blocks and
+compares three of the resulting arithmetic values to experiment.
+
+This is an arithmetic scan of pairs (b2, b3), not a geometric statement:
+no twisted connected sum realising (21, 77) is known, orthogonal TCS being
+excluded for that pair by parity (GIFT/Foundations/TCSConstruction.lean;
+K7 paper v3.6, S1 section 8). The labels "Quintic + CI(2,2,2)" name the
+splitting 11 + 10, 40 + 37, kept from version 3.2.
 
 Usage:
     python -m gift_core.examples.tcs_scan
 
 Results:
-    K₇ wins by a factor of ~390x over the best alternative.
-    It is the ONLY TCS manifold with:
+    Among the scanned pairs, (21, 77) is the only one with:
         - N_gen = 3 (b₂ = 21 = 3 × 7)
         - sin²θ_W = 3/13 ≈ 0.2308 (0.17% from exp)
         - Q_Koide = 14/21 = 2/3 (exact)

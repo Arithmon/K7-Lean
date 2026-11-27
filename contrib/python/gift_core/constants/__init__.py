@@ -3,7 +3,7 @@ GIFT Constants Package (v3.6).
 
 All certified constants organized by theme:
 - algebra: E8, G2, F4, E6, E7, Weyl group
-- topology: K7, Betti numbers, TCS building blocks
+- topology: K7, Betti numbers, arithmetic witnesses of (21, 77)
 - structural: Weyl triple identity, PSL(2,7)
 - physics: Weinberg angle, Koide, mass ratios
 - cosmology: Dark energy, Hubble, CMB
@@ -37,7 +37,7 @@ from .algebra import (
 
 # K7 topology
 from .topology import (
-    # TCS building blocks (v3.2)
+    # Arithmetic witnesses of (21, 77) (v3.2 labels)
     M1_B2, M1_B3, M1_EULER,
     M2_B2, M2_B3, M2_EULER,
     # Betti numbers (DERIVED)

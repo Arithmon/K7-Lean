@@ -44,7 +44,7 @@ def verify_all() -> List[VerificationResult]:
     results = []
 
     # ==========================================================================
-    # TCS BUILDING BLOCKS (v3.2)
+    # ARITHMETIC WITNESSES OF (21, 77) (v3.2 labels; not a TCS construction)
     # ==========================================================================
 
     results.append(VerificationResult(

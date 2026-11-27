@@ -3,9 +3,16 @@
 A TCS G₂ manifold is built from two asymptotically cylindrical (ACyl)
 Calabi-Yau 3-folds M₁, M₂ glued along their asymptotic K3 × S¹ necks.
 
-Topological invariants:
-    b₂(K₇) = b₂(M₁) + b₂(M₂)
-    b₃(K₇) = b₃(M₁) + b₃(M₂)
+Additive model used by this module (a simplification, not the general
+TCS formula, which involves the matching lattices):
+    b₂ = b₂(M₁) + b₂(M₂)
+    b₃ = b₃(M₁) + b₃(M₂)
+
+Status for K₇. No twisted connected sum realising (b₂, b₃) = (21, 77) is
+known: orthogonal TCS always gives b₂ + b₃ odd, and 98 is even
+(GIFT/Foundations/TCSConstruction.lean; K₇ paper v3.6, S1 section 8). The
+pair "Quintic + CI(2,2,2)" below is an arithmetic witness of 21 = 11 + 10
+and 77 = 40 + 37, not a construction of K₇.
 
 References:
     Kovalev (2003), arXiv:math/0012189

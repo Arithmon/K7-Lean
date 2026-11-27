@@ -2,7 +2,11 @@
 Physical Relations from GIFT Framework.
 
 Weinberg angle, Koide parameter, mass ratios, mixing angles.
-All values proven in Lean 4 (GIFT.Relations.*).
+All values proven in Lean 4 (GIFT.Relations.*) as arithmetic identities.
+
+The 33 relations of the K7 paper v3.6 are in gift_core.relations_v36. Some
+names below predate version 3.6 and are kept for compatibility; they are
+marked "legacy" where the paper no longer uses them.
 """
 from fractions import Fraction
 from .algebra import DIM_E8, RANK_E8, DIM_G2, DIM_J3O, WEYL_FACTOR, WEYL_SQ, DIM_K7
@@ -80,10 +84,16 @@ GAMMA_GIFT = Fraction(GAMMA_GIFT_NUM, GAMMA_GIFT_DEN)
 # NEUTRINO MIXING ANGLES
 # =============================================================================
 
-# theta_23 = 85/99 rad
+# v3.6 (A12, A13, A14): squared sines of the PMNS angles
+SIN2_THETA_12_PMNS = Fraction(1 + N_GEN, RANK_E8 + WEYL_FACTOR)  # = 4/13
+SIN2_THETA_23_PMNS = Fraction(D_BULK - WEYL_FACTOR, D_BULK)      # = 6/11
+SIN2_THETA_13_PMNS = Fraction(D_BULK, 2 * DIM_E8)                # = 11/496
+
+# legacy (before v3.6): theta_23 = 85/99 rad. The paper v3.6 uses
+# sin^2(theta_23) = 6/11 instead (SIN2_THETA_23_PMNS).
 THETA_23 = Fraction(RANK_E8 + B3, H_STAR)  # = 85/99
 
-# theta_13 = pi/21 (divisor = b2)
+# legacy (before v3.6): theta_13 = pi/21 (divisor = b2)
 THETA_13_DENOM = B2  # = 21
 
 # =============================================================================
@@ -153,11 +163,11 @@ ALPHA_INV_BULK = H_STAR // D_BULK              # = 9
 # Pentagonal phase
 DELTA_PENTAGONAL_DENOM = WEYL_SQ  # = 25
 
-# Theta_23 components
+# Theta_23 components (legacy, before v3.6)
 THETA_23_NUM = RANK_E8 + B3  # = 85
 THETA_23_DEN = H_STAR        # = 99
 
-# Theta_12 structure
+# Theta_12 structure (legacy, before v3.6)
 THETA_12_RATIO_FACTOR = WEYL_SQ * GAMMA_GIFT_NUM  # = 12775
 
 # Lambda_H^2 components

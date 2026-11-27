@@ -2,13 +2,19 @@
 K7 Manifold Topology Constants.
 
 Betti numbers, the binary ratio p2, and derived topological invariants.
-All values proven in Lean 4 (GIFT.Foundations.TCSConstruction).
+
+The pair (b2, b3) = (21, 77) is the input of the framework. The splittings
+11 + 10 and 40 + 37 below are arithmetic witnesses kept from version 3.2,
+as in GIFT/Foundations/TCSConstruction.lean: they are not a geometric
+derivation. Orthogonal twisted connected sums are excluded for (21, 77) by
+parity (b2 + b3 = 98 is even), and the K7 paper v3.6 claims no TCS
+realisation (S1 section 8).
 """
 from .algebra import DIM_G2, DIM_K7, RANK_E8
 
 # =============================================================================
-# TCS BUILDING BLOCKS (v3.2)
-# Twisted Connected Sum construction from CHNP
+# ARITHMETIC WITNESSES (v3.2 labels, kept for compatibility)
+# Named after two CHNP building blocks; not a TCS construction of K7
 # =============================================================================
 
 # M1 = Quintic hypersurface in CP^4
@@ -22,13 +28,13 @@ M2_B3 = 37            # b3(M2)
 M2_EULER = -144       # Euler characteristic
 
 # =============================================================================
-# BETTI NUMBERS (DERIVED from TCS)
+# BETTI NUMBERS
 # =============================================================================
 
 B0 = 1                # b0(K7) = 1 (connected)
 B1 = 0                # b1(K7) = 0 (simply connected)
-B2 = M1_B2 + M2_B2    # b2(K7) = 11 + 10 = 21 (DERIVED!)
-B3 = M1_B3 + M2_B3    # b3(K7) = 40 + 37 = 77 (DERIVED!)
+B2 = M1_B2 + M2_B2    # b2(K7) = 21 (written as 11 + 10)
+B3 = M1_B3 + M2_B3    # b3(K7) = 77 (written as 40 + 37)
 
 # Poincare duality: b4 = b3, b5 = b2, b6 = b1, b7 = b0
 B4 = B3               # = 77

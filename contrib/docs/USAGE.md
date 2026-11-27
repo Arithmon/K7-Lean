@@ -20,7 +20,11 @@ from gift_core import *
 
 # Certified constants
 print(SIN2_THETA_W)      # Fraction(3, 13)
-print(B2, B3, H_STAR)    # 21, 77, 99 (all DERIVED from TCS!)
+print(B2, B3, H_STAR)    # 21, 77, 99
+
+# The 33 relations of the K7 paper v3.6 (A01 ... A33)
+from gift_core import RELATIONS_V36, get_relation_v36
+print(get_relation_v36("A13"))   # A13 sin^2(theta_23) PMNS = 6/11
 
 # E8 root system (240 actual vectors in R^8)
 from gift_core.roots import E8_ROOTS, E8_SIMPLE_ROOTS

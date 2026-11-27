@@ -8,12 +8,17 @@ __all__ = ['ManifoldK7', 'GroupG2', 'GroupE8', 'K7', 'G2', 'E8']
 
 @dataclass(frozen=True)
 class ManifoldK7:
-    """The compact 7-manifold with G2 holonomy."""
+    """The compact 7-manifold K7 of the framework: Betti data (b2, b3) = (21, 77).
+
+    No twisted-connected-sum realisation is claimed: orthogonal TCS is
+    excluded for (21, 77) by parity (b2 + b3 is even), see
+    GIFT/Foundations/TCSConstruction.lean and the K7 paper v3.6, S1 section 8.
+    """
     dim: int = DIM_K7
     b2: int = B2          # Second Betti number
     b3: int = B3          # Third Betti number
     holonomy: str = "G2"
-    construction: str = "Twisted Connected Sum (TCS)"
+    construction: str = "no TCS realisation claimed (see K7 paper v3.6, S1 section 8)"
 
     @property
     def euler_characteristic(self) -> int:
