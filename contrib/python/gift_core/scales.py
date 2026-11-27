@@ -108,7 +108,7 @@ class S7Parameters:
     @property
     def volume_k7(self) -> float:
         """
-        Volume of K7 (TCS construction).
+        Volume model for K7 (heuristic, not a certified quantity).
         Related to S7 by torsion deformation.
         """
         # Torsion reduces effective volume

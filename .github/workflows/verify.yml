@@ -32,6 +32,7 @@ jobs:
       - name: Source checks
         run: |
           python3 scripts/test_proof_inventory.py
+          python3 scripts/test_relations_v36.py
           python3 scripts/proof_inventory.py --check --write docs/proof-inventory.json
           python3 scripts/update_verification_imports.py --check
           git diff --exit-code -- docs/proof-inventory.json

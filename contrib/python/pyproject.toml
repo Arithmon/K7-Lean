@@ -5,7 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "giftpy"
 dynamic = ["version"]
-description = "GIFT mathematical core - Formally verified constants (Lean 4)"
+description = "K7 framework constants and the arithmetic relations certified in Lean 4 (K7-Lean)"
+readme = "README.md"
 license = {text = "MIT"}
 authors = [
     {name = "Brieuc de La Fourniere", email = "brieuc@bdelaf.com"}

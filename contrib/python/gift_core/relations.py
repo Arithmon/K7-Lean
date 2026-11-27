@@ -1,5 +1,9 @@
 """
-The 13 formally proven relations.
+The 13 relations of the early releases (kept for compatibility).
+
+The current list is gift_core.relations_v36: the 33 relations A01 ... A33 of
+the K7 paper v3.6, checked against GIFT/Certificate/RelationsV36.lean. The
+`lean_theorem` names below are those of the early releases.
 """
 from dataclasses import dataclass
 from fractions import Fraction
