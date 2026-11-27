@@ -5,6 +5,30 @@ All notable changes to K₇-Lean (formerly GIFT Core) will be documented in this
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6] - 2026-11-27
+
+### Summary
+
+**Version aligned with the K₇ framework v3.6.** The framework paper is
+published as *The K₇ Dictionary: Testing G₂ Topology against Particle Physics
+and Cosmology* (Zenodo concept 10.5281/zenodo.16891489, version record
+10.5281/zenodo.24584099, 2026-11-27). It states the 33 relations as a declared
+correspondence, not a derivation; the formal core verifies the arithmetic the
+relations state, and nothing about their physical reading.
+
+### Details
+
+- **`relations_v36_certified`** (#167): the arithmetic of the 33 relations of
+  the paper (A01 to A33) is collected in one statement, which depends only on
+  Lean's standard axioms. Renamed declarations keep deprecated aliases.
+- **Withdrawn correction**: the compactification correction to δ_CP, withdrawn
+  by the paper, is removed from the certificates; its module still compiles and
+  is part of no certificate.
+- **p₂** is described as the binary ratio dim(G₂)/dim(K₇), not as a Pontryagin
+  class (comments, docstrings, blueprint).
+- No proof changes in the version bump itself: the root module header, the
+  README and the documentation carry the version number 3.6.
+
 ## [3.5] - 2026-09-23
 
 ### Summary

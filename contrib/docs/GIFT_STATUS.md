@@ -1,16 +1,16 @@
 # GIFT Framework Status
 
-**Version**: 3.5
-**Date**: 2026-09-23
+**Version**: 3.6
+**Date**: 2026-11-27
 **Proof Systems**: Lean 4 (v4.33.1 + Mathlib v4.33.1)
 
 ---
 
 ## Executive Summary
 
-GIFT (Geometric Information Field Theory) expresses Standard Model dimensionless parameters as topological invariants of an E8×E8 gauge theory compactified on a G2-holonomy manifold K7 with Betti numbers (b2, b3) = (21, 77). **Zero free parameters.** The parameter-free core is **33 exact relations** among topological integers, each individually correct-or-wrong and none tunable, machine-checked in **Lean 4**: **460+ certified relations**, **14 axioms** (4 spectral assumptions + 5 opaque K3 quantities + 5 bracket assumptions), **0 `sorry`**.
+The K₇ framework (formerly GIFT, Geometric Information Field Theory) assigns 33 dimensionless Standard Model and cosmological parameters to closed forms in the invariants of a posited G2-holonomy manifold K7 with Betti numbers (b2, b3) = (21, 77), together with E8×E8. Version 3.6 of the framework paper states this as a declared correspondence, not a derivation, and no compact G2 manifold with these Betti numbers is currently constructed. This library verifies the arithmetic that the relations state (collected in `relations_v36_certified`); it does not establish their physical reading.
 
-*Precision (secondary):* **0.99% mean deviation** on the 33 Type-I relations; **95 observables** total, **66 with experimental data** (NuFIT 6.1 / PDG 2024 / Planck 2018 / CODATA 2022).
+*Comparison with data (framework paper v3.6, main §4):* of the 33 relations, 23 are within 2σ of measurement, 2 are in tension, 6 are excluded as exact equalities at more than 3σ and kept as proximities, 1 lies inside a PDG range and 1 has a non-Gaussian profile. The other 62 entries of the 95-entry dataset are conditional or diagnostic and are not counted. The mean deviation quoted by earlier versions is withdrawn.
 
 K₇ (formerly GIFT) is the founding framework of the [Arithmon program](https://github.com/arithmon), the hypothesis that the constants of nature are counts.
 

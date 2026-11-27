@@ -15,4 +15,4 @@ This directory contains documentation for the K₇-Lean formal verification proj
 
 ## Version
 
-K₇-Lean v3.5
+K₇-Lean v3.6
